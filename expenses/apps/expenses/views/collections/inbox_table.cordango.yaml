@@ -1,0 +1,18 @@
+view: inbox_table
+label: Awaiting approval
+entity: expense_claim
+filters:
+  - field: status
+    operator: eq
+    value: submitted
+sort:
+  - field: spent_on
+    direction: asc
+kind: table
+settings:
+  columns:
+    - submitted_by
+    - spent_on
+    - description
+    - category
+    - amount

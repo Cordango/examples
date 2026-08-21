@@ -1,0 +1,7 @@
+role: employee
+name: Employee
+description: Submits expense claims and tracks their own.
+grants:
+  expense_claim:
+    create: true
+    read: true

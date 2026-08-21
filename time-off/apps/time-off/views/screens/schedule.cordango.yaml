@@ -1,0 +1,29 @@
+screen: schedule
+label: Who's off
+icon: calendar-month
+state:
+  - key: cursor
+    type: date
+    default: '{{today}}'
+layout:
+  - kind: row
+    align: center
+    gap: md
+    blocks:
+      - kind: text
+        text: Who's off
+        size: lg
+        weight: bold
+        grow: true
+  - kind: timeline
+    entity: time_off
+    rowBy: requested_by
+    startField: start_date
+    endField: end_date
+    axis:
+      from: '{{state.cursor}}'
+      range: week
+    colorField: type
+    labelField: type
+    openDetail: true
+subject: time_off

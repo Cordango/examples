@@ -1,0 +1,28 @@
+entity: booking_attendee
+label: Attendee
+icon: person
+ownedBy:
+  parent: booking
+  via: booking
+  as: table
+plural: Attendees
+display: person
+fields:
+  booking:
+    label: Booking
+    type: reference
+    required: true
+    targetEntity: booking
+    onDelete: cascade
+  person:
+    label: Person
+    type: reference
+    required: true
+    targetEntity: person
+    targetApp: platform
+    onDelete: cascade
+  optional:
+    label: Optional
+    type: boolean
+    help: Optional attendee (nice-to-have, not required).
+    default: false

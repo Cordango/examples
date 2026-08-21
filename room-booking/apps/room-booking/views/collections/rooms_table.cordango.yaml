@@ -1,0 +1,13 @@
+view: rooms_table
+label: All rooms
+entity: room
+sort:
+  - field: name
+    direction: asc
+kind: table
+settings:
+  columns:
+    - name
+    - capacity
+    - tier
+    - location

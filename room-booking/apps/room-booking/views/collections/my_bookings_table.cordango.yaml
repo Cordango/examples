@@ -1,0 +1,17 @@
+view: my_bookings_table
+label: My bookings
+entity: booking
+filters:
+  - field: booked_by
+    operator: eq
+    value: '{{actor.id}}'
+sort:
+  - field: date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - date
+    - room
+    - slot
+    - status

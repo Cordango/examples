@@ -1,0 +1,41 @@
+detail: milestone
+blocks:
+  - kind: hub
+    title: name
+    status: status
+    facts:
+      - project
+      - due_date
+    actions:
+      - edit
+      - delete
+  - kind: tiles
+    tiles:
+      - label: Progress
+        field: progress
+        format: percent
+        icon: chart-donut
+      - label: Open tasks
+        field: open_tasks
+        format: number
+        icon: checkbox-marked-circle-outline
+      - label: Total effort (h)
+        field: total_effort
+        format: number
+        icon: clock-outline
+      - label: Total cost
+        field: total_cost
+        format: money
+        icon: cash-multiple
+  - kind: child
+    entity: task
+    via: milestone
+    childType: table
+    subordinate: false
+    fields:
+      - title
+      - assignee
+      - status
+      - due_date
+      - effort
+      - cost

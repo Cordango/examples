@@ -1,0 +1,19 @@
+tab: gantt
+key: gantt
+label: Gantt
+blocks:
+  - kind: gantt
+    source:
+      entity: task
+      via: project
+    startField: start_date
+    endField: due_date
+    labelField: title
+    colorField: status
+    milestones:
+      source:
+        entity: milestone
+        via: project
+      dateField: due_date
+      labelField: name
+    openDetail: true

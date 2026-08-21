@@ -1,0 +1,11 @@
+role: admin
+name: Administrator
+description: Full access.
+grants:
+  '*':
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - '*'

@@ -1,0 +1,31 @@
+tab: tasks
+key: tasks
+label: Tasks
+blocks:
+  - kind: child
+    entity: task
+    via: project
+    childType: table
+    subordinate: false
+    inlineCreate: true
+    fields:
+      - title
+      - assignee
+      - status
+      - priority
+      - start_date
+      - due_date
+      - effort
+      - cost
+    filterBar:
+      search:
+        - title
+      facets:
+        - assignee
+        - status
+        - priority
+    groupBy:
+      field: section
+      orderBy: order
+    orderField: order
+    inlineEdit: true

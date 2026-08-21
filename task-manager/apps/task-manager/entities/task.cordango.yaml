@@ -1,0 +1,90 @@
+entity: task
+label: Task
+icon: checkbox-marked-circle-outline
+plural: Tasks
+display: title
+fields:
+  title:
+    label: Task
+    type: text
+    required: true
+    indexed: true
+  project:
+    label: Project
+    type: reference
+    required: true
+    targetEntity: project
+    onDelete: cascade
+  parent:
+    label: Parent task
+    type: reference
+    targetEntity: task
+    onDelete: cascade
+  section:
+    label: Section
+    type: reference
+    help: The project section this task lives under — sections group the task list the way Asana does.
+    targetEntity: task_section
+    onDelete: setNull
+  order:
+    label: Position
+    type: decimal
+    help: Manual position in the project task list — maintained by the list itself (adds, moves, drags). Lower comes first.
+  assignee:
+    label: Assignee
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  priority:
+    label: Priority
+    type: select
+    default: medium
+    options:
+      - value: low
+        label: Low
+        color: '#94a3b8'
+      - value: medium
+        label: Medium
+        color: '#0ea5e9'
+      - value: high
+        label: High
+        color: '#ef4444'
+  start_date:
+    label: Start
+    type: date
+    group: When
+    role: start
+  due_date:
+    label: Due
+    type: date
+    indexed: true
+    group: When
+    role: due
+  milestone:
+    label: Milestone
+    type: reference
+    help: The milestone this task contributes to — its effort and cost roll up there.
+    group: When
+    targetEntity: milestone
+    onDelete: setNull
+  effort:
+    label: Estimated hours
+    type: decimal
+    help: This task's OWN estimated hours — a parent's number never includes its subtasks (the list shows the subtree total in brackets).
+    group: When
+    treeAggregate: sum
+  cost:
+    label: Cost
+    type: money
+    help: This task's OWN cost — a parent's number never includes its subtasks.
+    group: When
+    treeAggregate: sum
+  description:
+    label: Description
+    type: longtext

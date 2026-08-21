@@ -1,0 +1,50 @@
+entity: booking
+label: Booking
+icon: event
+plural: Bookings
+display: purpose
+fields:
+  room:
+    label: Room
+    type: reference
+    required: true
+    targetEntity: room
+    onDelete: cascade
+  date:
+    label: Date
+    type: date
+    required: true
+    indexed: true
+  slot:
+    label: Slot
+    type: select
+    group: When
+    default: morning
+    options:
+      - value: morning
+        label: Morning
+      - value: afternoon
+        label: Afternoon
+      - value: evening
+        label: Evening
+  purpose:
+    label: Purpose
+    type: text
+    group: When
+  booked_by:
+    label: Booked by
+    type: reference
+    help: The person who made the booking. Set automatically to the signed-in user.
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  status:
+    label: Status
+    type: select
+    indexed: true
+    help: Standard rooms confirm on booking; premium rooms start pending until approved.
+    role: status
+  decline_reason:
+    label: Decline reason
+    type: longtext
+    group: Decision

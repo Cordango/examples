@@ -1,0 +1,9 @@
+# Generated applications produced from these definitions.
+/*/out/
+/*/generated/
+.cordango/
+
+# Editors and OS noise
+.DS_Store
+.vscode/
+.idea/

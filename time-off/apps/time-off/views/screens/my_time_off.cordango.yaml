@@ -1,0 +1,7 @@
+screen: my_time_off
+label: My time off
+icon: account-clock
+layout:
+  - kind: view
+    view: my_time_off_table
+subject: time_off

@@ -1,0 +1,53 @@
+entity: time_off
+label: Time off
+icon: beach
+plural: Time off
+display: type
+fields:
+  requested_by:
+    label: Person
+    type: reference
+    help: Who is taking the time off. Set to the signed-in user.
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  type:
+    label: Type
+    type: select
+    required: true
+    default: vacation
+    options:
+      - value: vacation
+        label: Vacation
+        color: '#0ea5e9'
+      - value: sick
+        label: Sick
+        color: '#ef4444'
+      - value: personal
+        label: Personal
+        color: '#a855f7'
+      - value: unpaid
+        label: Unpaid
+        color: '#64748b'
+  start_date:
+    label: From
+    type: date
+    required: true
+    indexed: true
+  end_date:
+    label: To
+    type: date
+    required: true
+  reason:
+    label: Reason
+    type: text
+    help: Optional note for the approver.
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  decline_reason:
+    label: Decline reason
+    type: longtext
+    group: Decision

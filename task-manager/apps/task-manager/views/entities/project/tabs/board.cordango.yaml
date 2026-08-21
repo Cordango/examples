@@ -1,0 +1,14 @@
+tab: board
+key: board
+label: Board
+blocks:
+  - kind: board
+    source:
+      entity: task
+      via: project
+    groupField: status
+    cardFields:
+      - assignee
+      - priority
+      - due_date
+    openDetail: true

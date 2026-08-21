@@ -1,0 +1,11 @@
+role: admin
+name: Administrator
+description: Manages rooms and booking policy.
+grants:
+  '*':
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - '*'

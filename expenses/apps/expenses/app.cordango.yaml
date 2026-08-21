@@ -1,0 +1,38 @@
+app: expenses
+name: Expenses
+version: 1.0.0
+description: 'Expense claims for the team: submit an expense, get it approved, get reimbursed.'
+schemaVersion: '2.0'
+presentation:
+  icon: credit-card-outline
+  color: '#ea580c'
+  category: Finance
+  tagline: Claims, approvals, reimbursement
+theme:
+  primaryColor: '#ea580c'
+  secondaryColor: '#f97316'
+  font: Inter
+  radius: medium
+  density: comfortable
+order:
+  entities:
+    - expense_claim
+  pages:
+    - overview
+    - my_expenses
+    - claims
+  views:
+    - my_claims_table
+    - inbox_table
+    - all_claims_table
+  roles:
+    - employee
+    - approver
+    - admin
+  processes:
+    - claim_flow
+  commands:
+    - approve_claim
+    - decline_claim
+    - mark_reimbursed
+  workflows: []

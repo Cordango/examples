@@ -1,0 +1,11 @@
+role: approver
+name: Approver
+description: Reviews claims, approves or declines them, marks reimbursements.
+grants:
+  expense_claim:
+    read: true
+    update: true
+    commands:
+      - approve_claim
+      - decline_claim
+      - mark_reimbursed

@@ -1,0 +1,17 @@
+view: pending_table
+label: Awaiting approval
+entity: time_off
+filters:
+  - field: status
+    operator: eq
+    value: pending
+sort:
+  - field: start_date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - requested_by
+    - type
+    - start_date
+    - end_date

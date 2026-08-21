@@ -1,0 +1,22 @@
+view: projects_table
+label: Projects
+entity: project
+sort:
+  - field: name
+    direction: asc
+kind: table
+settings:
+  columns:
+    - name
+    - status
+    - lead
+    - due_date
+    - open_tasks
+    - done_tasks
+    - progress
+  filterBar:
+    search:
+      - name
+    facets:
+      - status
+      - lead

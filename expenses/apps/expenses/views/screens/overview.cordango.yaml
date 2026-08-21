@@ -1,0 +1,112 @@
+screen: overview
+label: Overview
+icon: view-dashboard
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: md
+        blocks:
+          - kind: stat
+            label: Awaiting approval
+            icon: clock-outline
+            source:
+              entity: expense_claim
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: submitted
+            link:
+              page: claims
+              filters:
+                - field: status
+                  operator: eq
+                  value: submitted
+          - kind: stat
+            label: To reimburse
+            format: money
+            icon: cash-clock
+            source:
+              entity: expense_claim
+              aggregate:
+                op: sum
+                field: amount
+              filters:
+                - field: status
+                  operator: eq
+                  value: approved
+            link:
+              page: claims
+              filters:
+                - field: status
+                  operator: eq
+                  value: approved
+          - kind: stat
+            label: Reimbursed
+            format: money
+            icon: cash-check
+            source:
+              entity: expense_claim
+              aggregate:
+                op: sum
+                field: amount
+              filters:
+                - field: status
+                  operator: eq
+                  value: reimbursed
+            link:
+              page: claims
+              filters:
+                - field: status
+                  operator: eq
+                  value: reimbursed
+          - kind: stat
+            label: Declined
+            icon: close-circle-outline
+            source:
+              entity: expense_claim
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: declined
+            link:
+              page: claims
+              filters:
+                - field: status
+                  operator: eq
+                  value: declined
+      - kind: columns
+        columns:
+          - - kind: chart
+              chartType: donut
+              label: Spend by category
+              source:
+                entity: expense_claim
+                aggregate:
+                  op: sum
+                  field: amount
+                  groupBy: category
+              link:
+                page: claims
+          - - kind: chart
+              chartType: bar
+              label: Claims by month
+              source:
+                entity: expense_claim
+                aggregate:
+                  op: sum
+                  field: amount
+                  groupBy: month_of:spent_on
+              link:
+                page: claims
+      - kind: section
+        label: Approval inbox
+        blocks:
+          - kind: view
+            view: inbox_table
+subject: expense_claim

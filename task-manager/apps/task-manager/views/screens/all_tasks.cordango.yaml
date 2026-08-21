@@ -1,0 +1,7 @@
+screen: all_tasks
+label: All tasks
+icon: format-list-checks
+layout:
+  - kind: view
+    view: all_tasks_table
+subject: task

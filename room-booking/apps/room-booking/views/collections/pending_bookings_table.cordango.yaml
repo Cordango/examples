@@ -1,0 +1,17 @@
+view: pending_bookings_table
+label: Awaiting decision
+entity: booking
+filters:
+  - field: status
+    operator: eq
+    value: pending
+sort:
+  - field: date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - date
+    - room
+    - booked_by
+    - slot

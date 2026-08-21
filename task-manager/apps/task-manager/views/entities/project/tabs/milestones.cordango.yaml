@@ -1,0 +1,20 @@
+tab: milestones
+key: milestones
+label: Milestones
+blocks:
+  - kind: child
+    entity: milestone
+    via: project
+    childType: table
+    subordinate: false
+    inlineCreate: true
+    fields:
+      - name
+      - due_date
+      - status
+      - progress
+      - total_tasks
+      - open_tasks
+      - done_tasks
+      - total_effort
+      - total_cost

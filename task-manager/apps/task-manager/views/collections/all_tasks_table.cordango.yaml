@@ -1,0 +1,24 @@
+view: all_tasks_table
+label: All tasks
+entity: task
+sort:
+  - field: due_date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - title
+    - project
+    - assignee
+    - status
+    - due_date
+    - priority
+  filterBar:
+    search:
+      - title
+    facets:
+      - project
+      - assignee
+      - status
+      - priority
+  inlineEdit: true

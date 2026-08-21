@@ -1,0 +1,43 @@
+entity: room
+label: Room
+icon: meeting_room
+plural: Rooms
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    indexed: true
+  capacity:
+    label: Capacity
+    type: integer
+    required: true
+    group: Details
+  tier:
+    label: Tier
+    type: select
+    group: Details
+    default: standard
+    options:
+      - value: standard
+        label: Standard
+        color: '#64748b'
+      - value: premium
+        label: Premium
+        color: '#0e7490'
+  amenities:
+    label: Amenities
+    type: multiselect
+    group: Details
+    options:
+      - value: projector
+        label: Projector
+      - value: whiteboard
+        label: Whiteboard
+      - value: video
+        label: Video conferencing
+  location:
+    label: Location
+    type: text
+    group: Details

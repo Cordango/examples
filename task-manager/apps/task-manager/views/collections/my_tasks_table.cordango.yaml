@@ -1,0 +1,26 @@
+view: my_tasks_table
+label: My tasks
+entity: task
+filters:
+  - field: assignee
+    operator: eq
+    value: '{{actor.id}}'
+sort:
+  - field: due_date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - title
+    - project
+    - status
+    - due_date
+    - priority
+  filterBar:
+    search:
+      - title
+    facets:
+      - project
+      - status
+      - priority
+  inlineEdit: true

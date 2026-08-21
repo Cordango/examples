@@ -1,0 +1,225 @@
+screen: availability
+label: Availability
+icon: grid_view
+state:
+  - key: mode
+    type: enum
+    default: week
+    options:
+      - value: week
+        label: Week
+      - value: day
+        label: Day
+  - key: cursor
+    type: date
+    default: '{{today}}'
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: md
+        align: center
+        blocks:
+          - kind: text
+            value: Room availability
+            size: lg
+            weight: bold
+            grow: true
+          - kind: control
+            control: segmented
+            stateKey: mode
+          - kind: control
+            control: stepper
+            stateKey: cursor
+            step:
+              unit: week
+              amount: 1
+            visibleWhen:
+              value: '{{state.mode}}'
+              eq: week
+          - kind: control
+            control: stepper
+            stateKey: cursor
+            step:
+              unit: day
+              amount: 1
+            visibleWhen:
+              value: '{{state.mode}}'
+              eq: day
+      - kind: stack
+        gap: none
+        visibleWhen:
+          value: '{{state.mode}}'
+          eq: week
+        blocks:
+          - kind: row
+            gap: none
+            blocks:
+              - kind: card
+                width: md
+                padding: sm
+                tone: muted
+                blocks:
+                  - kind: text
+                    value: Room
+              - kind: repeat
+                as: hcol
+                direction: row
+                source:
+                  dates:
+                    from: '{{state.cursor}}'
+                    count: 7
+                blocks:
+                  - kind: card
+                    width: sm
+                    padding: sm
+                    tone: muted
+                    blocks:
+                      - kind: text
+                        value: '{{hcol.label}}'
+          - kind: repeat
+            as: room
+            source:
+              entity: room
+              sort:
+                - field: name
+                  direction: asc
+            emptyText: No rooms yet.
+            blocks:
+              - kind: row
+                gap: none
+                blocks:
+                  - kind: card
+                    width: md
+                    padding: sm
+                    bordered: true
+                    tint: tier
+                    blocks:
+                      - kind: field
+                        field: name
+                        weight: medium
+                      - kind: row
+                        gap: sm
+                        blocks:
+                          - kind: chip
+                            field: tier
+                          - kind: field
+                            field: capacity
+                  - kind: repeat
+                    as: day
+                    direction: row
+                    source:
+                      dates:
+                        from: '{{state.cursor}}'
+                        count: 7
+                    blocks:
+                      - kind: card
+                        width: sm
+                        padding: xs
+                        bordered: true
+                        gap: sm
+                        blocks:
+                          - kind: repeat
+                            as: slot
+                            direction: column
+                            gap: sm
+                            source:
+                              options:
+                                entity: booking
+                                field: slot
+                            blocks:
+                              - kind: cell
+                                entity: booking
+                                field: purpose
+                                editable: true
+                                openDetail: true
+                                placeholder: ''
+                                keys:
+                                  room: '{{room.id}}'
+                                  date: '{{day.date}}'
+                                  slot: '{{slot.value}}'
+      - kind: stack
+        gap: none
+        visibleWhen:
+          value: '{{state.mode}}'
+          eq: day
+        blocks:
+          - kind: row
+            gap: none
+            blocks:
+              - kind: card
+                width: md
+                padding: sm
+                tone: muted
+                blocks:
+                  - kind: text
+                    value: Room
+              - kind: repeat
+                as: scol
+                direction: row
+                source:
+                  options:
+                    entity: booking
+                    field: slot
+                blocks:
+                  - kind: card
+                    width: md
+                    padding: sm
+                    tone: muted
+                    blocks:
+                      - kind: text
+                        value: '{{scol.label}}'
+          - kind: repeat
+            as: room
+            source:
+              entity: room
+              sort:
+                - field: name
+                  direction: asc
+            emptyText: No rooms yet.
+            blocks:
+              - kind: row
+                gap: none
+                blocks:
+                  - kind: card
+                    width: md
+                    padding: sm
+                    bordered: true
+                    tint: tier
+                    blocks:
+                      - kind: field
+                        field: name
+                        weight: medium
+                      - kind: row
+                        gap: sm
+                        blocks:
+                          - kind: chip
+                            field: tier
+                          - kind: field
+                            field: capacity
+                  - kind: repeat
+                    as: slot
+                    direction: row
+                    source:
+                      options:
+                        entity: booking
+                        field: slot
+                    blocks:
+                      - kind: card
+                        width: md
+                        padding: sm
+                        bordered: true
+                        minHeight: 56
+                        blocks:
+                          - kind: cell
+                            entity: booking
+                            field: purpose
+                            editable: true
+                            openDetail: true
+                            placeholder: ''
+                            keys:
+                              room: '{{room.id}}'
+                              date: '{{state.cursor}}'
+                              slot: '{{slot.value}}'
+subject: booking

@@ -1,0 +1,7 @@
+screen: my_expenses
+label: My expenses
+icon: account-cash
+layout:
+  - kind: view
+    view: my_claims_table
+subject: expense_claim

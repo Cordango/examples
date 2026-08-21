@@ -1,0 +1,14 @@
+entity: booking_policy
+label: Booking Policy
+icon: settings
+kind: settings
+fields:
+  max_advance_days:
+    label: Max advance (days)
+    type: integer
+    help: How far ahead a room may be booked.
+    default: 30
+  allow_weekend:
+    label: Allow weekend bookings
+    type: boolean
+    default: true

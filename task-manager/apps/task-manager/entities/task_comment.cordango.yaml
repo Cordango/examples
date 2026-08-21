@@ -1,0 +1,20 @@
+entity: task_comment
+label: Comment
+icon: comment-outline
+ownedBy:
+  parent: task
+  via: task
+  as: feed
+plural: Comments
+display: body
+fields:
+  task:
+    label: Task
+    type: reference
+    required: true
+    targetEntity: task
+    onDelete: cascade
+  body:
+    label: Comment
+    type: longtext
+    required: true

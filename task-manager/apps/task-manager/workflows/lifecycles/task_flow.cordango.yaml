@@ -1,0 +1,34 @@
+lifecycle: task_flow
+entity: task
+stateField: status
+initial: todo
+states:
+  todo:
+    label: To do
+    color: '#94a3b8'
+    phase: not_started
+  in_progress:
+    label: In progress
+    color: '#3b82f6'
+    phase: active
+  done:
+    label: Done
+    color: '#16a34a'
+    phase: done
+transitions:
+  start:
+    label: Start
+    from:
+      - todo
+    to: in_progress
+  complete:
+    label: Complete
+    from:
+      - todo
+      - in_progress
+    to: done
+  reopen:
+    label: Reopen
+    from:
+      - done
+    to: todo

@@ -1,0 +1,35 @@
+detail: expense_claim
+blocks:
+  - kind: hub
+    title: description
+    status: status
+    facts:
+      - submitted_by
+      - spent_on
+      - category
+      - amount
+    actions:
+      - approve_claim
+      - decline_claim
+      - mark_reimbursed
+      - edit
+      - delete
+  - kind: process
+    visibleWhen:
+      value: '{{record.status}}'
+      eq: submitted
+  - kind: section
+    label: Receipt
+    blocks:
+      - kind: fields
+        fields:
+          - receipt
+  - kind: section
+    label: Why this was declined
+    visibleWhen:
+      value: '{{record.status}}'
+      eq: declined
+    blocks:
+      - kind: fields
+        fields:
+          - decline_reason

@@ -1,0 +1,38 @@
+app: time_off
+name: Time Off
+version: 1.0.0
+schemaVersion: '2.0'
+presentation:
+  icon: beach
+  color: '#4f46e5'
+  category: HR
+  tagline: Who's off, approvals
+archetype:
+  kind: scheduling
+  coreJob: See who is away at a glance and approve or decline time-off requests
+theme:
+  primaryColor: '#4f46e5'
+  secondaryColor: '#0ea5e9'
+  font: Inter
+  radius: medium
+  density: comfortable
+order:
+  entities:
+    - time_off
+  pages:
+    - schedule
+    - approvals
+    - my_time_off
+  views:
+    - my_time_off_table
+    - pending_table
+  roles:
+    - employee
+    - manager
+    - admin
+  processes:
+    - approval
+  commands:
+    - approve_time_off
+    - decline_time_off
+  workflows: []

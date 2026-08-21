@@ -1,0 +1,17 @@
+view: my_time_off_table
+label: My time off
+entity: time_off
+filters:
+  - field: requested_by
+    operator: eq
+    value: '{{actor.id}}'
+sort:
+  - field: start_date
+    direction: desc
+kind: table
+settings:
+  columns:
+    - type
+    - start_date
+    - end_date
+    - status

@@ -1,0 +1,105 @@
+entity: project
+label: Project
+icon: folder-outline
+plural: Projects
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    indexed: true
+  status:
+    label: Status
+    type: select
+    default: active
+    role: status
+    options:
+      - value: planning
+        label: Planning
+        color: '#a855f7'
+        phase: not_started
+      - value: active
+        label: Active
+        color: '#3b82f6'
+        phase: active
+      - value: on_hold
+        label: On hold
+        color: '#f59e0b'
+        phase: active
+      - value: completed
+        label: Completed
+        color: '#16a34a'
+        phase: done
+  lead:
+    label: Project owner
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  start_date:
+    label: Start
+    type: date
+    role: start
+  due_date:
+    label: Due
+    type: date
+    role: due
+  description:
+    label: About
+    type: longtext
+  total_tasks:
+    label: Tasks
+    type: integer
+    computed:
+      rollup:
+        entity: task
+        via: project
+        op: count
+  open_tasks:
+    label: Open tasks
+    type: integer
+    computed:
+      rollup:
+        entity: task
+        via: project
+        op: count
+        filters:
+          - field: status
+            operator: neq
+            value: done
+  done_tasks:
+    label: Done tasks
+    type: integer
+    computed:
+      rollup:
+        entity: task
+        via: project
+        op: count
+        filters:
+          - field: status
+            operator: eq
+            value: done
+  progress:
+    label: Progress %
+    type: integer
+    computed:
+      expr: done_tasks * 100 / total_tasks
+  total_effort:
+    label: Total effort
+    type: decimal
+    computed:
+      rollup:
+        entity: task
+        via: project
+        op: sum
+        field: effort
+  total_cost:
+    label: Total cost
+    type: money
+    computed:
+      rollup:
+        entity: task
+        via: project
+        op: sum
+        field: cost

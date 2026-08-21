@@ -1,0 +1,33 @@
+detail: time_off
+blocks:
+  - kind: hub
+    title: type
+    status: status
+    facts:
+      - requested_by
+      - start_date
+      - end_date
+    actions:
+      - approve_time_off
+      - decline_time_off
+      - edit
+      - delete
+  - kind: process
+    visibleWhen:
+      value: '{{record.status}}'
+      eq: pending
+  - kind: section
+    label: Reason
+    blocks:
+      - kind: fields
+        fields:
+          - reason
+  - kind: section
+    label: Why this was declined
+    visibleWhen:
+      value: '{{record.status}}'
+      eq: declined
+    blocks:
+      - kind: fields
+        fields:
+          - decline_reason

@@ -1,0 +1,87 @@
+lifecycle: claim_flow
+entity: expense_claim
+stateField: status
+initial: submitted
+states:
+  submitted:
+    label: Submitted
+    color: '#f59e0b'
+  approved:
+    label: Approved
+    color: '#0ea5e9'
+  reimbursed:
+    label: Reimbursed
+    color: '#16a34a'
+    terminal: true
+  declined:
+    label: Declined
+    color: '#dc2626'
+    terminal: true
+transitions:
+  approve:
+    label: Approve
+    from:
+      - submitted
+    to: approved
+    action:
+      key: approve_claim
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Expense approved.
+      effects:
+        - type: notify
+          to: '{{record.submitted_by}}'
+          title: Expense approved
+          message: Your expense '{{record.description}}' was approved.
+          link: auto
+  decline:
+    label: Decline
+    from:
+      - submitted
+    to: declined
+    action:
+      key: decline_claim
+      style: danger
+      placements:
+        - recordHeader
+      successMessage: Expense declined.
+      confirm:
+        title: Decline this expense?
+        confirmLabel: Decline
+        tone: danger
+      input:
+        fields:
+          - decline_reason
+        required:
+          - decline_reason
+      effects:
+        - type: notify
+          to: '{{record.submitted_by}}'
+          title: Expense declined
+          message: Your expense '{{record.description}}' was declined.
+          link: auto
+  reimburse:
+    label: Mark reimbursed
+    from:
+      - approved
+    to: reimbursed
+    action:
+      key: mark_reimbursed
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Expense reimbursed.
+      input:
+        fields:
+          - reimbursed_on
+        required:
+          - reimbursed_on
+      effects:
+        - type: notify
+          to: '{{record.submitted_by}}'
+          title: Expense reimbursed
+          message: Your expense '{{record.description}}' was reimbursed.
+          link: auto

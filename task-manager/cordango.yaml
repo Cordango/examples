@@ -1,0 +1,7 @@
+formatVersion: 1
+workspaceId: 01M0GHH7N23DW07MRXW99Q89MX
+name: Task Manager
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/task-manager

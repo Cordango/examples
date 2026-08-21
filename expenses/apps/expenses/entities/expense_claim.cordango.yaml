@@ -1,0 +1,64 @@
+entity: expense_claim
+label: Expense claim
+icon: credit-card-outline
+plural: Expense claims
+display: description
+fields:
+  submitted_by:
+    label: Submitted by
+    type: reference
+    help: Who claims it. Set to the signed-in user.
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  spent_on:
+    label: Spent on
+    type: date
+    required: true
+    indexed: true
+  category:
+    label: Category
+    type: select
+    required: true
+    default: travel
+    options:
+      - value: travel
+        label: Travel
+        color: '#0ea5e9'
+      - value: meals
+        label: Meals
+        color: '#f59e0b'
+      - value: equipment
+        label: Equipment
+        color: '#8b5cf6'
+      - value: software
+        label: Software
+        color: '#06b6d4'
+      - value: other
+        label: Other
+        color: '#64748b'
+  description:
+    label: Description
+    type: text
+    required: true
+  amount:
+    label: Amount
+    type: money
+    required: true
+    currency: EUR
+  receipt:
+    label: Receipt
+    type: attachment
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  decline_reason:
+    label: Decline reason
+    type: longtext
+    group: Decision
+  reimbursed_on:
+    label: Reimbursed on
+    type: date
+    group: Decision

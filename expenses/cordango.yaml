@@ -1,0 +1,7 @@
+formatVersion: 1
+workspaceId: 01M0GHH398HE36HCQE2X11649A
+name: Expenses
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/expenses

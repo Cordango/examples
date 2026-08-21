@@ -1,0 +1,7 @@
+screen: my_bookings
+label: My bookings
+icon: event_available
+layout:
+  - kind: view
+    view: my_bookings_table
+subject: booking

@@ -1,0 +1,20 @@
+screen: approvals
+label: Approvals
+icon: fact_check
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: stat
+        label: Awaiting decision
+        source:
+          entity: booking
+          filters:
+            - field: status
+              operator: eq
+              value: pending
+          aggregate:
+            op: count
+      - kind: view
+        view: pending_bookings_table
+subject: booking

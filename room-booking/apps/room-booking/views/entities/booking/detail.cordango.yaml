@@ -1,0 +1,38 @@
+detail: booking
+blocks:
+  - kind: hub
+    title: purpose
+    status: status
+    facts:
+      - room
+      - date
+      - slot
+      - booked_by
+    actions:
+      - approve_booking
+      - decline_booking
+      - edit
+      - delete
+  - kind: process
+    visibleWhen:
+      value: '{{record.status}}'
+      eq: pending
+  - kind: section
+    label: Attendees
+    blocks:
+      - kind: child
+        entity: booking_attendee
+        via: booking
+        childType: table
+        subordinate: true
+        inlineCreate: true
+        label: Attendees
+  - kind: section
+    label: Why this was declined
+    visibleWhen:
+      value: '{{record.status}}'
+      eq: declined
+    blocks:
+      - kind: fields
+        fields:
+          - decline_reason

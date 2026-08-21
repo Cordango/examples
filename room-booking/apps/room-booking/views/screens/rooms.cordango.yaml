@@ -1,0 +1,7 @@
+screen: rooms
+label: Rooms
+icon: meeting_room
+layout:
+  - kind: view
+    view: rooms_table
+subject: room

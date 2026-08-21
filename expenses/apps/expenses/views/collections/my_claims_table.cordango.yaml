@@ -1,0 +1,18 @@
+view: my_claims_table
+label: My claims
+entity: expense_claim
+filters:
+  - field: submitted_by
+    operator: eq
+    value: '{{actor.id}}'
+sort:
+  - field: spent_on
+    direction: desc
+kind: table
+settings:
+  columns:
+    - spent_on
+    - description
+    - category
+    - amount
+    - status

@@ -1,0 +1,15 @@
+view: all_claims_table
+label: All claims
+entity: expense_claim
+sort:
+  - field: spent_on
+    direction: desc
+kind: table
+settings:
+  columns:
+    - submitted_by
+    - spent_on
+    - description
+    - category
+    - amount
+    - status

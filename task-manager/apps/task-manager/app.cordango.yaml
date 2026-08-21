@@ -1,0 +1,40 @@
+app: task_manager
+name: Projects
+version: 1.5.0
+schemaVersion: '2.0'
+presentation:
+  icon: clipboard-check
+  color: '#0ea5e9'
+  category: Delivery
+  tagline: Projects, tasks, delivery
+archetype:
+  kind: planning
+  coreJob: Plan and track work across projects — tasks, owners, dates and status
+theme:
+  primaryColor: '#6366f1'
+  secondaryColor: '#0ea5e9'
+  font: Inter
+  radius: medium
+  density: comfortable
+order:
+  entities:
+    - project
+    - task
+    - task_section
+    - milestone
+    - task_comment
+  pages:
+    - projects
+    - my_tasks
+    - all_tasks
+  views:
+    - projects_table
+    - my_tasks_table
+    - all_tasks_table
+  roles:
+    - member
+    - admin
+  processes:
+    - task_flow
+  commands: []
+  workflows: []

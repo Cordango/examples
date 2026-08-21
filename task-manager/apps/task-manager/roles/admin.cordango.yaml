@@ -1,0 +1,11 @@
+role: admin
+name: Administrator
+description: Manages projects and everything in them.
+grants:
+  '*':
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - '*'

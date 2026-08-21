@@ -1,0 +1,7 @@
+role: employee
+name: Employee
+description: Requests time off and tracks their own requests.
+grants:
+  time_off:
+    create: true
+    read: true

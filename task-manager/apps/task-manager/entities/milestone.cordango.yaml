@@ -1,0 +1,100 @@
+entity: milestone
+label: Milestone
+icon: flag-checkered
+ownedBy:
+  parent: project
+  via: project
+  as: table
+plural: Milestones
+display: name
+fields:
+  project:
+    label: Project
+    type: reference
+    required: true
+    targetEntity: project
+    onDelete: cascade
+  name:
+    label: Milestone
+    type: text
+    required: true
+  due_date:
+    label: Due
+    type: date
+    role: due
+  status:
+    label: Status
+    type: select
+    default: upcoming
+    role: status
+    options:
+      - value: upcoming
+        label: Upcoming
+        color: '#94a3b8'
+        phase: not_started
+      - value: at_risk
+        label: At risk
+        color: '#f59e0b'
+        phase: active
+      - value: reached
+        label: Reached
+        color: '#16a34a'
+        phase: done
+  description:
+    label: About
+    type: longtext
+  total_tasks:
+    label: Tasks
+    type: integer
+    computed:
+      rollup:
+        entity: task
+        via: milestone
+        op: count
+  open_tasks:
+    label: Open tasks
+    type: integer
+    computed:
+      rollup:
+        entity: task
+        via: milestone
+        op: count
+        filters:
+          - field: status
+            operator: neq
+            value: done
+  done_tasks:
+    label: Done tasks
+    type: integer
+    computed:
+      rollup:
+        entity: task
+        via: milestone
+        op: count
+        filters:
+          - field: status
+            operator: eq
+            value: done
+  total_effort:
+    label: Total effort
+    type: decimal
+    computed:
+      rollup:
+        entity: task
+        via: milestone
+        op: sum
+        field: effort
+  total_cost:
+    label: Total cost
+    type: money
+    computed:
+      rollup:
+        entity: task
+        via: milestone
+        op: sum
+        field: cost
+  progress:
+    label: Progress %
+    type: integer
+    computed:
+      expr: done_tasks * 100 / total_tasks

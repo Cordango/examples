@@ -1,0 +1,58 @@
+app: room_booking
+name: Room Booking
+version: 1.0.0
+description: Find an available meeting room, book a slot inline from a weekly grid, and let managers approve or decline requests. The hand-authored reference app for COMPOSITION_REFRAME_FINAL.md Phase 1 — the best room-booking experience expressible against today's runtime, with the gaps recorded in GAPS.md.
+schemaVersion: '2.0'
+archetype:
+  kind: scheduling
+  coreJob: See which rooms are free across the week and book a slot inline
+presentation:
+  icon: meeting_room
+  color: '#0e7490'
+  category: Operations
+  tagline: Book a room in one click
+relations:
+  - key: room_bookings
+    label: Room Bookings
+    type: oneToMany
+    fromEntity: room
+    toEntity: booking
+    inverseField: room
+  - key: booking_attendees
+    label: Booking Attendees
+    type: oneToMany
+    fromEntity: booking
+    toEntity: booking_attendee
+    inverseField: booking
+theme:
+  primaryColor: '#0e7490'
+  secondaryColor: '#f59e0b'
+  font: Inter
+  radius: medium
+  density: comfortable
+order:
+  entities:
+    - room
+    - booking
+    - booking_attendee
+    - booking_policy
+  pages:
+    - availability
+    - my_bookings
+    - approvals
+    - rooms
+    - insights
+  views:
+    - rooms_table
+    - my_bookings_table
+    - pending_bookings_table
+  roles:
+    - employee
+    - manager
+    - admin
+  processes:
+    - booking_flow
+  commands:
+    - approve_booking
+    - decline_booking
+  workflows: []

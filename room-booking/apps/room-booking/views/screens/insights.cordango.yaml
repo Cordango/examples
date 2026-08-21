@@ -1,0 +1,59 @@
+screen: insights
+label: Insights
+icon: chart_bar
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        value: Room load
+        size: lg
+        weight: bold
+      - kind: text
+        value: How heavily each room is booked, and where the week's demand falls.
+        size: sm
+        color: '#94a3b8'
+      - kind: row
+        gap: md
+        blocks:
+          - kind: stat
+            label: Total bookings
+            source:
+              entity: booking
+              aggregate:
+                op: count
+          - kind: stat
+            label: Rooms
+            source:
+              entity: room
+              aggregate:
+                op: count
+          - kind: stat
+            label: Awaiting decision
+            source:
+              entity: booking
+              filters:
+                - field: status
+                  operator: eq
+                  value: pending
+              aggregate:
+                op: count
+      - kind: columns
+        columns:
+          - - kind: chart
+              chartType: bar
+              label: Load by room (bookings)
+              source:
+                entity: booking
+                aggregate:
+                  op: count
+                  groupBy: room
+          - - kind: chart
+              chartType: bar
+              label: Load by day
+              source:
+                entity: booking
+                aggregate:
+                  op: count
+                  groupBy: date
+subject: booking

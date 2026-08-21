@@ -1,0 +1,7 @@
+screen: approvals
+label: Approvals
+icon: check-decagram
+layout:
+  - kind: view
+    view: pending_table
+subject: time_off

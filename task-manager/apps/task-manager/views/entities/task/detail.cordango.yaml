@@ -1,0 +1,47 @@
+detail: task
+blocks:
+  - kind: hub
+    title: title
+    status: status
+    facts:
+      - assignee
+      - project
+      - due_date
+      - priority
+    actions:
+      - edit
+      - delete
+  - kind: process
+  - kind: section
+    label: Details
+    blocks:
+      - kind: fields
+        fields:
+          - start_date
+          - milestone
+          - effort
+          - cost
+          - description
+  - kind: child
+    entity: task
+    via: parent
+    childType: table
+    subordinate: false
+    inlineCreate: true
+    label: Subtasks
+    fields:
+      - title
+      - assignee
+      - status
+      - due_date
+      - effort
+  - kind: section
+    label: Comments
+    blocks:
+      - kind: child
+        entity: task_comment
+        via: task
+        childType: feed
+        subordinate: true
+        inlineCreate: true
+        label: Comments

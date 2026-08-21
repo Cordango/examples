@@ -1,0 +1,11 @@
+role: employee
+name: Employee
+description: Books rooms and manages their own bookings.
+grants:
+  booking:
+    create: true
+    read: true
+  room:
+    read: true
+  booking_policy:
+    read: true

@@ -1,0 +1,25 @@
+role: member
+name: Member
+description: Creates and works tasks.
+grants:
+  task:
+    create: true
+    read: true
+    update: true
+    commands:
+      - '*'
+  task_comment:
+    create: true
+    read: true
+  task_section:
+    create: true
+    read: true
+    update: true
+    delete: true
+  milestone:
+    create: true
+    read: true
+    update: true
+    delete: true
+  project:
+    read: true

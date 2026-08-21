@@ -1,0 +1,19 @@
+detail: project
+blocks:
+  - kind: hub
+    title: name
+    status: status
+    facts:
+      - lead
+      - start_date
+      - due_date
+    actions:
+      - edit
+      - delete
+  - kind: tabs
+    tabs:
+      - overview
+      - tasks
+      - milestones
+      - board
+      - gantt

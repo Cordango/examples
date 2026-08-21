@@ -1,0 +1,83 @@
+screen: projects
+label: Projects
+icon: folder-multiple-outline
+layout:
+  - kind: tabs
+    tabs:
+      - key: overview
+        label: Overview
+        blocks:
+          - kind: repeat
+            as: proj
+            wrap: true
+            cols: 3
+            gap: md
+            emptyText: No projects yet.
+            source:
+              entity: project
+              sort:
+                - field: name
+                  direction: asc
+            filterBar:
+              search:
+                - name
+              facets:
+                - status
+                - lead
+            blocks:
+              - kind: card
+                padding: md
+                bordered: true
+                blocks:
+                  - kind: row
+                    align: center
+                    gap: sm
+                    blocks:
+                      - kind: field
+                        field: name
+                        size: lg
+                        weight: bold
+                        grow: true
+                      - kind: chip
+                        field: status
+                  - kind: row
+                    align: center
+                    gap: sm
+                    blocks:
+                      - kind: avatar
+                        field: lead
+                        size: sm
+                      - kind: field
+                        field: lead
+                        avatar: false
+                        grow: true
+                      - kind: field
+                        field: due_date
+                        format: date
+                        size: sm
+                        icon: calendar-outline
+                  - kind: progress
+                    label: Tasks done
+                    field: done_tasks
+                    max: total_tasks
+                  - kind: row
+                    gap: lg
+                    blocks:
+                      - kind: stat
+                        label: Open
+                        field: open_tasks
+                        format: number
+                      - kind: stat
+                        label: Done
+                        field: done_tasks
+                        format: number
+      - key: list
+        label: List
+        blocks:
+          - kind: view
+            view: projects_table
+subject: project
+navigationSource:
+  labelField: name
+  sort: name
+  max: 30

@@ -1,0 +1,39 @@
+tab: overview
+key: overview
+label: Overview
+blocks:
+  - kind: tiles
+    tiles:
+      - label: Progress
+        field: progress
+        format: percent
+        icon: chart-donut
+      - label: Open tasks
+        field: open_tasks
+        format: number
+        icon: checkbox-blank-circle-outline
+      - label: Done tasks
+        field: done_tasks
+        format: number
+        icon: checkbox-marked-circle-outline
+      - label: Total effort (h)
+        field: total_effort
+        format: number
+        icon: clock-outline
+      - label: Total cost
+        field: total_cost
+        format: money
+        icon: cash-multiple
+  - kind: child
+    entity: milestone
+    via: project
+    childType: table
+    subordinate: false
+    fields:
+      - name
+      - due_date
+      - status
+      - progress
+      - open_tasks
+      - total_effort
+      - total_cost

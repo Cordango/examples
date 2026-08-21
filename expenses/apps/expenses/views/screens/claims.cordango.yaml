@@ -1,0 +1,7 @@
+screen: claims
+label: All claims
+icon: credit-card-outline
+layout:
+  - kind: view
+    view: all_claims_table
+subject: expense_claim

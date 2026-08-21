@@ -1,0 +1,10 @@
+role: manager
+name: Manager
+description: Reviews pending requests and approves or declines them.
+grants:
+  time_off:
+    read: true
+    update: true
+    commands:
+      - approve_time_off
+      - decline_time_off

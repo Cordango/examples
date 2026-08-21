@@ -1,0 +1,7 @@
+screen: my_tasks
+label: My tasks
+icon: account-check-outline
+layout:
+  - kind: view
+    view: my_tasks_table
+subject: task

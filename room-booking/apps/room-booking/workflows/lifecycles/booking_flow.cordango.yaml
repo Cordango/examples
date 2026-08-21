@@ -1,0 +1,67 @@
+lifecycle: booking_flow
+entity: booking
+stateField: status
+initial:
+  rules:
+    - when:
+        path: room.tier
+        operator: eq
+        value: standard
+      state: approved
+  fallback: pending
+states:
+  pending:
+    label: Pending
+    color: '#f59e0b'
+  approved:
+    label: Approved
+    color: '#16a34a'
+    terminal: true
+  declined:
+    label: Declined
+    color: '#dc2626'
+    terminal: true
+transitions:
+  approve:
+    label: Approve
+    from:
+      - pending
+    to: approved
+    action:
+      key: approve_booking
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Booking approved.
+      effects:
+        - type: notify
+          to: '{{record.booked_by}}'
+          title: Booking approved
+          message: Your room booking was approved.
+          link: auto
+  decline:
+    label: Decline
+    from:
+      - pending
+    to: declined
+    action:
+      key: decline_booking
+      style: danger
+      placements:
+        - recordHeader
+      successMessage: Booking declined.
+      confirm:
+        title: Decline this booking?
+        confirmLabel: Decline
+        tone: danger
+      input:
+        fields:
+          - decline_reason
+        required:
+          - decline_reason
+      effects:
+        - type: notify
+          to: '{{record.booked_by}}'
+          title: Booking declined
+          message: Your room booking was declined.
+          link: auto

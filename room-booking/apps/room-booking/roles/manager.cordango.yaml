@@ -1,0 +1,14 @@
+role: manager
+name: Manager
+description: Reviews pending bookings and approves or declines them.
+grants:
+  booking:
+    read: true
+    update: true
+    commands:
+      - approve_booking
+      - decline_booking
+  room:
+    read: true
+  booking_policy:
+    read: true
