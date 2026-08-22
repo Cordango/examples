@@ -14,7 +14,19 @@ cd expenses
 cordango check                        # parse, lower and validate. No model, no database.
 cordango inspect                      # what is in here
 cordango check --target standalone    # can this be generated as an application you own?
+
+cordango build --target standalone --out generated --allow-incomplete
+cd generated && docker compose up --build
 ```
+
+`--allow-incomplete` is needed today and says so out loud. The standalone generator does not yet
+emit workflows, computed fields or command guards, and rather than shipping an application that
+looks finished it refuses the build until you say you know. Every gap is listed in the generated
+README and recorded in `cordango.build.json`, so a partial build can never pass for a complete one
+later.
+
+Then open <http://localhost:8080>: the first screen asks you to create the administrator account.
+There is no default password and none is generated for you.
 
 ## The examples
 

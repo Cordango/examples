@@ -34,9 +34,18 @@ sees everything.
 ## Running it
 
 ```
-cordango check
-cordango check --target standalone
+cordango check                        # is this a valid Cordango application?
+cordango check --target standalone    # can the standalone generator build it?
+
+cordango build --target standalone --out generated --allow-incomplete
+cd generated && docker compose up --build
 ```
+
+Then <http://localhost:8080>. The first screen asks you to create the administrator account.
+
+`--allow-incomplete` is needed while the standalone generator is still missing workflows, computed
+fields and command guards. It lists what it left out rather than shipping an application that looks
+finished.
 
 ## Structure
 
