@@ -1,0 +1,133 @@
+entity: lifecycle_step
+label: Lifecycle Step
+description: 'One segment at one age: how big the customer is, what each plan would cost them, and therefore what they pay. The cheapest plan wins, so this row is where a plan stops being an assumption.'
+icon: chart-timeline-variant
+kind: collection
+plural: Lifecycle
+display: label
+fields:
+  label:
+    label: Step
+    type: text
+  scenario:
+    label: Scenario
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: scenario
+    onDelete: cascade
+  segment:
+    label: Segment
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: segment
+    onDelete: cascade
+  point:
+    label: Adoption point
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: adoption_point
+    onDelete: cascade
+  flex:
+    label: Flex plan
+    type: reference
+    targetEntity: revenue_plan
+  starter:
+    label: Starter plan
+    type: reference
+    targetEntity: revenue_plan
+  pro:
+    label: Pro plan
+    type: reference
+    targetEntity: revenue_plan
+  advanced:
+    label: Advanced plan
+    type: reference
+    targetEntity: revenue_plan
+  age:
+    label: Age (months)
+    type: integer
+    group: Calculated
+    computed:
+      expr: point.age
+  active_users:
+    label: Active users (N)
+    type: decimal
+    group: Calculated
+    precision: 16
+    scale: 4
+    computed:
+      expr: segment.mature_active_users * point.user_adoption
+  shared_apps:
+    label: Shared apps
+    type: decimal
+    help: 'Never below one: a customer with no shared app is not a customer.'
+    group: Calculated
+    precision: 16
+    scale: 4
+    computed:
+      expr: max(1, segment.mature_shared_apps * point.apps_adoption)
+  active_per_app:
+    label: Active users per app (A)
+    type: decimal
+    group: Calculated
+    precision: 16
+    scale: 4
+    computed:
+      expr: active_users * segment.avg_app_adoption
+  cost_flex:
+    label: Flex would cost
+    type: money
+    help: No base fee and no cap — every active user of every app is billed.
+    group: Calculated
+    currency: EUR
+    computed:
+      expr: shared_apps * active_per_app * flex.price_per_app_user
+  cost_starter:
+    label: Starter would cost
+    type: money
+    group: Calculated
+    currency: EUR
+    computed:
+      expr: starter.monthly_base_fee + shared_apps * min(active_per_app, starter.cap_multiplier * pow(active_users, 0.5)) * starter.price_per_app_user
+  cost_pro:
+    label: Pro would cost
+    type: money
+    group: Calculated
+    currency: EUR
+    computed:
+      expr: pro.monthly_base_fee + shared_apps * min(active_per_app, pro.cap_multiplier * pow(active_users, 0.5)) * pro.price_per_app_user
+  cost_advanced:
+    label: Advanced would cost
+    type: money
+    group: Calculated
+    currency: EUR
+    computed:
+      expr: advanced.monthly_base_fee + shared_apps * min(active_per_app, advanced.cap_multiplier * pow(active_users, 0.5)) * advanced.price_per_app_user
+  cheapest_plan_cost:
+    label: MRR (cheapest plan)
+    type: money
+    help: The customer is not asked to choose badly. Which plan won is readable from the four columns beside this one — naming it would need a conditional the expression language does not have.
+    group: Calculated
+    currency: EUR
+    computed:
+      expr: min(min(cost_flex, cost_starter), min(cost_pro, cost_advanced))
+  survival:
+    label: Surviving share of the cohort
+    type: decimal
+    help: pow(1 - churn, age - 1). Age one is a full cohort.
+    group: Calculated
+    precision: 16
+    scale: 4
+    computed:
+      expr: pow(1 - segment.churn_pct / 100, age - 1)
+  revenue_per_new_customer:
+    label: MRR per customer won
+    type: money
+    help: What one customer won at age zero is still paying at this age, churn already taken off. The grid multiplies this by the cohort size.
+    group: Calculated
+    currency: EUR
+    computed:
+      expr: cheapest_plan_cost * survival

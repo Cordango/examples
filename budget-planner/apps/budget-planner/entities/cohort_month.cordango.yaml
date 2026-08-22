@@ -1,0 +1,54 @@
+entity: cohort_month
+label: Cohort Month
+description: One cohort at one age. The grid exists because a rollup can add a field up but cannot multiply two rows together, and month m's revenue is exactly that product summed over every live cohort.
+icon: table-large
+kind: collection
+plural: Cohort Grid
+display: label
+fields:
+  label:
+    label: Cell
+    type: text
+  scenario:
+    label: Scenario
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: scenario
+    onDelete: cascade
+  acquisition:
+    label: Cohort
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: acquisition
+    onDelete: cascade
+  step:
+    label: Lifecycle step
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: lifecycle_step
+    onDelete: cascade
+  lands_in:
+    label: Lands in month
+    type: integer
+    help: The cohort's own month plus its age, less one. Two references, one hop each — which is the rule, and is what makes the grid legal.
+    group: Calculated
+    computed:
+      expr: acquisition.month + step.age - 1
+  recurring_revenue:
+    label: Recurring revenue
+    type: money
+    group: Calculated
+    currency: EUR
+    computed:
+      expr: acquisition.new_customers * step.revenue_per_new_customer
+  surviving_customers:
+    label: Surviving customers
+    type: decimal
+    group: Calculated
+    precision: 16
+    scale: 4
+    computed:
+      expr: acquisition.new_customers * step.survival

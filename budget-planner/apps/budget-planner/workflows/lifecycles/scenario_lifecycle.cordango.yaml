@@ -1,0 +1,119 @@
+lifecycle: scenario_lifecycle
+entity: scenario
+stateField: scenario_stage
+initial: draft
+states:
+  draft:
+    label: Draft
+    color: '#94a3b8'
+    phase: not_started
+  modelling:
+    label: Modelling
+    color: '#38bdf8'
+    phase: active
+  review:
+    label: Internal Review
+    color: '#6366f1'
+    phase: active
+  investor_ready:
+    label: Investor Ready
+    color: '#0f766e'
+    phase: done
+  archived:
+    label: Archived
+    color: '#64748b'
+    terminal: true
+    phase: cancelled
+transitions:
+  start_modelling:
+    label: Start Modelling
+    from:
+      - draft
+    to: modelling
+    action:
+      icon: pencil-ruler
+      style: primary
+      successMessage: Scenario moved into modelling.
+      effects: []
+  submit_for_review:
+    label: Submit for Review
+    from:
+      - modelling
+    to: review
+    action:
+      icon: send-check
+      successMessage: Scenario submitted for review.
+      effects:
+        - type: updateRecord
+          set:
+            last_reviewed_at: '{{now}}'
+  request_changes:
+    label: Request Changes
+    from:
+      - review
+    to: modelling
+    action:
+      icon: undo-variant
+      successMessage: Changes requested.
+      input:
+        fields:
+          - assumptions
+      effects:
+        - type: notify
+          to: '{{record.owner}}'
+          title: Changes requested on {{record.name}}
+          message: '{{actor.name}} asked for changes on the budget scenario {{record.name}}.'
+          link: auto
+  mark_investor_ready:
+    label: Mark Investor Ready
+    from:
+      - review
+      - modelling
+    to: investor_ready
+    action:
+      icon: presentation
+      style: primary
+      successMessage: Scenario marked investor ready.
+      confirm:
+        title: Mark this scenario investor ready?
+        message: The scenario will be flagged as the version you show investors.
+        confirmLabel: Mark ready
+      effects:
+        - type: updateRecord
+          set:
+            last_reviewed_at: '{{now}}'
+            shared_with_investors: true
+      emits:
+        - scenario.investor_ready
+  reopen_scenario:
+    label: Reopen
+    from:
+      - investor_ready
+    to: modelling
+    action:
+      label: Reopen for Editing
+      icon: lock-open-variant
+      successMessage: Scenario reopened.
+      effects:
+        - type: updateRecord
+          set:
+            shared_with_investors: false
+  archive_scenario:
+    label: Archive
+    from:
+      - draft
+      - modelling
+      - review
+      - investor_ready
+    to: archived
+    action:
+      label: Archive Scenario
+      icon: archive
+      style: danger
+      successMessage: Scenario archived.
+      confirm:
+        title: Archive this scenario?
+        message: Archived scenarios stay readable but are no longer maintained.
+        confirmLabel: Archive
+        tone: danger
+      effects: []

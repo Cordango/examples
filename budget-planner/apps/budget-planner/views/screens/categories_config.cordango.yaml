@@ -1,0 +1,8 @@
+screen: categories_config
+icon: shape-outline
+label: Cost Categories
+layout:
+  - kind: view
+    view: categories_table
+subject: cost_category
+navigationGroup: config

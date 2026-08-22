@@ -1,0 +1,7 @@
+formatVersion: 1
+workspaceId: 01M0NBTSZ7ZE6GY3B9D4KQE98X
+name: Budget Planner
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/budget-planner

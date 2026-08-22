@@ -1,0 +1,46 @@
+entity: cost_category
+label: Cost Category
+description: Lookup list grouping cost lines (Infrastructure, Software, Government fees, Office, Marketing...).
+icon: shape-outline
+kind: config
+plural: Cost Categories
+display: name
+fields:
+  name:
+    label: Category
+    type: text
+    required: true
+    unique: true
+  cost_group:
+    label: Group
+    type: select
+    required: true
+    options:
+      - value: infrastructure
+        label: Infrastructure & Hosting
+        color: '#38bdf8'
+      - value: software
+        label: Software & Tools
+        color: '#6366f1'
+      - value: government
+        label: Government & Statutory Fees
+        color: '#dc2626'
+      - value: professional
+        label: Legal, Tax & Accounting
+        color: '#a16207'
+      - value: office
+        label: Office & Equipment
+        color: '#64748b'
+      - value: marketing
+        label: Marketing & Sales
+        color: '#ec4899'
+      - value: other
+        label: Other
+        color: '#94a3b8'
+  is_opex:
+    label: Counts as OPEX
+    type: boolean
+    default: true
+  description:
+    label: Description
+    type: longtext

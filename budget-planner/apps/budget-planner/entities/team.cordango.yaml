@@ -1,0 +1,47 @@
+entity: team
+label: Team
+description: A functional team hiring is grouped by (Engineering, Sales, ...).
+icon: account-group
+kind: config
+plural: Teams
+display: name
+fields:
+  name:
+    label: Team Name
+    type: text
+    required: true
+    unique: true
+  function:
+    label: Function
+    type: select
+    required: true
+    options:
+      - value: engineering
+        label: Engineering
+        color: '#0f766e'
+      - value: product
+        label: Product
+        color: '#6366f1'
+      - value: sales
+        label: Sales
+        color: '#f59e0b'
+      - value: marketing
+        label: Marketing
+        color: '#ec4899'
+      - value: customer_success
+        label: Customer Success
+        color: '#38bdf8'
+      - value: operations
+        label: Operations & Admin
+        color: '#64748b'
+      - value: finance
+        label: Finance & Legal
+        color: '#a16207'
+  default_salary:
+    label: Default Gross Salary / Year
+    type: money
+    help: Typical gross annual salary for a hire in this team; prefilled onto new hiring lines.
+    currency: EUR
+  description:
+    label: Description
+    type: longtext

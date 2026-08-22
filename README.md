@@ -1,6 +1,6 @@
 # Cordango examples
 
-Four complete Cordango applications, as source you can clone, read, change and build.
+Five complete Cordango applications, as source you can clone, read, change and build.
 
 > Status: pre-alpha. These track the App Definition schema in
 > [cordango/cordango](https://github.com/cordango/cordango) and will move while it settles.
@@ -36,6 +36,7 @@ There is no default password and none is generated for you.
 | [`time-off/`](time-off) | 1 | Absence requests with a manager approval step, a team schedule, and a duration the application works out for itself. |
 | [`task-manager/`](task-manager) | 5 | Projects, tasks, subtasks and milestones, with rollups that let a parent count its children. Read this one for computed fields. |
 | [`room-booking/`](room-booking) | 4 | Rooms, bookings, attendees, and a policy entity that holds the rules instead of hard-coding them. |
+| [`budget-planner/`](budget-planner) | 16 | The largest by a distance, and the one that pushes the language hardest: scenarios, cohort growth, a running cash balance that reads the row before it, and runway. Most of its arithmetic is not generated yet, and it says so. |
 
 ## Reading one
 

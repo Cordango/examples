@@ -1,0 +1,94 @@
+lifecycle: funding_lifecycle
+entity: funding_round
+stateField: round_stage
+initial: planned
+states:
+  planned:
+    label: Planned
+    color: '#94a3b8'
+    phase: not_started
+  in_conversation:
+    label: In Conversation
+    color: '#38bdf8'
+    phase: active
+  term_sheet:
+    label: Term Sheet
+    color: '#6366f1'
+    phase: active
+  closed:
+    label: Closed / Received
+    color: '#0f766e'
+    phase: done
+  abandoned:
+    label: Not Happening
+    color: '#dc2626'
+    terminal: true
+    phase: cancelled
+transitions:
+  start_raise:
+    label: Start Raising
+    from:
+      - planned
+    to: in_conversation
+    action:
+      icon: rocket-launch
+      style: primary
+      successMessage: Round moved into conversations.
+      effects: []
+  record_term_sheet:
+    label: Term Sheet Received
+    from:
+      - in_conversation
+    to: term_sheet
+    action:
+      icon: file-document-check
+      successMessage: Term sheet recorded.
+      input:
+        fields:
+          - pre_money_valuation
+          - equity_given
+          - lead_investor
+      effects: []
+  close_round:
+    label: Close Round
+    from:
+      - term_sheet
+      - in_conversation
+    to: closed
+    action:
+      icon: bank-check
+      style: primary
+      successMessage: Round closed.
+      confirm:
+        title: Close this round?
+        message: The amount will count towards the scenario's cash and runway.
+      input:
+        fields:
+          - amount
+          - expected_close
+        required:
+          - amount
+          - expected_close
+      effects:
+        - type: notify
+          to: '{{actor.id}}'
+          title: 'Round closed: {{record.name}}'
+          message: '{{record.name}} closed at {{record.amount}}. Recalculate the scenario to refresh runway.'
+          link: auto
+      emits:
+        - funding_round.closed
+  abandon_round:
+    label: Mark Not Happening
+    from:
+      - planned
+      - in_conversation
+      - term_sheet
+    to: abandoned
+    action:
+      icon: cancel
+      style: danger
+      successMessage: Round marked as not happening.
+      input:
+        fields:
+          - notes
+      effects: []

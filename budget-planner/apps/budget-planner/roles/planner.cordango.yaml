@@ -1,0 +1,96 @@
+role: planner
+name: Finance Planner
+description: Builds and maintains the plan but cannot archive scenarios or change app settings.
+grants:
+  scenario:
+    create: true
+    read: true
+    update: true
+    commands:
+      - start_modelling
+      - submit_for_review
+      - clone_scenario
+      - request_changes
+  period:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - copy_actuals
+  revenue_plan:
+    create: true
+    read: true
+    update: true
+    delete: true
+  hiring_line:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - approve_hire
+      - open_recruiting
+      - mark_filled
+      - hold_hire
+      - drop_hire
+      - shift_hire_start
+  cost_line:
+    create: true
+    read: true
+    update: true
+    delete: true
+  revenue_stream:
+    create: true
+    read: true
+    update: true
+    delete: true
+  funding_round:
+    create: true
+    read: true
+    update: true
+    commands:
+      - start_raise
+      - record_term_sheet
+      - close_round
+      - abandon_round
+  assumption:
+    create: true
+    read: true
+    update: true
+    delete: true
+  team:
+    create: true
+    read: true
+    update: true
+  cost_category:
+    create: true
+    read: true
+    update: true
+  budget_settings:
+    read: true
+  segment:
+    create: true
+    read: true
+    update: true
+    delete: true
+  adoption_point:
+    create: true
+    read: true
+    update: true
+    delete: true
+  acquisition:
+    create: true
+    read: true
+    update: true
+    delete: true
+  lifecycle_step:
+    create: true
+    read: true
+    update: true
+    delete: true
+  cohort_month:
+    create: true
+    read: true
+    update: true
+    delete: true

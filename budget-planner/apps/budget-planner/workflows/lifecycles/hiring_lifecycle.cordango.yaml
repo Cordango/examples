@@ -1,0 +1,94 @@
+lifecycle: hiring_lifecycle
+entity: hiring_line
+stateField: hire_status
+initial: planned
+states:
+  planned:
+    label: Planned
+    color: '#94a3b8'
+    phase: not_started
+  approved:
+    label: Approved to Hire
+    color: '#38bdf8'
+    phase: active
+  recruiting:
+    label: Recruiting
+    color: '#6366f1'
+    phase: active
+  filled:
+    label: Filled
+    color: '#0f766e'
+    phase: done
+  on_hold:
+    label: On Hold
+    color: '#f59e0b'
+    phase: not_started
+  dropped:
+    label: Dropped
+    color: '#dc2626'
+    terminal: true
+    phase: cancelled
+transitions:
+  approve_hire:
+    label: Approve to Hire
+    from:
+      - planned
+      - on_hold
+    to: approved
+    action:
+      icon: check-decagram
+      style: primary
+      successMessage: Role approved.
+      effects: []
+  open_recruiting:
+    label: Start Recruiting
+    from:
+      - approved
+    to: recruiting
+    action:
+      icon: account-search
+      successMessage: Recruiting started.
+      effects: []
+  mark_filled:
+    label: Mark Filled
+    from:
+      - recruiting
+      - approved
+    to: filled
+    action:
+      icon: account-check
+      successMessage: Role marked filled.
+      input:
+        fields:
+          - start_month
+        required:
+          - start_month
+      effects: []
+  hold_hire:
+    label: Put On Hold
+    from:
+      - planned
+      - approved
+      - recruiting
+    to: on_hold
+    action:
+      icon: pause-circle
+      successMessage: Role put on hold.
+      effects: []
+  drop_hire:
+    label: Drop Role
+    from:
+      - planned
+      - approved
+      - recruiting
+      - on_hold
+    to: dropped
+    action:
+      icon: close-circle
+      style: danger
+      successMessage: Role dropped from the plan.
+      confirm:
+        title: Drop this planned role?
+        confirmLabel: Drop role
+        tone: danger
+      effects: []

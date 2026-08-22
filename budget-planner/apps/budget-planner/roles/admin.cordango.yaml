@@ -1,0 +1,11 @@
+role: admin
+name: Founder / Admin
+description: Full control over scenarios, plans, hiring, costs, funding and settings.
+grants:
+  '*':
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - '*'

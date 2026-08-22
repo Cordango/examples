@@ -1,0 +1,164 @@
+entity: hiring_line
+label: Hiring Line
+description: Planned headcount for a team from a given start month, with salary and employer costs.
+icon: account-plus
+kind: collection
+plural: Hiring Plan
+display: role_title
+fields:
+  role_title:
+    label: Role
+    type: text
+    required: true
+  scenario:
+    label: Scenario
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: scenario
+    onDelete: cascade
+  team:
+    label: Team
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: team
+  hire_status:
+    label: Hiring Status
+    type: select
+    indexed: true
+    role: status
+  headcount:
+    label: Headcount
+    type: integer
+    required: true
+    default: 1
+  seniority:
+    label: Seniority
+    type: select
+    default: mid
+    options:
+      - value: junior
+        label: Junior
+        color: '#94a3b8'
+      - value: mid
+        label: Mid
+        color: '#38bdf8'
+      - value: senior
+        label: Senior
+        color: '#0f766e'
+      - value: lead
+        label: Lead / Head
+        color: '#6366f1'
+      - value: exec
+        label: Executive
+        color: '#f59e0b'
+  employment_type:
+    label: Employment Type
+    type: select
+    default: full_time
+    options:
+      - value: full_time
+        label: Full-time employee
+      - value: part_time
+        label: Part-time employee
+      - value: contractor
+        label: Contractor / Freelance
+      - value: working_student
+        label: Working student (Werkstudent)
+  start_month:
+    label: Planned Start
+    type: date
+    required: true
+    group: Timing
+    role: start
+  end_month:
+    label: Planned End
+    type: date
+    help: Leave empty for an open-ended role.
+    group: Timing
+  location_country:
+    label: Location
+    type: select
+    group: Timing
+    default: DE
+    options:
+      - value: DE
+        label: Germany
+      - value: AT
+        label: Austria
+      - value: CH
+        label: Switzerland
+      - value: NL
+        label: Netherlands
+      - value: PL
+        label: Poland
+      - value: PT
+        label: Portugal
+      - value: ES
+        label: Spain
+      - value: US
+        label: United States
+      - value: GB
+        label: United Kingdom
+  gross_salary:
+    label: Gross Salary / Year (per head)
+    type: money
+    required: true
+    group: Cost
+    currency: EUR
+  employer_cost_rate:
+    label: Employer Cost Rate
+    type: decimal
+    help: German employer social contributions on top of gross (approx. 20-22%).
+    group: Cost
+    default: 21
+    precision: 6
+    scale: 2
+    unit: '%'
+  other_cost_per_head:
+    label: Other Cost per Head / Year
+    type: money
+    help: Equipment, tooling, recruiting fee amortised per head per year.
+    group: Cost
+    default: 0
+    currency: EUR
+  loaded_cost_per_head:
+    label: Loaded Cost per Head / Year
+    type: money
+    group: Cost
+    currency: EUR
+    computed:
+      expr: gross_salary * (1 + employer_cost_rate / 100) + other_cost_per_head
+  annual_cost:
+    label: Annual Cost (all heads)
+    type: money
+    group: Cost
+    currency: EUR
+    computed:
+      expr: headcount * (gross_salary * (1 + employer_cost_rate / 100) + other_cost_per_head)
+  monthly_cost:
+    label: Monthly Cost (all heads)
+    type: money
+    group: Cost
+    currency: EUR
+    computed:
+      expr: headcount * (gross_salary * (1 + employer_cost_rate / 100) + other_cost_per_head) / 12
+  notes:
+    label: Notes
+    type: longtext
+    group: Cost
+  setup_cost_per_head:
+    label: One-off Cost per Head
+    type: money
+    help: Equipment, recruiter fee and onboarding — charged once, in the month the role starts.
+    group: Cost
+    default: 0
+    currency: EUR
+  setup_cost_total:
+    label: One-off Cost (all heads)
+    type: money
+    group: Cost
+    currency: EUR
+    computed:
+      expr: headcount * setup_cost_per_head

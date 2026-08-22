@@ -1,0 +1,84 @@
+entity: funding_round
+label: Funding Round
+description: Money coming in from investors within a scenario.
+icon: bank-transfer-in
+kind: collection
+plural: Funding
+display: name
+fields:
+  name:
+    label: Round Name
+    type: text
+    required: true
+  scenario:
+    label: Scenario
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: scenario
+    onDelete: cascade
+  round_stage:
+    label: Round Status
+    type: select
+    indexed: true
+    role: status
+  round_type:
+    label: Round Type
+    type: select
+    required: true
+    options:
+      - value: bootstrap
+        label: Founder / Bootstrap
+        color: '#94a3b8'
+      - value: grant
+        label: Grant / Public Funding
+        color: '#0f766e'
+      - value: angel
+        label: Angel
+        color: '#38bdf8'
+      - value: pre_seed
+        label: Pre-Seed
+        color: '#6366f1'
+      - value: seed
+        label: Seed
+        color: '#f59e0b'
+      - value: series_a
+        label: Series A
+        color: '#dc2626'
+      - value: debt
+        label: Loan / Debt
+        color: '#a16207'
+  amount:
+    label: Amount
+    type: money
+    required: true
+    currency: EUR
+  expected_close:
+    label: Expected Close
+    type: date
+    required: true
+    role: due
+  pre_money_valuation:
+    label: Pre-money Valuation
+    type: money
+    group: Terms
+    currency: EUR
+  equity_given:
+    label: Equity Given
+    type: decimal
+    group: Terms
+    precision: 6
+    scale: 2
+    unit: '%'
+  lead_investor:
+    label: Lead Investor
+    type: text
+    group: Terms
+  investor_contact_email:
+    label: Investor Contact
+    type: email
+    group: Terms
+  notes:
+    label: Notes
+    type: longtext
+    group: Terms

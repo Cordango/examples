@@ -1,0 +1,9 @@
+automation: stamp_scenario_owner
+name: Stamp scenario owner on creation
+effects:
+  - type: updateRecord
+    set:
+      owner: '{{actor.id}}'
+    setIfEmpty: true
+trigger: record.created
+entity: scenario

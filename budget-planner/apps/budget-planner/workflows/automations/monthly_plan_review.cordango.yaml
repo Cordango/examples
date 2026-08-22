@@ -1,0 +1,18 @@
+automation: monthly_plan_review
+name: Monthly plan review reminder
+when:
+  field: scenario_stage
+  operator: in
+  value:
+    - modelling
+    - review
+    - investor_ready
+effects:
+  - type: notify
+    to: '{{record.owner}}'
+    title: 'Update the budget plan: {{record.name}}'
+    message: A new month started. Enter last month's actuals and recalculate {{record.name}}.
+    link: auto
+trigger: schedule
+entity: scenario
+cron: 0 8 1 * *

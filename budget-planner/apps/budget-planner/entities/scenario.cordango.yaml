@@ -1,0 +1,304 @@
+entity: scenario
+label: Scenario
+description: One named version of the budget plan (e.g. Conservative, Base, Optimistic) that everything else hangs off.
+icon: file-compare
+kind: collection
+plural: Scenarios
+display: name
+fields:
+  name:
+    label: Scenario Name
+    type: text
+    required: true
+    unique: true
+  scenario_stage:
+    label: Stage
+    type: select
+    indexed: true
+    role: status
+  case_type:
+    label: Case
+    type: select
+    required: true
+    options:
+      - value: conservative
+        label: Conservative
+        color: '#64748b'
+      - value: base
+        label: Base Case
+        color: '#0f766e'
+      - value: optimistic
+        label: Optimistic
+        color: '#f59e0b'
+  summary:
+    label: Investor Summary
+    type: longtext
+    group: Narrative
+  assumptions:
+    label: Key Assumptions
+    type: longtext
+    group: Narrative
+  plan_start:
+    label: Plan Start Month
+    type: date
+    required: true
+    group: Horizon
+    role: start
+  plan_years:
+    label: Plan Length (years)
+    type: integer
+    group: Horizon
+    default: 5
+    unit: ' yr'
+  monthly_months:
+    label: Monthly Detail (months)
+    type: integer
+    help: Number of months modelled monthly before the plan switches to yearly periods.
+    group: Horizon
+    default: 12
+    unit: ' mo'
+  currency_code:
+    label: Currency
+    type: select
+    group: Horizon
+    default: EUR
+    options:
+      - value: EUR
+        label: Euro (EUR)
+      - value: USD
+        label: US Dollar (USD)
+      - value: CHF
+        label: Swiss Franc (CHF)
+      - value: GBP
+        label: Pound Sterling (GBP)
+  starting_cash:
+    label: Starting Cash
+    type: money
+    group: Cash
+    default: 0
+    currency: EUR
+  total_funding:
+    label: Total Funding Raised
+    type: money
+    group: Cash
+    currency: EUR
+    computed:
+      rollup:
+        entity: funding_round
+        via: scenario
+        op: sum
+        field: amount
+  total_revenue:
+    label: Total Plan Revenue
+    type: money
+    group: Totals
+    currency: EUR
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: sum
+        field: revenue
+  total_costs:
+    label: Total Plan Costs
+    type: money
+    help: Cost of revenue, people and operating costs across every period.
+    group: Totals
+    currency: EUR
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: sum
+        field: total_cost
+  net_result:
+    label: Net Result
+    type: money
+    group: Totals
+    currency: EUR
+    computed:
+      expr: total_revenue - total_costs - total_tax
+  cash_at_end:
+    label: Cash At Plan End
+    type: money
+    help: Opening cash plus everything the periods moved — the same number the last period's Cash at end shows.
+    group: Totals
+    currency: EUR
+    computed:
+      expr: starting_cash + total_cash_movement
+  runway_months:
+    label: Runway (months)
+    type: decimal
+    help: Months of cover at the plan's average monthly spend.
+    group: Totals
+    precision: 10
+    scale: 1
+    unit: ' mo'
+    computed:
+      expr: cash_at_end / ((total_costs + total_tax) / period_count)
+  period_count:
+    label: Periods Modelled
+    type: integer
+    group: Totals
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: count
+  headcount_end:
+    label: Planned Headcount (end)
+    type: integer
+    group: Totals
+    computed:
+      rollup:
+        entity: hiring_line
+        via: scenario
+        op: sum
+        field: headcount
+  shared_with_investors:
+    label: Shared With Investors
+    type: boolean
+    group: Narrative
+    default: false
+  last_reviewed_at:
+    label: Last Reviewed
+    type: datetime
+    group: Narrative
+  owner:
+    label: Owner
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  plan_months:
+    label: Plan months
+    type: integer
+    help: How many monthly periods to generate for this plan
+    group: Assumptions
+    default: 24
+  total_tax:
+    label: Total Tax Provision
+    type: money
+    group: Totals
+    currency: EUR
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: sum
+        field: tax_provision
+  total_cash_movement:
+    label: Net Cash Movement
+    type: money
+    group: Totals
+    currency: EUR
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: sum
+        field: net_cash_movement
+  monthly_fixed_costs:
+    label: Fixed costs / month
+    type: money
+    help: Summary of the Costs & Fees tab. Change it there.
+    group: From Costs
+    computed:
+      rollup:
+        entity: cost_line
+        via: scenario
+        op: sum
+        field: monthly_amount
+  revenue_fee_rate:
+    label: Revenue-share fees
+    type: decimal
+    help: Summary of the Costs & Fees tab. Change it there.
+    group: From Costs
+    computed:
+      rollup:
+        entity: cost_line
+        via: scenario
+        op: sum
+        field: percent_amount
+  one_off_costs:
+    label: One-off costs
+    type: money
+    help: Summary of the Costs & Fees tab. Change it there.
+    group: From Costs
+    computed:
+      rollup:
+        entity: cost_line
+        via: scenario
+        op: sum
+        field: one_off_amount
+  total_other_revenue:
+    label: Services & Other Revenue
+    type: money
+    group: Calculated
+    currency: EUR
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: sum
+        field: other_revenue
+  ai_charge_rate:
+    label: AI billed to customers
+    type: decimal
+    help: Share of recurring MRR billed on for AI. The workbook carries 6% as a COST; billing it on at the same rate is pure pass-through.
+    group: AI
+    default: 6
+    precision: 8
+    scale: 2
+    unit: '%'
+  ai_provider_discount:
+    label: Provider discount
+    type: decimal
+    help: 'How much less we pay the provider than we bill. This is the AI margin: we ask the customer a published rate and may buy cheaper.'
+    group: AI
+    default: 0
+    precision: 8
+    scale: 2
+    unit: '%'
+  total_recurring:
+    label: Total Recurring Revenue
+    type: money
+    group: Totals
+    currency: EUR
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: sum
+        field: recurring_mrr
+  total_services:
+    label: Total Services Revenue
+    type: money
+    group: Totals
+    currency: EUR
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: sum
+        field: services_revenue
+  total_ai_margin:
+    label: Total AI Margin
+    type: money
+    group: Totals
+    currency: EUR
+    computed:
+      rollup:
+        entity: period
+        via: scenario
+        op: sum
+        field: ai_margin
+  customers_won:
+    label: Customers Won
+    type: integer
+    group: Totals
+    computed:
+      rollup:
+        entity: acquisition
+        via: scenario
+        op: sum
+        field: new_customers

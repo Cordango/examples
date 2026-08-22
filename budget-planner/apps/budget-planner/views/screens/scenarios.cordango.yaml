@@ -1,0 +1,27 @@
+screen: scenarios
+icon: file-compare
+label: Scenarios
+detailFull: true
+layout:
+  - kind: tabs
+    tabs:
+      - key: all
+        label: All Scenarios
+        blocks:
+          - kind: view
+            view: scenarios_table
+          - icon: plus
+            kind: create
+            label: New Scenario
+            style: primary
+            entity: scenario
+      - key: board
+        label: By Stage
+        blocks:
+          - kind: view
+            view: scenarios_board
+subject: scenario
+navigationSource:
+  max: 12
+  sort: case_type
+  labelField: name

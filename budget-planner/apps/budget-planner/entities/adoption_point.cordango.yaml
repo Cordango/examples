@@ -1,0 +1,35 @@
+entity: adoption_point
+label: Adoption Point
+description: "One month of the universal adoption curve: how much of a customer's eventual size is live at that age. The same curve applies to every segment, which is what makes it one editable assumption rather than three."
+icon: chart-bell-curve-cumulative
+kind: collection
+plural: Adoption Curve
+display: label
+fields:
+  label:
+    label: Month
+    type: text
+    required: true
+  scenario:
+    label: Scenario
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: scenario
+    onDelete: cascade
+  age:
+    label: Customer age (months)
+    type: integer
+    required: true
+  user_adoption:
+    label: Platform user adoption
+    type: decimal
+    help: Share of the segment's mature active users live at this age. Passes 1.0 after month 12 — a retained customer keeps growing.
+    precision: 16
+    scale: 4
+  apps_adoption:
+    label: Shared apps adoption
+    type: decimal
+    help: Share of the segment's mature shared-app count live at this age.
+    precision: 16
+    scale: 4

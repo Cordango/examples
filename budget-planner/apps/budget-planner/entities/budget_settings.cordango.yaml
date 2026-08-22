@@ -1,0 +1,88 @@
+entity: budget_settings
+label: Planner Settings
+description: App-wide defaults for new scenarios and German employer cost rules.
+icon: cog-outline
+kind: settings
+plural: Planner Settings
+fields:
+  company_name:
+    label: Company Name
+    type: text
+  legal_form:
+    label: Legal Form
+    type: select
+    default: gmbh
+    options:
+      - value: ug
+        label: UG (haftungsbeschränkt)
+      - value: gmbh
+        label: GmbH
+      - value: ag
+        label: AG
+      - value: gbr
+        label: GbR
+      - value: other
+        label: Other
+  base_currency:
+    label: Base Currency
+    type: select
+    default: EUR
+    options:
+      - value: EUR
+        label: Euro (EUR)
+      - value: USD
+        label: US Dollar (USD)
+      - value: CHF
+        label: Swiss Franc (CHF)
+  default_plan_years:
+    label: Default Plan Length (years)
+    type: integer
+    group: Defaults
+    default: 5
+  default_monthly_months:
+    label: Default Monthly Detail (months)
+    type: integer
+    group: Defaults
+    default: 12
+  default_employer_cost_rate:
+    label: Default Employer Cost Rate
+    type: decimal
+    help: Employer social contributions on top of gross salary (Kranken-, Renten-, Arbeitslosen-, Pflegeversicherung, U1/U2).
+    group: Germany
+    default: 21
+    precision: 6
+    scale: 2
+    unit: '%'
+  apply_employer_costs:
+    label: Add Employer Costs Automatically
+    type: boolean
+    group: Germany
+    default: true
+  vat_rate:
+    label: VAT Rate
+    type: decimal
+    group: Germany
+    default: 19
+    precision: 6
+    scale: 2
+    unit: '%'
+  corporate_tax_rate:
+    label: Corporate Tax Rate
+    type: decimal
+    help: Körperschaftsteuer + Solidaritätszuschlag + Gewerbesteuer combined.
+    group: Germany
+    default: 30
+    precision: 6
+    scale: 2
+    unit: '%'
+  runway_alert_months:
+    label: Runway Alert Threshold (months)
+    type: decimal
+    group: Defaults
+    default: 6
+    precision: 6
+    scale: 1
+  investor_notes:
+    label: Standing Investor Notes
+    type: longtext
+    group: Defaults

@@ -1,0 +1,8 @@
+screen: teams_config
+icon: account-group
+label: Teams
+layout:
+  - kind: view
+    view: teams_table
+subject: team
+navigationGroup: config
