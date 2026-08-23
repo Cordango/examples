@@ -28,6 +28,12 @@ later.
 Then open <http://localhost:8080>: the first screen asks you to create the administrator account.
 There is no default password and none is generated for you.
 
+## Documentation
+
+**[docs.cordango.com](https://docs.cordango.com)** — the [quickstart](https://docs.cordango.com/quickstart),
+[authoring](https://docs.cordango.com/guides/authoring), and the
+[concepts](https://docs.cordango.com/concepts) these applications are written in.
+
 ## The examples
 
 | Example | Entities | What it shows |
