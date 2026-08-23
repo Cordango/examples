@@ -41,22 +41,26 @@ cordango build --target standalone --out generated --allow-incomplete
 cd generated && docker compose up --build
 ```
 
-## What does not build yet
+## What does not build
 
-This is the honest part, and it is why `--allow-incomplete` is not optional here. The build reports
-**seventy-three gaps** and writes every one of them into the generated README and into
-`cordango.build.json`:
+Two blocks, and they are not coming: `history` on the scenario and on the funding round. Record
+history is a Cordango Platform feature — the platform keeps a field-level audit trail automatically
+and that block is the screen over it. A standalone application keeps technical logs and no business
+audit trail, so there is nothing behind the block to draw. Each one leaves a card on the page saying
+so, and `--allow-incomplete` is how you accept that.
 
-| | |
-| --- | --- |
-| **48 × CORD2305** | computed fields. 31 are rollups over other records, 17 read something outside their own row. The columns exist and stay empty. |
-| **18 × CORD2301** | screen blocks the generator does not draw yet — `create`, `repeat`, `chip`, `tiles`, `settings`, `action`. Each leaves a card on the page saying so. |
-| **5 × CORD2303** | `createRecord` and `updateRecord` effects on commands. The command runs and moves the record; the effect does not fire. |
-| **2 × CORD2102** | `history` blocks. Record history is a platform feature — a standalone application keeps no business audit trail, so this one will not arrive in a later release. |
+**Everything else builds**, which on this application is the whole of the interesting part:
 
-So what you get today is the data model, the API, the permissions, the commands and most of the
-screens. **What you do not get is the arithmetic** — which, in a budget planner, is the application.
-It compiles, it runs, and every figure that depends on a rollup or on another record is blank.
+- **73 computed fields.** Expressions over the record's own columns, figures read across a reference
+  (`segment.mature_active_users`), 31 rollups over other records — including the windowed ones, where
+  a hiring line counts towards every period its own start and end months span — and the two that
+  carry down the series, `prev(cash_end, scenario.starting_cash) + net_cash_movement`.
+- **The chain that keeps them right.** Edit a hiring line and every period of that scenario is worked
+  out again, then the series folded down them in order, then the scenario over the lot.
+  `api/Computed/AppRollups.cs` is that chain written out — the order came from the definition when
+  this was generated, so there is nothing at run time deciding what depends on what.
+- Eight workflows, eighteen commands with their guards and effects, three roles, and every screen.
 
-That is the point of building it now: the gaps are a list somebody can read rather than a wall, and
-this application is the acceptance case for closing them.
+Read `api/Computed/PeriodRollups.cs` first. Each rollup is one LINQ query you can run by hand against
+the database, which is the point: a total that looks wrong is a query you can read rather than an
+expression string somewhere inside an engine.

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: A bug in the compiler or generator
+    url: https://github.com/cordango/cordango/issues/new/choose
+    about: If `cordango check` or `cordango build` misbehaves, report it against the toolchain rather than here.
+  - name: Question or idea
+    url: https://github.com/cordango/cordango/discussions
+    about: Discussions live in the main repository.
+  - name: Security vulnerability
+    url: https://github.com/cordango/examples/security/advisories/new
+    about: Report privately. Please do not open a public issue.
