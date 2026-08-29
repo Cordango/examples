@@ -1,0 +1,7 @@
+formatVersion: 1
+workspaceId: 01M17PVHCD9RWWWF9GD9NZDQT5
+name: Gehaltsrechner
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/Gehaltsrechner

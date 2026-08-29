@@ -51,9 +51,15 @@ fields:
     computed:
       rollup:
         entity: work_day
-        via: work_week
+        via: worker
+        match: worker
         op: sum
         field: worked_minutes
+        window:
+          at: work_date
+          within:
+            from: week_start
+            to: week_end
   worked_hours:
     label: Arbeitszeit (Std.)
     type: decimal
@@ -70,12 +76,18 @@ fields:
     computed:
       rollup:
         entity: work_day
-        via: work_week
+        via: worker
+        match: worker
         op: count
         filters:
           - field: worked_minutes
             operator: gt
             value: 0
+        window:
+          at: work_date
+          within:
+            from: week_start
+            to: week_end
   violation_count:
     label: Verstöße
     type: integer

@@ -5,6 +5,7 @@ blocks:
     blocks:
       - kind: fields
         fields:
+          - label
           - employee
           - account
           - bundesland

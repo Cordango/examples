@@ -1,6 +1,6 @@
 app: time_and_leave
 name: Zeiterfassung und Abwesenheiten
-version: 1.0.0
+version: 1.7.0
 description: Gesetzeskonforme Arbeitszeiterfassung nach dem Arbeitszeitgesetz und dem Mindestlohngesetz, erweitert um Urlaub, Krankheit und weitere Abwesenheiten, Sollzeit je Wochentag und ein Arbeitszeitkonto. Stempeluhr und Nacherfassung, Höchstarbeitszeit, Ruhepausen, Ruhezeit, Nacht-, Sonn- und Feiertagsarbeit, Ausgleichszeitraum, Aufzeichnungs- und Aufbewahrungspflichten.
 schemaVersion: '2.0'
 presentation:

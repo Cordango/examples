@@ -6,18 +6,12 @@ blocks:
       - kind: fields
         fields:
           - worker
-          - work_week
           - work_date
           - weekday_number
         columns: 2
   - kind: section
-    label: Zuordnung
+    label: Sonn- und Feiertage
     blocks:
-      - kind: fields
-        fields:
-          - account
-          - bundesland
-        columns: 2
       - kind: fields
         fields:
           - replacement_day

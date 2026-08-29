@@ -1,7 +1,7 @@
 detail: worker_profile
 blocks:
   - kind: hub
-    title: employee
+    title: label
     facts:
       - bundesland
       - working_time_model

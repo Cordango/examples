@@ -21,7 +21,6 @@ fields:
   work_week:
     label: Arbeitswoche
     type: reference
-    required: true
     indexed: true
     targetEntity: work_week
     onDelete: cascade

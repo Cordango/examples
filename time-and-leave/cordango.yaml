@@ -4,7 +4,7 @@ name: Time and Leave
 runtime: '>=0.1 <0.2'
 coreApps: default
 build:
-  target: standalone
+  target: platform
   runtime: package
   allowIncomplete: false
   seed: 42

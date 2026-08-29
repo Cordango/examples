@@ -1,0 +1,15 @@
+app: gehaltsrechner
+name: Gehaltsrechner
+version: 0.1.0
+description: Gehaltsrechner, created by cordango new. Change or replace it.
+order:
+  entities:
+    - task
+  pages:
+    - tasks
+  views:
+    - tasks__all
+  roles: []
+  processes: []
+  commands: []
+  workflows: []

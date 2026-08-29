@@ -98,6 +98,16 @@ create a year, then a week, then a work week before a single day existed — thr
 scaffolding in the way of the thing they came to do. One field with a clear label is the better
 trade.
 
+**Nothing is a precondition for anything except its own subject.** `work_day.work_week` is a
+reference, not a requirement: the generator sets it, and the weekly figures are windowed rollups
+(`at: work_date within: week_start..week_end`, correlated by `match: worker`) rather than counts of
+child rows, so a day that has no week attached still lands in the right week's totals. That matters
+because every required reference turns into a "New …" button inside somebody's picker — the language
+has no way to say a table should not offer creation, so a required chain becomes a chain of dialogs.
+
+`worker_profile.label` exists for the same reason a display name has to be local: `displayField`
+pointing at a cross-app reference renders the record's identifier rather than the person's name.
+
 Public holidays are Landesrecht, so they join on *(date, Bundesland)*. Rollup filters take literal
 values only, so the Bundesland cannot be a filter — it is the `match:` key, and `work_day` carries a
 denormalised `bundesland` reference for it to match on.

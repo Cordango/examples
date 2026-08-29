@@ -3,8 +3,13 @@ label: Mitarbeiterprofil
 description: Die zeitwirtschaftlichen Stammdaten zu einem Mitarbeiter der Personalverwaltung. Trägt Bundesland, Branche und sämtliche Grenzwerte, weil § 5 Abs. 2 und § 7 ArbZG Abweichungen je Person, Branche und Tarifvertrag zulassen.
 icon: account-clock
 plural: Mitarbeiterprofile
-display: employee
+display: label
 fields:
+  label:
+    label: Bezeichnung
+    type: text
+    required: true
+    help: Wie dieses Profil in Listen und Auswahlfeldern heißt, etwa 'Müller, Anna'. Eigenes Feld, weil ein Anzeigename über eine App-Grenze hinweg nicht aufgelöst wird — er erschiene als Datensatz-Kennung.
   employee:
     label: Mitarbeiter
     type: reference
