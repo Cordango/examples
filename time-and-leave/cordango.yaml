@@ -3,5 +3,10 @@ workspaceId: 01M153EKZBR0SK5FCHT4ZE6BM2
 name: Time and Leave
 runtime: '>=0.1 <0.2'
 coreApps: default
+build:
+  target: standalone
+  runtime: package
+  allowIncomplete: false
+  seed: 42
 apps:
   - apps/time-and-leave
