@@ -53,9 +53,10 @@ fields:
       - value: mobile
         label: Mobilgerät
         color: '#14b8a6'
-  actor:
-    label: Ausgelöst von
+  punched_by:
+    label: Gestempelt von
     type: reference
+    help: Vom Laufzeitsystem beim Anlegen auf die angemeldete Person gesetzt — ein Feld, das 'owner' oder 'requested_by' heißt oder auf '_by' endet, füllt die Anwendung selbst.
     targetEntity: person
     targetApp: platform
     onDelete: setNull

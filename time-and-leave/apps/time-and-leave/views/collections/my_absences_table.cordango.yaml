@@ -2,7 +2,7 @@ view: my_absences_table
 label: Meine Abwesenheiten
 entity: absence
 filters:
-  - field: account
+  - field: requested_by
     operator: eq
     value: '{{actor.id}}'
 sort:

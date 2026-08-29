@@ -66,6 +66,11 @@ leave_relevant:
 `leave_entitlement.taken_days` can then filter on a plain boolean of its own, and the § 3 BUrlG
 arithmetic works. The same trick sets the eleven-hour rest exception in `worker_profile` next door.
 
+**`absence.requested_by` is not on the form at all.** The name is the whole mechanism — a person
+reference called `owner` or `requested_by`, or ending in `_by`, is filled with the signed-in person
+before the record is written. An Abwesenheit is requested by whoever is looking at the screen, so
+asking would be a question with one possible answer.
+
 `absence.day_count` is `days_between(start_date, end_date) + 1`, and `expand_absence_days` uses it
 as the row count of a `createForEach` range, resolving each day's Arbeitstag with a `pick`. Give the
 effect a `key` of `[absence, absence_date]` and re-running it is harmless.

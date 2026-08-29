@@ -64,7 +64,6 @@ transitions:
             punched_at: '{{now}}'
             direction: gehen
             punch_source: web
-            actor: '{{actor.id}}'
           entity: time_punch
   submit_entry:
     label: Einreichen

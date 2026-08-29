@@ -7,7 +7,6 @@ blocks:
         fields:
           - label
           - worker
-          - account
           - absence_type
         columns: 2
   - kind: section

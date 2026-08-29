@@ -47,5 +47,4 @@ effects:
       punched_at: '{{now}}'
       direction: kommen
       punch_source: web
-      actor: '{{actor.id}}'
     entity: time_punch

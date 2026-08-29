@@ -16,11 +16,11 @@ fields:
     indexed: true
     targetEntity: worker_profile
     onDelete: cascade
-  account:
-    label: Benutzerkonto
+  requested_by:
+    label: Beantragt von
     type: reference
     indexed: true
-    help: Aus dem Mitarbeiterprofil übernommen, damit die eigenen Anträge ohne Umweg gefiltert werden können.
+    help: Vom Laufzeitsystem beim Anlegen auf die angemeldete Person gesetzt — ein Feld, das 'owner' oder 'requested_by' heißt oder auf '_by' endet, füllt die Anwendung selbst. Trägt zugleich den Filter der eigenen Anträge.
     targetEntity: person
     targetApp: platform
     onDelete: setNull

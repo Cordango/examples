@@ -60,6 +60,19 @@ just a gap.
 that stays broken never files a second row. There is no per-effect `when:` in the language, which is
 why it is five files rather than one with five guarded effects.
 
+**Who wrote a row is never asked for.** `recorded_by` on a Zeitbuchung and `punched_by` on a
+Stempelung are filled by the runtime, because of their names: a person reference called `owner` or
+`requested_by`, or ending in `_by`, gets a before-create hook that sets it to the signed-in person.
+Trying to say the same thing with `default: '{{actor.id}}'` is refused, and the refusal names the
+convention. Nothing stamps these fields in `workflows/` — there is nothing to stamp.
+
+It only reaches *person* references, though, which is why a Zeitbuchung still asks which
+Mitarbeiterprofil it belongs to. The profile is not a person; it points at one. Filling that from
+the signed-in user would mean resolving "the profile whose `account` is the actor", and the language
+has no way to say it. Worth knowing before you copy the pattern: the convention fires on the field
+NAME without checking the target, so calling a non-person reference `owner` makes the generator
+write a person id into it — it compiles, it passes `cordango check`, and it is wrong.
+
 **`entities/violation.cordango.yaml` is the reason the model is shaped the way it is.** Grants are
 per entity and there is no row-level rule, so the only way to give the Betriebsrat what § 80 Abs. 1
 Nr. 1 BetrVG entitles it to — the means to check that the law is kept — without handing it a

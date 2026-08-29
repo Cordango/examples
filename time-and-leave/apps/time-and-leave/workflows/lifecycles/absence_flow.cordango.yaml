@@ -53,7 +53,7 @@ transitions:
       successMessage: Abwesenheit genehmigt.
       effects:
         - type: notify
-          to: '{{record.account}}'
+          to: '{{record.requested_by}}'
           title: Abwesenheit genehmigt
           message: Ihr Antrag vom {{record.start_date}} bis {{record.end_date}} wurde genehmigt.
           link: auto
@@ -76,7 +76,7 @@ transitions:
           - decline_reason
       effects:
         - type: notify
-          to: '{{record.account}}'
+          to: '{{record.requested_by}}'
           title: Abwesenheit abgelehnt
           message: Ihr Antrag vom {{record.start_date}} bis {{record.end_date}} wurde abgelehnt.
           link: auto
