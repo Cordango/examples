@@ -1,0 +1,24 @@
+view: sunday_work_table
+label: Sonn- und Feiertagsarbeit
+entity: work_day
+filters:
+  - field: sunday_or_holiday_work
+    operator: eq
+    value: true
+sort:
+  - field: work_date
+    direction: desc
+kind: table
+settings:
+  columns:
+    - work_date
+    - worker
+    - worked_hours
+    - is_sunday
+    - is_public_holiday
+    - replacement_day
+    - replacement_rest_ok
+  filterBar:
+    facets:
+      - worker
+  inlineEdit: false

@@ -1,0 +1,93 @@
+entity: absence
+label: Abwesenheit
+description: Ein zusammenhängender Zeitraum, in dem nicht gearbeitet wird — Urlaub, Krankheit, Elternzeit, Freizeitausgleich. Der Antrag durchläuft einen Lebenszyklus; die einzelnen Tage entstehen daraus.
+icon: calendar-remove-outline
+plural: Abwesenheiten
+display: label
+fields:
+  label:
+    label: Abwesenheit
+    type: text
+    required: true
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: worker_profile
+    onDelete: cascade
+  account:
+    label: Benutzerkonto
+    type: reference
+    indexed: true
+    help: Aus dem Mitarbeiterprofil übernommen, damit die eigenen Anträge ohne Umweg gefiltert werden können.
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  absence_type:
+    label: Art
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: absence_type
+    onDelete: restrict
+  start_date:
+    label: Erster Tag
+    type: date
+    required: true
+    indexed: true
+    role: start
+  end_date:
+    label: Letzter Tag
+    type: date
+    required: true
+    role: due
+  absence_status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  reason:
+    label: Begründung
+    type: longtext
+  decline_reason:
+    label: Grund der Ablehnung
+    type: longtext
+  certificate:
+    label: Nachweis
+    type: attachment
+    help: Arbeitsunfähigkeitsbescheinigung oder vergleichbarer Beleg. Nach § 5 Abs. 1 Satz 2 EFZG spätestens ab dem vierten Kalendertag.
+  leave_relevant:
+    label: Auf den Urlaubsanspruch angerechnet
+    type: boolean
+    help: Beim Anlegen aus der Abwesenheitsart übernommen. Als eigenes Feld geführt, weil ein Rollup-Filter nur feste Werte vergleicht und einer Referenz nicht folgen kann.
+    default: false
+    initial:
+      - when:
+          path: absence_type.deducts_leave
+          operator: eq
+          value: true
+        value: true
+  daily_credit_minutes:
+    label: Gutschrift je Tag (Min.)
+    type: integer
+    required: true
+    help: Was ein Tag dieser Abwesenheit auf die Sollzeit gutschreibt. Bei unbezahlter Freistellung null.
+    default: 480
+  day_count:
+    label: Kalendertage
+    type: integer
+    help: Erster und letzter Tag eingeschlossen.
+    group: Berechnung
+    computed:
+      expr: days_between(start_date, end_date) + 1
+  credited_minutes:
+    label: Gutgeschriebene Zeit (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: absence_day
+        via: absence
+        op: sum
+        field: credited_minutes

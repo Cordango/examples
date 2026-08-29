@@ -1,0 +1,75 @@
+screen: betriebsrat
+label: Betriebsrat
+icon: account-group
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        text: Überwachung der Einhaltung des Arbeitszeitgesetzes nach § 80 Abs. 1 Nr. 1 BetrVG. Diese Seite zeigt Wochensummen, Ausgleichszeiträume und Verstöße — keine einzelnen Buchungen und keine Stempelungen. Die Rolle Betriebsrat hat auf jene Datensätze kein Leserecht.
+        size: sm
+      - kind: row
+        gap: md
+        blocks:
+          - kind: stat
+            label: Offene Verstöße
+            icon: alert-circle-outline
+            source:
+              entity: violation
+              aggregate:
+                op: count
+              filters:
+                - field: violation_status
+                  operator: eq
+                  value: open
+          - kind: stat
+            label: Wochen über 48 Stunden
+            icon: clock-alert-outline
+            source:
+              entity: work_week
+              aggregate:
+                op: count
+              filters:
+                - field: weekly_ok
+                  operator: eq
+                  value: false
+          - kind: stat
+            label: Zeiträume ohne Ausgleich
+            icon: chart-timeline-variant
+            source:
+              entity: averaging_window
+              aggregate:
+                op: count
+              filters:
+                - field: averaging_ok
+                  operator: eq
+                  value: false
+      - kind: columns
+        columns:
+          - - kind: chart
+              chartType: bar
+              label: Verstöße nach Regel
+              source:
+                entity: violation
+                aggregate:
+                  op: count
+                  groupBy: rule
+          - - kind: chart
+              chartType: donut
+              label: Verstöße nach Gewicht
+              source:
+                entity: violation
+                aggregate:
+                  op: count
+                  groupBy: severity
+      - kind: section
+        label: Wochensummen
+        blocks:
+          - kind: view
+            view: weeks_table
+      - kind: section
+        label: Ausgleichszeiträume
+        blocks:
+          - kind: view
+            view: averaging_table
+subject: work_week

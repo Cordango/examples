@@ -1,0 +1,22 @@
+automation: generate_work_days
+name: Die sieben Arbeitstage der Woche anlegen
+effects:
+  - type: createForEach
+    set:
+      worker: '{{record.worker}}'
+      account: '{{record.account}}'
+      bundesland: '{{record.bundesland}}'
+      work_week: '{{record.id}}'
+      work_date: '{{source.date}}'
+      weekday_number: '{{source.index}}'
+    entity: work_day
+    source:
+      range:
+        from: '{{record.week_start}}'
+        count: 7
+        step: day
+    key:
+      - worker
+      - work_date
+trigger: record.created
+entity: work_week

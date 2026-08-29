@@ -1,0 +1,22 @@
+view: weeks_table
+label: Wochen
+entity: work_week
+sort:
+  - field: week_start
+    direction: desc
+kind: table
+settings:
+  columns:
+    - label
+    - worker
+    - week_start
+    - worked_hours
+    - days_worked
+    - violation_count
+    - weekly_ok
+  filterBar:
+    search:
+      - label
+    facets:
+      - worker
+  inlineEdit: false

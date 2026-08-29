@@ -1,0 +1,20 @@
+view: leave_table
+label: Urlaubsansprüche
+entity: leave_entitlement
+sort:
+  - field: year
+    direction: desc
+kind: table
+settings:
+  columns:
+    - worker
+    - year
+    - base_days
+    - carry_over_days
+    - total_days
+    - taken_days
+    - remaining_days
+  filterBar:
+    facets:
+      - worker
+  inlineEdit: true

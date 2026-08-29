@@ -1,0 +1,16 @@
+role: security_reviewer
+name: Security reviewer
+description: Reviews security, privacy and access implications.
+grants:
+  vendor_request:
+    read: true
+    update: true
+    commands:
+      - start_security_review
+      - approve_security
+      - reject_security
+  review_check:
+    create: true
+    read: true
+    update: true
+    delete: true

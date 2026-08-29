@@ -1,0 +1,28 @@
+screen: wochennachweis
+label: Wochennachweis
+icon: calendar-range
+state:
+  - key: cursor
+    type: date
+    default: '{{today}}'
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: timeline
+        label: Arbeitszeit je Mitarbeiter
+        entity: work_day
+        rowBy: worker
+        startField: work_date
+        axis:
+          from: '{{state.cursor}}'
+          range: week
+        colorField: day_status
+        labelField: work_date
+        openDetail: true
+      - kind: section
+        label: Wochensummen
+        blocks:
+          - kind: view
+            view: weeks_table
+subject: work_day

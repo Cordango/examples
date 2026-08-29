@@ -1,0 +1,39 @@
+entity: public_holiday
+label: Gesetzlicher Feiertag
+description: Ein gesetzlicher Feiertag in einem Bundesland. Grundlage der §§ 9 bis 11 ArbZG — an Sonn- und Feiertagen darf grundsätzlich nicht gearbeitet werden.
+icon: star-outline
+kind: config
+unique:
+  - - bundesland
+    - holiday_date
+plural: Gesetzliche Feiertage
+display: name
+fields:
+  name:
+    label: Feiertag
+    type: text
+    required: true
+    help: z. B. Fronleichnam, Allerheiligen, Reformationstag.
+  bundesland:
+    label: Bundesland
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: bundesland
+    onDelete: cascade
+  holiday_date:
+    label: Datum
+    type: date
+    required: true
+    indexed: true
+    role: start
+  year:
+    label: Jahr
+    type: integer
+    required: true
+    indexed: true
+  nationwide:
+    label: Bundeseinheitlich
+    type: boolean
+    help: Die neun Feiertage, die in allen Ländern gelten. Alle übrigen sind je Land einzeln zu pflegen.
+    default: false

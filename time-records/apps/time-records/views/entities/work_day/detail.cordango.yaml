@@ -1,0 +1,41 @@
+detail: work_day
+blocks:
+  - kind: hub
+    title: work_date
+    status: day_status
+    facts:
+      - worker
+      - work_week
+      - worked_hours
+      - compliant
+    actions:
+      - confirm_day
+      - reopen_day
+      - close_day
+      - assign_replacement_rest
+      - edit
+  - kind: process
+  - kind: tiles
+    tiles:
+      - icon: timer-outline
+        field: worked_hours
+        label: Arbeitszeit
+        format: number
+      - icon: coffee-outline
+        field: break_minutes
+        label: Ruhepause (Min.)
+        format: number
+      - icon: sleep
+        field: rest_minutes
+        label: Ruhezeit (Min.)
+        format: number
+      - icon: weather-night
+        field: night_minutes
+        label: Nachtarbeit (Min.)
+        format: number
+  - kind: tabs
+    tabs:
+      - buchungen
+      - pruefungen
+      - protokoll
+      - aenderungen

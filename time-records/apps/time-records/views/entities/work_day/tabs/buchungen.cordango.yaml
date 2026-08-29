@@ -1,0 +1,19 @@
+tab: buchungen
+key: buchungen
+label: Buchungen
+blocks:
+  - kind: child
+    entity: time_entry
+    via: work_day
+    childType: table
+    subordinate: true
+    inlineCreate: true
+    label: Zeitbuchungen
+    fields:
+      - entry_label
+      - started_at
+      - ended_at
+      - manual_break_minutes
+      - net_hours
+      - entry_status
+      - capture_source

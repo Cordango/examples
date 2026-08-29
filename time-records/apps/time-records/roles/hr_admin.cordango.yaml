@@ -1,0 +1,65 @@
+role: hr_admin
+name: Personalabteilung
+description: Pflegt Profile, Grenzwerte, Feiertage und den Kalender, dokumentiert Ausnahmen nach §§ 7 und 14 ArbZG und verantwortet die Aufbewahrung. Sperrt nicht für den Lohnlauf — das ist Sache der Lohnbuchhaltung.
+grants:
+  worker_profile:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - start_clock
+      - anonymise_worker
+  work_day:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - confirm_day
+      - reopen_day
+      - assign_replacement_rest
+  time_entry:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - stop_clock
+      - submit_entry
+      - approve_entry
+      - reject_entry
+  time_punch:
+    read: true
+  work_week:
+    create: true
+    read: true
+    update: true
+    delete: true
+  averaging_window:
+    create: true
+    read: true
+    update: true
+    delete: true
+  violation:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - start_review
+      - mark_remedied
+      - accept_violation
+  public_holiday:
+    create: true
+    read: true
+    update: true
+    delete: true
+  bundesland:
+    create: true
+    read: true
+    update: true
+    delete: true
+  time_settings:
+    read: true
+    update: true

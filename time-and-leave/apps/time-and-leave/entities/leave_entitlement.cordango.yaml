@@ -1,0 +1,90 @@
+entity: leave_entitlement
+label: Urlaubsanspruch
+description: Der Urlaubsanspruch eines Mitarbeiters für ein Kalenderjahr. § 3 BUrlG gibt mindestens 24 Werktage bei einer Sechstagewoche; Übertrag ins Folgejahr nur unter den Voraussetzungen des § 7 Abs. 3.
+icon: beach
+unique:
+  - - worker
+    - year
+plural: Urlaubsansprüche
+display: label
+fields:
+  label:
+    label: Bezeichnung
+    type: text
+    required: true
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: worker_profile
+    onDelete: cascade
+  year:
+    label: Jahr
+    type: integer
+    required: true
+    indexed: true
+  year_start:
+    label: Beginn
+    type: date
+    required: true
+    role: start
+  year_end:
+    label: Ende
+    type: date
+    required: true
+    role: due
+  base_days:
+    label: Jahresanspruch (Tage)
+    type: integer
+    required: true
+    help: § 3 BUrlG — 24 Werktage bei sechs Arbeitstagen je Woche, also 20 bei fünf. Tarif- und Arbeitsvertrag können mehr vorsehen.
+    default: 20
+    unit: ' Tage'
+  carry_over_days:
+    label: Übertrag aus dem Vorjahr (Tage)
+    type: integer
+    help: § 7 Abs. 3 BUrlG — nur bei dringenden betrieblichen oder in der Person liegenden Gründen, und dann bis zum 31. März.
+    default: 0
+    unit: ' Tage'
+  total_days:
+    label: Gesamtanspruch (Tage)
+    type: decimal
+    group: Berechnung
+    unit: ' Tage'
+    computed:
+      expr: base_days + carry_over_days
+    precision: 8
+    scale: 1
+  taken_days:
+    label: Genommen (Tage)
+    type: decimal
+    group: Berechnung
+    unit: ' Tage'
+    computed:
+      rollup:
+        entity: absence
+        via: worker
+        match: worker
+        op: sum
+        field: day_count
+        window:
+          at: start_date
+          within:
+            from: year_start
+            to: year_end
+        filters:
+          - field: leave_relevant
+            operator: eq
+            value: true
+    precision: 8
+    scale: 1
+  remaining_days:
+    label: Verbleibend (Tage)
+    type: decimal
+    group: Berechnung
+    unit: ' Tage'
+    computed:
+      expr: total_days - taken_days
+    precision: 8
+    scale: 1

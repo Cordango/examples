@@ -1,0 +1,143 @@
+entity: averaging_window
+label: Ausgleichszeitraum
+description: Sechs Kalendermonate oder 24 Wochen nach § 3 Satz 2 ArbZG. Zehn Stunden werktäglich sind nur zulässig, wenn im Durchschnitt dieses Zeitraums acht Stunden nicht überschritten werden — das ist der Nachweis dafür.
+icon: chart-timeline-variant
+unique:
+  - - worker
+    - window_start
+plural: Ausgleichszeiträume
+display: label
+fields:
+  label:
+    label: Bezeichnung
+    type: text
+    required: true
+    help: z. B. 1. Halbjahr 2026.
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: worker_profile
+    onDelete: cascade
+  window_start:
+    label: Beginn
+    type: date
+    required: true
+    indexed: true
+    role: start
+  window_end:
+    label: Ende
+    type: date
+    required: true
+    role: due
+  basis:
+    label: Bezugsgröße
+    type: select
+    required: true
+    default: months_6
+    options:
+      - value: months_6
+        label: Sechs Kalendermonate
+        color: '#0ea5e9'
+      - value: weeks_24
+        label: 24 Wochen
+        color: '#6366f1'
+  avg_daily_minutes:
+    label: Durchschnitt je Werktag (Min.)
+    type: decimal
+    help: Der Wortlaut des Gesetzes, unmittelbar gerechnet.
+    group: Durchschnitt
+    computed:
+      rollup:
+        entity: work_day
+        via: worker
+        match: worker
+        op: avg
+        field: worked_minutes
+        window:
+          at: work_date
+          within:
+            from: window_start
+            to: window_end
+        filters:
+          - field: is_werktag
+            operator: eq
+            value: true
+    precision: 10
+    scale: 2
+  avg_daily_hours:
+    label: Durchschnitt je Werktag (Std.)
+    type: decimal
+    group: Durchschnitt
+    unit: ' h'
+    computed:
+      expr: avg_daily_minutes / 60
+    precision: 8
+    scale: 2
+  werktag_count:
+    label: Werktage im Zeitraum
+    type: integer
+    help: Montag bis Samstag, auch die nicht gearbeiteten — sonst stimmt der Nenner nicht.
+    group: Stundenbudget
+    computed:
+      rollup:
+        entity: work_day
+        via: worker
+        match: worker
+        op: count
+        window:
+          at: work_date
+          within:
+            from: window_start
+            to: window_end
+        filters:
+          - field: is_werktag
+            operator: eq
+            value: true
+  total_minutes:
+    label: Ist-Arbeitszeit (Min.)
+    type: integer
+    group: Stundenbudget
+    computed:
+      rollup:
+        entity: work_day
+        via: worker
+        match: worker
+        op: sum
+        field: worked_minutes
+        window:
+          at: work_date
+          within:
+            from: window_start
+            to: window_end
+  budget_minutes:
+    label: Zulässiges Stundenbudget (Min.)
+    type: integer
+    help: Acht Stunden je Werktag im Zeitraum — der gesetzliche Maßstab, nicht die vertragliche Arbeitszeit.
+    group: Stundenbudget
+    computed:
+      expr: werktag_count * 480
+  overrun_minutes:
+    label: Überschreitung (Min.)
+    type: integer
+    group: Stundenbudget
+    computed:
+      expr: total_minutes - budget_minutes
+  headroom_hours:
+    label: Verbleibender Spielraum (Std.)
+    type: decimal
+    help: Was bis zum Erreichen der Grenze noch bleibt. Handlungsfähiger als ein Durchschnitt, und unempfindlich dagegen, wie ein Mittelwert mit leeren Zeilen umgeht.
+    group: Stundenbudget
+    unit: ' h'
+    computed:
+      expr: max(0, 0 - overrun_minutes) / 60
+    precision: 8
+    scale: 2
+  averaging_ok:
+    label: Ausgleich erreicht
+    type: boolean
+    indexed: true
+    group: Stundenbudget
+    computed:
+      expr: overrun_minutes <= 0

@@ -1,0 +1,22 @@
+role: payroll
+name: Lohnbuchhaltung
+description: Schließt Tage ab und sperrt freigegebene Buchungen für den Lohnlauf. Hebt eine Sperre nur mit dokumentiertem Grund wieder auf.
+grants:
+  worker_profile:
+    read: true
+  work_day:
+    read: true
+    update: true
+    commands:
+      - close_day
+  time_entry:
+    read: true
+    commands:
+      - lock_entry
+      - unlock_entry
+  work_week:
+    read: true
+  averaging_window:
+    read: true
+  violation:
+    read: true

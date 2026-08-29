@@ -1,0 +1,18 @@
+automation: require_au_certificate
+name: Nachweis ab dem vierten Tag anfordern
+when:
+  all:
+    - operator: eq
+      value: true
+      path: absence_type.requires_certificate
+    - field: day_count
+      operator: gt
+      value: 3
+effects:
+  - type: notify
+    to: '{{record.account}}'
+    title: Nachweis erforderlich
+    message: Die Abwesenheit dauert länger als drei Kalendertage. Nach § 5 Abs. 1 Satz 2 EFZG ist spätestens ab dem vierten Tag ein Nachweis vorzulegen.
+    link: auto
+trigger: record.created
+entity: absence

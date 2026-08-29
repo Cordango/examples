@@ -1,0 +1,14 @@
+screen: kalender_config
+label: Feiertage
+icon: star-outline
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        text: Feiertage sind Landesrecht und je Bundesland zu pflegen. Ein Arbeitstag gleicht sein Datum gegen das Bundesland seines Mitarbeiters ab; steht der Tag hier, gilt er als Feiertag im Sinne der §§ 9 bis 11 ArbZG. Die Bundesländer selbst stehen im Konfigurationsbereich.
+        size: sm
+      - kind: view
+        view: holidays_table
+subject: public_holiday
+navigationGroup: config

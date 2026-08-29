@@ -1,0 +1,46 @@
+screen: requests
+label: Requests
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: Needs security
+        blocks:
+          - kind: stat
+            label: Needs security
+            source:
+              entity: vendor_request
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: security_review
+      - kind: card
+        label: Needs finance
+        blocks:
+          - kind: stat
+            label: Needs finance
+            source:
+              entity: vendor_request
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: finance_review
+  - kind: board
+    label: Request pipeline
+    source:
+      entity: vendor_request
+      sort:
+        - field: submitted_at
+          direction: desc
+    groupField: status
+    cardFields:
+      - vendor
+      - requester
+      - annual_cost
+      - renewal_on
+    newButton: true
+subject: vendor_request

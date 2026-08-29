@@ -1,0 +1,94 @@
+entity: work_week
+label: Arbeitswoche
+description: Die Woche eines Mitarbeiters. Trägt die Wochenhöchstarbeitszeit von 48 Stunden und ist die Ebene, auf der der Betriebsrat Arbeitszeit sehen darf, ohne einzelne Buchungen zu sehen.
+icon: calendar-week-begin
+unique:
+  - - worker
+    - week_start
+plural: Arbeitswochen
+display: label
+fields:
+  label:
+    label: Woche
+    type: text
+    required: true
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: worker_profile
+    onDelete: cascade
+  account:
+    label: Benutzerkonto
+    type: reference
+    indexed: true
+    help: Aus dem Mitarbeiterprofil übernommen, damit die eigenen Tage ohne Umweg gefiltert werden können — ein Ansichtsfilter erreicht nur Felder des Datensatzes selbst.
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  bundesland:
+    label: Bundesland
+    type: reference
+    indexed: true
+    help: Aus dem Mitarbeiterprofil übernommen und an die Arbeitstage weitergereicht, wo der Feiertagsabgleich stattfindet.
+    targetEntity: bundesland
+    onDelete: setNull
+  week_start:
+    label: Wochenbeginn
+    type: date
+    required: true
+    indexed: true
+    role: start
+  week_end:
+    label: Wochenende
+    type: date
+    role: due
+  worked_minutes:
+    label: Arbeitszeit (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: work_day
+        via: work_week
+        op: sum
+        field: worked_minutes
+  worked_hours:
+    label: Arbeitszeit (Std.)
+    type: decimal
+    group: Berechnung
+    unit: ' h'
+    computed:
+      expr: worked_minutes / 60
+    precision: 8
+    scale: 2
+  days_worked:
+    label: Tage mit Buchungen
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: work_day
+        via: work_week
+        op: count
+        filters:
+          - field: worked_minutes
+            operator: gt
+            value: 0
+  violation_count:
+    label: Verstöße
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: violation
+        via: work_week
+        op: count
+  weekly_ok:
+    label: Wochenhöchstarbeitszeit eingehalten
+    type: boolean
+    help: 48 Stunden je Woche, § 3 ArbZG in Verbindung mit Art. 6 der Richtlinie 2003/88/EG.
+    group: Berechnung
+    computed:
+      expr: worked_minutes <= worker.max_weekly_minutes

@@ -1,0 +1,54 @@
+tab: pruefungen
+key: pruefungen
+label: Prüfungen
+blocks:
+  - kind: section
+    label: § 3 Höchstarbeitszeit
+    blocks:
+      - kind: fields
+        fields:
+          - worked_minutes
+          - daily_ok
+        cols: 2
+  - kind: section
+    label: § 4 Ruhepausen
+    blocks:
+      - kind: fields
+        fields:
+          - break_minutes
+          - required_break_minutes
+          - break_shortfall_minutes
+          - break_ok
+          - longest_stretch_minutes
+          - stretch_ok
+        cols: 2
+  - kind: section
+    label: § 5 Ruhezeit
+    blocks:
+      - kind: fields
+        fields:
+          - first_start_minute
+          - last_end_minute
+          - rest_minutes
+          - rest_ok
+        cols: 2
+  - kind: section
+    label: § 6 Nachtarbeit
+    blocks:
+      - kind: fields
+        fields:
+          - night_minutes
+          - is_night_work
+        cols: 2
+  - kind: section
+    label: §§ 9 bis 11 Sonn- und Feiertage
+    blocks:
+      - kind: fields
+        fields:
+          - is_sunday
+          - is_public_holiday
+          - sunday_or_holiday_work
+          - replacement_day
+          - replacement_granted
+          - replacement_rest_ok
+        cols: 2

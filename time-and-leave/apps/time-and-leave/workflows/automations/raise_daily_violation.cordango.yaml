@@ -1,0 +1,31 @@
+automation: raise_daily_violation
+name: Überschreitung der Höchstarbeitszeit sofort erfassen
+effects:
+  - type: createForEach
+    set:
+      label: Höchstarbeitszeit überschritten am {{source.work_date}}
+      worker: '{{source.worker}}'
+      work_day: '{{source.id}}'
+      work_week: '{{source.work_week}}'
+      rule: arbzg_3_daily
+      severity: high
+      detected_on: '{{today}}'
+      measured_value: '{{source.worked_minutes}}'
+      limit_value: '{{source.limit_daily_minutes}}'
+    entity: violation
+    source:
+      entity: work_day
+      filters:
+        - field: id
+          operator: eq
+          value: '{{record.id}}'
+    key:
+      - work_day
+      - rule
+trigger: field.changed
+entity: work_day
+field: daily_ok
+when:
+  field: daily_ok
+  operator: eq
+  value: false

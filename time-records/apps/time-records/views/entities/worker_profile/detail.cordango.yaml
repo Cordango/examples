@@ -1,0 +1,34 @@
+detail: worker_profile
+blocks:
+  - kind: hub
+    title: employee
+    facts:
+      - bundesland
+      - working_time_model
+      - milog_applies
+      - recording_start
+    actions:
+      - start_clock
+      - anonymise_worker
+      - edit
+  - kind: section
+    label: Grenzwerte
+    blocks:
+      - kind: fields
+        fields:
+          - max_daily_minutes
+          - min_rest_minutes
+          - max_weekly_minutes
+          - night_start_minute
+          - night_end_minute
+        cols: 2
+      - kind: fields
+        fields:
+          - deviation_basis
+  - kind: section
+    label: Aufbewahrung
+    blocks:
+      - kind: fields
+        fields:
+          - anonymised_on
+        cols: 2

@@ -20,3 +20,4 @@ settings:
     facets:
       - status
       - lead
+  inlineEdit: true

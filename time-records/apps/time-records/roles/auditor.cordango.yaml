@@ -1,0 +1,24 @@
+role: auditor
+name: Prüfung
+description: Lesender Zugriff auf den vollständigen Nachweis, einschließlich des Rohprotokolls der Stempeluhr — für die Betriebsprüfung und für Kontrollen der Zollverwaltung nach § 17 Abs. 2 MiLoG. Schreibt nichts.
+grants:
+  worker_profile:
+    read: true
+  work_day:
+    read: true
+  time_entry:
+    read: true
+  time_punch:
+    read: true
+  work_week:
+    read: true
+  averaging_window:
+    read: true
+  violation:
+    read: true
+  public_holiday:
+    read: true
+  bundesland:
+    read: true
+  time_settings:
+    read: true

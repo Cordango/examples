@@ -1,0 +1,26 @@
+view: today_entries_table
+label: Buchungen heute
+entity: time_entry
+filters:
+  - field: entry_date
+    operator: eq
+    value: '{{today}}'
+sort:
+  - field: started_at
+    direction: asc
+kind: table
+settings:
+  columns:
+    - entry_label
+    - started_at
+    - ended_at
+    - net_hours
+    - entry_status
+    - capture_source
+  filterBar:
+    search:
+      - entry_label
+    facets:
+      - entry_status
+      - capture_source
+  inlineEdit: true

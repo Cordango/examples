@@ -1,0 +1,18 @@
+role: works_council
+name: Betriebsrat
+description: Überwacht die Einhaltung des Arbeitszeitgesetzes nach § 80 Abs. 1 Nr. 1 BetrVG. Sieht Verstöße, Wochensummen und Ausgleichszeiträume — und ausdrücklich keine einzelnen Buchungen und keine Stempelungen.
+grants:
+  violation:
+    read: true
+  work_week:
+    read: true
+  averaging_window:
+    read: true
+  worker_profile:
+    read: true
+  public_holiday:
+    read: true
+  bundesland:
+    read: true
+  time_settings:
+    read: true

@@ -1,0 +1,29 @@
+form: violation
+blocks:
+  - kind: section
+    label: Verstoß
+    blocks:
+      - kind: fields
+        fields:
+          - label
+          - rule
+          - severity
+          - detected_on
+        columns: 2
+  - kind: section
+    label: Bezug
+    blocks:
+      - kind: fields
+        fields:
+          - worker
+          - work_day
+          - work_week
+        columns: 2
+  - kind: section
+    label: Werte
+    blocks:
+      - kind: fields
+        fields:
+          - measured_value
+          - limit_value
+        columns: 2

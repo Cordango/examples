@@ -1,0 +1,22 @@
+view: team_days_table
+label: Arbeitstage
+entity: work_day
+sort:
+  - field: work_date
+    direction: desc
+kind: table
+settings:
+  columns:
+    - work_date
+    - worker
+    - day_status
+    - worked_hours
+    - break_minutes
+    - required_break_minutes
+    - rest_minutes
+    - compliant
+  filterBar:
+    facets:
+      - worker
+      - day_status
+  inlineEdit: false

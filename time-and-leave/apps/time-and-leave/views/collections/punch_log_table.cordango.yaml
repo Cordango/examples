@@ -1,0 +1,19 @@
+view: punch_log_table
+label: Stempelprotokoll
+entity: time_punch
+sort:
+  - field: punched_at
+    direction: desc
+kind: table
+settings:
+  columns:
+    - punched_at
+    - direction
+    - work_day
+    - punch_source
+    - actor
+  filterBar:
+    facets:
+      - direction
+      - punch_source
+  inlineEdit: false

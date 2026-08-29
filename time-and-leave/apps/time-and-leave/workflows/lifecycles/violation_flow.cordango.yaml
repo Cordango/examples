@@ -1,0 +1,79 @@
+lifecycle: violation_flow
+entity: violation
+stateField: violation_status
+initial: open
+states:
+  open:
+    label: Offen
+    color: '#dc2626'
+    phase: not_started
+  reviewing:
+    label: In Prüfung
+    color: '#f59e0b'
+    phase: active
+  remedied:
+    label: Behoben
+    color: '#16a34a'
+    terminal: true
+    phase: done
+  accepted:
+    label: Hingenommen
+    color: '#6366f1'
+    terminal: true
+    phase: done
+transitions:
+  start_review:
+    label: Prüfung aufnehmen
+    from:
+      - open
+    to: reviewing
+    action:
+      icon: magnify
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+        - kanbanCard
+      successMessage: Prüfung aufgenommen.
+      effects: []
+  mark_remedied:
+    label: Als behoben melden
+    from:
+      - open
+      - reviewing
+    to: remedied
+    action:
+      icon: check-decagram
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Verstoß als behoben vermerkt.
+      input:
+        fields:
+          - remedy_note
+        required:
+          - remedy_note
+      effects: []
+  accept_violation:
+    label: Ausnahme dokumentieren
+    from:
+      - open
+      - reviewing
+    to: accepted
+    action:
+      icon: file-document-edit-outline
+      style: danger
+      placements:
+        - recordHeader
+      successMessage: Ausnahme dokumentiert.
+      confirm:
+        title: Überschreitung hinnehmen?
+        confirmLabel: Dokumentieren
+        tone: danger
+      input:
+        fields:
+          - justification
+        required:
+          - justification
+      effects: []

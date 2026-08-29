@@ -1,0 +1,26 @@
+screen: renewals
+label: Renewals
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: Next 30 days
+        blocks:
+          - kind: stat
+            label: Renewals due
+            source:
+              entity: vendor_request
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: approved
+                - field: renewal_on
+                  operator: between
+                  value:
+                    - '{{today}}'
+                    - '{{today+30}}'
+  - kind: view
+    view: requests__renewals
+subject: vendor_request

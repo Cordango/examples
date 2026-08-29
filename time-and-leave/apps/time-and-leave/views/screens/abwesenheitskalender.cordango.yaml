@@ -1,0 +1,20 @@
+screen: abwesenheitskalender
+label: Abwesenheitskalender
+icon: calendar-month-outline
+state:
+  - key: cursor
+    type: date
+    default: '{{today}}'
+layout:
+  - kind: timeline
+    label: Wer ist wann abwesend
+    entity: absence
+    rowBy: worker
+    startField: start_date
+    endField: end_date
+    axis:
+      from: '{{state.cursor}}'
+      range: month
+    colorField: absence_status
+    labelField: label
+subject: absence

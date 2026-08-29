@@ -1,0 +1,57 @@
+screen: verstoesse
+label: Verstöße
+icon: alert-octagon-outline
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: md
+        blocks:
+          - kind: stat
+            label: Offen
+            icon: alert-circle-outline
+            source:
+              entity: violation
+              aggregate:
+                op: count
+              filters:
+                - field: violation_status
+                  operator: eq
+                  value: open
+          - kind: stat
+            label: In Prüfung
+            icon: magnify
+            source:
+              entity: violation
+              aggregate:
+                op: count
+              filters:
+                - field: violation_status
+                  operator: eq
+                  value: reviewing
+          - kind: stat
+            label: Schwere Verstöße
+            icon: alert-octagon
+            source:
+              entity: violation
+              aggregate:
+                op: count
+              filters:
+                - field: severity
+                  operator: eq
+                  value: high
+          - kind: create
+            entity: violation
+            label: Verstoß erfassen
+      - kind: section
+        label: Bearbeitung
+        blocks:
+          - kind: view
+            view: violations_board
+      - kind: section
+        label: Alle Verstöße
+        blocks:
+          - kind: view
+            view: violations_table
+subject: violation

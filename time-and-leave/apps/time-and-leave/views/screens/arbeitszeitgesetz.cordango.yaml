@@ -1,0 +1,80 @@
+screen: arbeitszeitgesetz
+label: Arbeitszeitgesetz
+icon: scale-balance
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: section
+        label: § 3 Ausgleichszeitraum
+        blocks:
+          - kind: text
+            text: Zehn Stunden werktäglich sind nur zulässig, wenn im Durchschnitt von sechs Kalendermonaten oder 24 Wochen acht Stunden werktäglich nicht überschritten werden. Der verbleibende Spielraum ist das Stundenbudget abzüglich der bereits geleisteten Zeit.
+            size: sm
+          - kind: row
+            gap: md
+            blocks:
+              - kind: stat
+                label: Zeiträume ohne Ausgleich
+                icon: chart-timeline-variant
+                source:
+                  entity: averaging_window
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: averaging_ok
+                      operator: eq
+                      value: false
+              - kind: create
+                entity: averaging_window
+                label: Ausgleichszeitraum anlegen
+          - kind: view
+            view: averaging_table
+      - kind: section
+        label: § 4 Ruhepausen und § 5 Ruhezeit
+        blocks:
+          - kind: row
+            gap: md
+            blocks:
+              - kind: stat
+                label: Tage mit Pausenfehlbetrag
+                icon: coffee-off-outline
+                source:
+                  entity: work_day
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: break_shortfall_minutes
+                      operator: gt
+                      value: 0
+              - kind: stat
+                label: Tage mit zu kurzer Ruhezeit
+                icon: sleep-off
+                source:
+                  entity: work_day
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: rest_ok
+                      operator: eq
+                      value: false
+              - kind: stat
+                label: Tage über der Höchstarbeitszeit
+                icon: clock-alert-outline
+                source:
+                  entity: work_day
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: daily_ok
+                      operator: eq
+                      value: false
+      - kind: section
+        label: §§ 9 bis 11 Sonn- und Feiertagsarbeit
+        blocks:
+          - kind: text
+            text: An Sonn- und gesetzlichen Feiertagen darf nach § 9 ArbZG grundsätzlich nicht gearbeitet werden. Wo § 10 eine Ausnahme zulässt, ist nach § 11 Abs. 3 ein Ersatzruhetag zu gewähren — für Sonntagsarbeit innerhalb von zwei Wochen, für Feiertagsarbeit innerhalb von acht.
+            size: sm
+          - kind: view
+            view: sunday_work_table
+subject: averaging_window

@@ -1,0 +1,25 @@
+view: approval_inbox_table
+label: Zur Freigabe
+entity: time_entry
+filters:
+  - field: entry_status
+    operator: eq
+    value: submitted
+sort:
+  - field: entry_date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - entry_date
+    - worker
+    - entry_label
+    - started_at
+    - ended_at
+    - net_hours
+    - capture_source
+  filterBar:
+    facets:
+      - worker
+      - capture_source
+  inlineEdit: false

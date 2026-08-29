@@ -1,0 +1,25 @@
+view: violations_table
+label: Verstöße
+entity: violation
+sort:
+  - field: detected_on
+    direction: desc
+kind: table
+settings:
+  columns:
+    - detected_on
+    - rule
+    - worker
+    - severity
+    - measured_value
+    - limit_value
+    - violation_status
+  filterBar:
+    search:
+      - label
+    facets:
+      - rule
+      - severity
+      - violation_status
+      - worker
+  inlineEdit: false

@@ -1,0 +1,13 @@
+form: public_holiday
+blocks:
+  - kind: section
+    label: Feiertag
+    blocks:
+      - kind: fields
+        fields:
+          - name
+          - holiday_date
+          - year
+          - bundesland
+          - nationwide
+        columns: 2

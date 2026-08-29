@@ -1,0 +1,13 @@
+role: requester
+name: Requester
+description: Employees who request new vendors and maintain their own request information.
+grants:
+  vendor_request:
+    create: true
+    read: true
+    update: true
+    commands:
+      - submit_request
+      - reopen_request
+  review_check:
+    read: true

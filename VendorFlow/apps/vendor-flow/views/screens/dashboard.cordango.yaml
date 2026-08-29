@@ -1,0 +1,59 @@
+screen: dashboard
+label: Overview
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: In review
+        blocks:
+          - kind: stat
+            label: In review
+            source:
+              entity: vendor_request
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: in
+                  value:
+                    - submitted
+                    - security_review
+                    - finance_review
+      - kind: card
+        label: Approved vendors
+        blocks:
+          - kind: stat
+            label: Approved
+            source:
+              entity: vendor_request
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: approved
+      - kind: card
+        label: Approved annual spend
+        blocks:
+          - kind: stat
+            label: Annual spend
+            source:
+              entity: vendor_request
+              aggregate:
+                op: sum
+                field: annual_cost
+              filters:
+                - field: status
+                  operator: eq
+                  value: approved
+  - kind: card
+    label: Requests by status
+    blocks:
+      - kind: chart
+        chartType: donut
+        source:
+          entity: vendor_request
+          aggregate:
+            op: count
+            groupBy: status
+subject: vendor_request

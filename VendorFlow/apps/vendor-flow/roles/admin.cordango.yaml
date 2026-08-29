@@ -1,0 +1,11 @@
+role: admin
+name: VendorFlow admin
+description: Full access for application administrators.
+grants:
+  '*':
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - '*'

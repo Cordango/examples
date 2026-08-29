@@ -1,0 +1,32 @@
+form: time_entry
+blocks:
+  - kind: section
+    label: Buchung
+    blocks:
+      - kind: fields
+        fields:
+          - entry_label
+          - work_day
+          - worker
+          - entry_date
+        columns: 2
+  - kind: section
+    label: Beginn, Ende und Pause
+    blocks:
+      - kind: fields
+        fields:
+          - started_at
+          - ended_at
+          - start_minute
+          - manual_break_minutes
+        columns: 2
+  - kind: section
+    label: Nachweis
+    blocks:
+      - kind: fields
+        fields:
+          - capture_source
+        columns: 2
+      - kind: fields
+        fields:
+          - change_reason

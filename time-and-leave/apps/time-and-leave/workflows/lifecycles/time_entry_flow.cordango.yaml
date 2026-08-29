@@ -1,0 +1,155 @@
+lifecycle: time_entry_flow
+entity: time_entry
+stateField: entry_status
+initial:
+  rules:
+    - when:
+        field: capture_source
+        operator: neq
+        value: clock
+      state: open
+  fallback: running
+states:
+  running:
+    label: Läuft
+    color: '#0ea5e9'
+    phase: active
+  open:
+    label: Erfasst
+    color: '#94a3b8'
+    phase: active
+  submitted:
+    label: Eingereicht
+    color: '#f59e0b'
+    phase: active
+  approved:
+    label: Freigegeben
+    color: '#16a34a'
+    phase: done
+  locked:
+    label: Für den Lohnlauf gesperrt
+    color: '#0f766e'
+    phase: done
+  rejected:
+    label: Beanstandet
+    color: '#dc2626'
+    phase: active
+transitions:
+  stop_clock:
+    label: Gehen
+    from:
+      - running
+    to: open
+    action:
+      icon: stop-circle-outline
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Buchung beendet.
+      input:
+        fields:
+          - start_minute
+        required:
+          - start_minute
+      effects:
+        - type: updateRecord
+          set:
+            ended_at: '{{now}}'
+        - type: createRecord
+          set:
+            punch_label: Gehen
+            work_day: '{{record.work_day}}'
+            time_entry: '{{record.id}}'
+            punched_at: '{{now}}'
+            direction: gehen
+            punch_source: web
+            actor: '{{actor.id}}'
+          entity: time_punch
+  submit_entry:
+    label: Einreichen
+    from:
+      - open
+      - rejected
+    to: submitted
+    action:
+      icon: send-outline
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Zur Freigabe eingereicht.
+      effects: []
+  approve_entry:
+    label: Freigeben
+    from:
+      - submitted
+    to: approved
+    action:
+      icon: check-decagram
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Buchung freigegeben.
+      effects: []
+  reject_entry:
+    label: Beanstanden
+    from:
+      - submitted
+    to: rejected
+    action:
+      icon: alert-circle-outline
+      style: danger
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Buchung beanstandet.
+      input:
+        fields:
+          - rejection_reason
+        required:
+          - rejection_reason
+      effects:
+        - type: notify
+          to: '{{record.recorded_by}}'
+          title: Zeitbuchung beanstandet
+          message: Die Buchung {{record.entry_label}} vom {{record.entry_date}} wurde beanstandet und ist zu berichtigen.
+          link: auto
+  lock_entry:
+    label: Für den Lohnlauf sperren
+    from:
+      - approved
+    to: locked
+    action:
+      icon: lock-outline
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Buchung gesperrt.
+      confirm:
+        title: Buchung für den Lohnlauf sperren?
+        confirmLabel: Sperren
+        tone: danger
+      effects: []
+  unlock_entry:
+    label: Sperre aufheben
+    from:
+      - locked
+    to: approved
+    action:
+      icon: lock-open-variant-outline
+      style: danger
+      placements:
+        - recordHeader
+      successMessage: Sperre aufgehoben.
+      confirm:
+        title: Sperre nach dem Lohnlauf aufheben?
+        confirmLabel: Aufheben
+        tone: danger
+      input:
+        fields:
+          - change_reason
+        required:
+          - change_reason
+      effects: []

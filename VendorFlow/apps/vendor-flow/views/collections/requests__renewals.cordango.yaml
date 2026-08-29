@@ -1,0 +1,20 @@
+view: requests__renewals
+label: Upcoming renewals
+entity: vendor_request
+filters:
+  - field: status
+    operator: eq
+    value: approved
+  - field: renewal_on
+    operator: isNotEmpty
+sort:
+  - field: renewal_on
+    direction: asc
+kind: table
+settings:
+  columns:
+    - product_name
+    - vendor
+    - contract_owner
+    - annual_cost
+    - renewal_on

@@ -1,0 +1,25 @@
+form: absence
+blocks:
+  - kind: section
+    label: Antrag
+    blocks:
+      - kind: fields
+        fields:
+          - label
+          - worker
+          - account
+          - absence_type
+        columns: 2
+  - kind: section
+    label: Zeitraum
+    blocks:
+      - kind: fields
+        fields:
+          - start_date
+          - end_date
+          - daily_credit_minutes
+        columns: 2
+      - kind: fields
+        fields:
+          - reason
+          - certificate

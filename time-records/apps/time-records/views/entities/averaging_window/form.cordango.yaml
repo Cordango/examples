@@ -1,0 +1,19 @@
+form: averaging_window
+blocks:
+  - kind: section
+    label: Ausgleichszeitraum
+    blocks:
+      - kind: fields
+        fields:
+          - label
+          - worker
+          - basis
+        columns: 2
+  - kind: section
+    label: Zeitraum
+    blocks:
+      - kind: fields
+        fields:
+          - window_start
+          - window_end
+        columns: 2

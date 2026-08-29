@@ -1,0 +1,31 @@
+automation: raise_break_violation
+name: Zu kurze Ruhepause sofort erfassen
+effects:
+  - type: createForEach
+    set:
+      label: Ruhepause zu kurz am {{source.work_date}}
+      worker: '{{source.worker}}'
+      work_day: '{{source.id}}'
+      work_week: '{{source.work_week}}'
+      rule: arbzg_4_break
+      severity: medium
+      detected_on: '{{today}}'
+      measured_value: '{{source.break_minutes}}'
+      limit_value: '{{source.required_break_minutes}}'
+    entity: violation
+    source:
+      entity: work_day
+      filters:
+        - field: id
+          operator: eq
+          value: '{{record.id}}'
+    key:
+      - work_day
+      - rule
+trigger: field.changed
+entity: work_day
+field: break_ok
+when:
+  field: break_ok
+  operator: eq
+  value: false

@@ -1,0 +1,32 @@
+automation: expand_absence_days
+name: Abwesenheitstage anlegen
+effects:
+  - type: createForEach
+    set:
+      absence: '{{record.id}}'
+      absence_date: '{{source.date}}'
+      credited_minutes: '{{record.daily_credit_minutes}}'
+      work_day:
+        pick:
+          entity: work_day
+          filters:
+            - field: worker
+              operator: eq
+              value: '{{record.worker}}'
+            - field: work_date
+              operator: eq
+              value: '{{source.date}}'
+          sort:
+            - field: work_date
+              direction: asc
+    entity: absence_day
+    source:
+      range:
+        from: '{{record.start_date}}'
+        count: '{{record.day_count}}'
+        step: day
+    key:
+      - absence
+      - absence_date
+trigger: record.created
+entity: absence

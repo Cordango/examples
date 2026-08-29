@@ -1,0 +1,39 @@
+detail: work_week
+blocks:
+  - kind: hub
+    title: label
+    facts:
+      - worker
+      - week_start
+      - worked_hours
+      - weekly_ok
+    actions:
+      - edit
+  - kind: tiles
+    tiles:
+      - icon: timer-outline
+        field: worked_hours
+        label: Arbeitszeit
+        format: number
+      - icon: calendar-check
+        field: days_worked
+        label: Tage mit Buchungen
+        format: number
+      - icon: alert-octagon-outline
+        field: violation_count
+        label: Verstöße
+        format: number
+  - kind: child
+    entity: work_day
+    via: work_week
+    childType: table
+    subordinate: false
+    inlineCreate: false
+    label: Arbeitstage
+    fields:
+      - work_date
+      - day_status
+      - worked_hours
+      - break_minutes
+      - rest_minutes
+      - compliant

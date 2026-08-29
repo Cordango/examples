@@ -1,0 +1,15 @@
+automation: warn_leave_carryover
+name: An den Verfall des Übertrags erinnern
+when:
+  field: carry_over_days
+  operator: gt
+  value: 0
+effects:
+  - type: notify
+    to: '{{record.worker}}'
+    title: Übertragener Urlaub verfällt am 31. März
+    message: Aus dem Vorjahr übertragener Urlaub ist nach § 7 Abs. 3 BUrlG bis zum 31. März zu nehmen. Danach verfällt er, soweit der Arbeitgeber seiner Hinweispflicht nachgekommen ist.
+    link: auto
+trigger: schedule
+entity: leave_entitlement
+cron: 0 8 1 3 *

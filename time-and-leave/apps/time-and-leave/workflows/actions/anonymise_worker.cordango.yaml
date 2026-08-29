@@ -1,0 +1,15 @@
+action: anonymise_worker
+label: Nach Fristablauf anonymisieren
+entity: worker_profile
+description: Überschreibt die Freitextangaben des Profils, nachdem die Aufbewahrungsfrist abgelaufen ist. Eine Pseudonymisierung, keine Löschung — die Anwendung kennt keinen Effekt, der Datensätze entfernt.
+icon: account-off-outline
+successMessage: Profil anonymisiert.
+confirm:
+  title: Profil anonymisieren?
+  confirmLabel: Anonymisieren
+  tone: danger
+effects:
+  - type: updateRecord
+    set:
+      anonymised_on: '{{today}}'
+      deviation_basis: Nach Ablauf der Aufbewahrungsfrist anonymisiert.

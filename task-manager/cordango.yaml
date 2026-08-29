@@ -3,5 +3,10 @@ workspaceId: 01M0GHH7N23DW07MRXW99Q89MX
 name: Task Manager
 runtime: '>=0.1 <0.2'
 coreApps: default
+build:
+  target: standalone
+  runtime: source
+  allowIncomplete: false
+  seed: 42
 apps:
   - apps/task-manager

@@ -1,0 +1,61 @@
+entity: time_punch
+label: Stempelung
+description: Das rohe Protokoll der Stempeluhr — jedes Kommen und Gehen, wie es gedrückt wurde. Es wird nie korrigiert; Korrekturen entstehen als neue Zeitbuchung, damit die ursprüngliche Aufzeichnung erhalten bleibt.
+icon: gesture-tap-button
+plural: Stempelungen
+display: punch_label
+fields:
+  punch_label:
+    label: Stempelung
+    type: text
+    required: true
+  work_day:
+    label: Arbeitstag
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: work_day
+    onDelete: cascade
+  time_entry:
+    label: Zeitbuchung
+    type: reference
+    targetEntity: time_entry
+    onDelete: setNull
+  punched_at:
+    label: Zeitpunkt
+    type: datetime
+    required: true
+    indexed: true
+    role: start
+  direction:
+    label: Richtung
+    type: select
+    required: true
+    options:
+      - value: kommen
+        label: Kommen
+        color: '#16a34a'
+      - value: gehen
+        label: Gehen
+        color: '#dc2626'
+  punch_source:
+    label: Erfasst über
+    type: select
+    required: true
+    default: web
+    options:
+      - value: web
+        label: Webanwendung
+        color: '#0ea5e9'
+      - value: terminal
+        label: Zeiterfassungsterminal
+        color: '#6366f1'
+      - value: mobile
+        label: Mobilgerät
+        color: '#14b8a6'
+  actor:
+    label: Ausgelöst von
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull

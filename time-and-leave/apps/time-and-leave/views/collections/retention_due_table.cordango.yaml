@@ -1,0 +1,21 @@
+view: retention_due_table
+label: Aufbewahrungsfrist abgelaufen
+entity: work_day
+filters:
+  - field: retention_due
+    operator: eq
+    value: true
+sort:
+  - field: work_date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - work_date
+    - worker
+    - worked_hours
+    - day_status
+  filterBar:
+    facets:
+      - worker
+  inlineEdit: false

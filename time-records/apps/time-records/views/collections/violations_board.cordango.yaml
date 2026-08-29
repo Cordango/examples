@@ -1,0 +1,12 @@
+view: violations_board
+label: Verstöße
+entity: violation
+kind: kanban
+settings:
+  groupByField: violation_status
+  cardFields:
+    - rule
+    - worker
+    - detected_on
+    - severity
+  interaction: interactive

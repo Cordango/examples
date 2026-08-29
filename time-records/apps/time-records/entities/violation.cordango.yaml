@@ -1,0 +1,117 @@
+entity: violation
+label: Verstoß
+description: Eine erkannte Überschreitung einer Grenze des Arbeitszeitgesetzes. Der einzige personenbezogene Datensatz, den der Betriebsrat sieht — Überwachung der Einhaltung nach § 80 Abs. 1 Nr. 1 BetrVG, ohne Einsicht in einzelne Buchungen.
+icon: alert-octagon-outline
+unique:
+  - - work_day
+    - rule
+plural: Verstöße
+display: label
+fields:
+  label:
+    label: Verstoß
+    type: text
+    required: true
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: worker_profile
+    onDelete: cascade
+  work_day:
+    label: Arbeitstag
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: work_day
+    onDelete: cascade
+  work_week:
+    label: Arbeitswoche
+    type: reference
+    indexed: true
+    targetEntity: work_week
+    onDelete: setNull
+  rule:
+    label: Regel
+    type: select
+    required: true
+    indexed: true
+    options:
+      - value: arbzg_3_daily
+        label: § 3 Höchstarbeitszeit werktäglich
+        color: '#dc2626'
+      - value: arbzg_3_averaging
+        label: § 3 Satz 2 Ausgleichszeitraum
+        color: '#b91c1c'
+      - value: arbzg_4_break
+        label: § 4 Ruhepause zu kurz
+        color: '#f59e0b'
+      - value: arbzg_4_stretch
+        label: § 4 Satz 2 mehr als sechs Stunden am Stück
+        color: '#f59e0b'
+      - value: arbzg_5_rest
+        label: § 5 Ruhezeit unterschritten
+        color: '#dc2626'
+      - value: arbzg_6_night
+        label: § 6 Nachtarbeit
+        color: '#6366f1'
+      - value: arbzg_9_sunday
+        label: § 9 Sonn- oder Feiertagsarbeit
+        color: '#8b5cf6'
+      - value: arbzg_11_ersatzruhetag
+        label: § 11 Abs. 3 Ersatzruhetag fehlt
+        color: '#8b5cf6'
+      - value: weekly_48
+        label: 48 Stunden je Woche überschritten
+        color: '#dc2626'
+      - value: milog_17_late
+        label: § 17 MiLoG Aufzeichnungsfrist versäumt
+        color: '#0ea5e9'
+      - value: milog_17_missing
+        label: § 17 MiLoG Aufzeichnung fehlt
+        color: '#0ea5e9'
+      - value: retention_due
+        label: Aufbewahrungsfrist abgelaufen
+        color: '#94a3b8'
+  severity:
+    label: Gewicht
+    type: select
+    required: true
+    indexed: true
+    default: medium
+    options:
+      - value: high
+        label: Schwer
+        color: '#dc2626'
+      - value: medium
+        label: Mittel
+        color: '#f59e0b'
+      - value: low
+        label: Gering
+        color: '#94a3b8'
+  violation_status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  detected_on:
+    label: Erkannt am
+    type: date
+    required: true
+    indexed: true
+    role: start
+  measured_value:
+    label: Gemessener Wert
+    type: integer
+    help: In Minuten, soweit die Regel eine Dauer betrifft.
+  limit_value:
+    label: Grenzwert
+    type: integer
+  justification:
+    label: Begründung
+    type: longtext
+    help: Bei Hinnahme zwingend. § 14 ArbZG (außergewöhnliche Fälle) und § 7 ArbZG (abweichende Regelung durch Tarifvertrag) verlangen, dass die Ausnahme dokumentiert wird — nicht, dass sie wegdefiniert wird.
+  remedy_note:
+    label: Abhilfe
+    type: longtext

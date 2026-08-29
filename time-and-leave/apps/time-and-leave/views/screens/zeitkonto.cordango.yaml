@@ -1,0 +1,20 @@
+screen: zeitkonto
+label: Arbeitszeitkonto
+icon: scale-unbalanced
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        text: Soll gegen Ist, Monat für Monat. Der Saldo trägt sich weiter — jeder Monat rechnet auf dem Schlusssaldo des Vormonats auf, und nur der erste Monat einer Reihe braucht einen Anfangssaldo.
+        size: sm
+      - kind: row
+        gap: md
+        blocks:
+          - kind: create
+            entity: time_account
+            label: Monat anlegen
+            style: primary
+      - kind: view
+        view: time_account_table
+subject: time_account

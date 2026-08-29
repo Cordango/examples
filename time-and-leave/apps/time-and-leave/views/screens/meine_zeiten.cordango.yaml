@@ -1,0 +1,13 @@
+screen: meine_zeiten
+label: Meine Zeiten
+icon: account-clock-outline
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: section
+        label: Meine Arbeitstage
+        blocks:
+          - kind: view
+            view: my_days_table
+subject: work_day

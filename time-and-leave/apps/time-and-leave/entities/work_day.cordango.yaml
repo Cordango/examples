@@ -1,0 +1,354 @@
+entity: work_day
+label: Arbeitstag
+description: Ein Kalendertag eines Mitarbeiters. Hier liegen die Prüfungen der §§ 3 bis 6 und 9 bis 11 ArbZG, weil sie alle denselben Bezugspunkt haben — den einzelnen Tag und den Tag davor.
+icon: calendar-today
+series:
+  partition: worker
+  order: work_date
+unique:
+  - - worker
+    - work_date
+plural: Arbeitstage
+display: work_date
+fields:
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: worker_profile
+    onDelete: cascade
+  work_week:
+    label: Arbeitswoche
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: work_week
+    onDelete: cascade
+  account:
+    label: Benutzerkonto
+    type: reference
+    indexed: true
+    help: Aus dem Mitarbeiterprofil übernommen, damit die eigenen Tage ohne Umweg gefiltert werden können — ein Ansichtsfilter erreicht nur Felder des Datensatzes selbst.
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  bundesland:
+    label: Bundesland
+    type: reference
+    indexed: true
+    help: Beim Anlegen aus dem Mitarbeiterprofil übernommen. Ohne dieses Feld ließe sich der Feiertag nicht zuordnen, denn Rollup-Filter nehmen nur feste Werte.
+    targetEntity: bundesland
+    onDelete: setNull
+  work_date:
+    label: Datum
+    type: date
+    required: true
+    indexed: true
+    role: start
+  weekday_number:
+    label: Wochentag
+    type: integer
+    required: true
+    help: 1 = Montag bis 7 = Sonntag. Beim Erzeugen aus dem Wochenindex gesetzt, weil es keine Wochentagsfunktion gibt.
+  day_status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  note:
+    label: Bemerkung
+    type: longtext
+  replacement_day:
+    label: Ersatzruhetag
+    type: reference
+    help: § 11 Abs. 3 ArbZG — für Sonntagsarbeit ist innerhalb von zwei Wochen, für Feiertagsarbeit innerhalb von acht Wochen ein Ersatzruhetag zu gewähren. Der belastete Tag zeigt auf den freien und nicht umgekehrt — so muss kein Tag die Tage zählen, die auf ihn zeigen, und die Berechnung bleibt kreisfrei.
+    group: Sonn- und Feiertage
+    targetEntity: work_day
+    onDelete: setNull
+    optionsFilter:
+      - field: worked_minutes
+        operator: eq
+        value: 0
+  replacement_granted:
+    label: Ersatzruhe gewährt
+    type: boolean
+    help: Wird gesetzt, sobald ein Ersatzruhetag zugeordnet ist.
+    group: Sonn- und Feiertage
+    default: false
+  retention_due:
+    label: Aufbewahrungsfrist abgelaufen
+    type: boolean
+    help: Von der wöchentlichen Prüfung gesetzt. Die Löschung selbst ist nicht automatisierbar — siehe README.
+    group: Aufbewahrung
+    default: false
+  first_start_minute:
+    label: Erster Beginn
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: time_entry
+        via: work_day
+        op: min
+        field: start_minute
+  last_end_minute:
+    label: Letztes Ende
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: time_entry
+        via: work_day
+        op: max
+        field: end_minute
+  worked_minutes:
+    label: Arbeitszeit (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: time_entry
+        via: work_day
+        op: sum
+        field: net_minutes
+  worked_hours:
+    label: Arbeitszeit (Std.)
+    type: decimal
+    group: Berechnung
+    unit: ' h'
+    computed:
+      expr: worked_minutes / 60
+    precision: 8
+    scale: 2
+  entry_count:
+    label: Buchungen
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: time_entry
+        via: work_day
+        op: count
+  longest_stretch_minutes:
+    label: Längste Arbeitsstrecke (Min.)
+    type: integer
+    group: Pausen
+    computed:
+      rollup:
+        entity: time_entry
+        via: work_day
+        op: max
+        field: net_minutes
+  gap_break_minutes:
+    label: Pausen aus Unterbrechungen (Min.)
+    type: integer
+    group: Pausen
+    computed:
+      rollup:
+        entity: time_entry
+        via: work_day
+        op: sum
+        field: qualifying_gap_minutes
+  lump_break_minutes:
+    label: Pausen pauschal (Min.)
+    type: integer
+    group: Pausen
+    computed:
+      rollup:
+        entity: time_entry
+        via: work_day
+        op: sum
+        field: manual_break_minutes
+  break_minutes:
+    label: Gewährte Ruhepause (Min.)
+    type: integer
+    group: Pausen
+    computed:
+      expr: gap_break_minutes + lump_break_minutes
+  required_break_minutes:
+    label: Vorgeschriebene Ruhepause (Min.)
+    type: integer
+    help: 30 Minuten bei mehr als sechs, 45 Minuten bei mehr als neun Stunden (§ 4 Satz 1 ArbZG). Ohne Fallunterscheidung geschrieben — der Faktor macht aus der Rampe eine Stufe.
+    group: Pausen
+    computed:
+      expr: min(30, max(0, worked_minutes - 360) * 30) + min(15, max(0, worked_minutes - 540) * 15)
+  break_shortfall_minutes:
+    label: Pausenfehlbetrag (Min.)
+    type: integer
+    group: Pausen
+    computed:
+      expr: max(0, required_break_minutes - break_minutes)
+  break_ok:
+    label: Ruhepausen eingehalten
+    type: boolean
+    group: Pausen
+    computed:
+      expr: break_shortfall_minutes == 0
+  stretch_ok:
+    label: Höchstens sechs Stunden am Stück
+    type: boolean
+    help: § 4 Satz 2 ArbZG. Exakt nur bei Erfassung der Unterbrechungen; bei pauschaler Pause wird lediglich die Länge des Einzelabschnitts geprüft.
+    group: Pausen
+    computed:
+      expr: longest_stretch_minutes <= 360
+  rest_minutes:
+    label: Ruhezeit zum Vortag (Min.)
+    type: integer
+    help: Vom letzten Ende des Vortages bis zum ersten Beginn heute. Weil das Ende über Mitternacht hinaus weiterzählt, genügt eine Subtraktion.
+    group: Ruhezeit
+    computed:
+      expr: first_start_minute + 1440 - prev(last_end_minute, -9999)
+  rest_ok:
+    label: Ruhezeit eingehalten
+    type: boolean
+    help: 11 Stunden nach § 5 Abs. 1 ArbZG, in den Betrieben des § 5 Abs. 2 zehn.
+    group: Ruhezeit
+    computed:
+      expr: worked_minutes == 0 or rest_minutes >= worker.min_rest_minutes
+  daily_ok:
+    label: Höchstarbeitszeit eingehalten
+    type: boolean
+    help: § 3 ArbZG — acht Stunden werktäglich, zehn nur bei Ausgleich innerhalb von sechs Kalendermonaten oder 24 Wochen.
+    group: Höchstarbeitszeit
+    computed:
+      expr: worked_minutes <= worker.max_daily_minutes
+  night_minutes:
+    label: Nachtarbeit (Min.)
+    type: integer
+    group: Nachtarbeit
+    computed:
+      rollup:
+        entity: time_entry
+        via: work_day
+        op: sum
+        field: night_minutes
+  is_night_work:
+    label: Nachtarbeit
+    type: boolean
+    help: Mehr als zwei Stunden in der Nachtzeit, § 2 Abs. 4 ArbZG.
+    group: Nachtarbeit
+    computed:
+      expr: night_minutes > 120
+  is_sunday:
+    label: Sonntag
+    type: boolean
+    group: Sonn- und Feiertage
+    computed:
+      expr: weekday_number == 7
+  is_werktag:
+    label: Werktag
+    type: boolean
+    help: Montag bis Samstag. Die Bezugsgröße des § 3 Satz 2 ArbZG ist der Werktag, nicht der Arbeitstag.
+    group: Sonn- und Feiertage
+    computed:
+      expr: weekday_number <= 6
+  holiday_count:
+    label: Feiertagstreffer
+    type: integer
+    group: Sonn- und Feiertage
+    computed:
+      rollup:
+        entity: public_holiday
+        via: bundesland
+        match: bundesland
+        op: count
+        window:
+          at: holiday_date
+          within:
+            from: work_date
+            to: work_date
+  is_public_holiday:
+    label: Gesetzlicher Feiertag
+    type: boolean
+    group: Sonn- und Feiertage
+    computed:
+      expr: holiday_count > 0
+  is_rest_day:
+    label: Sonn- oder Feiertag
+    type: boolean
+    group: Sonn- und Feiertage
+    computed:
+      expr: is_sunday or is_public_holiday
+  sunday_or_holiday_work:
+    label: Sonn- oder Feiertagsarbeit
+    type: boolean
+    indexed: true
+    help: § 9 ArbZG verbietet sie im Grundsatz, § 10 zählt die Ausnahmen auf. Jeder Treffer verlangt einen Ersatzruhetag nach § 11 Abs. 3.
+    group: Sonn- und Feiertage
+    computed:
+      expr: is_rest_day and worked_minutes > 0
+  replacement_rest_ok:
+    label: Ersatzruhe gewährt
+    type: boolean
+    group: Sonn- und Feiertage
+    computed:
+      expr: not sunday_or_holiday_work or replacement_granted
+  absence_minutes:
+    label: Gutschrift aus Abwesenheit (Min.)
+    type: integer
+    group: Abwesenheit
+    computed:
+      rollup:
+        entity: absence_day
+        via: work_day
+        op: sum
+        field: credited_minutes
+  absence_count:
+    label: Abwesenheitstage
+    type: integer
+    group: Abwesenheit
+    computed:
+      rollup:
+        entity: absence_day
+        via: work_day
+        op: count
+  is_absent:
+    label: Abwesend
+    type: boolean
+    group: Abwesenheit
+    computed:
+      expr: absence_count > 0
+  target_minutes:
+    label: Sollzeit (Min.)
+    type: integer
+    help: Die Sollzeit des Wochentags. Ein Zahlenfenster von genau einem Wert wählt die eine Zeile des Wochenplans aus, deren Wochentag dem dieses Tages entspricht — ohne Fallunterscheidung und ohne sieben Spalten.
+    group: Abwesenheit
+    computed:
+      rollup:
+        entity: schedule_day
+        via: worker
+        match: worker
+        op: sum
+        field: target_minutes
+        window:
+          at: weekday_number
+          within:
+            from: weekday_number
+            to: weekday_number
+  balance_minutes:
+    label: Saldo des Tages (Min.)
+    type: integer
+    group: Abwesenheit
+    computed:
+      expr: worked_minutes + absence_minutes - target_minutes
+  limit_daily_minutes:
+    label: Grenzwert Höchstarbeitszeit (Min.)
+    type: integer
+    group: Berechnung
+    help: Der Grenzwert dieses Mitarbeiters, auf den Tag kopiert. Ein Ausdruck erreicht genau eine Referenzebene; ein Effekt, der über den Tag iteriert, erreicht das Profil dahinter gar nicht.
+    computed:
+      expr: worker.max_daily_minutes
+  limit_rest_minutes:
+    label: Grenzwert Ruhezeit (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      expr: worker.min_rest_minutes
+  compliant:
+    label: Ohne Beanstandung
+    type: boolean
+    indexed: true
+    group: Berechnung
+    computed:
+      expr: daily_ok and break_ok and stretch_ok and rest_ok and replacement_rest_ok

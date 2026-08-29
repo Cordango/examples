@@ -1,0 +1,46 @@
+detail: absence
+blocks:
+  - kind: hub
+    title: label
+    status: absence_status
+    facts:
+      - worker
+      - absence_type
+      - start_date
+      - end_date
+    actions:
+      - request_absence
+      - approve_absence
+      - decline_absence
+      - cancel_absence
+      - edit
+  - kind: process
+  - kind: tiles
+    tiles:
+      - icon: calendar-range
+        field: day_count
+        label: Kalendertage
+        format: number
+      - icon: timer-outline
+        field: credited_minutes
+        label: Gutschrift (Min.)
+        format: number
+  - kind: section
+    label: Begründung und Nachweis
+    blocks:
+      - kind: fields
+        fields:
+          - reason
+          - decline_reason
+          - certificate
+  - kind: child
+    entity: absence_day
+    via: absence
+    childType: table
+    subordinate: true
+    inlineCreate: false
+    label: Abwesenheitstage
+    fields:
+      - absence_date
+      - work_day
+      - credited_minutes

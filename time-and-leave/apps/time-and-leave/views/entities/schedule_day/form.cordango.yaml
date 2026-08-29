@@ -1,0 +1,12 @@
+form: schedule_day
+blocks:
+  - kind: section
+    label: Sollzeit
+    blocks:
+      - kind: fields
+        fields:
+          - label
+          - worker
+          - weekday_number
+          - target_minutes
+        columns: 2

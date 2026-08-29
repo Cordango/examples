@@ -1,0 +1,22 @@
+view: workers_table
+label: Mitarbeiterprofile
+entity: worker_profile
+sort:
+  - field: recording_start
+    direction: desc
+kind: table
+settings:
+  columns:
+    - employee
+    - bundesland
+    - working_time_model
+    - milog_applies
+    - max_daily_minutes
+    - min_rest_minutes
+    - recording_start
+  filterBar:
+    facets:
+      - bundesland
+      - working_time_model
+      - milog_sector
+  inlineEdit: true

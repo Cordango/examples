@@ -1,0 +1,15 @@
+automation: missing_entries_reminder
+name: An unvollständige Aufzeichnungen erinnern
+when:
+  field: milog_applies
+  operator: eq
+  value: true
+effects:
+  - type: notify
+    to: '{{record.account}}'
+    title: Arbeitszeiten nachtragen
+    message: Für Ihre Tätigkeit gilt die Aufzeichnungspflicht des § 17 MiLoG — Beginn, Ende und Dauer sind spätestens sieben Tage nach der Arbeitsleistung festzuhalten. Bitte prüfen Sie die offenen Tage unter Meine Zeiten.
+    link: auto
+trigger: schedule
+entity: worker_profile
+cron: 0 7 * * *

@@ -1,0 +1,33 @@
+entity: absence_type
+label: Abwesenheitsart
+description: Die Arten der Abwesenheit und wie sie zählen — bezahlt oder nicht, auf den Urlaubsanspruch angerechnet oder nicht, mit oder ohne Nachweis.
+icon: tag-outline
+kind: config
+plural: Abwesenheitsarten
+display: name
+fields:
+  name:
+    label: Bezeichnung
+    type: text
+    required: true
+    unique: true
+    help: Urlaub, Arbeitsunfähigkeit, Elternzeit, Mutterschutz, Bildungsurlaub, Freizeitausgleich, Ersatzruhetag, unbezahlte Freistellung, § 616 BGB.
+  paid:
+    label: Bezahlt
+    type: boolean
+    default: true
+  deducts_leave:
+    label: Auf den Urlaubsanspruch angerechnet
+    type: boolean
+    help: Nur der Erholungsurlaub des § 1 BUrlG mindert den Anspruch.
+    default: false
+  requires_certificate:
+    label: Nachweis erforderlich
+    type: boolean
+    help: Bei Arbeitsunfähigkeit ab dem vierten Kalendertag, § 5 Abs. 1 Satz 2 EFZG, sofern der Arbeitgeber sie nicht früher verlangt.
+    default: false
+  credits_work_time:
+    label: Zählt als Arbeitszeit
+    type: boolean
+    help: Bezahlte Abwesenheit erfüllt die Sollzeit, ist aber keine Arbeitszeit im Sinne des § 2 Abs. 1 ArbZG — sie geht deshalb in den Saldo ein und nicht in die Höchstarbeitszeit.
+    default: true

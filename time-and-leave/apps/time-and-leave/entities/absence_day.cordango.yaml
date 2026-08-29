@@ -1,0 +1,38 @@
+entity: absence_day
+label: Abwesenheitstag
+description: Ein einzelner Kalendertag einer Abwesenheit. Er zeigt auf den Arbeitstag, damit dieser die Gutschrift hochrollen und seinen Saldo bilden kann.
+icon: calendar-minus
+ownedBy:
+  parent: absence
+  via: absence
+  as: table
+unique:
+  - - absence
+    - absence_date
+plural: Abwesenheitstage
+display: absence_date
+fields:
+  absence:
+    label: Abwesenheit
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: absence
+    onDelete: cascade
+  work_day:
+    label: Arbeitstag
+    type: reference
+    indexed: true
+    targetEntity: work_day
+    onDelete: setNull
+  absence_date:
+    label: Datum
+    type: date
+    required: true
+    indexed: true
+    role: start
+  credited_minutes:
+    label: Gutschrift (Min.)
+    type: integer
+    required: true
+    default: 0

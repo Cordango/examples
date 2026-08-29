@@ -1,0 +1,55 @@
+detail: time_entry
+blocks:
+  - kind: hub
+    title: entry_label
+    status: entry_status
+    facts:
+      - worker
+      - entry_date
+      - net_hours
+      - capture_source
+    actions:
+      - stop_clock
+      - submit_entry
+      - approve_entry
+      - reject_entry
+      - lock_entry
+      - unlock_entry
+      - edit
+  - kind: process
+  - kind: section
+    label: Beginn, Ende und Dauer
+    blocks:
+      - kind: fields
+        fields:
+          - started_at
+          - ended_at
+          - start_minute
+          - end_minute
+          - manual_break_minutes
+          - net_minutes
+          - times_incomplete
+        cols: 2
+  - kind: section
+    label: Pausen und Nachtarbeit
+    blocks:
+      - kind: fields
+        fields:
+          - gap_before_minutes
+          - qualifying_gap_minutes
+          - night_minutes
+        cols: 2
+  - kind: section
+    label: Nachweis
+    blocks:
+      - kind: fields
+        fields:
+          - recorded_at
+          - recorded_by
+          - milog_late
+        cols: 2
+      - kind: fields
+        fields:
+          - change_reason
+          - rejection_reason
+  - kind: history

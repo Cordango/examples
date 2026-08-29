@@ -1,0 +1,36 @@
+entity: schedule_day
+label: Sollzeit je Wochentag
+description: Die vertraglich geschuldete Arbeitszeit eines Wochentags. Sieben Zeilen je Mitarbeiter — maschinenlesbar, weil ein Ausdruck ein JSON-Feld nicht lesen kann.
+icon: table-clock
+ownedBy:
+  parent: worker_profile
+  via: worker
+  as: table
+unique:
+  - - worker
+    - weekday_number
+plural: Sollzeiten
+display: label
+fields:
+  label:
+    label: Wochentag
+    type: text
+    required: true
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: worker_profile
+    onDelete: cascade
+  weekday_number:
+    label: Wochentag (Nummer)
+    type: integer
+    required: true
+    help: 1 = Montag bis 7 = Sonntag. Der Schlüssel, über den ein Arbeitstag seine Sollzeit findet.
+  target_minutes:
+    label: Sollzeit (Min.)
+    type: integer
+    required: true
+    help: 480 entspricht acht Stunden. An arbeitsfreien Tagen null.
+    default: 0

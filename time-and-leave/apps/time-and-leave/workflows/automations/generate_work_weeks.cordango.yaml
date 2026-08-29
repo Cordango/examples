@@ -1,0 +1,22 @@
+automation: generate_work_weeks
+name: Arbeitswochen des Mitarbeiters anlegen
+effects:
+  - type: createForEach
+    set:
+      label: Woche ab {{source.date}}
+      worker: '{{record.id}}'
+      account: '{{record.account}}'
+      bundesland: '{{record.bundesland}}'
+      week_start: '{{source.date}}'
+      week_end: '{{source.end}}'
+    entity: work_week
+    source:
+      range:
+        from: '{{record.recording_start}}'
+        count: '{{record.recording_weeks}}'
+        step: week
+    key:
+      - worker
+      - week_start
+trigger: record.created
+entity: worker_profile

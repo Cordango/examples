@@ -1,0 +1,19 @@
+form: time_account
+blocks:
+  - kind: section
+    label: Arbeitszeitkonto
+    blocks:
+      - kind: fields
+        fields:
+          - label
+          - worker
+        columns: 2
+  - kind: section
+    label: Monat
+    blocks:
+      - kind: fields
+        fields:
+          - month_start
+          - month_end
+          - opening_balance
+        columns: 2

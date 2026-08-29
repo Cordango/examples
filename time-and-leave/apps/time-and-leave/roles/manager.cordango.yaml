@@ -1,0 +1,40 @@
+role: manager
+name: Führungskraft
+description: Gibt die Zeiten des Teams frei oder beanstandet sie, ordnet Ersatzruhetage zu und bearbeitet die Verstöße des eigenen Bereichs.
+grants:
+  worker_profile:
+    read: true
+    commands:
+      - start_clock
+  work_day:
+    read: true
+    update: true
+    commands:
+      - confirm_day
+      - reopen_day
+      - assign_replacement_rest
+  time_entry:
+    create: true
+    read: true
+    update: true
+    commands:
+      - stop_clock
+      - submit_entry
+      - approve_entry
+      - reject_entry
+  time_punch:
+    read: true
+  work_week:
+    read: true
+  averaging_window:
+    read: true
+  violation:
+    read: true
+    update: true
+    commands:
+      - start_review
+      - mark_remedied
+  public_holiday:
+    read: true
+  bundesland:
+    read: true

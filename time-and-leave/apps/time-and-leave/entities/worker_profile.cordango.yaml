@@ -1,0 +1,168 @@
+entity: worker_profile
+label: Mitarbeiterprofil
+description: Die zeitwirtschaftlichen Stammdaten zu einem Mitarbeiter der Personalverwaltung. Trägt Bundesland, Branche und sämtliche Grenzwerte, weil § 5 Abs. 2 und § 7 ArbZG Abweichungen je Person, Branche und Tarifvertrag zulassen.
+icon: account-clock
+plural: Mitarbeiterprofile
+display: employee
+fields:
+  employee:
+    label: Mitarbeiter
+    type: reference
+    required: true
+    unique: true
+    indexed: true
+    help: Die Personalakte in der Kern-App Personen. Stelle, Abteilung, Vorgesetzter und Eintritt stehen dort und werden hier nicht ein zweites Mal geführt — dieses Profil trägt nur, was die Zeiterfassung zusätzlich braucht.
+    targetEntity: employee
+    targetApp: core_people
+    onDelete: cascade
+  account:
+    label: Benutzerkonto
+    type: reference
+    indexed: true
+    help: Das Konto, mit dem sich diese Person anmeldet. Getrennt vom Mitarbeiter geführt, weil {{actor.id}} eine Person meint und nicht ihre Personalakte — daran hängen die eigenen Ansichten und die Erinnerungen.
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  bundesland:
+    label: Bundesland des Arbeitsorts
+    type: reference
+    required: true
+    indexed: true
+    help: Maßgeblich ist der Ort der Arbeitsleistung, nicht der Sitz des Betriebs — Feiertage sind Landesrecht.
+    targetEntity: bundesland
+    onDelete: restrict
+  recording_start:
+    label: Aufzeichnung ab
+    type: date
+    required: true
+    help: Ab diesem Tag werden Arbeitstage erzeugt und geprüft. In der Regel der Eintritt.
+    role: start
+  recording_weeks:
+    label: Wochen im Voraus anlegen
+    type: integer
+    required: true
+    help: Wie viele Wochen ab dem Aufzeichnungsbeginn angelegt werden. 104 sind zwei Jahre und decken die Aufbewahrungsfrist ab. Ein erneutes Anlegen des Profils verlängert die Reihe, ohne Bestehendes zu verdoppeln.
+    default: 104
+    unit: ' Wochen'
+  recording_end:
+    label: Aufzeichnung bis
+    type: date
+    role: due
+  working_time_model:
+    label: Arbeitszeitmodell
+    type: select
+    required: true
+    group: Einstufung
+    default: standard
+    options:
+      - value: standard
+        label: Regelarbeitszeit
+        color: '#0ea5e9'
+      - value: shift
+        label: Schichtbetrieb
+        color: '#6366f1'
+      - value: flexitime
+        label: Gleitzeit
+        color: '#14b8a6'
+      - value: on_call
+        label: Bereitschaft
+        color: '#f59e0b'
+  milog_sector:
+    label: MiLoG-Branche
+    type: select
+    help: Branchen des § 2a SchwarzArbG. Sie lösen die verschärfte Aufzeichnungspflicht des § 17 Abs. 1 MiLoG aus.
+    group: Einstufung
+    default: none
+    options:
+      - value: none
+        label: Keine
+        color: '#94a3b8'
+      - value: bau
+        label: Baugewerbe
+        color: '#f59e0b'
+      - value: gaststaetten
+        label: Gaststätten- und Beherbergungsgewerbe
+        color: '#f59e0b'
+      - value: spedition
+        label: Speditions-, Transport- und Logistikgewerbe
+        color: '#f59e0b'
+      - value: fleisch
+        label: Fleischwirtschaft
+        color: '#f59e0b'
+      - value: schausteller
+        label: Schaustellergewerbe
+        color: '#f59e0b'
+      - value: forst
+        label: Forstwirtschaft
+        color: '#f59e0b'
+      - value: gebaeudereinigung
+        label: Gebäudereinigung
+        color: '#f59e0b'
+      - value: messebau
+        label: Auf- und Abbau von Messen
+        color: '#f59e0b'
+      - value: minijob
+        label: Geringfügige Beschäftigung
+        color: '#f59e0b'
+  milog_applies:
+    label: § 17 MiLoG anwendbar
+    type: boolean
+    help: Löst die Sieben-Tage-Frist und die zweijährige Aufbewahrung aus. Wird beim Anlegen aus der Branche vorbelegt und bleibt danach von Hand änderbar.
+    group: Einstufung
+    default: false
+    initial:
+      - when:
+          field: milog_sector
+          operator: neq
+          value: none
+        value: true
+  max_daily_minutes:
+    label: Höchstarbeitszeit werktäglich (Min.)
+    type: integer
+    required: true
+    help: 480 Minuten sind die Regel des § 3 Satz 1 ArbZG, 600 die Ausnahme des § 3 Satz 2 — zulässig nur, wenn der Ausgleichszeitraum eingehalten wird.
+    group: Grenzwerte
+    default: 600
+  min_rest_minutes:
+    label: Mindestruhezeit (Min.)
+    type: integer
+    required: true
+    help: 11 Stunden nach § 5 Abs. 1 ArbZG. In Krankenhäusern, Gaststätten, Verkehrsbetrieben und der Landwirtschaft sind nach § 5 Abs. 2 zehn Stunden zulässig.
+    group: Grenzwerte
+    default: 660
+    initial:
+      - when:
+          field: working_time_model
+          operator: eq
+          value: shift
+        value: 600
+  max_weekly_minutes:
+    label: Wochenhöchstarbeitszeit (Min.)
+    type: integer
+    required: true
+    group: Grenzwerte
+    default: 2880
+  night_start_minute:
+    label: Beginn der Nachtzeit
+    type: integer
+    required: true
+    help: Minute des Tages. 1380 = 23:00 Uhr. Für Bäckereien und Konditoreien gilt nach § 2 Abs. 3 ArbZG 22:00 Uhr, also 1320.
+    group: Grenzwerte
+    default: 1380
+  night_end_minute:
+    label: Ende der Nachtzeit
+    type: integer
+    required: true
+    help: Minute des Tages. 360 = 06:00 Uhr; für Bäckereien 05:00 Uhr, also 300.
+    group: Grenzwerte
+    default: 360
+  deviation_basis:
+    label: Grundlage der Abweichung nach § 7 ArbZG
+    type: longtext
+    help: Tarifvertrag oder Betriebsvereinbarung, auf der abweichende Grenzwerte beruhen. Ohne eine solche Grundlage ist eine Abweichung von den gesetzlichen Werten unzulässig.
+    group: Grenzwerte
+  anonymised_on:
+    label: Anonymisiert am
+    type: date
+    help: Gesetzt, wenn die Klartextangaben nach Ablauf der Aufbewahrungsfrist überschrieben wurden.
+    group: Aufbewahrung

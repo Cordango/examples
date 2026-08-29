@@ -1,0 +1,55 @@
+entity: review_check
+label: Review check
+description: One concrete security, privacy, identity or operational check for a vendor request.
+ownedBy:
+  parent: vendor_request
+  via: request
+  as: table
+plural: Review checks
+display: requirement
+fields:
+  request:
+    label: Request
+    type: reference
+    required: true
+    targetEntity: vendor_request
+  area:
+    label: Area
+    type: select
+    required: true
+    options:
+      - value: identity
+        label: Identity & access
+      - value: data
+        label: Data & privacy
+      - value: security
+        label: Security
+      - value: legal
+        label: Legal
+      - value: operations
+        label: Operations
+  requirement:
+    label: Check
+    type: text
+    required: true
+  outcome:
+    label: Outcome
+    type: select
+    required: true
+    options:
+      - value: pending
+        label: Pending
+      - value: pass
+        label: Pass
+      - value: fail
+        label: Fail
+      - value: not_applicable
+        label: Not applicable
+  owner:
+    label: Owner
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  evidence:
+    label: Evidence / notes
+    type: longtext

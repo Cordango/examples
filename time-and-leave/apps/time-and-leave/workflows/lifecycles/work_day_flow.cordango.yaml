@@ -1,0 +1,65 @@
+lifecycle: work_day_flow
+entity: work_day
+stateField: day_status
+initial: open
+states:
+  open:
+    label: Offen
+    color: '#94a3b8'
+    phase: not_started
+  confirmed:
+    label: Vom Mitarbeiter bestätigt
+    color: '#16a34a'
+    phase: active
+  closed:
+    label: Abgeschlossen
+    color: '#0f766e'
+    terminal: true
+    phase: done
+transitions:
+  confirm_day:
+    label: Tag bestätigen
+    from:
+      - open
+    to: confirmed
+    action:
+      icon: check-circle-outline
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Arbeitstag bestätigt.
+      effects: []
+  reopen_day:
+    label: Wieder öffnen
+    from:
+      - confirmed
+    to: open
+    action:
+      icon: lock-open-variant-outline
+      style: default
+      placements:
+        - recordHeader
+      successMessage: Arbeitstag wieder geöffnet.
+      input:
+        fields:
+          - note
+        required:
+          - note
+      effects: []
+  close_day:
+    label: Abschließen
+    from:
+      - confirmed
+    to: closed
+    action:
+      icon: archive-outline
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Arbeitstag abgeschlossen.
+      confirm:
+        title: Arbeitstag abschließen?
+        confirmLabel: Abschließen
+        tone: danger
+      effects: []

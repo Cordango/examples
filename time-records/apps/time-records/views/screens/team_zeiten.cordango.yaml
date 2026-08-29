@@ -1,0 +1,45 @@
+screen: team_zeiten
+label: Teamzeiten
+icon: account-group-outline
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: md
+        blocks:
+          - kind: stat
+            label: Zur Freigabe
+            icon: inbox-arrow-down
+            source:
+              entity: time_entry
+              aggregate:
+                op: count
+              filters:
+                - field: entry_status
+                  operator: eq
+                  value: submitted
+            link:
+              page: team_zeiten
+          - kind: stat
+            label: Beanstandet
+            icon: alert-circle-outline
+            source:
+              entity: time_entry
+              aggregate:
+                op: count
+              filters:
+                - field: entry_status
+                  operator: eq
+                  value: rejected
+      - kind: section
+        label: Freigabe
+        blocks:
+          - kind: view
+            view: approval_inbox_table
+      - kind: section
+        label: Arbeitstage des Teams
+        blocks:
+          - kind: view
+            view: team_days_table
+subject: time_entry

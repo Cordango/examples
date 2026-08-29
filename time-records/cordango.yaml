@@ -1,0 +1,7 @@
+formatVersion: 1
+workspaceId: 01M153EKZBR0SK5FCHT4ZE6BKK
+name: Time Records
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/time-records

@@ -1,0 +1,100 @@
+lifecycle: absence_flow
+entity: absence
+stateField: absence_status
+initial: draft
+states:
+  draft:
+    label: Entwurf
+    color: '#94a3b8'
+    phase: not_started
+  requested:
+    label: Beantragt
+    color: '#f59e0b'
+    phase: active
+  approved:
+    label: Genehmigt
+    color: '#16a34a'
+    phase: done
+  declined:
+    label: Abgelehnt
+    color: '#dc2626'
+    terminal: true
+    phase: cancelled
+  cancelled:
+    label: Storniert
+    color: '#64748b'
+    terminal: true
+    phase: cancelled
+transitions:
+  request_absence:
+    label: Beantragen
+    from:
+      - draft
+    to: requested
+    action:
+      icon: send-outline
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Antrag eingereicht.
+      effects: []
+  approve_absence:
+    label: Genehmigen
+    from:
+      - requested
+    to: approved
+    action:
+      icon: check-decagram
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Abwesenheit genehmigt.
+      effects:
+        - type: notify
+          to: '{{record.account}}'
+          title: Abwesenheit genehmigt
+          message: Ihr Antrag vom {{record.start_date}} bis {{record.end_date}} wurde genehmigt.
+          link: auto
+  decline_absence:
+    label: Ablehnen
+    from:
+      - requested
+    to: declined
+    action:
+      icon: close-octagon-outline
+      style: danger
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Antrag abgelehnt.
+      input:
+        fields:
+          - decline_reason
+        required:
+          - decline_reason
+      effects:
+        - type: notify
+          to: '{{record.account}}'
+          title: Abwesenheit abgelehnt
+          message: Ihr Antrag vom {{record.start_date}} bis {{record.end_date}} wurde abgelehnt.
+          link: auto
+  cancel_absence:
+    label: Stornieren
+    from:
+      - draft
+      - requested
+      - approved
+    to: cancelled
+    action:
+      icon: undo-variant
+      style: default
+      placements:
+        - recordHeader
+      successMessage: Abwesenheit storniert.
+      confirm:
+        title: Abwesenheit stornieren?
+        confirmLabel: Stornieren
+        tone: danger
+      effects: []

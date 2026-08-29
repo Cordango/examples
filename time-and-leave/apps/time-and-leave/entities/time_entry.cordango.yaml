@@ -1,0 +1,182 @@
+entity: time_entry
+label: Zeitbuchung
+description: Ein zusammenhängender Abschnitt Arbeitszeit mit Beginn und Ende. Die Aufzeichnung, die § 16 Abs. 2 ArbZG und § 17 Abs. 1 MiLoG verlangen; Ruhepausen ergeben sich aus den Lücken zwischen den Abschnitten.
+icon: clock-outline
+series:
+  partition: work_day
+  order: start_minute
+plural: Zeitbuchungen
+display: entry_label
+fields:
+  entry_label:
+    label: Buchung
+    type: text
+    required: true
+    help: Kurzbezeichnung des Abschnitts, etwa Vormittag oder Kundentermin.
+  work_day:
+    label: Arbeitstag
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: work_day
+    onDelete: cascade
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    help: Beim Anlegen aus dem Arbeitstag übernommen. Ein Ausdruck erreicht nur eine Referenzebene, und die Schwellenwerte der Nachtarbeit stehen im Profil.
+    targetEntity: worker_profile
+    onDelete: cascade
+  entry_date:
+    label: Tag
+    type: date
+    required: true
+    indexed: true
+    help: Der Kalendertag, auf den die Buchung gebucht wird. Bezugspunkt für Beginn und Ende in Minuten — auch für eine Schicht, die über Mitternacht läuft.
+  started_at:
+    label: Beginn
+    type: datetime
+    required: true
+    help: Aufzuzeichnender Beginn der Arbeitszeit (§ 16 Abs. 2 ArbZG, § 17 Abs. 1 MiLoG).
+    role: start
+  ended_at:
+    label: Ende
+    type: datetime
+    help: Aufzuzeichnendes Ende der Arbeitszeit. Solange es fehlt, läuft die Buchung.
+    role: due
+  manual_break_minutes:
+    label: Pause pauschal (Min.)
+    type: integer
+    help: Nur für die Nacherfassung vergangener Tage. Wer Kommen und Gehen stempelt, erzeugt Pausen als Lücken zwischen zwei Buchungen — das ist die genauere Aufzeichnung.
+    default: 0
+  entry_status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  capture_source:
+    label: Erfassungsart
+    type: select
+    required: true
+    group: Nachweis
+    default: manual
+    options:
+      - value: clock
+        label: Stempeluhr
+        color: '#16a34a'
+      - value: manual
+        label: Nacherfassung
+        color: '#f59e0b'
+      - value: correction
+        label: Korrektur
+        color: '#dc2626'
+      - value: import
+        label: Import
+        color: '#94a3b8'
+  recorded_at:
+    label: Aufgezeichnet am
+    type: datetime
+    group: Nachweis
+  recorded_by:
+    label: Aufgezeichnet von
+    type: reference
+    group: Nachweis
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  milog_late:
+    label: Frist des § 17 MiLoG versäumt
+    type: boolean
+    indexed: true
+    help: Später als sieben Tage nach der Arbeitsleistung aufgezeichnet.
+    group: Nachweis
+    default: false
+  change_reason:
+    label: Grund der Änderung
+    type: longtext
+    help: Bei Nacherfassung und Korrektur anzugeben. Eine Aufzeichnung, die sich ohne Begründung ändern lässt, ist als Nachweis wenig wert.
+    group: Nachweis
+  rejection_reason:
+    label: Grund der Beanstandung
+    type: longtext
+    group: Nachweis
+  start_minute:
+    label: Beginn (Minute des Tages)
+    type: integer
+    indexed: true
+    help: Minuten seit Mitternacht des gebuchten Tages — 08:00 Uhr ist 480. Die einzige Zahl, die eingetragen wird; Ende und Dauer ergeben sich daraus und aus den Zeitstempeln. Beim Stempeln fragt Gehen danach.
+  end_minute:
+    label: Ende (Minute des Tages)
+    type: integer
+    help: Beginn zuzüglich der gemessenen Dauer, deshalb über 1440 hinaus — 02:00 Uhr des Folgetages ist 1560. Genau das macht die Ruhezeitrechnung zu einer Subtraktion, und niemand muss die Zahl zweimal eintragen.
+    group: Berechnung
+    computed:
+      expr: start_minute + gross_minutes
+  gross_minutes:
+    label: Bruttodauer (Min.)
+    type: integer
+    help: Aus den beiden Zeitstempeln gemessen, die das Gesetz ohnehin verlangt.
+    group: Berechnung
+    computed:
+      expr: minutes_between(started_at, ended_at)
+  net_minutes:
+    label: Dauer (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      expr: gross_minutes - manual_break_minutes
+  net_hours:
+    label: Dauer (Std.)
+    type: decimal
+    group: Berechnung
+    unit: ' h'
+    computed:
+      expr: net_minutes / 60
+    precision: 8
+    scale: 2
+  times_incomplete:
+    label: Zeiten unvollständig
+    type: boolean
+    help: Ende fehlt oder liegt vor dem Beginn. Sichtbar statt stillschweigend als Null gerechnet.
+    group: Berechnung
+    computed:
+      expr: gross_minutes <= 0
+  gap_before_minutes:
+    label: Unterbrechung davor (Min.)
+    type: integer
+    group: Pausen
+    computed:
+      expr: start_minute - prev(end_minute, start_minute)
+  qualifying_gap_minutes:
+    label: Anrechenbare Ruhepause (Min.)
+    type: integer
+    help: Nur Unterbrechungen von mindestens 15 Minuten sind Ruhepausen (§ 4 Satz 2 ArbZG). Kürzere zählen nicht — der Faktor blendet sie aus, ohne dass es eine Fallunterscheidung bräuchte.
+    group: Pausen
+    computed:
+      expr: min(gap_before_minutes, max(0, gap_before_minutes - 14) * 10000)
+  night_minutes_early:
+    label: Nachtarbeit vor Tagesbeginn (Min.)
+    type: integer
+    group: Nachtarbeit
+    computed:
+      expr: max(0, min(end_minute, worker.night_end_minute) - start_minute)
+  night_minutes_late:
+    label: Nachtarbeit nach Tagesende (Min.)
+    type: integer
+    group: Nachtarbeit
+    computed:
+      expr: max(0, min(end_minute, 1440) - max(start_minute, worker.night_start_minute))
+  night_minutes_after_midnight:
+    label: Nachtarbeit nach Mitternacht (Min.)
+    type: integer
+    group: Nachtarbeit
+    computed:
+      expr: max(0, min(end_minute, 1440 + worker.night_end_minute) - max(start_minute, 1440))
+  night_minutes:
+    label: Nachtarbeit (Min.)
+    type: integer
+    help: In drei Abschnitte zerlegt, weil ein Ausdruck 300 Zeichen nicht überschreiten darf.
+    group: Nachtarbeit
+    computed:
+      expr: night_minutes_early + night_minutes_late + night_minutes_after_midnight

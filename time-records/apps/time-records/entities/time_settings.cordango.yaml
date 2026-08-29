@@ -1,0 +1,62 @@
+entity: time_settings
+label: Einstellungen Zeiterfassung
+description: Betriebsweite Vorgaben der Zeiterfassung. Was hier steht, gilt für alle Mitarbeiter; abweichende Grenzwerte einzelner Personen stehen im Mitarbeiterprofil.
+icon: cog-outline
+kind: settings
+plural: Einstellungen Zeiterfassung
+fields:
+  clock_enabled:
+    label: Stempeluhr aktiv
+    type: boolean
+    help: Schaltet die Schaltflächen Kommen und Gehen frei. Ist sie aus, wird ausschließlich nacherfasst.
+    group: Erfassung
+    default: true
+  allow_manual_entry:
+    label: Nacherfassung erlaubt
+    type: boolean
+    help: Erlaubt das Eintragen vergangener Tage von Hand. Jede Nacherfassung wird als solche gekennzeichnet.
+    group: Erfassung
+    default: true
+  milog_deadline_days:
+    label: Aufzeichnungsfrist (Tage)
+    type: integer
+    help: § 17 Abs. 1 MiLoG — spätestens sieben Tage nach der Arbeitsleistung aufzuzeichnen.
+    group: MiLoG
+    default: 7
+    unit: ' Tage'
+  retention_years:
+    label: Aufbewahrungsfrist (Jahre)
+    type: integer
+    help: § 16 Abs. 2 ArbZG und § 17 Abs. 1 MiLoG verlangen zwei Jahre. Steuer- und sozialversicherungsrechtlich können längere Fristen gelten.
+    group: Aufbewahrung
+    default: 2
+    unit: ' Jahre'
+  holidays_count_as_werktag:
+    label: Feiertage zählen als Werktag
+    type: boolean
+    help: Umstritten. Werktage sind Montag bis Samstag; ob ein auf einen Werktag fallender Feiertag den Durchschnitt des § 3 Satz 2 mitträgt, wird unterschiedlich beurteilt. Die Auslegung wird hier bewusst offengelegt statt versteckt.
+    group: § 3 Ausgleich
+    default: false
+  default_max_daily_minutes:
+    label: Höchstarbeitszeit werktäglich (Min.)
+    type: integer
+    help: 480 Minuten sind die Regel des § 3 Satz 1, 600 die Ausnahme des § 3 Satz 2 mit Ausgleich.
+    group: Grenzwerte
+    default: 600
+  default_min_rest_minutes:
+    label: Mindestruhezeit (Min.)
+    type: integer
+    help: 11 Stunden nach § 5 Abs. 1 ArbZG.
+    group: Grenzwerte
+    default: 660
+  default_max_weekly_minutes:
+    label: Wochenhöchstarbeitszeit (Min.)
+    type: integer
+    help: 48 Stunden — sechs Werktage zu acht Stunden.
+    group: Grenzwerte
+    default: 2880
+  privacy_notice:
+    label: Hinweis zur Datenverarbeitung
+    type: longtext
+    help: Wird auf der Seite Nachweise angezeigt. Zweckbindung, Aufbewahrungsfrist und Empfänger der Arbeitszeitdaten gehören in das Verzeichnis von Verarbeitungstätigkeiten nach Art. 30 DSGVO.
+    group: Datenschutz

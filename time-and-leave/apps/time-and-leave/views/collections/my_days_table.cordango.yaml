@@ -1,0 +1,24 @@
+view: my_days_table
+label: Meine Arbeitstage
+entity: work_day
+filters:
+  - field: account
+    operator: eq
+    value: '{{actor.id}}'
+sort:
+  - field: work_date
+    direction: desc
+kind: table
+settings:
+  columns:
+    - work_date
+    - day_status
+    - worked_hours
+    - break_minutes
+    - required_break_minutes
+    - rest_minutes
+    - compliant
+  filterBar:
+    facets:
+      - day_status
+  inlineEdit: false

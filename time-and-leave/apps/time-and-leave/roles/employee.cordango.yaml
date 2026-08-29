@@ -1,0 +1,28 @@
+role: employee
+name: Mitarbeiter
+description: Erfasst die eigene Arbeitszeit, stempelt Kommen und Gehen, trägt vergessene Tage nach und bestätigt den Tag.
+grants:
+  worker_profile:
+    read: true
+  work_day:
+    read: true
+    update: true
+    commands:
+      - confirm_day
+  time_entry:
+    create: true
+    read: true
+    update: true
+    commands:
+      - stop_clock
+      - submit_entry
+  time_punch:
+    read: true
+  work_week:
+    read: true
+  violation:
+    read: true
+  public_holiday:
+    read: true
+  bundesland:
+    read: true

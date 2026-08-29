@@ -1,0 +1,20 @@
+form: work_week
+blocks:
+  - kind: section
+    label: Arbeitswoche
+    blocks:
+      - kind: fields
+        fields:
+          - label
+          - worker
+        columns: 2
+  - kind: section
+    label: Zeitraum
+    blocks:
+      - kind: fields
+        fields:
+          - week_start
+          - week_end
+          - account
+          - bundesland
+        columns: 2

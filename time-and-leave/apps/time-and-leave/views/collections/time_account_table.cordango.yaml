@@ -1,0 +1,21 @@
+view: time_account_table
+label: Arbeitszeitkonten
+entity: time_account
+sort:
+  - field: month_start
+    direction: desc
+kind: table
+settings:
+  columns:
+    - label
+    - worker
+    - month_start
+    - target_minutes
+    - worked_minutes
+    - absence_minutes
+    - movement_minutes
+    - closing_balance_hours
+  filterBar:
+    facets:
+      - worker
+  inlineEdit: false

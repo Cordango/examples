@@ -1,0 +1,15 @@
+action: assign_replacement_rest
+label: Ersatzruhetag zuordnen
+entity: work_day
+description: Ordnet diesem Tag mit Sonn- oder Feiertagsarbeit einen freien Tag als Ersatzruhetag zu (§ 11 Abs. 3 ArbZG).
+icon: calendar-arrow-left
+successMessage: Ersatzruhetag zugeordnet.
+input:
+  fields:
+    - replacement_day
+  required:
+    - replacement_day
+effects:
+  - type: updateRecord
+    set:
+      replacement_granted: true

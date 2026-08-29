@@ -1,0 +1,5 @@
+tab: aenderungen
+key: aenderungen
+label: Änderungen
+blocks:
+  - kind: history

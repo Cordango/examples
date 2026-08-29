@@ -1,0 +1,31 @@
+automation: raise_sunday_violation
+name: Sonn- und Feiertagsarbeit sofort erfassen
+effects:
+  - type: createForEach
+    set:
+      label: Sonn- oder Feiertagsarbeit am {{source.work_date}}
+      worker: '{{source.worker}}'
+      work_day: '{{source.id}}'
+      work_week: '{{source.work_week}}'
+      rule: arbzg_9_sunday
+      severity: medium
+      detected_on: '{{today}}'
+      measured_value: '{{source.worked_minutes}}'
+      limit_value: 0
+    entity: violation
+    source:
+      entity: work_day
+      filters:
+        - field: id
+          operator: eq
+          value: '{{record.id}}'
+    key:
+      - work_day
+      - rule
+trigger: field.changed
+entity: work_day
+field: sunday_or_holiday_work
+when:
+  field: sunday_or_holiday_work
+  operator: eq
+  value: true

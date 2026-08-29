@@ -1,0 +1,7 @@
+formatVersion: 1
+workspaceId: 01M153PTE1EXK2B8H9SE8Z56ZG
+name: Vendorflow
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/vendor-flow

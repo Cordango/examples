@@ -1,0 +1,20 @@
+view: holidays_table
+label: Gesetzliche Feiertage
+entity: public_holiday
+sort:
+  - field: holiday_date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - holiday_date
+    - name
+    - bundesland
+    - year
+    - nationwide
+  filterBar:
+    search:
+      - name
+    facets:
+      - bundesland
+  inlineEdit: true

@@ -1,0 +1,10 @@
+automation: stamp_entry_metadata
+name: Aufzeichnungszeitpunkt und Erfasser festhalten
+effects:
+  - type: updateRecord
+    set:
+      recorded_at: '{{now}}'
+      recorded_by: '{{actor.id}}'
+    setIfEmpty: true
+trigger: record.created
+entity: time_entry

@@ -1,0 +1,42 @@
+form: worker_profile
+blocks:
+  - kind: section
+    label: Person
+    blocks:
+      - kind: fields
+        fields:
+          - employee
+          - account
+          - bundesland
+        columns: 2
+  - kind: section
+    label: Zeitraum der Aufzeichnung
+    blocks:
+      - kind: fields
+        fields:
+          - recording_start
+          - recording_end
+        columns: 2
+  - kind: section
+    label: Einstufung
+    blocks:
+      - kind: fields
+        fields:
+          - working_time_model
+          - milog_sector
+          - milog_applies
+        columns: 2
+  - kind: section
+    label: Grenzwerte
+    blocks:
+      - kind: fields
+        fields:
+          - max_daily_minutes
+          - min_rest_minutes
+          - max_weekly_minutes
+          - night_start_minute
+          - night_end_minute
+        columns: 2
+      - kind: fields
+        fields:
+          - deviation_basis

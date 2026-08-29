@@ -1,0 +1,23 @@
+view: averaging_table
+label: Ausgleichszeiträume
+entity: averaging_window
+sort:
+  - field: window_start
+    direction: desc
+kind: table
+settings:
+  columns:
+    - label
+    - worker
+    - window_start
+    - window_end
+    - avg_daily_hours
+    - headroom_hours
+    - averaging_ok
+  filterBar:
+    search:
+      - label
+    facets:
+      - worker
+      - basis
+  inlineEdit: false

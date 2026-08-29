@@ -1,0 +1,42 @@
+screen: nachweise
+label: Nachweise und Aufbewahrung
+icon: file-document-multiple-outline
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: section
+        label: § 17 MiLoG — Aufzeichnungsfrist
+        blocks:
+          - kind: text
+            text: In den Branchen des § 2a SchwarzArbG sind Beginn, Ende und Dauer der täglichen Arbeitszeit spätestens sieben Tage nach der Arbeitsleistung aufzuzeichnen und zwei Jahre aufzubewahren. Was hier steht, ist später als diese Frist erfasst worden.
+            size: sm
+          - kind: view
+            view: late_records_table
+      - kind: section
+        label: Aufbewahrung und Löschung
+        blocks:
+          - kind: text
+            text: Zwei Jahre nach § 16 Abs. 2 ArbZG und § 17 Abs. 1 MiLoG. Danach ist die Aufzeichnung zu löschen, soweit keine andere Rechtsgrundlage sie noch trägt. Die Anwendung kennzeichnet den Fristablauf, löscht aber nicht selbst — siehe die Anmerkung im README.
+            size: sm
+          - kind: view
+            view: retention_due_table
+      - kind: section
+        label: Stempelprotokoll
+        blocks:
+          - kind: row
+            gap: md
+            blocks:
+              - kind: stat
+                label: Stempelungen
+                icon: gesture-tap-button
+                source:
+                  entity: time_punch
+                  aggregate:
+                    op: count
+              - kind: create
+                entity: time_punch
+                label: Stempelung nachtragen
+          - kind: view
+            view: punch_log_table
+subject: time_punch

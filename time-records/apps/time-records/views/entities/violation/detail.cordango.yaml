@@ -1,0 +1,33 @@
+detail: violation
+blocks:
+  - kind: hub
+    title: label
+    status: violation_status
+    facts:
+      - rule
+      - worker
+      - detected_on
+      - severity
+    actions:
+      - start_review
+      - mark_remedied
+      - accept_violation
+      - edit
+  - kind: process
+  - kind: section
+    label: Bezug
+    blocks:
+      - kind: fields
+        fields:
+          - work_day
+          - work_week
+          - measured_value
+          - limit_value
+        cols: 2
+  - kind: section
+    label: Bearbeitung
+    blocks:
+      - kind: fields
+        fields:
+          - justification
+          - remedy_note

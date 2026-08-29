@@ -1,0 +1,31 @@
+automation: raise_stretch_violation
+name: Zu lange Arbeitsstrecke sofort erfassen
+effects:
+  - type: createForEach
+    set:
+      label: Mehr als sechs Stunden am Stück am {{source.work_date}}
+      worker: '{{source.worker}}'
+      work_day: '{{source.id}}'
+      work_week: '{{source.work_week}}'
+      rule: arbzg_4_stretch
+      severity: medium
+      detected_on: '{{today}}'
+      measured_value: '{{source.longest_stretch_minutes}}'
+      limit_value: 360
+    entity: violation
+    source:
+      entity: work_day
+      filters:
+        - field: id
+          operator: eq
+          value: '{{record.id}}'
+    key:
+      - work_day
+      - rule
+trigger: field.changed
+entity: work_day
+field: stretch_ok
+when:
+  field: stretch_ok
+  operator: eq
+  value: false

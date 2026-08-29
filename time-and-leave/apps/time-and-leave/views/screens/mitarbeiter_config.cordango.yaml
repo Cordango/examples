@@ -1,0 +1,21 @@
+screen: mitarbeiter_config
+label: Mitarbeiterprofile
+icon: account-cog-outline
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        text: Ein Profil je Mitarbeiter, und der einzige Einrichtungsschritt. Beim Anlegen erzeugt die Anwendung daraus jede Arbeitswoche und jeden Arbeitstag. Der Aufzeichnungsbeginn muss ein Montag sein — der Wochentag wird beim Erzeugen gezählt, weil ihn keine Funktion aus einem Datum ableiten kann.
+        size: sm
+      - kind: row
+        gap: md
+        blocks:
+          - kind: create
+            entity: worker_profile
+            label: Profil anlegen
+            style: primary
+      - kind: view
+        view: workers_table
+subject: worker_profile
+navigationGroup: config

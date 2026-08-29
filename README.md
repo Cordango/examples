@@ -1,6 +1,6 @@
 # Cordango examples
 
-Five complete Cordango applications, as source you can clone, read, change and build.
+Seven complete Cordango applications, as source you can clone, read, change and build.
 
 > Status: pre-alpha. These track the App Definition schema in
 > [cordango/cordango](https://github.com/cordango/cordango) and will move while it settles.
@@ -28,6 +28,11 @@ later.
 Then open <http://localhost:8080>: the first screen asks you to create the administrator account.
 There is no default password and none is generated for you.
 
+The two marked **Platform only** are the exception: they reference the People core app for the
+personnel file, and a reference between applications is something only Cordango Platform can
+resolve. `cordango check --target standalone` refuses them outright rather than degrading, so they
+are read, checked and published rather than built and run locally.
+
 ## Documentation
 
 **[docs.cordango.com](https://docs.cordango.com)** — the [quickstart](https://docs.cordango.com/quickstart),
@@ -43,6 +48,8 @@ There is no default password and none is generated for you.
 | [`task-manager/`](task-manager) | 5 | Projects, tasks, subtasks and milestones, with rollups that let a parent count its children. Read this one for computed fields. |
 | [`room-booking/`](room-booking) | 4 | Rooms, bookings, attendees, and a policy entity that holds the rules instead of hard-coding them. |
 | [`budget-planner/`](budget-planner) | 16 | The largest by a distance, and the one that pushes the language hardest: scenarios, cohort growth, rollups across a window, and a running cash balance that reads the row before it. Read it for the calculation plane. |
+| [`time-records/`](time-records) | 10 | Working time under German law — the recording every employer has owed since the Bundesarbeitsgericht decided it in 2022. Rules that are given from outside and cannot be argued with: a step function built without a branch, an eleven-hour rest read from the previous day, and a works-council role that the entity shapes make possible. **Platform only.** |
+| [`time-and-leave/`](time-and-leave) | 16 | The same application plus holiday, sickness and a Gleitzeit account. Contracted hours joined by weekday through a one-value window, and a balance that carries itself from month to month. **Platform only.** |
 
 ## Reading one
 

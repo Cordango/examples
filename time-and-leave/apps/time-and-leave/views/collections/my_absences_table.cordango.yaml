@@ -1,0 +1,26 @@
+view: my_absences_table
+label: Meine Abwesenheiten
+entity: absence
+filters:
+  - field: account
+    operator: eq
+    value: '{{actor.id}}'
+sort:
+  - field: start_date
+    direction: desc
+kind: table
+settings:
+  columns:
+    - label
+    - absence_type
+    - start_date
+    - end_date
+    - day_count
+    - absence_status
+  filterBar:
+    search:
+      - label
+    facets:
+      - absence_type
+      - absence_status
+  inlineEdit: false

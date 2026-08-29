@@ -1,0 +1,31 @@
+automation: raise_rest_violation
+name: Verstoß gegen die Ruhezeit sofort erfassen
+effects:
+  - type: createForEach
+    set:
+      label: Ruhezeit unterschritten am {{source.work_date}}
+      worker: '{{source.worker}}'
+      work_day: '{{source.id}}'
+      work_week: '{{source.work_week}}'
+      rule: arbzg_5_rest
+      severity: high
+      detected_on: '{{today}}'
+      measured_value: '{{source.rest_minutes}}'
+      limit_value: '{{source.limit_rest_minutes}}'
+    entity: violation
+    source:
+      entity: work_day
+      filters:
+        - field: id
+          operator: eq
+          value: '{{record.id}}'
+    key:
+      - work_day
+      - rule
+trigger: field.changed
+entity: work_day
+field: rest_ok
+when:
+  field: rest_ok
+  operator: eq
+  value: false

@@ -1,0 +1,98 @@
+app: time_records
+name: Zeiterfassung
+version: 1.0.0
+description: Gesetzeskonforme Arbeitszeiterfassung nach dem Arbeitszeitgesetz und dem Mindestlohngesetz. Stempeluhr und Nacherfassung, Höchstarbeitszeit, Ruhepausen, Ruhezeit, Nacht-, Sonn- und Feiertagsarbeit, Ausgleichszeitraum, Aufzeichnungs- und Aufbewahrungspflichten.
+schemaVersion: '2.0'
+presentation:
+  icon: clock-check-outline
+  color: '#0f766e'
+  category: Personal
+  tagline: Arbeitszeiten erfassen, Grenzen einhalten, Nachweise führen
+archetype:
+  kind: tracker
+  coreJob: Arbeitszeiten lückenlos erfassen und die Grenzen des Arbeitszeitgesetzes nachweisbar einhalten.
+theme:
+  primaryColor: '#0f766e'
+  secondaryColor: '#f59e0b'
+  font: Inter
+  radius: small
+  density: compact
+order:
+  entities:
+    - worker_profile
+    - work_week
+    - work_day
+    - time_entry
+    - time_punch
+    - averaging_window
+    - violation
+    - public_holiday
+    - bundesland
+    - time_settings
+  pages:
+    - stempeluhr
+    - meine_zeiten
+    - wochennachweis
+    - team_zeiten
+    - verstoesse
+    - arbeitszeitgesetz
+    - nachweise
+    - betriebsrat
+    - mitarbeiter_config
+    - kalender_config
+    - einstellungen
+  views:
+    - today_entries_table
+    - my_days_table
+    - team_days_table
+    - approval_inbox_table
+    - weeks_table
+    - violations_board
+    - violations_table
+    - averaging_table
+    - sunday_work_table
+    - late_records_table
+    - retention_due_table
+    - punch_log_table
+    - workers_table
+    - holidays_table
+  roles:
+    - employee
+    - manager
+    - hr_admin
+    - payroll
+    - works_council
+    - auditor
+  processes:
+    - time_entry_flow
+    - work_day_flow
+    - violation_flow
+  commands:
+    - stop_clock
+    - submit_entry
+    - approve_entry
+    - reject_entry
+    - lock_entry
+    - unlock_entry
+    - confirm_day
+    - reopen_day
+    - close_day
+    - start_review
+    - mark_remedied
+    - accept_violation
+    - start_clock
+    - assign_replacement_rest
+    - anonymise_worker
+  workflows:
+    - generate_work_weeks
+    - generate_work_days
+    - stamp_entry_metadata
+    - flag_late_recording
+    - raise_rest_violation
+    - raise_daily_violation
+    - raise_break_violation
+    - raise_stretch_violation
+    - raise_sunday_violation
+    - missing_ersatzruhetag
+    - missing_entries_reminder
+    - flag_retention_due

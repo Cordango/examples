@@ -1,0 +1,24 @@
+view: pending_absences_table
+label: Offene Anträge
+entity: absence
+filters:
+  - field: absence_status
+    operator: eq
+    value: requested
+sort:
+  - field: start_date
+    direction: asc
+kind: table
+settings:
+  columns:
+    - worker
+    - absence_type
+    - start_date
+    - end_date
+    - day_count
+    - reason
+  filterBar:
+    facets:
+      - worker
+      - absence_type
+  inlineEdit: false

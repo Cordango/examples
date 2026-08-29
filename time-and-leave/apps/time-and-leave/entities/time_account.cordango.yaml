@@ -1,0 +1,110 @@
+entity: time_account
+label: Arbeitszeitkonto
+description: Soll, Ist und Saldo eines Monats. Der laufende Saldo trägt sich von Monat zu Monat weiter — das ist ein Gleitzeitkonto, und es ist der Grund, warum diese Entität eine geordnete Reihe ist.
+icon: scale-unbalanced
+series:
+  partition: worker
+  order: month_start
+unique:
+  - - worker
+    - month_start
+plural: Arbeitszeitkonten
+display: label
+fields:
+  label:
+    label: Monat
+    type: text
+    required: true
+  worker:
+    label: Mitarbeiterprofil
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: worker_profile
+    onDelete: cascade
+  month_start:
+    label: Monatsbeginn
+    type: date
+    required: true
+    indexed: true
+    role: start
+  month_end:
+    label: Monatsende
+    type: date
+    required: true
+    role: due
+  opening_balance:
+    label: Anfangssaldo (Min.)
+    type: integer
+    help: Nur im ersten Monat einzutragen. Danach ergibt er sich aus dem Vormonat.
+    default: 0
+  worked_minutes:
+    label: Ist-Arbeitszeit (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: work_day
+        via: worker
+        match: worker
+        op: sum
+        field: worked_minutes
+        window:
+          at: work_date
+          within:
+            from: month_start
+            to: month_end
+  absence_minutes:
+    label: Gutschrift aus Abwesenheit (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: work_day
+        via: worker
+        match: worker
+        op: sum
+        field: absence_minutes
+        window:
+          at: work_date
+          within:
+            from: month_start
+            to: month_end
+  target_minutes:
+    label: Sollzeit (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      rollup:
+        entity: work_day
+        via: worker
+        match: worker
+        op: sum
+        field: target_minutes
+        window:
+          at: work_date
+          within:
+            from: month_start
+            to: month_end
+  movement_minutes:
+    label: Veränderung im Monat (Min.)
+    type: integer
+    group: Berechnung
+    computed:
+      expr: worked_minutes + absence_minutes - target_minutes
+  closing_balance:
+    label: Saldo (Min.)
+    type: integer
+    help: Der Saldo des Vormonats zuzüglich der Veränderung dieses Monats. Im ersten Monat einer Reihe tritt der Anfangssaldo an die Stelle des Vormonats.
+    group: Berechnung
+    computed:
+      expr: prev(closing_balance, opening_balance) + movement_minutes
+  closing_balance_hours:
+    label: Saldo (Std.)
+    type: decimal
+    group: Berechnung
+    unit: ' h'
+    computed:
+      expr: closing_balance / 60
+    precision: 8
+    scale: 2

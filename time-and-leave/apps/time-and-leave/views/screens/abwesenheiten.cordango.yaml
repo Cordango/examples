@@ -1,0 +1,47 @@
+screen: abwesenheiten
+label: Abwesenheiten
+icon: calendar-remove-outline
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: md
+        blocks:
+          - kind: stat
+            label: Offene Anträge
+            icon: inbox-arrow-down
+            source:
+              entity: absence
+              aggregate:
+                op: count
+              filters:
+                - field: absence_status
+                  operator: eq
+                  value: requested
+          - kind: stat
+            label: Genehmigt
+            icon: check-decagram
+            source:
+              entity: absence
+              aggregate:
+                op: count
+              filters:
+                - field: absence_status
+                  operator: eq
+                  value: approved
+          - kind: create
+            entity: absence
+            label: Abwesenheit beantragen
+            style: primary
+      - kind: section
+        label: Meine Abwesenheiten
+        blocks:
+          - kind: view
+            view: my_absences_table
+      - kind: section
+        label: Zur Genehmigung
+        blocks:
+          - kind: view
+            view: pending_absences_table
+subject: absence

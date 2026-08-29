@@ -1,0 +1,51 @@
+action: start_clock
+label: Kommen
+entity: worker_profile
+description: Beginnt eine Zeitbuchung auf dem heutigen Arbeitstag und schreibt zugleich die Stempelung in das Rohprotokoll.
+icon: play-circle-outline
+successMessage: Zeiterfassung gestartet.
+effects:
+  - type: createRecord
+    set:
+      entry_label: Stempelung
+      worker: '{{record.id}}'
+      work_day:
+        pick:
+          entity: work_day
+          filters:
+            - field: worker
+              operator: eq
+              value: '{{record.id}}'
+            - field: work_date
+              operator: eq
+              value: '{{today}}'
+          sort:
+            - field: work_date
+              direction: asc
+      entry_date: '{{today}}'
+      started_at: '{{now}}'
+      capture_source: clock
+      recorded_at: '{{now}}'
+      recorded_by: '{{actor.id}}'
+    entity: time_entry
+  - type: createRecord
+    set:
+      punch_label: Kommen
+      work_day:
+        pick:
+          entity: work_day
+          filters:
+            - field: worker
+              operator: eq
+              value: '{{record.id}}'
+            - field: work_date
+              operator: eq
+              value: '{{today}}'
+          sort:
+            - field: work_date
+              direction: asc
+      punched_at: '{{now}}'
+      direction: kommen
+      punch_source: web
+      actor: '{{actor.id}}'
+    entity: time_punch

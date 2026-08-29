@@ -1,0 +1,19 @@
+entity: bundesland
+label: Bundesland
+description: Ein Land der Bundesrepublik. Feiertage sind Landesrecht, deshalb ist das Bundesland des Arbeitsorts der Schlüssel jeder Feiertagsprüfung.
+icon: map-marker
+kind: config
+plural: Bundesländer
+display: name
+fields:
+  name:
+    label: Bundesland
+    type: text
+    required: true
+    unique: true
+  code:
+    label: Kürzel
+    type: text
+    required: true
+    unique: true
+    help: Zwei Buchstaben nach ISO 3166-2:DE — BW, BY, BE, BB, HB, HH, HE, MV, NI, NW, RP, SL, SN, ST, SH, TH.

@@ -1,0 +1,20 @@
+screen: urlaubskonto
+label: Urlaubskonto
+icon: beach
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        text: § 3 BUrlG gibt mindestens 24 Werktage bei einer Sechstagewoche, also 20 bei fünf Arbeitstagen je Woche. Übertragener Urlaub verfällt nach § 7 Abs. 3 BUrlG am 31. März, sofern der Arbeitgeber auf den drohenden Verfall hingewiesen hat.
+        size: sm
+      - kind: row
+        gap: md
+        blocks:
+          - kind: create
+            entity: leave_entitlement
+            label: Anspruch anlegen
+            style: primary
+      - kind: view
+        view: leave_table
+subject: leave_entitlement

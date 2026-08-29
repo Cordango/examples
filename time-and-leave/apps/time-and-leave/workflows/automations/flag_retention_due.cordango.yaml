@@ -1,0 +1,13 @@
+automation: flag_retention_due
+name: Abgelaufene Aufbewahrungsfrist kennzeichnen
+when:
+  field: work_date
+  operator: lt
+  value: '{{today-105w}}'
+effects:
+  - type: updateRecord
+    set:
+      retention_due: true
+trigger: schedule
+entity: work_day
+cron: 0 3 * * 0

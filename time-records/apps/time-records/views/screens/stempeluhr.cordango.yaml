@@ -1,0 +1,53 @@
+screen: stempeluhr
+label: Stempeluhr
+icon: clock-fast
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: md
+        blocks:
+          - kind: stat
+            label: Buchungen heute
+            icon: counter
+            source:
+              entity: time_entry
+              aggregate:
+                op: count
+              filters:
+                - field: entry_date
+                  operator: eq
+                  value: '{{today}}'
+          - kind: stat
+            label: Laufende Buchungen
+            icon: play-circle-outline
+            source:
+              entity: time_entry
+              aggregate:
+                op: count
+              filters:
+                - field: entry_status
+                  operator: eq
+                  value: running
+          - kind: stat
+            label: Erfasste Minuten heute
+            icon: timer-outline
+            source:
+              entity: time_entry
+              aggregate:
+                op: sum
+                field: net_minutes
+              filters:
+                - field: entry_date
+                  operator: eq
+                  value: '{{today}}'
+      - kind: section
+        label: Kommen und Gehen
+        blocks:
+          - kind: text
+            text: Kommen startet eine Buchung auf dem heutigen Arbeitstag und schreibt die Stempelung in das Rohprotokoll. Gehen beendet die laufende Buchung. Eine Pause entsteht als Lücke zwischen zwei Buchungen — sie zählt ab 15 Minuten als Ruhepause im Sinne des § 4 Satz 2 ArbZG.
+            size: sm
+          - kind: view
+            view: today_entries_table
+subject: time_entry

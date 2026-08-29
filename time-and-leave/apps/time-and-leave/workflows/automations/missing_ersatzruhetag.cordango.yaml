@@ -1,0 +1,33 @@
+automation: missing_ersatzruhetag
+name: Fehlenden Ersatzruhetag melden
+effects:
+  - type: createForEach
+    set:
+      label: Ersatzruhetag fehlt für den {{source.work_date}}
+      worker: '{{record.id}}'
+      work_day: '{{source.id}}'
+      work_week: '{{source.work_week}}'
+      rule: arbzg_11_ersatzruhetag
+      severity: high
+      detected_on: '{{today}}'
+      measured_value: 0
+      limit_value: 1
+    entity: violation
+    source:
+      entity: work_day
+      filters:
+        - field: worker
+          operator: eq
+          value: '{{record.id}}'
+        - field: replacement_rest_ok
+          operator: eq
+          value: false
+        - field: work_date
+          operator: lt
+          value: '{{today-2w}}'
+    key:
+      - work_day
+      - rule
+trigger: schedule
+entity: worker_profile
+cron: 0 6 * * *

@@ -1,0 +1,38 @@
+detail: averaging_window
+blocks:
+  - kind: hub
+    title: label
+    facts:
+      - worker
+      - window_start
+      - window_end
+      - averaging_ok
+    actions:
+      - edit
+  - kind: tiles
+    tiles:
+      - icon: chart-line
+        field: avg_daily_hours
+        label: Durchschnitt je Werktag
+        format: number
+        attention:
+          op: gt
+          value: 8
+      - icon: gauge
+        field: headroom_hours
+        label: Verbleibender Spielraum
+        format: number
+      - icon: calendar-range
+        field: werktag_count
+        label: Werktage
+        format: number
+  - kind: section
+    label: Stundenbudget
+    blocks:
+      - kind: fields
+        fields:
+          - total_minutes
+          - budget_minutes
+          - overrun_minutes
+          - averaging_ok
+        cols: 2

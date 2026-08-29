@@ -1,0 +1,8 @@
+screen: einstellungen
+label: Einstellungen
+icon: cog-outline
+layout:
+  - kind: settings
+    entity: time_settings
+subject: time_settings
+navigationGroup: config

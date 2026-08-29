@@ -1,0 +1,21 @@
+form: leave_entitlement
+blocks:
+  - kind: section
+    label: Urlaubsanspruch
+    blocks:
+      - kind: fields
+        fields:
+          - label
+          - worker
+          - year
+        columns: 2
+  - kind: section
+    label: Zeitraum und Anspruch
+    blocks:
+      - kind: fields
+        fields:
+          - year_start
+          - year_end
+          - base_days
+          - carry_over_days
+        columns: 2

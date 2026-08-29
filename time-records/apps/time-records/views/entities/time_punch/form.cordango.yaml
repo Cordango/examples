@@ -1,0 +1,14 @@
+form: time_punch
+blocks:
+  - kind: section
+    label: Stempelung
+    blocks:
+      - kind: fields
+        fields:
+          - punch_label
+          - work_day
+          - time_entry
+          - punched_at
+          - direction
+          - punch_source
+        columns: 2

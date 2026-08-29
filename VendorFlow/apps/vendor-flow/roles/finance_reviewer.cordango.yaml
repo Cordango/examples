@@ -1,0 +1,12 @@
+role: finance_reviewer
+name: Finance reviewer
+description: Reviews cost, ownership and renewal implications after security clearance.
+grants:
+  vendor_request:
+    read: true
+    update: true
+    commands:
+      - approve_finance
+      - reject_finance
+  review_check:
+    read: true

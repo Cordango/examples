@@ -1,0 +1,11 @@
+tab: protokoll
+key: protokoll
+label: Stempelprotokoll
+blocks:
+  - kind: child
+    entity: time_punch
+    via: work_day
+    childType: feed
+    subordinate: true
+    inlineCreate: false
+    label: Stempelungen
