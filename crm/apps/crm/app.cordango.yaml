@@ -1,0 +1,56 @@
+app: crm
+name: Cordango CRM
+version: 0.1.0
+description: Capture leads from forms you build yourself, qualify them, convert them into deals on a pipeline board, and keep every call and meeting in the calendar of whoever owns it.
+schemaVersion: '2.0'
+presentation:
+  icon: mdi-account-group-outline
+  color: '#0f766e'
+  category: Sales
+  tagline: From a form on your website to a deal you closed.
+theme:
+  radius: medium
+  density: comfortable
+  primaryColor: '#0f766e'
+  secondaryColor: '#f59e0b'
+plugins:
+  - id: forms
+order:
+  entities:
+    - lead
+    - deal
+    - activity
+    - campaign
+    - intake_form
+    - intake_question
+    - intake_submission
+    - intake_answer
+  pages:
+    - dashboard
+    - leads
+    - deals
+    - activities
+    - forms
+  views:
+    - leads__unworked
+    - deals__closing_soon
+  roles:
+    - sales_rep
+    - sales_manager
+    - marketing
+    - admin
+  processes:
+    - lead_lifecycle
+    - deal_pipeline
+  commands:
+    - start_working
+    - qualify_lead
+    - convert_lead
+    - disqualify_lead
+    - reopen_lead
+    - send_proposal
+    - start_negotiation
+    - mark_won
+    - mark_lost
+    - reopen_deal
+  workflows: []

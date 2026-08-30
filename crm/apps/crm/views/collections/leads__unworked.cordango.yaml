@@ -1,0 +1,19 @@
+view: leads__unworked
+label: Not yet worked
+entity: lead
+filters:
+  - field: status
+    operator: eq
+    value: new
+sort:
+  - field: full_name
+    direction: asc
+kind: table
+settings:
+  columns:
+    - full_name
+    - email
+    - company_name
+    - source
+    - campaign
+    - owner

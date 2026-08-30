@@ -1,0 +1,24 @@
+view: deals__closing_soon
+label: Closing soon
+entity: deal
+filters:
+  - field: expected_close
+    operator: isNotEmpty
+  - field: stage
+    operator: neq
+    value: won
+  - field: stage
+    operator: neq
+    value: lost
+sort:
+  - field: expected_close
+    direction: asc
+kind: table
+settings:
+  columns:
+    - name
+    - organization
+    - amount
+    - expected_close
+    - probability
+    - owner

@@ -1,0 +1,14 @@
+entity: intake_submission
+label: Submission
+description: One filled-in form. The durable artifact — the answers are kept whether or not a lead was ever filed from them.
+icon: mdi-inbox-arrow-down-outline
+role: formResponse
+plural: Submissions
+display: form
+fields:
+  form:
+    label: Form
+    type: reference
+    required: true
+    targetEntity: intake_form
+    onDelete: cascade

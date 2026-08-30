@@ -1,0 +1,82 @@
+entity: activity
+label: Activity
+description: A call, a meeting, an email or a task, against a lead or a deal. Scheduled ones appear in the owner's calendar alongside every other app's dates.
+icon: mdi-calendar-check-outline
+calendar: true
+plural: Activities
+display: subject
+fields:
+  subject:
+    label: Subject
+    type: text
+    required: true
+    group: Activity
+  kind:
+    label: Kind
+    type: select
+    group: Activity
+    options:
+      - value: call
+        label: Call
+        color: '#0284c7'
+      - value: meeting
+        label: Meeting
+        color: '#7c3aed'
+      - value: email
+        label: Email
+        color: '#0f766e'
+      - value: task
+        label: Task
+        color: '#64748b'
+  status:
+    label: Status
+    type: select
+    group: Activity
+    role: status
+    options:
+      - value: planned
+        label: Planned
+        phase: not_started
+      - value: in_progress
+        label: In progress
+        phase: active
+      - value: done
+        label: Done
+        phase: done
+      - value: cancelled
+        label: Cancelled
+        phase: cancelled
+  scheduled_at:
+    label: Starts
+    type: datetime
+    help: When this lands in the owner's calendar. An activity with no start is a to-do, not an appointment.
+    group: Activity
+    role: start
+  ends_at:
+    label: Ends
+    type: datetime
+    help: The other end of the entry. For a task this is the deadline; for a meeting it is when it finishes.
+    group: Activity
+    role: due
+  owner:
+    label: Owner
+    type: reference
+    required: true
+    help: Whose calendar this belongs in. The single platform person reference on this entity, which is what the calendar reads.
+    group: Activity
+    targetEntity: person
+    targetApp: platform
+  lead:
+    label: Lead
+    type: reference
+    group: About
+    targetEntity: lead
+  deal:
+    label: Deal
+    type: reference
+    group: About
+    targetEntity: deal
+  outcome:
+    label: Outcome
+    type: longtext
+    group: Notes

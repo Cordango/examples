@@ -50,6 +50,7 @@ are read, checked and published rather than built and run locally.
 | [`budget-planner/`](budget-planner) | 16 | The largest by a distance, and the one that pushes the language hardest: scenarios, cohort growth, rollups across a window, and a running cash balance that reads the row before it. Read it for the calculation plane. |
 | [`time-records/`](time-records) | 10 | Working time under German law — the recording every employer has owed since the Bundesarbeitsgericht decided it in 2022. Rules that are given from outside and cannot be argued with: a step function built without a branch, an eleven-hour rest read from the previous day, and a works-council role that the entity shapes make possible. **Platform only.** |
 | [`time-and-leave/`](time-and-leave) | 16 | The same application plus holiday, sickness and a Gleitzeit account. Contracted hours joined by weekday through a one-value window, and a balance that carries itself from month to month. **Platform only.** |
+| [`crm/`](crm) | 8 | Leads, a deal pipeline and activities, plus intake forms somebody builds inside the application — the questions are records, and the form declares what a submission FILES and which lead field each answer lands in. Read it for the forms archetype, and for linking a company to Organizations instead of keeping a second copy. **Platform only.** |
 
 ## Reading one
 

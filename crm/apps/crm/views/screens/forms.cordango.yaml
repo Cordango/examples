@@ -1,0 +1,23 @@
+screen: forms
+label: Intake forms
+layout:
+  - kind: table
+    label: Forms
+    source:
+      entity: intake_form
+    fields:
+      - name
+      - route_owner
+      - route_source
+      - route_campaign
+      - publish
+      - public_token
+    newButton: true
+  - kind: intake
+    label: File one yourself
+    entity: intake_form
+    filters:
+      - field: active
+        operator: eq
+        value: true
+subject: intake_form

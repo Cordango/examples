@@ -1,0 +1,105 @@
+lifecycle: deal_pipeline
+entity: deal
+stateField: stage
+initial: qualification
+states:
+  qualification:
+    label: Qualification
+    phase: not_started
+  proposal:
+    label: Proposal sent
+    phase: active
+  negotiation:
+    label: Negotiation
+    phase: active
+  won:
+    label: Won
+    phase: done
+  lost:
+    label: Lost
+    phase: cancelled
+transitions:
+  send_proposal:
+    label: Proposal sent
+    from:
+      - qualification
+    to: proposal
+    requiredFields:
+      - amount
+      - expected_close
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      effects:
+        - type: updateRecord
+          set:
+            probability: 40
+  start_negotiation:
+    label: In negotiation
+    from:
+      - proposal
+    to: negotiation
+    action:
+      placements:
+        - recordHeader
+        - tableRow
+      effects:
+        - type: updateRecord
+          set:
+            probability: 70
+  mark_won:
+    label: Mark won
+    from:
+      - proposal
+      - negotiation
+    to: won
+    requiredFields:
+      - amount
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Deal won.
+      confirm:
+        title: Mark this deal as won?
+        confirmLabel: Mark won
+      effects:
+        - type: updateRecord
+          set:
+            closed_on: '{{today}}'
+            probability: 100
+  mark_lost:
+    label: Mark lost
+    from:
+      - qualification
+      - proposal
+      - negotiation
+    to: lost
+    requiredFields:
+      - lost_reason
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Mark this deal as lost?
+        message: It stays in the pipeline history and can be reopened.
+        confirmLabel: Mark lost
+        tone: danger
+      effects:
+        - type: updateRecord
+          set:
+            closed_on: '{{today}}'
+            probability: 0
+  reopen_deal:
+    label: Reopen
+    from:
+      - won
+      - lost
+    to: negotiation
+    action:
+      placements:
+        - recordHeader
+      effects: []

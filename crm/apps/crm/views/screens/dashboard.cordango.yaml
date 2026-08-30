@@ -1,0 +1,81 @@
+screen: dashboard
+label: Dashboard
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: New leads
+        blocks:
+          - kind: stat
+            label: New leads
+            source:
+              entity: lead
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: new
+      - kind: card
+        label: Qualified leads
+        blocks:
+          - kind: stat
+            label: Qualified
+            source:
+              entity: lead
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: qualified
+      - kind: card
+        label: Open pipeline
+        blocks:
+          - kind: stat
+            label: Open pipeline
+            source:
+              entity: deal
+              aggregate:
+                op: sum
+                field: amount
+              filters:
+                - field: stage
+                  operator: neq
+                  value: won
+                - field: stage
+                  operator: neq
+                  value: lost
+      - kind: card
+        label: Won
+        blocks:
+          - kind: stat
+            label: Won
+            source:
+              entity: deal
+              aggregate:
+                op: sum
+                field: amount
+              filters:
+                - field: stage
+                  operator: eq
+                  value: won
+  - kind: table
+    label: Leads to work
+    source:
+      entity: lead
+      filters:
+        - field: status
+          operator: neq
+          value: converted
+        - field: status
+          operator: neq
+          value: unqualified
+    fields:
+      - full_name
+      - company_name
+      - source
+      - rating
+      - owner
+      - status
+subject: lead

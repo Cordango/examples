@@ -1,0 +1,18 @@
+screen: leads
+label: Leads
+layout:
+  - kind: table
+    label: All leads
+    source:
+      entity: lead
+    fields:
+      - full_name
+      - email
+      - company_name
+      - source
+      - campaign
+      - rating
+      - owner
+      - status
+    newButton: true
+subject: lead

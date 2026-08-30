@@ -1,0 +1,25 @@
+role: marketing
+name: Marketing
+description: Builds the intake forms and owns the campaigns. Reads leads to see what the forms are bringing in, and does not work them.
+grants:
+  lead:
+    read: true
+  deal:
+    read: true
+  campaign:
+    create: true
+    read: true
+    update: true
+  intake_form:
+    create: true
+    read: true
+    update: true
+  intake_question:
+    create: true
+    read: true
+    update: true
+    delete: true
+  intake_submission:
+    read: true
+  intake_answer:
+    read: true

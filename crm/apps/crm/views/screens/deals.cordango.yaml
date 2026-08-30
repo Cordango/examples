@@ -1,0 +1,18 @@
+screen: deals
+label: Deals
+layout:
+  - kind: board
+    label: Pipeline
+    source:
+      entity: deal
+      sort:
+        - field: expected_close
+          direction: asc
+    groupField: stage
+    cardFields:
+      - organization
+      - amount
+      - expected_close
+      - owner
+    newButton: true
+subject: deal

@@ -1,0 +1,7 @@
+formatVersion: 1
+workspaceId: 01M1A2H9GSN5AGVPB3N3G1B2Q2
+name: Crm
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/crm

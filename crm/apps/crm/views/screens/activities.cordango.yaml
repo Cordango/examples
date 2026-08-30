@@ -1,0 +1,11 @@
+screen: activities
+label: Activities
+layout:
+  - kind: calendar
+    label: Schedule
+    source:
+      entity: activity
+    startField: scheduled_at
+    endField: ends_at
+    range: week
+subject: activity

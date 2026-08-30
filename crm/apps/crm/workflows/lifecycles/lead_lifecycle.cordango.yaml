@@ -1,0 +1,102 @@
+lifecycle: lead_lifecycle
+entity: lead
+stateField: status
+initial: new
+states:
+  new:
+    label: New
+    phase: not_started
+  working:
+    label: Working
+    phase: active
+  qualified:
+    label: Qualified
+    phase: active
+  converted:
+    label: Converted
+    phase: done
+  unqualified:
+    label: Unqualified
+    phase: cancelled
+transitions:
+  start_working:
+    label: Start working
+    from:
+      - new
+    to: working
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      effects: []
+  qualify_lead:
+    label: Qualify
+    from:
+      - new
+      - working
+    to: qualified
+    requiredFields:
+      - email
+      - owner
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Lead qualified. Convert it when there is something to sell.
+      effects:
+        - type: updateRecord
+          set:
+            qualified_on: '{{today}}'
+  convert_lead:
+    label: Convert to deal
+    from:
+      - qualified
+    to: converted
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Deal created from this lead.
+      confirm:
+        title: Convert this lead into a deal?
+        message: A new deal is created carrying the company, the owner and the indicated budget. The lead stays as the record of where it came from.
+        confirmLabel: Convert
+      effects:
+        - type: createRecord
+          set:
+            name: '{{record.full_name}}'
+            organization: '{{record.organization}}'
+            lead: '{{record.id}}'
+            owner: '{{record.owner}}'
+            amount: '{{record.budget}}'
+            source: '{{record.source}}'
+          entity: deal
+  disqualify_lead:
+    label: Not qualified
+    from:
+      - new
+      - working
+      - qualified
+    to: unqualified
+    requiredFields:
+      - unqualified_reason
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Mark this lead as not qualified?
+        message: It stays in the list and can be reopened.
+        confirmLabel: Disqualify
+        tone: danger
+      effects: []
+  reopen_lead:
+    label: Reopen
+    from:
+      - unqualified
+    to: working
+    action:
+      placements:
+        - recordHeader
+      effects: []

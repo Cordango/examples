@@ -1,0 +1,108 @@
+entity: lead
+label: Lead
+description: Somebody who has shown interest but is not yet a deal. Filed by an intake form or entered by hand, qualified by a rep, and converted into a deal once there is something to sell.
+icon: mdi-account-star-outline
+plural: Leads
+display: full_name
+fields:
+  full_name:
+    label: Name
+    type: text
+    required: true
+    group: Contact
+  email:
+    label: Email
+    type: email
+    help: The address an intake form asks for, and the one a duplicate would share.
+    group: Contact
+  phone:
+    label: Phone
+    type: phone
+    group: Contact
+  job_title:
+    label: Job title
+    type: text
+    group: Contact
+  company_name:
+    label: Company (as given)
+    type: text
+    help: What the person typed. Kept even after the lead is linked to a real company, because the two disagreeing is itself worth seeing.
+    group: Company
+  organization:
+    label: Company
+    type: reference
+    help: The canonical company record, once somebody has matched this lead to one.
+    group: Company
+    targetEntity: organization
+    targetApp: core_organizations
+  source:
+    label: Source
+    type: select
+    group: Origin
+    options:
+      - value: web_form
+        label: Web form
+      - value: referral
+        label: Referral
+      - value: event
+        label: Event
+      - value: outbound
+        label: Outbound
+      - value: partner
+        label: Partner
+      - value: other
+        label: Other
+  campaign:
+    label: Campaign
+    type: reference
+    group: Origin
+    targetEntity: campaign
+  intake_submission:
+    label: Form submission
+    type: reference
+    help: The submission this lead was filed from. Empty for a lead somebody typed in.
+    group: Origin
+    targetEntity: intake_submission
+  owner:
+    label: Owner
+    type: reference
+    help: The rep whose lead this is. An intake form can stamp this on every lead it files.
+    group: Ownership
+    targetEntity: person
+    targetApp: platform
+  status:
+    label: Status
+    type: select
+    group: Ownership
+    role: status
+  rating:
+    label: Rating
+    type: select
+    group: Qualification
+    options:
+      - value: hot
+        label: Hot
+        color: '#dc2626'
+      - value: warm
+        label: Warm
+        color: '#f59e0b'
+      - value: cold
+        label: Cold
+        color: '#0284c7'
+  budget:
+    label: Indicated budget
+    type: money
+    group: Qualification
+    currency: EUR
+  qualified_on:
+    label: Qualified on
+    type: date
+    group: Qualification
+  unqualified_reason:
+    label: Why not qualified
+    type: longtext
+    group: Qualification
+  notes:
+    label: Notes
+    type: longtext
+    group: Notes

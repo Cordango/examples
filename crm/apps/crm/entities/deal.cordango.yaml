@@ -1,0 +1,86 @@
+entity: deal
+label: Deal
+description: A named opportunity with a company, a value and a stage. The thing the pipeline board is a picture of.
+icon: mdi-handshake-outline
+plural: Deals
+display: name
+fields:
+  name:
+    label: Deal
+    type: text
+    required: true
+    group: Deal
+  organization:
+    label: Company
+    type: reference
+    group: Deal
+    targetEntity: organization
+    targetApp: core_organizations
+  primary_contact:
+    label: Primary contact
+    type: reference
+    help: The person at the company this is being sold to. External people only — a colleague comes from the platform directory.
+    group: Deal
+    targetEntity: contact
+    targetApp: core_organizations
+  lead:
+    label: Converted from
+    type: reference
+    help: The lead this deal came out of, so the original enquiry stays attached to the money.
+    group: Deal
+    targetEntity: lead
+  amount:
+    label: Value
+    type: money
+    group: Commercial
+    currency: EUR
+  probability:
+    label: Probability
+    type: integer
+    group: Commercial
+    unit: '%'
+  expected_close:
+    label: Expected close
+    type: date
+    group: Commercial
+    role: due
+  closed_on:
+    label: Closed on
+    type: date
+    group: Commercial
+  stage:
+    label: Stage
+    type: select
+    group: Commercial
+    role: status
+  owner:
+    label: Owner
+    type: reference
+    group: Ownership
+    targetEntity: person
+    targetApp: platform
+  source:
+    label: Source
+    type: select
+    group: Ownership
+    options:
+      - value: web_form
+        label: Web form
+      - value: referral
+        label: Referral
+      - value: event
+        label: Event
+      - value: outbound
+        label: Outbound
+      - value: partner
+        label: Partner
+      - value: other
+        label: Other
+  lost_reason:
+    label: Why lost
+    type: longtext
+    group: Outcome
+  notes:
+    label: Notes
+    type: longtext
+    group: Notes

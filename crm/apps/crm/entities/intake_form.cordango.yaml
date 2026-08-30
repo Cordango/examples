@@ -1,0 +1,101 @@
+entity: intake_form
+label: Intake form
+description: A form somebody builds to capture leads. Its questions are its own records, and what it FILES is declared here — the entity a submission creates, plus the values every lead from this form starts with.
+icon: mdi-clipboard-text-outline
+role: formTemplate
+plural: Intake forms
+display: name
+fields:
+  name:
+    label: Form name
+    type: text
+    required: true
+    group: Form
+  intro:
+    label: Intro text
+    type: longtext
+    help: Shown above the questions, on the public page too.
+    group: Form
+  active:
+    label: Active
+    type: boolean
+    help: Retired forms stay in the list for their submissions but are not offered.
+    group: Form
+    default: true
+  creates:
+    label: Creates
+    type: text
+    help: The entity a submission files. Picked in the form designer, not typed.
+    group: What it files
+    role: targetEntity
+  route_owner:
+    label: Assign to
+    type: reference
+    help: Every lead from this form starts owned by this person.
+    group: What it files
+    targetEntity: person
+    targetApp: platform
+    mapsTo: owner
+  route_source:
+    label: Source
+    type: select
+    group: What it files
+    options:
+      - value: web_form
+        label: Web form
+      - value: referral
+        label: Referral
+      - value: event
+        label: Event
+      - value: outbound
+        label: Outbound
+      - value: partner
+        label: Partner
+      - value: other
+        label: Other
+    mapsTo: source
+  route_campaign:
+    label: Campaign
+    type: reference
+    group: What it files
+    targetEntity: campaign
+    mapsTo: campaign
+  route_rating:
+    label: Starting rating
+    type: select
+    group: What it files
+    options:
+      - value: hot
+        label: Hot
+      - value: warm
+        label: Warm
+      - value: cold
+        label: Cold
+    mapsTo: rating
+  confirm_mode:
+    label: Confirm the address
+    type: select
+    help: Almost every form should accept straight away. Ask for confirmation only where a wrong address would put real work in somebody's queue.
+    group: Publishing
+    default: none
+    role: confirmMode
+    options:
+      - value: none
+        label: Accept straight away
+      - value: email
+        label: Email a confirmation link first
+  publish:
+    label: Published
+    type: boolean
+    help: Off, the link is dead. On, anyone holding the address can fill this form in and nothing else.
+    group: Publishing
+    role: publicShare
+  public_token:
+    label: Public link
+    type: text
+    unique: true
+    help: Generated, never typed. This is the address itself, which is why it is long and unguessable.
+    group: Publishing
+    prefix: /f/
+    input: slug
+    role: publicToken

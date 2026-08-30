@@ -1,0 +1,63 @@
+entity: intake_question
+label: Question
+description: One question on one intake form, and which field of the filed lead its answer fills.
+icon: mdi-help-circle-outline
+role: formField
+plural: Questions
+display: text
+fields:
+  form:
+    label: Form
+    type: reference
+    required: true
+    targetEntity: intake_form
+    onDelete: cascade
+  text:
+    label: Question
+    type: text
+    required: true
+  answer_type:
+    label: Answer type
+    type: select
+    role: answerType
+    options:
+      - value: short_text
+        label: Short text
+      - value: long_text
+        label: Long text
+      - value: single_choice
+        label: One of several
+      - value: multi_choice
+        label: Several of several
+      - value: yes_no
+        label: Yes or no
+      - value: number
+        label: Number
+      - value: date
+        label: Date
+      - value: scale
+        label: Scale of 1 to 5
+  choices:
+    label: Choices
+    type: json
+    help: The options a choice question offers. Empty for every other kind.
+    role: answerOptions
+  required:
+    label: Must be answered
+    type: boolean
+    help: Enforced on the server. Without this role it would be a courtesy the browser pays and a stranger can skip.
+    role: answerRequired
+  is_respondent_email:
+    label: This asks for the submitter's own email
+    type: boolean
+    help: Marks WHICH question holds the address a confirmation link goes to. A form can ask for several addresses and only the author knows which one is theirs.
+    role: respondentEmail
+  fills:
+    label: Fills
+    type: text
+    help: Which field of the filed lead this answer lands in. Empty means the answer is kept on the submission only.
+    role: mapsTo
+  position:
+    label: Position
+    type: integer
+    role: order

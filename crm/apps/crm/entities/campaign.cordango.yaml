@@ -1,0 +1,33 @@
+entity: campaign
+label: Campaign
+description: A named marketing effort leads can be attributed to. Configuration rather than a subject — a list the forms and the leads point at.
+icon: mdi-bullhorn-outline
+kind: config
+plural: Campaigns
+display: name
+fields:
+  name:
+    label: Campaign
+    type: text
+    required: true
+  channel:
+    label: Channel
+    type: select
+    options:
+      - value: website
+        label: Website
+      - value: event
+        label: Event
+      - value: email
+        label: Email
+      - value: paid
+        label: Paid
+      - value: partner
+        label: Partner
+  active:
+    label: Active
+    type: boolean
+    default: true
+  started_on:
+    label: Started
+    type: date

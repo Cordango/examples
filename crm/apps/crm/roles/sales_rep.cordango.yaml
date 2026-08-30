@@ -1,0 +1,40 @@
+role: sales_rep
+name: Sales rep
+description: Works leads and deals, logs activities, and files a form on somebody's behalf.
+grants:
+  lead:
+    create: true
+    read: true
+    update: true
+    commands:
+      - start_working
+      - qualify_lead
+      - convert_lead
+      - disqualify_lead
+      - reopen_lead
+  deal:
+    create: true
+    read: true
+    update: true
+    commands:
+      - send_proposal
+      - start_negotiation
+      - mark_won
+      - mark_lost
+  activity:
+    create: true
+    read: true
+    update: true
+    delete: true
+  campaign:
+    read: true
+  intake_form:
+    read: true
+  intake_question:
+    read: true
+  intake_submission:
+    create: true
+    read: true
+  intake_answer:
+    create: true
+    read: true

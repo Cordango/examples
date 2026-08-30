@@ -1,0 +1,56 @@
+role: admin
+name: Administrator
+description: Full control of the CRM, including publishing a form to the public internet and deleting submissions.
+grants:
+  lead:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - start_working
+      - qualify_lead
+      - convert_lead
+      - disqualify_lead
+      - reopen_lead
+  deal:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - send_proposal
+      - start_negotiation
+      - mark_won
+      - mark_lost
+      - reopen_deal
+  activity:
+    create: true
+    read: true
+    update: true
+    delete: true
+  campaign:
+    create: true
+    read: true
+    update: true
+    delete: true
+  intake_form:
+    create: true
+    read: true
+    update: true
+    delete: true
+  intake_question:
+    create: true
+    read: true
+    update: true
+    delete: true
+  intake_submission:
+    create: true
+    read: true
+    update: true
+    delete: true
+  intake_answer:
+    create: true
+    read: true
+    update: true
+    delete: true
