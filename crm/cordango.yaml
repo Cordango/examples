@@ -3,5 +3,10 @@ workspaceId: 01M1A2H9GSN5AGVPB3N3G1B2Q2
 name: Crm
 runtime: '>=0.1 <0.2'
 coreApps: default
+build:
+  target: standalone
+  runtime: package
+  allowIncomplete: false
+  seed: 42
 apps:
   - apps/crm
