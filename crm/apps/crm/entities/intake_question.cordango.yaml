@@ -3,6 +3,10 @@ label: Question
 description: One question on one intake form, and which field of the filed lead its answer fills.
 icon: mdi-help-circle-outline
 role: formField
+ownedBy:
+  parent: intake_form
+  via: form
+  as: table
 plural: Questions
 display: text
 fields:

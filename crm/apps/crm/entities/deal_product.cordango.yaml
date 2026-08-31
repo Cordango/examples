@@ -1,0 +1,37 @@
+entity: deal_product
+label: Line item
+description: One product on one deal, at the quantity and price actually agreed — which is not always the list price.
+icon: mdi-format-list-numbered
+ownedBy:
+  parent: deal
+  via: deal
+  as: lineItems
+plural: Line items
+display: product
+fields:
+  deal:
+    label: Deal
+    type: reference
+    required: true
+    targetEntity: deal
+    onDelete: cascade
+  product:
+    label: Product
+    type: reference
+    required: true
+    targetEntity: product
+  quantity:
+    label: Quantity
+    type: integer
+    required: true
+    default: 1
+  unit_price:
+    label: Unit price
+    type: money
+    currency: EUR
+  amount:
+    label: Amount
+    type: money
+    currency: EUR
+    computed:
+      expr: quantity * unit_price

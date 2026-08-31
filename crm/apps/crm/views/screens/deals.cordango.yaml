@@ -1,18 +1,109 @@
 screen: deals
 label: Deals
+state:
+  - key: mode
+    type: enum
+    default: board
+    options:
+      - value: board
+        label: Board
+      - value: list
+        label: List
+  - key: q
+    type: text
+    default: ''
+  - key: assigned_to
+    type: text
+    default: ''
+  - key: stage
+    type: text
+    default: ''
 layout:
-  - kind: board
-    label: Pipeline
-    source:
-      entity: deal
-      sort:
-        - field: expected_close
-          direction: asc
-    groupField: stage
-    cardFields:
-      - organization
-      - amount
-      - expected_close
-      - owner
-    newButton: true
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: md
+        align: center
+        blocks:
+          - kind: control
+            control: segmented
+            stateKey: mode
+          - kind: filterbar
+            grow: true
+            entity: deal
+            facets:
+              - field: assigned_to
+                state: assigned_to
+              - field: stage
+                state: stage
+            search:
+              state: q
+              placeholder: Search deals…
+      - kind: board
+        label: Pipeline
+        visibleWhen:
+          value: '{{state.mode}}'
+          eq: board
+        source:
+          entity: deal
+          sort:
+            - field: expected_close
+              direction: asc
+          filters:
+            - field: assigned_to
+              operator: eq
+              value: '{{state.assigned_to}}'
+              optional: true
+            - field: stage
+              operator: eq
+              value: '{{state.stage}}'
+              optional: true
+        search:
+          state: q
+          fields:
+            - name
+            - organization
+        groupField: stage
+        sumField: amount
+        cardFields:
+          - organization
+          - amount
+          - expected_close
+          - assigned_to
+        newButton: true
+      - kind: table
+        label: All deals
+        visibleWhen:
+          value: '{{state.mode}}'
+          eq: list
+        source:
+          entity: deal
+          sort:
+            - field: expected_close
+              direction: asc
+          filters:
+            - field: assigned_to
+              operator: eq
+              value: '{{state.assigned_to}}'
+              optional: true
+            - field: stage
+              operator: eq
+              value: '{{state.stage}}'
+              optional: true
+        search:
+          state: q
+          fields:
+            - name
+            - organization
+        fields:
+          - name
+          - organization
+          - primary_contact
+          - amount
+          - stage
+          - probability
+          - expected_close
+          - assigned_to
+        newButton: true
 subject: deal

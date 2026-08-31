@@ -28,14 +28,14 @@ fields:
     help: The entity a submission files. Picked in the form designer, not typed.
     group: What it files
     role: targetEntity
-  route_owner:
+  route_assigned_to:
     label: Assign to
     type: reference
     help: Every lead from this form starts owned by this person.
     group: What it files
     targetEntity: person
     targetApp: platform
-    mapsTo: owner
+    mapsTo: assigned_to
   route_source:
     label: Source
     type: select

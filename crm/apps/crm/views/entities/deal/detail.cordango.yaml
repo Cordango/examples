@@ -1,0 +1,139 @@
+detail: deal
+blocks:
+  - kind: hub
+    title: name
+    status: stage
+    subtitle:
+      - organization
+      - primary_contact
+    facts:
+      - amount
+      - assigned_to
+      - expected_close
+      - probability
+    actions:
+      - send_proposal
+      - start_negotiation
+      - mark_won
+      - mark_lost
+      - reopen_deal
+      - edit
+      - delete
+  - kind: process
+    label: Pipeline
+  - kind: row
+    blocks:
+      - kind: stat
+        label: Line items total
+        source:
+          entity: deal_product
+          via: deal
+          aggregate:
+            op: sum
+            field: amount
+      - kind: stat
+        label: Activities logged
+        source:
+          entity: activity
+          via: deal
+          aggregate:
+            op: count
+      - kind: stat
+        label: Notes
+        source:
+          entity: deal_note
+          via: deal
+          aggregate:
+            op: count
+  - kind: columns
+    columns:
+      - - kind: section
+          label: Commercial
+          blocks:
+            - kind: fields
+              fields:
+                - amount
+                - stage
+                - probability
+                - expected_close
+                - closed_on
+                - source
+        - kind: section
+          label: Linked to
+          blocks:
+            - kind: fields
+              fields:
+                - organization
+                - primary_contact
+                - lead
+                - assigned_to
+        - kind: section
+          label: Why we won
+          visibleWhen:
+            value: '{{record.stage}}'
+            eq: won
+          blocks:
+            - kind: fields
+              fields:
+                - won_reason
+                - won_notes
+        - kind: section
+          label: Why we lost
+          visibleWhen:
+            value: '{{record.stage}}'
+            eq: lost
+          blocks:
+            - kind: fields
+              fields:
+                - lost_reason
+                - lost_notes
+      - - kind: tabs
+          tabs:
+            - label: Activities
+              blocks:
+                - kind: child
+                  label: Calls, meetings and tasks
+                  entity: activity
+                  via: deal
+                  childType: table
+                  inlineCreate: true
+            - label: Line items
+              blocks:
+                - kind: child
+                  label: What is being sold
+                  entity: deal_product
+                  via: deal
+                  inlineCreate: true
+            - label: Follow-up
+              blocks:
+                - kind: fields
+                  fields:
+                    - next_step
+                    - next_follow_up
+                - kind: table
+                  label: Recent activity
+                  source:
+                    entity: activity
+                    via: deal
+                    sort:
+                      - field: scheduled_at
+                        direction: desc
+                  fields:
+                    - subject
+                    - kind
+                    - scheduled_at
+                    - status
+            - label: Notes
+              blocks:
+                - kind: child
+                  label: Notes
+                  entity: deal_note
+                  via: deal
+                  inlineCreate: true
+            - label: Files
+              blocks:
+                - kind: child
+                  label: Documents
+                  entity: deal_file
+                  via: deal
+                  inlineCreate: true

@@ -21,4 +21,4 @@ settings:
     - amount
     - expected_close
     - probability
-    - owner
+    - assigned_to

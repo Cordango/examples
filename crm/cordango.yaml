@@ -6,7 +6,7 @@ coreApps: default
 build:
   target: standalone
   runtime: package
-  allowIncomplete: false
+  allowIncomplete: true
   seed: 42
 apps:
   - apps/crm

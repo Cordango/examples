@@ -63,8 +63,8 @@ fields:
     help: The submission this lead was filed from. Empty for a lead somebody typed in.
     group: Origin
     targetEntity: intake_submission
-  owner:
-    label: Owner
+  assigned_to:
+    label: Assigned to
     type: reference
     help: The rep whose lead this is. An intake form can stamp this on every lead it files.
     group: Ownership

@@ -1,0 +1,67 @@
+detail: lead
+blocks:
+  - kind: hub
+    title: full_name
+    status: status
+    subtitle:
+      - company_name
+      - job_title
+    facts:
+      - email
+      - phone
+      - assigned_to
+      - rating
+    actions:
+      - start_working
+      - qualify_lead
+      - convert_lead
+      - disqualify_lead
+      - reopen_lead
+      - edit
+      - delete
+  - kind: process
+    label: Lead status
+  - kind: columns
+    columns:
+      - - kind: section
+          label: Contact
+          blocks:
+            - kind: fields
+              fields:
+                - full_name
+                - email
+                - phone
+                - job_title
+        - kind: section
+          label: Company
+          blocks:
+            - kind: fields
+              fields:
+                - company_name
+                - organization
+        - kind: section
+          label: Where it came from
+          blocks:
+            - kind: fields
+              fields:
+                - source
+                - campaign
+                - intake_submission
+      - - kind: answers
+          label: What they told us
+        - kind: section
+          label: Qualification
+          blocks:
+            - kind: fields
+              fields:
+                - assigned_to
+                - rating
+                - budget
+                - qualified_on
+                - unqualified_reason
+        - kind: child
+          label: Activities
+          entity: activity
+          via: lead
+          childType: table
+          inlineCreate: true

@@ -1,18 +1,126 @@
 screen: leads
 label: Leads
 layout:
-  - kind: table
-    label: All leads
-    source:
-      entity: lead
-    fields:
-      - full_name
-      - email
-      - company_name
-      - source
-      - campaign
-      - rating
-      - owner
-      - status
-    newButton: true
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: md
+        blocks:
+          - kind: stat
+            label: New
+            icon: mdi-inbox-arrow-down-outline
+            source:
+              entity: lead
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: new
+          - kind: stat
+            label: Working
+            icon: mdi-phone-outline
+            source:
+              entity: lead
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: working
+          - kind: stat
+            label: Qualified
+            icon: mdi-check-decagram-outline
+            source:
+              entity: lead
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: qualified
+          - kind: stat
+            label: Converted
+            icon: mdi-trending-up
+            source:
+              entity: lead
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: converted
+      - kind: tabs
+        tabs:
+          - label: Inbox
+            blocks:
+              - kind: split
+                label: Leads to work
+                emptyText: No leads waiting — nice work.
+                source:
+                  entity: lead
+                  sort:
+                    - field: full_name
+                      direction: asc
+                  filters:
+                    - field: status
+                      operator: neq
+                      value: converted
+                    - field: status
+                      operator: neq
+                      value: unqualified
+                fields:
+                  - company_name
+                  - budget
+                  - qualified_on
+                  - status
+                  - source
+                blocks:
+                  - kind: text
+                    value: '{full_name}'
+                    size: lg
+                    weight: bold
+                  - kind: row
+                    gap: sm
+                    blocks:
+                      - kind: chip
+                        field: status
+                      - kind: chip
+                        field: rating
+                  - kind: columns
+                    columns:
+                      - - kind: field
+                          field: company_name
+                        - kind: field
+                          field: job_title
+                        - kind: field
+                          field: email
+                        - kind: field
+                          field: phone
+                      - - kind: field
+                          field: budget
+                        - kind: field
+                          field: source
+                        - kind: field
+                          field: campaign
+                        - kind: field
+                          field: assigned_to
+                  - kind: field
+                    field: notes
+                  - kind: row
+                    gap: sm
+                    blocks:
+                      - kind: action
+                        command: start_working
+                      - kind: action
+                        command: qualify_lead
+                      - kind: action
+                        command: convert_lead
+                      - kind: action
+                        command: disqualify_lead
+          - label: All leads
+            blocks:
+              - kind: view
+                view: leads__unworked
 subject: lead

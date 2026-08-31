@@ -7,7 +7,7 @@ layout:
       entity: intake_form
     fields:
       - name
-      - route_owner
+      - route_assigned_to
       - route_source
       - route_campaign
       - publish

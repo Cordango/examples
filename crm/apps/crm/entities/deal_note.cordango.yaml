@@ -1,0 +1,24 @@
+entity: deal_note
+label: Note
+description: Something somebody wrote down about a deal. A feed on the deal, not a list anybody browses.
+icon: mdi-note-text-outline
+ownedBy:
+  parent: deal
+  via: deal
+  as: feed
+plural: Notes
+display: body
+fields:
+  deal:
+    label: Deal
+    type: reference
+    required: true
+    targetEntity: deal
+    onDelete: cascade
+  body:
+    label: Note
+    type: longtext
+    required: true
+  written_on:
+    label: Written
+    type: date

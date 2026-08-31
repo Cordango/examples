@@ -7,5 +7,4 @@ layout:
       entity: activity
     startField: scheduled_at
     endField: ends_at
-    range: week
 subject: activity

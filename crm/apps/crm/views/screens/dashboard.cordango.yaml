@@ -76,6 +76,6 @@ layout:
       - company_name
       - source
       - rating
-      - owner
+      - assigned_to
       - status
 subject: lead

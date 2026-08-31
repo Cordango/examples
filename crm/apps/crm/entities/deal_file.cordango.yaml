@@ -1,0 +1,27 @@
+entity: deal_file
+label: File
+description: A document attached to a deal — the proposal that went out, the signed order, the security questionnaire that came back.
+icon: mdi-paperclip
+ownedBy:
+  parent: deal
+  via: deal
+  as: table
+plural: Files
+display: title
+fields:
+  deal:
+    label: Deal
+    type: reference
+    required: true
+    targetEntity: deal
+    onDelete: cascade
+  title:
+    label: Title
+    type: text
+    required: true
+  document:
+    label: Document
+    type: attachment
+  added_on:
+    label: Added
+    type: date

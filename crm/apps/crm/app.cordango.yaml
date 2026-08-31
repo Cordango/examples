@@ -19,7 +19,11 @@ order:
   entities:
     - lead
     - deal
+    - deal_product
+    - deal_note
+    - deal_file
     - activity
+    - product
     - campaign
     - intake_form
     - intake_question

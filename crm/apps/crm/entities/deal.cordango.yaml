@@ -53,8 +53,8 @@ fields:
     type: select
     group: Commercial
     role: status
-  owner:
-    label: Owner
+  assigned_to:
+    label: Assigned to
     type: reference
     group: Ownership
     targetEntity: person
@@ -77,7 +77,52 @@ fields:
       - value: other
         label: Other
   lost_reason:
-    label: Why lost
+    label: Why we lost
+    type: select
+    group: Outcome
+    options:
+      - value: price
+        label: Price
+      - value: missing_feature
+        label: Missing feature
+      - value: went_quiet
+        label: Went quiet
+      - value: chose_competitor
+        label: Chose a competitor
+      - value: no_budget
+        label: No budget
+      - value: bad_timing
+        label: Bad timing
+  next_step:
+    label: Next step
+    type: text
+    help: The one thing that has to happen for this to move. Empty on an open deal is the signal to look at it.
+    group: Follow-up
+  next_follow_up:
+    label: Follow up on
+    type: date
+    group: Follow-up
+  won_reason:
+    label: Why we won
+    type: select
+    group: Outcome
+    options:
+      - value: price
+        label: Price
+      - value: product_fit
+        label: Product fit
+      - value: relationship
+        label: Relationship
+      - value: timing
+        label: Timing
+      - value: incumbent_failed
+        label: Incumbent failed
+  won_notes:
+    label: What made the difference
+    type: longtext
+    group: Outcome
+  lost_notes:
+    label: What we would do differently
     type: longtext
     group: Outcome
   notes:

@@ -38,7 +38,7 @@ transitions:
     to: qualified
     requiredFields:
       - email
-      - owner
+      - assigned_to
     action:
       style: primary
       placements:
@@ -54,21 +54,24 @@ transitions:
       - qualified
     to: converted
     action:
+      icon: mdi-trending-up
       style: primary
       placements:
         - recordHeader
       successMessage: Deal created from this lead.
-      confirm:
-        title: Convert this lead into a deal?
-        message: A new deal is created carrying the company, the owner and the indicated budget. The lead stays as the record of where it came from.
-        confirmLabel: Convert
+      input:
+        fields:
+          - organization
+          - budget
+        required:
+          - organization
       effects:
         - type: createRecord
           set:
             name: '{{record.full_name}}'
             organization: '{{record.organization}}'
             lead: '{{record.id}}'
-            owner: '{{record.owner}}'
+            assigned_to: '{{record.assigned_to}}'
             amount: '{{record.budget}}'
             source: '{{record.source}}'
           entity: deal

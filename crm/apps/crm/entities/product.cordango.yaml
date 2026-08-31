@@ -1,0 +1,24 @@
+entity: product
+label: Product
+description: Something the company sells, with a list price. Configuration — the list a deal's line items point at.
+icon: mdi-package-variant-closed
+kind: config
+plural: Products
+display: name
+fields:
+  name:
+    label: Product
+    type: text
+    required: true
+  code:
+    label: Code
+    type: text
+    unique: true
+  unit_price:
+    label: List price
+    type: money
+    currency: EUR
+  active:
+    label: Active
+    type: boolean
+    default: true

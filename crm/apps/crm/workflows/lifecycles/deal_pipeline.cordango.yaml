@@ -58,13 +58,17 @@ transitions:
     requiredFields:
       - amount
     action:
+      icon: mdi-trophy-outline
       style: primary
       placements:
         - recordHeader
       successMessage: Deal won.
-      confirm:
-        title: Mark this deal as won?
-        confirmLabel: Mark won
+      input:
+        fields:
+          - won_reason
+          - won_notes
+        required:
+          - won_reason
       effects:
         - type: updateRecord
           set:
@@ -77,17 +81,18 @@ transitions:
       - proposal
       - negotiation
     to: lost
-    requiredFields:
-      - lost_reason
     action:
+      icon: mdi-close-octagon-outline
       style: danger
       placements:
         - recordHeader
-      confirm:
-        title: Mark this deal as lost?
-        message: It stays in the pipeline history and can be reopened.
-        confirmLabel: Mark lost
-        tone: danger
+      successMessage: Deal marked as lost.
+      input:
+        fields:
+          - lost_reason
+          - lost_notes
+        required:
+          - lost_reason
       effects:
         - type: updateRecord
           set:

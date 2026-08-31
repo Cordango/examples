@@ -16,4 +16,4 @@ settings:
     - company_name
     - source
     - campaign
-    - owner
+    - assigned_to

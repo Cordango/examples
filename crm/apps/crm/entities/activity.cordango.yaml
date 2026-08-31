@@ -58,8 +58,8 @@ fields:
     help: The other end of the entry. For a task this is the deadline; for a meeting it is when it finishes.
     group: Activity
     role: due
-  owner:
-    label: Owner
+  assigned_to:
+    label: Assigned to
     type: reference
     required: true
     help: Whose calendar this belongs in. The single platform person reference on this entity, which is what the calendar reads.
