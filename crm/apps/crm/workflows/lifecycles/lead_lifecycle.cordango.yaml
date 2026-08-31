@@ -44,6 +44,15 @@ transitions:
       placements:
         - recordHeader
       successMessage: Lead qualified. Convert it when there is something to sell.
+      input:
+        fields:
+          - email
+          - assigned_to
+          - rating
+          - budget
+        required:
+          - email
+          - assigned_to
       effects:
         - type: updateRecord
           set:
@@ -51,6 +60,8 @@ transitions:
   convert_lead:
     label: Convert to deal
     from:
+      - new
+      - working
       - qualified
     to: converted
     action:
@@ -59,12 +70,14 @@ transitions:
       placements:
         - recordHeader
       successMessage: Deal created from this lead.
+      confirm:
+        title: Convert this lead into a deal?
+        message: Link the company this is being sold to — pick it, or add it from the same box if it is not on file yet. Leave it empty and the deal is still created; the company can be set on the deal later.
+        confirmLabel: Convert
       input:
         fields:
           - organization
           - budget
-        required:
-          - organization
       effects:
         - type: createRecord
           set:
@@ -93,6 +106,11 @@ transitions:
         message: It stays in the list and can be reopened.
         confirmLabel: Disqualify
         tone: danger
+      input:
+        fields:
+          - unqualified_reason
+        required:
+          - unqualified_reason
       effects: []
   reopen_lead:
     label: Reopen

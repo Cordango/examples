@@ -1,0 +1,60 @@
+detail: intake_form
+blocks:
+  - kind: hub
+    title: name
+    subtitle:
+      - creates
+    facts:
+      - active
+      - publish
+      - public_token
+      - confirm_mode
+    actions:
+      - edit
+      - delete
+  - kind: columns
+    columns:
+      - - kind: section
+          label: The form
+          blocks:
+            - kind: fields
+              fields:
+                - name
+                - intro
+                - active
+        - kind: section
+          label: What it files
+          blocks:
+            - kind: fields
+              fields:
+                - creates
+                - route_assigned_to
+                - route_source
+                - route_campaign
+                - route_rating
+        - kind: section
+          label: Publishing
+          blocks:
+            - kind: fields
+              fields:
+                - confirm_mode
+                - publish
+                - public_token
+      - - kind: tabs
+          tabs:
+            - label: Questions
+              blocks:
+                - kind: child
+                  label: What it asks
+                  entity: intake_question
+                  via: form
+                  childType: table
+                  inlineCreate: true
+            - label: Submissions
+              blocks:
+                - kind: child
+                  label: What came back
+                  entity: intake_submission
+                  via: form
+                  childType: table
+                  inlineCreate: false

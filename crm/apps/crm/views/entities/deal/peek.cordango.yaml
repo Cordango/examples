@@ -1,0 +1,42 @@
+peek: deal
+blocks:
+  - kind: hub
+    title: name
+    status: stage
+    subtitle:
+      - organization
+      - primary_contact
+    facts:
+      - amount
+      - assigned_to
+      - expected_close
+      - probability
+    actions:
+      - send_proposal
+      - start_negotiation
+      - mark_won
+      - mark_lost
+      - reopen_deal
+      - edit
+  - kind: section
+    label: Next step
+    icon: mdi-flag-outline
+    blocks:
+      - kind: fields
+        fields:
+          - next_step
+          - next_follow_up
+  - kind: table
+    label: Recent activity
+    source:
+      entity: activity
+      via: deal
+      sort:
+        - field: scheduled_at
+          direction: desc
+      limit: 3
+    fields:
+      - subject
+      - kind
+      - scheduled_at
+    openDetail: true

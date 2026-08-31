@@ -103,6 +103,7 @@ blocks:
                   label: What is being sold
                   entity: deal_product
                   via: deal
+                  childType: lineItems
                   inlineCreate: true
             - label: Follow-up
               blocks:
@@ -123,12 +124,14 @@ blocks:
                     - kind
                     - scheduled_at
                     - status
+                  openDetail: true
             - label: Notes
               blocks:
                 - kind: child
                   label: Notes
                   entity: deal_note
                   via: deal
+                  childType: feed
                   inlineCreate: true
             - label: Files
               blocks:
@@ -136,4 +139,5 @@ blocks:
                   label: Documents
                   entity: deal_file
                   via: deal
+                  childType: table
                   inlineCreate: true

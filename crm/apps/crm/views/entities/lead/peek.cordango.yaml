@@ -1,0 +1,45 @@
+peek: lead
+blocks:
+  - kind: hub
+    title: full_name
+    status: status
+    subtitle:
+      - company_name
+      - job_title
+    facts:
+      - email
+      - phone
+      - assigned_to
+      - budget
+    actions:
+      - start_working
+      - qualify_lead
+      - convert_lead
+      - disqualify_lead
+      - reopen_lead
+      - edit
+  - kind: section
+    label: Where it came from
+    icon: mdi-source-branch
+    blocks:
+      - kind: fields
+        fields:
+          - source
+          - campaign
+          - rating
+        hideEmpty: true
+        emptyText: Nothing recorded about where this lead came from.
+  - kind: table
+    label: Recent activity
+    source:
+      entity: activity
+      via: lead
+      sort:
+        - field: scheduled_at
+          direction: desc
+      limit: 3
+    fields:
+      - subject
+      - kind
+      - scheduled_at
+    openDetail: true

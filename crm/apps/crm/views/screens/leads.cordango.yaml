@@ -73,6 +73,7 @@ layout:
                 fields:
                   - company_name
                   - budget
+                  - assigned_to
                   - qualified_on
                   - status
                   - source
@@ -92,33 +93,70 @@ layout:
                     columns:
                       - - kind: field
                           field: company_name
+                          label: Company
                         - kind: field
                           field: job_title
+                          label: Job title
                         - kind: field
                           field: email
+                          label: Email
                         - kind: field
                           field: phone
+                          label: Phone
                       - - kind: field
                           field: budget
+                          label: Indicated budget
+                          format: money
                         - kind: field
                           field: source
+                          label: Source
                         - kind: field
                           field: campaign
+                          label: Campaign
                         - kind: field
                           field: assigned_to
+                          label: Assigned to
                   - kind: field
                     field: notes
+                    label: Notes
                   - kind: row
                     gap: sm
                     blocks:
                       - kind: action
                         command: start_working
+                        visibleWhen:
+                          value: '{{item.status}}'
+                          eq: new
                       - kind: action
                         command: qualify_lead
+                        visibleWhen:
+                          value: '{{item.status}}'
+                          in:
+                            - new
+                            - working
                       - kind: action
                         command: convert_lead
+                        style: primary
+                        visibleWhen:
+                          value: '{{item.status}}'
+                          in:
+                            - new
+                            - working
+                            - qualified
                       - kind: action
                         command: disqualify_lead
+                        style: danger
+                        visibleWhen:
+                          value: '{{item.status}}'
+                          in:
+                            - new
+                            - working
+                            - qualified
+                      - kind: action
+                        command: reopen_lead
+                        visibleWhen:
+                          value: '{{item.status}}'
+                          eq: unqualified
           - label: All leads
             blocks:
               - kind: view
