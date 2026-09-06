@@ -1,4 +1,4 @@
-# Operations
+# Crm
 
 This is a Cordango workspace. The apps under `apps/` are defined by **semantic source** —
 `.cordango.yaml` files describing entities, workflows, roles and screens. `cordango` turns them into a
@@ -66,22 +66,9 @@ rather than working around it.
 
 ## Some things already exist — link to them
 
-```
-cordango discover                       what every app here and on the instance offers
-cordango discover supplier              the apps that answer a question, ranked
-cordango discover --app <key>           one app in full
-cordango discover won --events          which app announces what
-```
-
-**Run this before you model anything.** It lists every app's entities, the events it
-announces, the actions it offers and the rules those actions carry — this workspace's apps
-always, and the rest of the instance's when you are logged in. If a concept already exists
-somewhere, reference it or build on its events instead of declaring a second copy. A duplicate
-entity is valid Cord, so nothing will refuse it; this command is how you find out in time.
-
 People, Organizations and Calendar are **core apps** the platform provides to every
 workspace. They are not in this repository and you will not find them by reading files, so
-`cordango discover` and `cordango inspect` list them for you along with their entity keys.
+`cordango inspect` lists them for you along with their entity keys.
 
 Before declaring an entity, check whether it is one of these. A company, a customer, a
 supplier, an employee, a calendar event: these already have a canonical record, and a second

@@ -1,8 +1,5 @@
 automation: warranty_expiring
 name: Warn before a warranty runs out
-trigger: schedule
-cron: 0 8 * * 1
-entity: asset
 when:
   all:
     - field: status
@@ -17,3 +14,6 @@ effects:
     title: 'Warranty ending: {{record.asset_tag}}'
     message: Cover ends {{record.warranty_until}}. Worth deciding before it does.
     link: auto
+trigger: schedule
+entity: asset
+cron: 0 8 * * 1

@@ -37,9 +37,9 @@ transitions:
       placements:
         - recordHeader
       successMessage: Open. People can put forward the peers they want to hear from.
+      effects: []
       emits:
         - cycle.opened
-      effects: []
   start_collecting:
     label: Start collecting
     from:
@@ -72,6 +72,6 @@ transitions:
         title: Close this cycle?
         message: Outstanding requests stop being chased.
         confirmLabel: Close
+      effects: []
       emits:
         - cycle.closed
-      effects: []

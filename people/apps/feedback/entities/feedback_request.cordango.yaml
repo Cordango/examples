@@ -2,9 +2,9 @@ entity: feedback_request
 label: Feedback request
 description: One person being asked about one participant. It lands in the reviewer calendar with its deadline, because the commonest failure of a review cycle is not disagreement but silence.
 icon: mdi-comment-quote-outline
+calendar: true
 plural: Feedback requests
 display: kind
-calendar: true
 fields:
   cycle:
     label: Cycle
@@ -91,10 +91,10 @@ fields:
   overall_score:
     label: Score
     type: decimal
-    scale: 2
     computed:
       rollup:
         entity: feedback_score
         via: request
         op: avg
         field: score
+    scale: 2

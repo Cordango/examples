@@ -1,0 +1,54 @@
+screen: dashboard
+label: Dashboard
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: Capacity
+        blocks:
+          - kind: stat
+            label: Plannable hours a week
+            source:
+              entity: resource
+              aggregate:
+                op: sum
+                field: effective_capacity
+              filters:
+                - field: active
+                  operator: eq
+                  value: true
+      - kind: card
+        label: Demand
+        blocks:
+          - kind: stat
+            label: Hours a week wanted
+            source:
+              entity: staffing_demand
+              aggregate:
+                op: sum
+                field: hours_per_week
+      - kind: card
+        label: Unfilled
+        blocks:
+          - kind: stat
+            label: Projects short of people
+            source:
+              entity: planned_project
+              aggregate:
+                op: count
+              filters:
+                - field: staffing_gap
+                  operator: gt
+                  value: 0
+  - kind: chart
+    label: Utilisation by department
+    chartType: bar
+    source:
+      entity: resource
+      aggregate:
+        op: avg
+        field: utilisation_pct
+        groupBy: department
+  - kind: view
+    view: projects__with_gaps
+subject: resource

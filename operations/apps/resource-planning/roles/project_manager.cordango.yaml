@@ -1,0 +1,32 @@
+role: project_manager
+name: Project manager
+description: Says what a project needs and asks for people. Cannot confirm their own request, which is what stops a plan being written by whoever asked loudest.
+grants:
+  planned_project:
+    create: true
+    read: true
+    update: true
+    commands:
+      - open_staffing
+      - mark_staffed
+      - start_running
+      - hold_staffing
+      - resume_staffing
+      - complete_staffing
+  staffing_demand:
+    create: true
+    read: true
+    update: true
+    delete: true
+  allocation:
+    create: true
+    read: true
+    update: true
+  resource:
+    read: true
+  resource_skill:
+    read: true
+  unavailability:
+    read: true
+  skill:
+    read: true

@@ -17,6 +17,9 @@ effects:
             - field: tier
               operator: eq
               value: flex
+          sort:
+            - field: name
+              direction: asc
       starter:
         pick:
           entity: revenue_plan
@@ -27,6 +30,9 @@ effects:
             - field: tier
               operator: eq
               value: starter
+          sort:
+            - field: name
+              direction: asc
       pro:
         pick:
           entity: revenue_plan
@@ -37,6 +43,9 @@ effects:
             - field: tier
               operator: eq
               value: pro
+          sort:
+            - field: name
+              direction: asc
       advanced:
         pick:
           entity: revenue_plan
@@ -47,6 +56,9 @@ effects:
             - field: tier
               operator: eq
               value: advanced
+          sort:
+            - field: name
+              direction: asc
     entity: lifecycle_step
     source:
       entity: adoption_point

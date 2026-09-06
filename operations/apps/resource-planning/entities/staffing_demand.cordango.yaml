@@ -1,0 +1,69 @@
+entity: staffing_demand
+label: Demand
+description: One skill a project needs, for so many hours a week, between two dates. Split by skill rather than a headcount, because "two people" and "two people who can do this" are different requests.
+icon: mdi-account-search-outline
+ownedBy:
+  parent: planned_project
+  via: project
+  as: table
+plural: Demand
+display: skill
+fields:
+  project:
+    label: Project
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: planned_project
+    onDelete: cascade
+  skill:
+    label: Skill
+    type: reference
+    required: true
+    targetEntity: skill
+  hours_per_week:
+    label: Hours a week
+    type: decimal
+    required: true
+    scale: 1
+  from_on:
+    label: From
+    type: date
+    role: start
+  to_on:
+    label: To
+    type: date
+    role: due
+  min_level:
+    label: At least
+    type: select
+    options:
+      - value: beginner
+        label: Learning
+      - value: intermediate
+        label: Competent
+      - value: expert
+        label: Expert
+  filled_hours:
+    label: Filled
+    type: decimal
+    computed:
+      rollup:
+        entity: allocation
+        via: demand
+        op: sum
+        field: hours_per_week
+        filters:
+          - field: status
+            operator: eq
+            value: confirmed
+    scale: 1
+  gap:
+    label: Gap
+    type: decimal
+    computed:
+      expr: hours_per_week - filled_hours
+    scale: 1
+  notes:
+    label: Notes
+    type: longtext

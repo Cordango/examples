@@ -1,8 +1,5 @@
 automation: replacement_due
 name: Warn before something is due for replacement
-trigger: schedule
-cron: 0 8 * * 1
-entity: asset
 when:
   all:
     - field: status
@@ -17,3 +14,6 @@ effects:
     title: 'Due for replacement: {{record.asset_tag}}'
     message: Replace by {{record.replacement_due}}. It has cost {{record.total_cost}} so far.
     link: auto
+trigger: schedule
+entity: asset
+cron: 0 8 * * 1

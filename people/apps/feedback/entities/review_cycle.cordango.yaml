@@ -2,9 +2,9 @@ entity: review_cycle
 label: Cycle
 description: One round of reviews with its own deadlines. The completion figure is counted from the requests rather than tracked by hand, so nobody has to believe a status somebody typed.
 icon: mdi-calendar-sync-outline
+calendar: true
 plural: Cycles
 display: name
-calendar: true
 fields:
   name:
     label: Name
@@ -22,8 +22,8 @@ fields:
   period_start:
     label: Covers from
     type: date
-    role: start
     group: Cycle
+    role: start
   period_end:
     label: Covers to
     type: date
@@ -35,30 +35,30 @@ fields:
   feedback_due:
     label: Feedback by
     type: date
-    role: due
     group: Deadlines
+    role: due
   min_peers:
     label: Fewest peers
     type: integer
-    default: 3
     group: Rules
+    default: 3
   max_peers:
     label: Most peers
     type: integer
-    default: 5
     group: Rules
+    default: 5
   anonymous_peers:
     label: Peer feedback is anonymous
     type: boolean
-    default: true
     help: 'Enforced by grants rather than by this flag: the subject has no read on a feedback request at all, only on the averages. A field that merely says "anonymous" while the data is readable is a promise the app does not keep.'
     group: Rules
+    default: true
   status:
     label: Status
     type: select
     indexed: true
-    role: status
     group: Cycle
+    role: status
   participants_count:
     label: People
     type: integer
@@ -93,8 +93,8 @@ fields:
   completion_pct:
     label: Complete
     type: decimal
-    scale: 1
-    unit: '%'
     group: Progress
+    unit: '%'
     computed:
       expr: requests_submitted / requests_total * 100
+    scale: 1

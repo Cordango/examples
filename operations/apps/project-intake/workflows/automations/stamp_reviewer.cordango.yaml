@@ -1,10 +1,10 @@
 automation: stamp_reviewer
 name: A score belongs to whoever gave it
-trigger: record.created
-entity: intake_review
 effects:
   - type: updateRecord
-    setIfEmpty: true
     set:
       reviewer: '{{actor.id}}'
       reviewed_at: '{{now}}'
+    setIfEmpty: true
+trigger: record.created
+entity: intake_review

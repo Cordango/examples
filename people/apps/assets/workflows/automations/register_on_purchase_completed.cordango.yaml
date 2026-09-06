@@ -1,8 +1,5 @@
 automation: register_on_purchase_completed
 name: Put hardware on the register when it is bought
-trigger: event.emitted
-app: purchase_requests
-event: purchase.completed
 when:
   field: category
   operator: in
@@ -11,9 +8,8 @@ when:
     - equipment
 effects:
   - type: createRecord
-    entity: asset
     set:
-      asset_tag: 'PO-{{record.po_number}}'
+      asset_tag: PO-{{record.po_number}}
       category: other
       purchase_cost: '{{record.actual_amount}}'
       purchase_date: '{{record.purchased_on}}'
@@ -21,3 +17,7 @@ effects:
       purchase_ref: '{{record.id}}'
       department: '{{record.department}}'
       custodian: '{{record.requester}}'
+    entity: asset
+trigger: command.emitted
+event: purchase.completed
+app: purchase_requests

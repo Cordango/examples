@@ -1,8 +1,5 @@
 automation: stale_review
 name: Monday nudge on proposals the committee has not decided
-trigger: schedule
-cron: 0 8 * * 1
-entity: project
 when:
   field: status
   operator: eq
@@ -13,3 +10,6 @@ effects:
     title: 'Still undecided: {{record.title}}'
     message: Priority score {{record.priority_score}}, {{record.committee_score}} from the committee so far.
     link: auto
+trigger: schedule
+entity: project
+cron: 0 8 * * 1

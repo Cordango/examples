@@ -1,0 +1,9 @@
+view: unavailability__calendar
+label: Away
+entity: unavailability
+kind: calendar
+settings:
+  dateField: from_on
+  endDateField: to_on
+  titleField: reason
+  colorByField: reason

@@ -1,6 +1,5 @@
 screen: configuration
 label: Competencies
-subject: competency
 layout:
   - kind: table
     label: Competencies
@@ -12,3 +11,4 @@ layout:
       - weight
       - active
     newButton: true
+subject: competency

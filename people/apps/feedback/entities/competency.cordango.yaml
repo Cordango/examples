@@ -17,8 +17,8 @@ fields:
   weight:
     label: Weight
     type: decimal
-    scale: 1
     default: 1
+    scale: 1
   active:
     label: Active
     type: boolean

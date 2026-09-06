@@ -2,12 +2,12 @@ entity: feedback_score
 label: Score
 description: One competency, scored once, by one reviewer. A row per competency rather than a single overall number, so a person can be strong at one thing and weak at another instead of being reduced to an average.
 icon: mdi-numeric
-plural: Scores
-display: comment
 ownedBy:
   parent: feedback_request
   via: request
   as: table
+plural: Scores
+display: comment
 fields:
   request:
     label: Request

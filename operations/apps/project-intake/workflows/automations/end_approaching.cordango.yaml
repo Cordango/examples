@@ -1,8 +1,5 @@
 automation: end_approaching
 name: Two weeks before a project is meant to end
-trigger: schedule
-cron: 0 8 * * *
-entity: project
 when:
   all:
     - field: status
@@ -17,3 +14,6 @@ effects:
     title: '{{record.title}} is due to end in two weeks'
     message: '{{record.progress_pct}}% of its milestones are done.'
     link: auto
+trigger: schedule
+entity: project
+cron: 0 8 * * *

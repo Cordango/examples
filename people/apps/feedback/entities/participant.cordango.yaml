@@ -58,7 +58,6 @@ fields:
   self_score:
     label: Self
     type: decimal
-    scale: 2
     computed:
       rollup:
         entity: feedback_request
@@ -72,10 +71,10 @@ fields:
           - field: status
             operator: eq
             value: submitted
+    scale: 2
   manager_score:
     label: Manager
     type: decimal
-    scale: 2
     computed:
       rollup:
         entity: feedback_request
@@ -89,10 +88,10 @@ fields:
           - field: status
             operator: eq
             value: submitted
+    scale: 2
   peer_score:
     label: Peers
     type: decimal
-    scale: 2
     computed:
       rollup:
         entity: feedback_request
@@ -106,13 +105,14 @@ fields:
           - field: status
             operator: eq
             value: submitted
+    scale: 2
   overall_score:
     label: Overall
     type: decimal
-    scale: 2
     help: Self a fifth, manager two fifths, peers two fifths. The weights are in the expression because there is no if/then and no settings lookup in one; changing them is a change to the app, which is honest about what it is.
     computed:
       expr: self_score * 0.2 + manager_score * 0.4 + peer_score * 0.4
+    scale: 2
   final_rating:
     label: Rating
     type: select

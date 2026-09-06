@@ -1,9 +1,9 @@
 screen: intake_queue
 label: Intake
-subject: project
 layout:
   - kind: view
     view: projects__queue
   - kind: create
     label: Propose something
     entity: project
+subject: project

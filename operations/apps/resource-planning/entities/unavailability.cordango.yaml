@@ -1,0 +1,58 @@
+entity: unavailability
+label: Unavailable
+description: 'A stretch when somebody cannot be planned. Mostly not typed by anybody — approved leave arrives here through a subscription, which is the whole point: the planner never has to hear about it.'
+icon: mdi-calendar-remove-outline
+calendar: true
+plural: Unavailable
+display: reason
+fields:
+  resource:
+    label: Person
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: resource
+    onDelete: cascade
+  person:
+    label: Person
+    type: reference
+    help: The same person the resource points at, held here as well so the entry can land in their calendar. A calendar binding needs a person reference on the record itself.
+    targetEntity: person
+    targetApp: platform
+  from_on:
+    label: From
+    type: date
+    required: true
+    role: start
+  to_on:
+    label: To
+    type: date
+    required: true
+    role: due
+  reason:
+    label: Why
+    type: select
+    required: true
+    default: leave
+    options:
+      - value: leave
+        label: Leave
+        color: '#0ea5e9'
+      - value: training
+        label: Training
+        color: '#a855f7'
+      - value: secondment
+        label: Secondment
+        color: '#f59e0b'
+      - value: other
+        label: Other
+        color: '#64748b'
+  hours_per_week:
+    label: Hours a week
+    type: decimal
+    default: 40
+    scale: 1
+  source_ref:
+    label: Source
+    type: text
+    help: The leave request this came from. Text rather than a reference, because PTO & Leave is a different workspace and a subscription only needs the other app to be reachable when it fires.

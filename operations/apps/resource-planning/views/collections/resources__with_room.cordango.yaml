@@ -1,0 +1,21 @@
+view: resources__with_room
+label: Who has room
+entity: resource
+filters:
+  - field: active
+    operator: eq
+    value: true
+  - field: free_hours
+    operator: gt
+    value: 0
+sort:
+  - field: free_hours
+    direction: desc
+kind: table
+settings:
+  columns:
+    - person
+    - department
+    - role_title
+    - free_hours
+    - utilisation_pct

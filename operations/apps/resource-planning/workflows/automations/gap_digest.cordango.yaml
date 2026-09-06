@@ -1,0 +1,25 @@
+automation: gap_digest
+name: Monday list of projects starting soon with nobody on them
+when:
+  all:
+    - field: status
+      operator: in
+      value:
+        - staffing
+        - staffed
+        - active
+    - field: staffing_gap
+      operator: gt
+      value: 0
+    - field: start_on
+      operator: lte
+      value: '{{today+30}}'
+effects:
+  - type: notify
+    to: '{{record.project_manager}}'
+    title: '{{record.name}} is short of people'
+    message: '{{record.staffing_gap}} hours a week unfilled, starting {{record.start_on}}.'
+    link: auto
+trigger: schedule
+entity: planned_project
+cron: 0 8 * * 1

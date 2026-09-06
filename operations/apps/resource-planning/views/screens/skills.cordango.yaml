@@ -1,0 +1,24 @@
+screen: skills
+label: Skills
+layout:
+  - kind: table
+    label: Skills
+    source:
+      entity: skill
+    fields:
+      - name
+      - category
+      - people_count
+      - expert_count
+    newButton: true
+  - kind: table
+    label: Who can do what
+    source:
+      entity: resource_skill
+    fields:
+      - resource
+      - skill
+      - level
+      - years
+    newButton: true
+subject: skill

@@ -54,9 +54,9 @@ transitions:
       placements:
         - recordHeader
       successMessage: With the committee. Its priority score is on the queue now.
+      effects: []
       emits:
         - project.submitted
-      effects: []
   approve_project:
     label: Approve
     from:
@@ -121,9 +121,9 @@ transitions:
           - project_manager
           - target_start
           - target_end
+      effects: []
       emits:
         - project.planned
-      effects: []
   start_project:
     label: Start
     from:
@@ -167,12 +167,12 @@ transitions:
       placements:
         - recordHeader
       successMessage: Finished. The sponsor will be asked how it went.
-      emits:
-        - project.completed
       effects:
         - type: updateRecord
           set:
             actual_end: '{{today}}'
+      emits:
+        - project.completed
   reopen_project:
     label: Reopen
     from:

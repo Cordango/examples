@@ -29,12 +29,12 @@ transitions:
       successMessage: Agreed. They have been asked.
       effects:
         - type: createRecord
-          entity: feedback_request
           set:
             cycle: '{{record.cycle}}'
             subject: '{{record.participant}}'
             reviewer: '{{record.reviewer}}'
             kind: peer
+          entity: feedback_request
         - type: notify
           to: '{{record.reviewer}}'
           title: You have been asked for feedback

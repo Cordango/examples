@@ -1,6 +1,6 @@
 screen: my_tasks
 label: Asked of me
-subject: feedback_request
 layout:
   - kind: view
     view: requests__mine
+subject: feedback_request

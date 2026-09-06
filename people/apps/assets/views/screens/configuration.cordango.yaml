@@ -1,6 +1,5 @@
 screen: configuration
 label: Configuration
-subject: asset_model
 layout:
   - kind: table
     label: Models
@@ -22,3 +21,4 @@ layout:
       - name
       - site
     newButton: true
+subject: asset_model

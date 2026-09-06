@@ -1,0 +1,39 @@
+entity: resource_skill
+label: Skill
+description: What one person is good at, and how good. A row rather than a tag, because "how good" is the half that decides whether they can take the work.
+icon: mdi-star-check-outline
+ownedBy:
+  parent: resource
+  via: resource
+  as: table
+plural: Skills
+display: skill
+fields:
+  resource:
+    label: Person
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: resource
+    onDelete: cascade
+  skill:
+    label: Skill
+    type: reference
+    required: true
+    targetEntity: skill
+  level:
+    label: Level
+    type: select
+    options:
+      - value: beginner
+        label: Learning
+        color: '#94a3b8'
+      - value: intermediate
+        label: Competent
+        color: '#0284c7'
+      - value: expert
+        label: Expert
+        color: '#0f766e'
+  years:
+    label: Years
+    type: integer

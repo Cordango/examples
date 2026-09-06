@@ -1,0 +1,18 @@
+screen: allocations
+label: Allocations
+layout:
+  - kind: view
+    view: allocations__timeline
+  - kind: table
+    label: Everything
+    source:
+      entity: allocation
+    fields:
+      - resource
+      - project
+      - hours_per_week
+      - start_on
+      - end_on
+      - status
+    newButton: true
+subject: allocation

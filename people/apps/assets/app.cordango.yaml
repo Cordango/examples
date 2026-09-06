@@ -3,11 +3,6 @@ name: Asset Register
 version: 0.1.0
 description: What the company owns, who has it, what it has cost, and when it stops being worth keeping.
 schemaVersion: '2.0'
-presentation:
-  icon: mdi-devices
-  color: '#0284c7'
-  category: IT
-  tagline: Where the laptops are.
 purpose:
   summary: Owns the register of physical things the company owns, who holds each one, what it has cost in purchase and repair, and when it is due for replacement.
   duties:
@@ -23,6 +18,11 @@ uses:
     why: the supplier and the repairer are the same company records the rest of the workspace uses
   - app: purchase_requests
     why: hardware bought through a purchase request arrives on the register by itself
+presentation:
+  icon: mdi-devices
+  color: '#0284c7'
+  category: IT
+  tagline: Where the laptops are.
 order:
   entities:
     - asset

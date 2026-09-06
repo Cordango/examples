@@ -1,8 +1,5 @@
 automation: roll_allowances
 name: Open next year's allowance when this one ends
-trigger: schedule
-cron: 0 6 * * *
-entity: leave_allowance
 when:
   all:
     - field: year_end
@@ -13,7 +10,6 @@ when:
       value: '{{today-7d}}'
 effects:
   - type: createRecord
-    entity: leave_allowance
     set:
       person: '{{record.person}}'
       employee: '{{record.employee}}'
@@ -23,3 +19,7 @@ effects:
       year_end: '{{today+364}}'
       base_days: '{{record.base_days}}'
       carry_over_days: '{{record.carry_over_eligible}}'
+    entity: leave_allowance
+trigger: schedule
+entity: leave_allowance
+cron: 0 6 * * *

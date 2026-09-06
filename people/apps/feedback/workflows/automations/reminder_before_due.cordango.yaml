@@ -1,8 +1,5 @@
 automation: reminder_before_due
 name: Remind a week before the deadline
-trigger: schedule
-cron: 0 9 * * *
-entity: feedback_request
 when:
   all:
     - field: status
@@ -19,3 +16,6 @@ effects:
     title: Feedback due in a week
     message: Still waiting on your answers.
     link: auto
+trigger: schedule
+entity: feedback_request
+cron: 0 9 * * *

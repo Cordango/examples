@@ -2,9 +2,9 @@ entity: asset
 label: Asset
 description: One physical thing the company owns. It sits in the calendar of whoever holds it, so a replacement date shows up beside their leave and their milestones rather than only in an IT spreadsheet nobody else opens.
 icon: mdi-devices
+calendar: true
 plural: Assets
 display: asset_tag
-calendar: true
 fields:
   asset_tag:
     label: Tag
@@ -52,8 +52,8 @@ fields:
   purchase_cost:
     label: Cost
     type: money
-    currency: EUR
     group: Purchase
+    currency: EUR
   supplier:
     label: Supplier
     type: reference
@@ -73,8 +73,8 @@ fields:
   replacement_due:
     label: Replace by
     type: date
-    role: due
     group: Purchase
+    role: due
   assigned_to:
     label: Held by
     type: reference
@@ -85,8 +85,8 @@ fields:
   assigned_on:
     label: Since
     type: date
-    role: start
     group: Custody
+    role: start
   custodian:
     label: Looked after by
     type: reference
@@ -130,8 +130,8 @@ fields:
     label: Status
     type: select
     indexed: true
-    role: status
     group: Custody
+    role: status
   repairs_count:
     label: Repairs
     type: integer
@@ -144,8 +144,8 @@ fields:
   repair_cost_total:
     label: Spent on repairs
     type: money
-    currency: EUR
     group: End
+    currency: EUR
     computed:
       rollup:
         entity: repair_ticket
@@ -155,8 +155,8 @@ fields:
   total_cost:
     label: Total cost
     type: money
-    currency: EUR
     help: What it has cost so far, which is the number a repair-or-replace conversation actually needs.
     group: End
+    currency: EUR
     computed:
       expr: purchase_cost + repair_cost_total

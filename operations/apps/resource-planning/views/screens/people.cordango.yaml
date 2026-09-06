@@ -1,0 +1,21 @@
+screen: people
+label: People
+layout:
+  - kind: view
+    view: resources__over_allocated
+  - kind: view
+    view: resources__with_room
+  - kind: table
+    label: Everyone
+    source:
+      entity: resource
+    fields:
+      - person
+      - department
+      - role_title
+      - weekly_capacity_hours
+      - availability_pct
+      - utilisation_pct
+      - free_hours
+    newButton: true
+subject: resource

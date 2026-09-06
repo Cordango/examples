@@ -1,0 +1,14 @@
+automation: over_allocation_alert
+name: Say something when somebody is planned past their capacity
+when:
+  operator: gt
+  value: 100
+  path: resource.utilisation_pct
+effects:
+  - type: notify
+    to: '{{record.requested_by}}'
+    title: That is more than they have
+    message: This person is now planned above their capacity. Something has to give.
+    link: auto
+trigger: record.updated
+entity: allocation

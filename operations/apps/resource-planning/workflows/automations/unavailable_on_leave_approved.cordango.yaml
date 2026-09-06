@@ -1,0 +1,25 @@
+automation: unavailable_on_leave_approved
+name: Approved leave takes somebody out of the plan
+effects:
+  - type: createRecord
+    set:
+      person: '{{record.requested_by}}'
+      from_on: '{{record.start_date}}'
+      to_on: '{{record.end_date}}'
+      reason: leave
+      source_ref: '{{record.id}}'
+      resource:
+        pick:
+          entity: resource
+          filters:
+            - field: person
+              operator: eq
+              value: '{{record.requested_by}}'
+          sort:
+            - field: person
+              direction: asc
+          field: id
+    entity: unavailability
+trigger: process.state_entered
+event: time_off.approved
+app: time_off

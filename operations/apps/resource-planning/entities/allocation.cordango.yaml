@@ -1,0 +1,60 @@
+entity: allocation
+label: Allocation
+description: So much of one person on one project for a stretch of time. Proposed first and confirmed by somebody else, because a plan everybody can write themselves into is not a plan.
+icon: mdi-calendar-account-outline
+plural: Allocations
+display: role_on_project
+fields:
+  resource:
+    label: Person
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: resource
+  project:
+    label: Project
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: planned_project
+    onDelete: cascade
+  demand:
+    label: Against
+    type: reference
+    help: The demand line this fills, when it fills one. Optional, because somebody is sometimes put on a project before anybody has written down what for.
+    targetEntity: staffing_demand
+    onDelete: setNull
+  hours_per_week:
+    label: Hours a week
+    type: decimal
+    required: true
+    scale: 1
+  start_on:
+    label: From
+    type: date
+    role: start
+  end_on:
+    label: To
+    type: date
+    role: due
+  role_on_project:
+    label: As
+    type: text
+  requested_by:
+    label: Asked by
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  confirmed_by:
+    label: Confirmed by
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  notes:
+    label: Notes
+    type: longtext

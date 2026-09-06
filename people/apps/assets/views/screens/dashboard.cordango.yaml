@@ -1,6 +1,5 @@
 screen: dashboard
 label: Dashboard
-subject: asset
 layout:
   - kind: row
     blocks:
@@ -50,3 +49,4 @@ layout:
         groupBy: category
   - kind: view
     view: assets__warranty_ending
+subject: asset

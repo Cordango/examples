@@ -1,0 +1,47 @@
+detail: resource
+blocks:
+  - kind: hub
+    title: person
+    subtitle:
+      - role_title
+      - department
+    facts:
+      - effective_capacity
+      - allocated_hours
+      - free_hours
+      - utilisation_pct
+    actions:
+      - edit
+      - delete
+  - kind: row
+    blocks:
+      - kind: card
+        label: Plannable
+        blocks:
+          - kind: stat
+            label: Plannable
+            field: effective_capacity
+      - kind: card
+        label: Allocated
+        blocks:
+          - kind: stat
+            label: Allocated
+            field: allocated_hours
+      - kind: card
+        label: Away
+        blocks:
+          - kind: stat
+            label: Away
+            field: unavailable_hours
+      - kind: card
+        label: Free
+        blocks:
+          - kind: stat
+            label: Free
+            field: free_hours
+  - kind: child
+    label: Skills
+    entity: resource_skill
+    via: resource
+    childType: table
+    inlineCreate: true

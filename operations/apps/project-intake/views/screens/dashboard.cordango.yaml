@@ -1,6 +1,5 @@
 screen: dashboard
 label: Dashboard
-subject: project
 layout:
   - kind: row
     blocks:
@@ -49,3 +48,4 @@ layout:
                     - active
   - kind: view
     view: projects__queue
+subject: project

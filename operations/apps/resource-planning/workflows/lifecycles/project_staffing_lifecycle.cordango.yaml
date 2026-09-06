@@ -1,0 +1,100 @@
+lifecycle: project_staffing_lifecycle
+entity: planned_project
+stateField: status
+initial: planned
+states:
+  planned:
+    label: Planned
+    color: '#94a3b8'
+    phase: not_started
+  staffing:
+    label: Staffing
+    color: '#f59e0b'
+    phase: active
+  staffed:
+    label: Staffed
+    color: '#0284c7'
+    phase: active
+  active:
+    label: Running
+    color: '#0f766e'
+    phase: active
+  on_hold:
+    label: On hold
+    color: '#64748b'
+    phase: active
+  completed:
+    label: Finished
+    color: '#16a34a'
+    phase: done
+transitions:
+  open_staffing:
+    label: Start staffing
+    from:
+      - planned
+    to: staffing
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      effects: []
+      emits:
+        - project.staffing_opened
+  mark_staffed:
+    label: Fully staffed
+    from:
+      - staffing
+    to: staffed
+    when:
+      field: staffing_gap
+      operator: lte
+      value: 0
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Staffed. Project Intake can start it.
+      effects: []
+      emits:
+        - project.staffed
+  start_running:
+    label: Running
+    from:
+      - staffed
+      - staffing
+    to: active
+    action:
+      placements:
+        - recordHeader
+      effects: []
+  hold_staffing:
+    label: On hold
+    from:
+      - staffing
+      - staffed
+      - active
+    to: on_hold
+    action:
+      placements:
+        - recordHeader
+      effects: []
+  resume_staffing:
+    label: Resume
+    from:
+      - on_hold
+    to: staffing
+    action:
+      placements:
+        - recordHeader
+      effects: []
+  complete_staffing:
+    label: Finished
+    from:
+      - active
+    to: completed
+    action:
+      placements:
+        - recordHeader
+      effects: []

@@ -1,6 +1,6 @@
 screen: portfolio_board
 label: Portfolio
-subject: project
 layout:
   - kind: view
     view: projects__board
+subject: project

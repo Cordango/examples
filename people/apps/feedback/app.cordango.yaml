@@ -3,11 +3,6 @@ name: 360 Feedback
 version: 0.1.0
 description: Review cycles with self, manager and peer feedback, where the person being reviewed sees the averages and never the individual answers.
 schemaVersion: '2.0'
-presentation:
-  icon: mdi-comment-quote-outline
-  color: '#a855f7'
-  category: HR
-  tagline: Ask everyone, tell them what it added up to.
 purpose:
   summary: Owns review cycles — who is reviewed, who reviews them, what they said, and what it averaged to.
   duties:
@@ -20,6 +15,11 @@ purpose:
 uses:
   - app: project_intake
     why: a finished project asks its sponsor for feedback on whoever ran it
+presentation:
+  icon: mdi-comment-quote-outline
+  color: '#a855f7'
+  category: HR
+  tagline: Ask everyone, tell them what it added up to.
 order:
   entities:
     - review_cycle

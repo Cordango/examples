@@ -2,12 +2,12 @@ entity: assignment
 label: Assignment
 description: One spell of somebody holding one thing, with the condition at both ends. Kept as history, so "who had this when it broke" is a question with an answer.
 icon: mdi-account-arrow-right-outline
-plural: Assignments
-display: person
 ownedBy:
   parent: asset
   via: asset
   as: table
+plural: Assignments
+display: person
 fields:
   asset:
     label: Asset

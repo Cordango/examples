@@ -1,0 +1,11 @@
+view: allocations__timeline
+label: Who is on what
+entity: allocation
+filters:
+  - field: status
+    operator: eq
+    value: confirmed
+kind: timeline
+settings:
+  dateField: start_on
+  groupBy: resource

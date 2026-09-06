@@ -17,7 +17,8 @@ source under `apps/`. Move the directory out when it is ready to have a life of 
 The first app is in [`apps/crm`](apps/crm). Change it or delete it.
 
 **One workspace holds many apps.** `cordango add app <name>` adds another under `apps/`; they
-share People, Organizations and Calendar, reference each other's records, and are checked,
+share People, Organizations and Calendar, reference each other's records, subscribe to what each
+other announces, and are checked,
 built and deployed together. `cordango new` is only for creating the workspace itself.
 
 **People, Organizations and Calendar are already there.** They are core apps the platform

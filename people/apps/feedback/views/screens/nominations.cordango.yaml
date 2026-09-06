@@ -1,6 +1,5 @@
 screen: nominations
 label: Nominations
-subject: nomination
 layout:
   - kind: view
     view: nominations__waiting
@@ -14,3 +13,4 @@ layout:
       - relationship
       - status
     newButton: true
+subject: nomination

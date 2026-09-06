@@ -1,8 +1,5 @@
 automation: pending_digest
 name: Monday list for approvers
-trigger: schedule
-cron: 0 8 * * 1
-entity: time_off
 when:
   field: status
   operator: eq
@@ -13,3 +10,6 @@ effects:
     title: Time off still waiting
     message: '{{record.day_count}} days from {{record.start_date}}, asked for by {{record.requested_by}}.'
     link: auto
+trigger: schedule
+entity: time_off
+cron: 0 8 * * 1

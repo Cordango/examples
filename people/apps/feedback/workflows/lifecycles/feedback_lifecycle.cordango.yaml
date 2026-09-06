@@ -14,13 +14,13 @@ states:
   submitted:
     label: Submitted
     color: '#0f766e'
-    phase: done
     terminal: true
+    phase: done
   declined:
     label: Declined
     color: '#64748b'
-    phase: cancelled
     terminal: true
+    phase: cancelled
 transitions:
   start_feedback:
     label: Start
@@ -67,12 +67,12 @@ transitions:
         required:
           - strengths
           - improvements
-      emits:
-        - feedback.submitted
       effects:
         - type: updateRecord
           set:
             submitted_at: '{{now}}'
+      emits:
+        - feedback.submitted
   decline_feedback:
     label: Decline
     from:

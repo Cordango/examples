@@ -1,0 +1,113 @@
+entity: resource
+label: Person
+description: Somebody who can be planned, and how much of them there is. A planning profile rather than a second staff record — the personnel file stays in People, and this holds only what capacity needs on top of it.
+icon: mdi-account-hard-hat-outline
+plural: People
+display: person
+fields:
+  person:
+    label: Person
+    type: reference
+    required: true
+    unique: true
+    indexed: true
+    group: Who
+    targetEntity: person
+    targetApp: platform
+  employee:
+    label: Personnel file
+    type: reference
+    help: The record in the People core app. Job title, manager and start date live there and are deliberately not copied here.
+    group: Who
+    targetEntity: employee
+    targetApp: core_people
+    onDelete: setNull
+  department:
+    label: Department
+    type: reference
+    group: Who
+    targetEntity: department
+    targetApp: platform
+  role_title:
+    label: Role
+    type: text
+    group: Who
+  manager:
+    label: Manager
+    type: reference
+    group: Who
+    targetEntity: person
+    targetApp: platform
+  weekly_capacity_hours:
+    label: Hours a week
+    type: decimal
+    group: Capacity
+    default: 40
+    scale: 1
+  availability_pct:
+    label: Available
+    type: integer
+    help: What share of them this kind of work can have at all. Somebody who spends half their week on support is at fifty before anything is planned.
+    group: Capacity
+    default: 100
+    unit: '%'
+  effective_capacity:
+    label: Plannable hours
+    type: decimal
+    group: Capacity
+    computed:
+      expr: weekly_capacity_hours * availability_pct / 100
+    scale: 1
+  allocated_hours:
+    label: Allocated
+    type: decimal
+    help: Confirmed allocations only. Proposals do not count, or a plan would look full while nobody had agreed to anything.
+    group: Capacity
+    computed:
+      rollup:
+        entity: allocation
+        via: resource
+        op: sum
+        field: hours_per_week
+        filters:
+          - field: status
+            operator: eq
+            value: confirmed
+    scale: 1
+  unavailable_hours:
+    label: Unavailable
+    type: decimal
+    help: Leave, training, secondment. Written here by a subscription to the leave app rather than typed by a planner who heard about it.
+    group: Capacity
+    computed:
+      rollup:
+        entity: unavailability
+        via: resource
+        op: sum
+        field: hours_per_week
+    scale: 1
+  utilisation_pct:
+    label: Utilisation
+    type: decimal
+    group: Capacity
+    unit: '%'
+    computed:
+      expr: allocated_hours / effective_capacity * 100
+    scale: 1
+  free_hours:
+    label: Free
+    type: decimal
+    group: Capacity
+    computed:
+      expr: effective_capacity - allocated_hours - unavailable_hours
+    scale: 1
+  cost_rate:
+    label: Rate
+    type: money
+    group: Capacity
+    currency: EUR
+  active:
+    label: Active
+    type: boolean
+    group: Who
+    default: true

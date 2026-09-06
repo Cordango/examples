@@ -1,0 +1,93 @@
+entity: planned_project
+label: Project
+description: A piece of work that needs people. It mirrors a project in Project Intake by name rather than by reference, because the two live in different workspaces — inside one workspace this would be a real link, and slice Q of the runtime plan is what retires the mirror.
+icon: mdi-briefcase-outline
+calendar: true
+plural: Projects
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    group: Project
+  intake_ref:
+    label: Intake reference
+    type: text
+    help: The proposal this came from, by title. Written by the subscription to Project Intake.
+    group: Project
+  project_manager:
+    label: Run by
+    type: reference
+    required: true
+    help: Whose calendar it lands in, and who gets told about a staffing gap.
+    group: People
+    targetEntity: person
+    targetApp: platform
+  sponsor:
+    label: Sponsor
+    type: reference
+    group: People
+    targetEntity: person
+    targetApp: platform
+  department:
+    label: Department
+    type: reference
+    group: People
+    targetEntity: department
+    targetApp: platform
+  priority:
+    label: Priority
+    type: integer
+    help: Carried over from the intake score. Two projects wanting the same person is the ordinary case, and this is what settles it.
+    group: Project
+  start_on:
+    label: Starts
+    type: date
+    group: Dates
+    role: start
+  end_on:
+    label: Ends
+    type: date
+    group: Dates
+    role: due
+  demand_hours:
+    label: Needed
+    type: decimal
+    group: Staffing
+    computed:
+      rollup:
+        entity: staffing_demand
+        via: project
+        op: sum
+        field: hours_per_week
+    scale: 1
+  allocated_hours:
+    label: Allocated
+    type: decimal
+    group: Staffing
+    computed:
+      rollup:
+        entity: allocation
+        via: project
+        op: sum
+        field: hours_per_week
+        filters:
+          - field: status
+            operator: eq
+            value: confirmed
+    scale: 1
+  staffing_gap:
+    label: Gap
+    type: decimal
+    help: Hours a week nobody has agreed to do. The number the weekly digest is sorted by.
+    group: Staffing
+    computed:
+      expr: demand_hours - allocated_hours
+    scale: 1
+  status:
+    label: Status
+    type: select
+    indexed: true
+    group: Project
+    role: status

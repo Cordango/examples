@@ -22,8 +22,8 @@ states:
   retired:
     label: Retired
     color: '#64748b'
-    phase: done
     terminal: true
+    phase: done
 transitions:
   assign:
     label: Assign
@@ -46,21 +46,21 @@ transitions:
           - condition
         required:
           - assigned_to
-      emits:
-        - asset.assigned
       effects:
         - type: createRecord
-          entity: assignment
           set:
             asset: '{{record.id}}'
             person: '{{record.assigned_to}}'
             assigned_on: '{{today}}'
             condition_out: '{{record.condition}}'
+          entity: assignment
         - type: notify
           to: '{{record.assigned_to}}'
           title: Something is yours now
           message: '{{record.asset_tag}} has been assigned to you.'
           link: auto
+      emits:
+        - asset.assigned
   return_asset:
     label: Returned
     from:
@@ -74,9 +74,9 @@ transitions:
       input:
         fields:
           - condition
+      effects: []
       emits:
         - asset.returned
-      effects: []
   send_to_repair:
     label: Send for repair
     from:
@@ -90,16 +90,16 @@ transitions:
       input:
         fields:
           - condition
-      emits:
-        - asset.repair_started
       effects:
         - type: createRecord
-          entity: repair_ticket
           set:
             asset: '{{record.id}}'
             opened_on: '{{today}}'
             raised_by: '{{actor.id}}'
             issue: Sent for repair.
+          entity: repair_ticket
+      emits:
+        - asset.repair_started
   repair_done:
     label: Back from repair
     from:
@@ -141,6 +141,6 @@ transitions:
           - retire_reason
         required:
           - retire_reason
+      effects: []
       emits:
         - asset.retired
-      effects: []

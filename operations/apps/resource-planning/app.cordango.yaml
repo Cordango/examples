@@ -1,15 +1,74 @@
 app: resource_planning
 name: Resource Planning
 version: 0.1.0
-description: Resource Planning, created by cordango new. Change or replace it.
+description: Who can do what, how much of them there is, and what they are already on — with approved leave taken out of the plan without anybody having to mention it.
+schemaVersion: '2.0'
+purpose:
+  summary: Owns capacity — each person plannable hours, what they are allocated to, what takes them out of the plan, and where a project is short of people.
+  duties:
+    - owns a planning profile per person, and what they are good at
+    - owns allocations, proposed by one person and confirmed by another
+    - owns unavailability, most of which arrives from the leave app rather than being typed
+    - works out utilisation, free hours and each project staffing gap
+    - warns a project manager when a project starting soon has nobody on it
+    - announces when a project is fully staffed, so intake can start it
+uses:
+  - app: core_people
+    entities:
+      - employee
+    why: the personnel file is there; this app holds only what planning needs on top
+  - app: project_intake
+    why: a planned project becomes something to staff, and a staffed one can start
+  - app: time_off
+    why: approved leave takes somebody out of the plan by itself
+presentation:
+  icon: mdi-account-hard-hat-outline
+  color: '#0284c7'
+  category: Operations
+  tagline: Who is free, and for how long.
 order:
   entities:
-    - task
+    - resource
+    - resource_skill
+    - planned_project
+    - staffing_demand
+    - allocation
+    - unavailability
+    - skill
   pages:
-    - tasks
+    - dashboard
+    - people
+    - projects
+    - allocations
+    - availability
+    - skills
   views:
-    - tasks__all
-  roles: []
-  processes: []
-  commands: []
-  workflows: []
+    - resources__over_allocated
+    - resources__with_room
+    - projects__with_gaps
+    - allocations__timeline
+    - unavailability__calendar
+  roles:
+    - resource_manager
+    - project_manager
+    - team_member
+  processes:
+    - allocation_lifecycle
+    - project_staffing_lifecycle
+  commands:
+    - confirm_allocation
+    - end_allocation
+    - cancel_allocation
+    - open_staffing
+    - mark_staffed
+    - start_running
+    - hold_staffing
+    - resume_staffing
+    - complete_staffing
+  workflows:
+    - register_on_project_planned
+    - unavailable_on_leave_approved
+    - stamp_allocation_requester
+    - over_allocation_alert
+    - gap_digest
+    - allocation_ending

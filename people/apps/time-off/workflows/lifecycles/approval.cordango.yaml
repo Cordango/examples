@@ -22,8 +22,8 @@ states:
   cancelled:
     label: Cancelled
     color: '#64748b'
-    phase: cancelled
     terminal: true
+    phase: cancelled
 transitions:
   submit_time_off:
     label: Send for approval

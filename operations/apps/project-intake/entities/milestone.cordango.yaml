@@ -2,9 +2,9 @@ entity: milestone
 label: Milestone
 description: A date somebody has promised. It sits in its owner calendar beside their leave, which is the cheapest possible way to notice that the two collide.
 icon: mdi-flag-checkered
+calendar: true
 plural: Milestones
 display: title
-calendar: true
 fields:
   project:
     label: Project

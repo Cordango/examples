@@ -1,0 +1,16 @@
+role: team_member
+name: Team member
+description: Sees what they are on and what is coming.
+grants:
+  resource:
+    read: true
+  resource_skill:
+    read: true
+  allocation:
+    read: true
+  planned_project:
+    read: true
+  unavailability:
+    read: true
+  skill:
+    read: true

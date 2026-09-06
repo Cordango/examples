@@ -1,6 +1,5 @@
 screen: portfolios
 label: Portfolios
-subject: portfolio
 layout:
   - kind: table
     label: Portfolios
@@ -15,3 +14,4 @@ layout:
       - headroom
       - projects_count
     newButton: true
+subject: portfolio

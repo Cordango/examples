@@ -1,0 +1,48 @@
+entity: skill
+label: Skill
+description: Something people can be good at, kept as a list so two teams asking for the same thing ask for it by the same name.
+icon: mdi-lightbulb-outline
+kind: config
+plural: Skills
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+  category:
+    label: Category
+    type: select
+    options:
+      - value: engineering
+        label: Engineering
+      - value: data
+        label: Data
+      - value: design
+        label: Design
+      - value: product
+        label: Product
+      - value: delivery
+        label: Delivery
+      - value: other
+        label: Other
+  people_count:
+    label: People
+    type: integer
+    computed:
+      rollup:
+        entity: resource_skill
+        via: skill
+        op: count
+  expert_count:
+    label: Experts
+    type: integer
+    computed:
+      rollup:
+        entity: resource_skill
+        via: skill
+        op: count
+        filters:
+          - field: level
+            operator: eq
+            value: expert

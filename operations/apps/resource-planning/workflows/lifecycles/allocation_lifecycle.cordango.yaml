@@ -1,0 +1,78 @@
+lifecycle: allocation_lifecycle
+entity: allocation
+stateField: status
+initial: proposed
+states:
+  proposed:
+    label: Proposed
+    color: '#f59e0b'
+    phase: not_started
+  confirmed:
+    label: Confirmed
+    color: '#0f766e'
+    phase: active
+  ended:
+    label: Ended
+    color: '#64748b'
+    phase: done
+  cancelled:
+    label: Cancelled
+    color: '#94a3b8'
+    phase: cancelled
+transitions:
+  confirm_allocation:
+    label: Confirm
+    from:
+      - proposed
+    to: confirmed
+    when:
+      field: requested_by
+      operator: neq
+      value: '{{actor.id}}'
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Confirmed. It counts against their capacity now.
+      effects:
+        - type: updateRecord
+          set:
+            confirmed_by: '{{actor.id}}'
+        - type: notify
+          to: '{{record.requested_by}}'
+          title: Allocation confirmed
+          message: '{{record.hours_per_week}} hours a week from {{record.start_on}}.'
+          link: auto
+      emits:
+        - allocation.confirmed
+  end_allocation:
+    label: Ended
+    from:
+      - confirmed
+    to: ended
+    action:
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Ended. Their capacity is free again.
+      input:
+        fields:
+          - end_on
+      effects:
+        - type: updateRecord
+          set:
+            end_on: '{{today}}'
+          setIfEmpty: true
+      emits:
+        - allocation.ended
+  cancel_allocation:
+    label: Cancel
+    from:
+      - proposed
+    to: cancelled
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      effects: []

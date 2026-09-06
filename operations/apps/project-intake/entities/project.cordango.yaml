@@ -2,9 +2,9 @@ entity: project
 label: Project
 description: Something somebody wants done, scored before anybody argues about it. The score is arithmetic over what the proposer claimed, which does not make it objective, but does make two proposals comparable and the disagreement about the inputs rather than the conclusion.
 icon: mdi-rocket-launch-outline
+calendar: true
 plural: Projects
 display: title
-calendar: true
 fields:
   title:
     label: Title
@@ -56,13 +56,13 @@ fields:
   estimated_cost:
     label: Estimated cost
     type: money
-    currency: EUR
     group: Size
+    currency: EUR
   estimated_effort_days:
     label: Estimated effort
     type: integer
-    unit: days
     group: Size
+    unit: days
   impact:
     label: Impact
     type: integer
@@ -142,15 +142,14 @@ fields:
   priority_score:
     label: Priority
     type: decimal
-    scale: 1
     help: 'Value times three, two and three, minus cost and effort times two. Sorted by, never banded: there is no if/then here, and a High/Medium/Low label would hide exactly the disagreement a committee is for.'
     group: Score
     computed:
       expr: (impact * 3 + urgency * 2 + strategic_alignment * 3) - (cost_score * 2 + effort_score * 2)
+    scale: 1
   committee_score:
     label: Committee
     type: decimal
-    scale: 2
     group: Score
     computed:
       rollup:
@@ -158,6 +157,7 @@ fields:
         via: project
         op: avg
         field: score
+    scale: 2
   risk:
     label: Risk
     type: select
@@ -175,13 +175,13 @@ fields:
   target_start:
     label: Starts
     type: date
-    role: start
     group: Dates
+    role: start
   target_end:
     label: Ends
     type: date
-    role: due
     group: Dates
+    role: due
   actual_start:
     label: Actually started
     type: date
@@ -221,11 +221,11 @@ fields:
   progress_pct:
     label: Progress
     type: decimal
-    scale: 1
-    unit: '%'
     group: Progress
+    unit: '%'
     computed:
       expr: milestones_done / milestones_count * 100
+    scale: 1
   decision_notes:
     label: Decision
     type: longtext
@@ -234,5 +234,5 @@ fields:
     label: Status
     type: select
     indexed: true
-    role: status
     group: Decision
+    role: status

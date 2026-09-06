@@ -1,0 +1,35 @@
+role: resource_manager
+name: Resource manager
+description: Owns capacity. Keeps the profiles and skills, and confirms allocations — which is a different person from the one who asked for them, by design.
+grants:
+  resource:
+    create: true
+    read: true
+    update: true
+    delete: true
+  resource_skill:
+    create: true
+    read: true
+    update: true
+    delete: true
+  allocation:
+    create: true
+    read: true
+    update: true
+    commands:
+      - confirm_allocation
+      - end_allocation
+      - cancel_allocation
+  unavailability:
+    create: true
+    read: true
+    update: true
+    delete: true
+  planned_project:
+    read: true
+  staffing_demand:
+    read: true
+  skill:
+    create: true
+    read: true
+    update: true

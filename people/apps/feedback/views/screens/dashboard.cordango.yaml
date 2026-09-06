@@ -1,6 +1,5 @@
 screen: dashboard
 label: Dashboard
-subject: review_cycle
 layout:
   - kind: row
     blocks:
@@ -34,3 +33,4 @@ layout:
                     - in_progress
   - kind: view
     view: cycles__all
+subject: review_cycle

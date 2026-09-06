@@ -1,9 +1,9 @@
 automation: stamp_proposer
 name: A proposal belongs to whoever wrote it
-trigger: record.created
-entity: project
 effects:
   - type: updateRecord
-    setIfEmpty: true
     set:
       requested_by: '{{actor.id}}'
+    setIfEmpty: true
+trigger: record.created
+entity: project

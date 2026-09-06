@@ -1,0 +1,19 @@
+automation: allocation_ending
+name: Two weeks before somebody rolls off
+when:
+  all:
+    - field: status
+      operator: eq
+      value: confirmed
+    - field: end_on
+      operator: eq
+      value: '{{today+14}}'
+effects:
+  - type: notify
+    to: '{{record.requested_by}}'
+    title: Allocation ending in two weeks
+    message: Their time comes back on {{record.end_on}}.
+    link: auto
+trigger: schedule
+entity: allocation
+cron: 0 9 * * *

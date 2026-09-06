@@ -1,0 +1,19 @@
+view: resources__over_allocated
+label: Over capacity
+entity: resource
+filters:
+  - field: utilisation_pct
+    operator: gt
+    value: 100
+sort:
+  - field: utilisation_pct
+    direction: desc
+kind: table
+settings:
+  columns:
+    - person
+    - department
+    - effective_capacity
+    - allocated_hours
+    - unavailable_hours
+    - utilisation_pct

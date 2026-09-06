@@ -1,8 +1,5 @@
 automation: low_balance_warning
 name: Tell somebody when their holiday is nearly gone
-trigger: schedule
-cron: 0 9 * * 1
-entity: leave_allowance
 when:
   field: remaining_days
   operator: lt
@@ -13,3 +10,6 @@ effects:
     title: Not much holiday left
     message: '{{record.remaining_days}} days remaining this year, with {{record.pending_days}} already asked for.'
     link: auto
+trigger: schedule
+entity: leave_allowance
+cron: 0 9 * * 1

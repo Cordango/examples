@@ -1,0 +1,9 @@
+automation: stamp_allocation_requester
+name: An allocation is asked for by whoever proposed it
+effects:
+  - type: updateRecord
+    set:
+      requested_by: '{{actor.id}}'
+    setIfEmpty: true
+trigger: record.created
+entity: allocation

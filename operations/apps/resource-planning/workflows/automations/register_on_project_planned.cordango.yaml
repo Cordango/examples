@@ -1,0 +1,17 @@
+automation: register_on_project_planned
+name: Take on a project the moment it is planned
+effects:
+  - type: createRecord
+    set:
+      name: '{{record.title}}'
+      intake_ref: '{{record.title}}'
+      project_manager: '{{record.project_manager}}'
+      sponsor: '{{record.sponsor}}'
+      department: '{{record.department}}'
+      start_on: '{{record.target_start}}'
+      end_on: '{{record.target_end}}'
+      priority: '{{record.priority_score}}'
+    entity: planned_project
+trigger: command.emitted
+event: project.planned
+app: project_intake

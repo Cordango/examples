@@ -1,6 +1,6 @@
 screen: repairs
 label: Repairs
-subject: repair_ticket
 layout:
   - kind: view
     view: repairs__open
+subject: repair_ticket

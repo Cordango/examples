@@ -1,6 +1,5 @@
 screen: inventory
 label: Inventory
-subject: asset
 layout:
   - kind: view
     view: assets__available
@@ -17,3 +16,4 @@ layout:
       - custodian
       - replacement_due
     newButton: true
+subject: asset

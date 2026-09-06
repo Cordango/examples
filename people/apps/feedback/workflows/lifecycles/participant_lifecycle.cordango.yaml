@@ -33,19 +33,19 @@ transitions:
       successMessage: Self and manager reviews created. Approved peers get theirs as they are agreed.
       effects:
         - type: createRecord
-          entity: feedback_request
           set:
             cycle: '{{record.cycle}}'
             subject: '{{record.id}}'
             reviewer: '{{record.person}}'
             kind: self
-        - type: createRecord
           entity: feedback_request
+        - type: createRecord
           set:
             cycle: '{{record.cycle}}'
             subject: '{{record.id}}'
             reviewer: '{{record.manager}}'
             kind: manager
+          entity: feedback_request
         - type: notify
           to: '{{record.person}}'
           title: Your review has started
@@ -85,6 +85,6 @@ transitions:
         required:
           - final_rating
           - summary
+      effects: []
       emits:
         - participant.completed
-      effects: []

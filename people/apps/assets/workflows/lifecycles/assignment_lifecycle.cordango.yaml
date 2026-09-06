@@ -10,8 +10,8 @@ states:
   closed:
     label: Closed
     color: '#64748b'
-    phase: done
     terminal: true
+    phase: done
 transitions:
   close_assignment:
     label: Record the return
@@ -30,6 +30,6 @@ transitions:
           - notes
       effects:
         - type: updateRecord
-          setIfEmpty: true
           set:
             returned_on: '{{today}}'
+          setIfEmpty: true

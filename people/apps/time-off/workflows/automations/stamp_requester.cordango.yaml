@@ -1,9 +1,9 @@
 automation: stamp_requester
 name: A request belongs to whoever made it
-trigger: record.created
-entity: time_off
 effects:
   - type: updateRecord
-    setIfEmpty: true
     set:
       requested_by: '{{actor.id}}'
+    setIfEmpty: true
+trigger: record.created
+entity: time_off

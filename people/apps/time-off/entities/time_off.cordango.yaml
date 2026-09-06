@@ -1,10 +1,10 @@
 entity: time_off
 label: Time off
-description: 'One absence, from the day it is asked for to the day it is taken. It carries `calendar: true`, so an approved holiday appears in the person''s own calendar beside their meetings and their project milestones without any app being told about the others.'
+description: "One absence, from the day it is asked for to the day it is taken. It carries `calendar: true`, so an approved holiday appears in the person's own calendar beside their meetings and their project milestones without any app being told about the others."
 icon: beach
+calendar: true
 plural: Time off
 display: type
-calendar: true
 fields:
   requested_by:
     label: Person

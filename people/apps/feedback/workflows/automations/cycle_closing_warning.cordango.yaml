@@ -1,8 +1,5 @@
 automation: cycle_closing_warning
 name: Tell HR three days before a cycle deadline
-trigger: schedule
-cron: 0 8 * * *
-entity: review_cycle
 when:
   all:
     - field: status
@@ -17,3 +14,6 @@ effects:
     title: '{{record.name}} closes in three days'
     message: '{{record.completion_pct}}% answered so far.'
     link: auto
+trigger: schedule
+entity: review_cycle
+cron: 0 8 * * *

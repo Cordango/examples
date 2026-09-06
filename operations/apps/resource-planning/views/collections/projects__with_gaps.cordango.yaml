@@ -1,0 +1,20 @@
+view: projects__with_gaps
+label: Short of people
+entity: planned_project
+filters:
+  - field: staffing_gap
+    operator: gt
+    value: 0
+sort:
+  - field: start_on
+    direction: asc
+kind: table
+settings:
+  columns:
+    - name
+    - project_manager
+    - start_on
+    - demand_hours
+    - allocated_hours
+    - staffing_gap
+    - priority

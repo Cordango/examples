@@ -47,30 +47,29 @@ fields:
   base_days:
     label: Entitlement
     type: decimal
-    scale: 1
     required: true
     default: 25
+    scale: 1
   carry_over_days:
     label: Carried over
     type: decimal
-    scale: 1
     default: 0
+    scale: 1
   adjustment_days:
     label: Adjustment
     type: decimal
-    scale: 1
-    default: 0
     help: Anything agreed by hand — a part-year start, a bought day, a correction.
+    default: 0
+    scale: 1
   total_days:
     label: Total
     type: decimal
-    scale: 1
     computed:
       expr: base_days + carry_over_days + adjustment_days
+    scale: 1
   taken_days:
     label: Taken
     type: decimal
-    scale: 1
     help: 'Summed from the approved absences that name this allowance. Not a sibling rollup through the person: a rollup cannot match through the platform directory, so the absence carries the link instead.'
     computed:
       rollup:
@@ -85,10 +84,10 @@ fields:
           - field: deducts_allowance
             operator: eq
             value: true
+    scale: 1
   pending_days:
     label: Asked for
     type: decimal
-    scale: 1
     help: Requested and not decided. Shown apart from taken, because a manager looking at a balance needs to know what is already in the queue behind it.
     computed:
       rollup:
@@ -103,19 +102,20 @@ fields:
           - field: deducts_allowance
             operator: eq
             value: true
+    scale: 1
   remaining_days:
     label: Left
     type: decimal
-    scale: 1
     computed:
       expr: total_days - taken_days
+    scale: 1
   carry_over_eligible:
     label: Can carry
     type: decimal
-    scale: 1
     help: Whatever is left, capped at five. min() is how a cap is written here — there is no if/then, and there does not need to be.
     computed:
       expr: min(remaining_days, 5)
+    scale: 1
   next_year:
     label: Next year
     type: integer

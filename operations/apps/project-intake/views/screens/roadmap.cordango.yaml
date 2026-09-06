@@ -1,6 +1,5 @@
 screen: roadmap
 label: Roadmap
-subject: project
 layout:
   - kind: view
     view: projects__roadmap
@@ -17,3 +16,4 @@ layout:
       - due_on
       - done
     newButton: true
+subject: project

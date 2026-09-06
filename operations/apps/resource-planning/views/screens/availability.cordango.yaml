@@ -1,0 +1,18 @@
+screen: availability
+label: Away
+layout:
+  - kind: view
+    view: unavailability__calendar
+  - kind: table
+    label: Everything
+    source:
+      entity: unavailability
+    fields:
+      - resource
+      - from_on
+      - to_on
+      - reason
+      - hours_per_week
+      - source_ref
+    newButton: true
+subject: unavailability

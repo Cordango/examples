@@ -1,6 +1,5 @@
 screen: calibration
 label: Calibration
-subject: participant
 layout:
   - kind: view
     view: participants__calibration
@@ -14,3 +13,4 @@ layout:
       - department
       - status
     newButton: true
+subject: participant

@@ -1,6 +1,5 @@
 screen: team_calendar
 label: Team calendar
-subject: time_off
 layout:
   - kind: view
     view: time_off__calendar
@@ -26,3 +25,4 @@ layout:
       - date
       - region
     newButton: true
+subject: time_off

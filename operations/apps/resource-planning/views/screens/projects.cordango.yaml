@@ -1,0 +1,19 @@
+screen: projects
+label: Projects
+layout:
+  - kind: view
+    view: projects__with_gaps
+  - kind: table
+    label: Everything
+    source:
+      entity: planned_project
+    fields:
+      - name
+      - project_manager
+      - start_on
+      - end_on
+      - demand_hours
+      - allocated_hours
+      - status
+    newButton: true
+subject: planned_project
