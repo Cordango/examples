@@ -1,0 +1,77 @@
+detail: subscription
+blocks:
+  - kind: hub
+    title: product_name
+    status: status
+    subtitle:
+      - vendor
+      - department
+    facts:
+      - owner
+      - annual_cost
+      - cancellation_deadline
+      - dpa_status
+    actions:
+      - start_renewal_review
+      - renew
+      - give_notice
+      - cancel_subscription
+      - expire
+      - edit
+      - delete
+  - kind: process
+    label: Contract
+  - kind: columns
+    columns:
+      - - kind: section
+          label: Contract
+          blocks:
+            - kind: fields
+              fields:
+                - product_name
+                - vendor
+                - owner
+                - department
+                - category
+                - annual_cost
+                - billing_cycle
+        - kind: section
+          label: Dates
+          blocks:
+            - kind: fields
+              fields:
+                - contract_start
+                - renewal_on
+                - notice_period_days
+                - cancellation_deadline
+                - auto_renews
+                - notice_given_on
+      - - kind: section
+          label: Seats
+          blocks:
+            - kind: fields
+              fields:
+                - seats_licensed
+                - seats_used
+                - seats_free
+                - cost_per_seat
+        - kind: child
+          label: Who has a seat
+          entity: seat_assignment
+          via: subscription
+          childType: table
+          inlineCreate: true
+        - kind: section
+          label: Compliance
+          blocks:
+            - kind: fields
+              fields:
+                - dpa_status
+                - dpa_signed_on
+                - dpa_document
+                - sso_enforced
+        - kind: child
+          label: Reviews
+          entity: renewal_review
+          via: subscription
+          childType: table

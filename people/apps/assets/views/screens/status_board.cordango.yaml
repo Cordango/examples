@@ -1,0 +1,6 @@
+screen: status_board
+label: Board
+subject: asset
+layout:
+  - kind: view
+    view: assets__board

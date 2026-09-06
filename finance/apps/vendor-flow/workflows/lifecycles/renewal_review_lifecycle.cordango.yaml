@@ -1,0 +1,38 @@
+lifecycle: renewal_review_lifecycle
+entity: renewal_review
+stateField: status
+initial: open
+states:
+  open:
+    label: Open
+    color: '#f59e0b'
+    phase: active
+  decided:
+    label: Decided
+    color: '#0f766e'
+    terminal: true
+    phase: done
+transitions:
+  decide_renewal:
+    label: Record the decision
+    from:
+      - open
+    to: decided
+    requiredFields:
+      - recommendation
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      input:
+        fields:
+          - recommendation
+          - notes
+        required:
+          - recommendation
+      effects:
+        - type: updateRecord
+          set:
+            decided_by: '{{actor.id}}'
+            decided_at: '{{now}}'

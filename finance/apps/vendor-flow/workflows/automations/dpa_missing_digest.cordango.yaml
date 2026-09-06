@@ -1,0 +1,21 @@
+automation: dpa_missing_digest
+name: Monday list of contracts still missing a DPA
+when:
+  all:
+    - field: status
+      operator: eq
+      value: active
+    - field: dpa_status
+      operator: in
+      value:
+        - required
+        - requested
+effects:
+  - type: notify
+    to: '{{record.owner}}'
+    title: 'DPA still outstanding: {{record.product_name}}'
+    message: This vendor processes personal data and the agreement is not signed.
+    link: auto
+trigger: schedule
+entity: subscription
+cron: 0 8 * * 1

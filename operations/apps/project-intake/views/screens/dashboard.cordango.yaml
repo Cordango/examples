@@ -1,0 +1,51 @@
+screen: dashboard
+label: Dashboard
+subject: project
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: Waiting
+        blocks:
+          - kind: stat
+            label: With the committee
+            source:
+              entity: project
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: in_review
+      - kind: card
+        label: Running
+        blocks:
+          - kind: stat
+            label: Active
+            source:
+              entity: project
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: active
+      - kind: card
+        label: Committed
+        blocks:
+          - kind: stat
+            label: Approved and running
+            source:
+              entity: project
+              aggregate:
+                op: sum
+                field: estimated_cost
+              filters:
+                - field: status
+                  operator: in
+                  value:
+                    - approved
+                    - planned
+                    - active
+  - kind: view
+    view: projects__queue

@@ -1,0 +1,38 @@
+entity: cost_centre
+label: Cost centre
+description: Where money is answerable to somebody. The code is what other apps quote when they cannot point at a budget line yet, so it is unique and stable.
+icon: mdi-office-building-outline
+kind: config
+plural: Cost centres
+display: name
+fields:
+  code:
+    label: Code
+    type: text
+    required: true
+    unique: true
+    help: Short and stable. A purchase request typed against this code before the budget existed can still be filed against it later.
+  name:
+    label: Name
+    type: text
+    required: true
+  department:
+    label: Department
+    type: reference
+    help: The team this belongs to, from the platform directory. Not a copy — the same department key filters every app in the workspace.
+    targetEntity: department
+    targetApp: platform
+  owner:
+    label: Owner
+    type: reference
+    help: Who answers for the money. Gets the variance digest.
+    targetEntity: person
+    targetApp: platform
+  active:
+    label: Active
+    type: boolean
+    help: A retired cost centre keeps its history and stops appearing in pickers.
+    default: true
+  notes:
+    label: Notes
+    type: longtext

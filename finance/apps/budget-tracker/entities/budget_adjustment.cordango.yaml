@@ -1,0 +1,42 @@
+entity: budget_adjustment
+label: Adjustment
+description: A request to move a line's plan, and the decision on it. Signed, so a transfer is two adjustments that sum to zero and both halves keep their reason.
+icon: mdi-swap-vertical
+plural: Adjustments
+display: reason
+fields:
+  budget_line:
+    label: Budget line
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: budget_line
+    onDelete: cascade
+  amount:
+    label: Amount
+    type: money
+    required: true
+    help: Negative takes money away. A transfer between two lines is two adjustments, so both sides carry the reason rather than one side carrying it and the other looking arbitrary.
+    currency: EUR
+  reason:
+    label: Reason
+    type: longtext
+    required: true
+  requested_by:
+    label: Requested by
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  approver:
+    label: Approved by
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  decided_at:
+    label: Decided
+    type: datetime
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status

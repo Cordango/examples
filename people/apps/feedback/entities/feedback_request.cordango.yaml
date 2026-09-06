@@ -1,0 +1,100 @@
+entity: feedback_request
+label: Feedback request
+description: One person being asked about one participant. It lands in the reviewer calendar with its deadline, because the commonest failure of a review cycle is not disagreement but silence.
+icon: mdi-comment-quote-outline
+plural: Feedback requests
+display: kind
+calendar: true
+fields:
+  cycle:
+    label: Cycle
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: review_cycle
+    onDelete: cascade
+  subject:
+    label: About
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: participant
+    onDelete: cascade
+  reviewer:
+    label: Reviewer
+    type: reference
+    required: true
+    help: Who is being asked. This is the person whose calendar the deadline lands in.
+    targetEntity: person
+    targetApp: platform
+  kind:
+    label: Kind
+    type: select
+    required: true
+    options:
+      - value: self
+        label: Self review
+      - value: manager
+        label: Manager
+      - value: peer
+        label: Peer
+      - value: upward
+        label: Upward
+      - value: stakeholder
+        label: Stakeholder
+  anonymous:
+    label: Anonymous
+    type: boolean
+    help: Set from the kind when the request is made. Peer and upward feedback is anonymous to the subject; a self or manager review obviously is not.
+    initial:
+      - when:
+          field: kind
+          operator: in
+          value:
+            - peer
+            - upward
+            - stakeholder
+        value: true
+      - when:
+          field: kind
+          operator: in
+          value:
+            - self
+            - manager
+        value: false
+  due_on:
+    label: Due
+    type: date
+    role: due
+  project_ref:
+    label: About the project
+    type: text
+    help: 'Set when a finished project asked for stakeholder feedback. Text rather than a reference: Project Intake is another workspace, and a subscription only needs the other app to be reachable when it fires, while a reference needs its table to exist.'
+  strengths:
+    label: What went well
+    type: longtext
+  improvements:
+    label: What could be better
+    type: longtext
+  examples:
+    label: Examples
+    type: longtext
+    help: Asked for on purpose. A score with no example behind it is an opinion nobody can act on.
+  submitted_at:
+    label: Submitted
+    type: datetime
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  overall_score:
+    label: Score
+    type: decimal
+    scale: 2
+    computed:
+      rollup:
+        entity: feedback_score
+        via: request
+        op: avg
+        field: score

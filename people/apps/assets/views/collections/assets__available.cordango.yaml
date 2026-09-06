@@ -1,0 +1,18 @@
+view: assets__available
+label: In stock
+entity: asset
+filters:
+  - field: status
+    operator: eq
+    value: available
+sort:
+  - field: asset_tag
+    direction: asc
+kind: table
+settings:
+  columns:
+    - asset_tag
+    - model
+    - category
+    - condition
+    - location

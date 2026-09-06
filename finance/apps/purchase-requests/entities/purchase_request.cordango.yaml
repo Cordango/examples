@@ -1,0 +1,191 @@
+entity: purchase_request
+label: Purchase request
+description: Somebody asking to spend company money, and the trail of who agreed. The amount decides how far it has to travel, and the tier is stamped when the request is made so a board can be grouped by it without recomputing anything.
+icon: mdi-cart-outline
+plural: Purchase requests
+display: title
+fields:
+  title:
+    label: What
+    type: text
+    required: true
+    group: Request
+  description:
+    label: Description
+    type: longtext
+    group: Request
+  category:
+    label: Category
+    type: select
+    required: true
+    help: The same seven words Budget Tracker uses for a spend category. Aligned deliberately — this is what lets an approval become a commitment without either app translating the other.
+    group: Request
+    options:
+      - value: software
+        label: Software
+        color: '#0f766e'
+      - value: hardware
+        label: Hardware
+        color: '#0284c7'
+      - value: agency
+        label: Agency
+        color: '#a855f7'
+      - value: contractor
+        label: Contractor
+        color: '#f59e0b'
+      - value: travel
+        label: Travel
+        color: '#16a34a'
+      - value: equipment
+        label: Equipment
+        color: '#64748b'
+      - value: services
+        label: Services
+        color: '#dc2626'
+  amount:
+    label: Amount
+    type: money
+    required: true
+    help: The estimate. It decides who has to approve, so it is asked for before anything moves.
+    group: Request
+    currency: EUR
+  justification:
+    label: Why
+    type: longtext
+    required: true
+    group: Request
+  needed_by:
+    label: Needed by
+    type: date
+    group: Request
+    role: due
+  requester:
+    label: Requested by
+    type: reference
+    required: true
+    group: Who
+    targetEntity: person
+    targetApp: platform
+  department:
+    label: Department
+    type: reference
+    required: true
+    group: Who
+    targetEntity: department
+    targetApp: platform
+  vendor:
+    label: Vendor
+    type: reference
+    help: The canonical company record. Empty until somebody knows who they are buying from, which is often after approval.
+    group: Who
+    targetEntity: organization
+    targetApp: core_organizations
+  budget_line:
+    label: Budget line
+    type: reference
+    help: The line this is meant to come out of. A real reference into Budget Tracker, so the picker offers actual lines and an approval can commit against the right one instead of against a code somebody typed.
+    group: Money
+    targetEntity: budget_line
+    targetApp: budget_tracker
+    onDelete: setNull
+  approval_tier:
+    label: Approval tier
+    type: select
+    help: Worked out from the amount when the request is created, and then left alone. A snapshot rather than a live calculation, so a board grouped by it does not silently reshuffle when somebody edits a figure mid-approval.
+    group: Money
+    options:
+      - value: manager
+        label: Manager
+        color: '#16a34a'
+      - value: finance
+        label: Manager + Finance
+        color: '#f59e0b'
+      - value: management
+        label: Manager + Finance + Management
+        color: '#dc2626'
+    initial:
+      - when:
+          field: amount
+          operator: lt
+          value: 500
+        value: manager
+      - when:
+          field: amount
+          operator: lt
+          value: 5000
+        value: finance
+      - when:
+          field: amount
+          operator: gte
+          value: 5000
+        value: management
+  manager_approver:
+    label: Manager
+    type: reference
+    group: Decision
+    targetEntity: person
+    targetApp: platform
+  finance_approver:
+    label: Finance
+    type: reference
+    group: Decision
+    targetEntity: person
+    targetApp: platform
+  management_approver:
+    label: Management
+    type: reference
+    group: Decision
+    targetEntity: person
+    targetApp: platform
+  rejection_reason:
+    label: Why not
+    type: longtext
+    group: Decision
+  submitted_at:
+    label: Submitted
+    type: datetime
+    group: Audit
+  decided_at:
+    label: Decided
+    type: datetime
+    group: Audit
+  po_number:
+    label: PO number
+    type: text
+    group: Purchase
+  actual_amount:
+    label: Actual amount
+    type: money
+    help: What it really cost. Often not the estimate, which is the whole reason a commitment and an actual are different things downstream.
+    group: Purchase
+    currency: EUR
+  purchased_on:
+    label: Purchased
+    type: date
+    group: Purchase
+  status:
+    label: Status
+    type: select
+    indexed: true
+    group: Audit
+    role: status
+  items_total:
+    label: Items total
+    type: money
+    group: Money
+    currency: EUR
+    computed:
+      rollup:
+        entity: request_item
+        via: request
+        op: sum
+        field: line_total
+  quotes_count:
+    label: Quotes
+    type: integer
+    group: Money
+    computed:
+      rollup:
+        entity: vendor_quote
+        via: request
+        op: count

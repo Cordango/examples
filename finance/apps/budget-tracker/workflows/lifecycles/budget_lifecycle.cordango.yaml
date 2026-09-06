@@ -1,0 +1,59 @@
+lifecycle: budget_lifecycle
+entity: budget
+stateField: status
+initial: draft
+states:
+  draft:
+    label: Draft
+    color: '#94a3b8'
+    phase: not_started
+  active:
+    label: Active
+    color: '#0f766e'
+    phase: active
+  closed:
+    label: Closed
+    color: '#64748b'
+    phase: done
+transitions:
+  activate:
+    label: Activate
+    from:
+      - draft
+    to: active
+    requiredFields:
+      - owner
+      - period_start
+      - period_end
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Budget is live. Spend can be committed against its lines.
+      effects: []
+      emits:
+        - budget.activated
+  close:
+    label: Close
+    from:
+      - active
+    to: closed
+    action:
+      placements:
+        - recordHeader
+      confirm:
+        title: Close this budget?
+        message: Its lines stop accepting new commitments. It can be reopened.
+        confirmLabel: Close
+      effects: []
+      emits:
+        - budget.closed
+  reopen:
+    label: Reopen
+    from:
+      - closed
+    to: active
+    action:
+      placements:
+        - recordHeader
+      effects: []

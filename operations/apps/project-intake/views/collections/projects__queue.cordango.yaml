@@ -1,0 +1,23 @@
+view: projects__queue
+label: Intake queue
+entity: project
+filters:
+  - field: status
+    operator: in
+    value:
+      - proposed
+      - in_review
+sort:
+  - field: priority_score
+    direction: desc
+kind: table
+settings:
+  columns:
+    - title
+    - sponsor
+    - department
+    - estimated_cost
+    - estimated_effort_days
+    - priority_score
+    - committee_score
+    - status

@@ -1,0 +1,18 @@
+role: committee_reviewer
+name: Committee
+description: Scores proposals and decides them. The guard against approving your own sits on the transition, because a sponsor may well also sit on the committee.
+grants:
+  project:
+    read: true
+    update: true
+    commands:
+      - approve_project
+      - reject_project
+  intake_review:
+    create: true
+    read: true
+    update: true
+  milestone:
+    read: true
+  portfolio:
+    read: true

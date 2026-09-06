@@ -1,0 +1,31 @@
+role: manager
+name: Manager
+description: Agrees who reviews their reports, writes the manager review, and finishes the participant with a rating and a summary. Reads the averages, never an individual peer answer.
+grants:
+  review_cycle:
+    read: true
+  participant:
+    read: true
+    update: true
+    commands:
+      - complete_participant
+      - calibrate
+  nomination:
+    read: true
+    update: true
+    commands:
+      - approve_nomination
+      - decline_nomination
+  feedback_request:
+    read: true
+    update: true
+    commands:
+      - start_feedback
+      - submit_feedback
+      - decline_feedback
+  feedback_score:
+    create: true
+    read: true
+    update: true
+  competency:
+    read: true

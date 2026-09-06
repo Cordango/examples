@@ -1,0 +1,19 @@
+screen: spend
+label: Spend
+layout:
+  - kind: view
+    view: spend__open_commitments
+  - kind: table
+    label: Everything
+    source:
+      entity: spend_entry
+    fields:
+      - description
+      - budget_line
+      - kind
+      - amount
+      - vendor
+      - source_app
+      - status
+    newButton: true
+subject: spend_entry

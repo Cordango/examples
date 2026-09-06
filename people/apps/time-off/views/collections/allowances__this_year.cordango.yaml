@@ -1,0 +1,15 @@
+view: allowances__this_year
+label: Balances
+entity: leave_allowance
+sort:
+  - field: remaining_days
+    direction: asc
+kind: table
+settings:
+  columns:
+    - person
+    - year
+    - total_days
+    - taken_days
+    - pending_days
+    - remaining_days

@@ -1,0 +1,17 @@
+view: adjustments__pending
+label: Waiting for a decision
+entity: budget_adjustment
+filters:
+  - field: status
+    operator: eq
+    value: proposed
+sort:
+  - field: amount
+    direction: desc
+kind: table
+settings:
+  columns:
+    - reason
+    - budget_line
+    - amount
+    - requested_by

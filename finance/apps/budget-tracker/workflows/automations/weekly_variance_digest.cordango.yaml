@@ -1,0 +1,19 @@
+automation: weekly_variance_digest
+name: Tell an owner on Monday when their budget is forecast over
+when:
+  all:
+    - field: status
+      operator: eq
+      value: active
+    - field: variance
+      operator: lt
+      value: 0
+effects:
+  - type: notify
+    to: '{{record.owner}}'
+    title: '{{record.name}} is forecast over'
+    message: Forecast {{record.forecast_total}} against an adjusted plan of {{record.adjusted_total}}. Open it to see which lines.
+    link: auto
+trigger: schedule
+entity: budget
+cron: 0 8 * * 1

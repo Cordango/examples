@@ -1,0 +1,62 @@
+entity: renewal_review
+label: Renewal review
+description: The decision to take before a contract renews itself, with the seat numbers as they stood when somebody looked. Recorded rather than remembered, so next year's review can read last year's reasoning.
+icon: mdi-calendar-check-outline
+ownedBy:
+  parent: subscription
+  via: subscription
+  as: table
+plural: Renewal reviews
+display: recommendation
+fields:
+  subscription:
+    label: Subscription
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: subscription
+    onDelete: cascade
+  opened_on:
+    label: Opened
+    type: date
+  due_on:
+    label: Decide by
+    type: date
+    role: due
+  seats_licensed_at_review:
+    label: Seats paid for
+    type: integer
+  seats_used_at_review:
+    label: Seats in use
+    type: integer
+  recommendation:
+    label: Recommendation
+    type: select
+    options:
+      - value: renew
+        label: Renew as is
+        color: '#0f766e'
+      - value: renegotiate
+        label: Renegotiate
+        color: '#f59e0b'
+      - value: downsize
+        label: Fewer seats
+        color: '#0284c7'
+      - value: cancel
+        label: Cancel
+        color: '#dc2626'
+  decided_by:
+    label: Decided by
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  decided_at:
+    label: Decided
+    type: datetime
+  notes:
+    label: Notes
+    type: longtext
+  status:
+    label: Status
+    type: select
+    role: status

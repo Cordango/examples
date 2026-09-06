@@ -1,0 +1,23 @@
+view: subscriptions__spare_seats
+label: Paying for empty seats
+entity: subscription
+filters:
+  - field: status
+    operator: eq
+    value: active
+  - field: seats_free
+    operator: gt
+    value: 0
+sort:
+  - field: seats_free
+    direction: desc
+kind: table
+settings:
+  columns:
+    - product_name
+    - owner
+    - seats_licensed
+    - seats_used
+    - seats_free
+    - cost_per_seat
+    - annual_cost

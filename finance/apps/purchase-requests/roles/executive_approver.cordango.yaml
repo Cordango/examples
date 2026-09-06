@@ -1,0 +1,17 @@
+role: executive_approver
+name: Executive approver
+description: The last hop, for anything over five thousand.
+grants:
+  purchase_request:
+    read: true
+    update: true
+    commands:
+      - management_approve
+      - reject_request
+  request_item:
+    read: true
+  vendor_quote:
+    read: true
+  approval_note:
+    create: true
+    read: true

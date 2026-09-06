@@ -1,0 +1,123 @@
+entity: leave_allowance
+label: Allowance
+description: One person's holiday for one year, and what is left of it. The days taken are not typed by anybody — they are summed from the absences that fall inside the year, so a balance cannot disagree with the requests behind it.
+icon: mdi-calendar-account-outline
+plural: Allowances
+display: year
+fields:
+  person:
+    label: Person
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: person
+    targetApp: platform
+  employee:
+    label: Personnel file
+    type: reference
+    help: The record in the People core app. Start date, contract and manager live there and are not copied here — this row only holds what leave needs on top.
+    targetEntity: employee
+    targetApp: core_people
+    onDelete: setNull
+  year:
+    label: Year
+    type: integer
+    required: true
+    indexed: true
+  year_start:
+    label: Year starts
+    type: date
+    required: true
+    role: start
+  year_end:
+    label: Year ends
+    type: date
+    required: true
+    role: due
+  leave_type:
+    label: For
+    type: select
+    required: true
+    default: vacation
+    options:
+      - value: vacation
+        label: Vacation
+      - value: personal
+        label: Personal
+  base_days:
+    label: Entitlement
+    type: decimal
+    scale: 1
+    required: true
+    default: 25
+  carry_over_days:
+    label: Carried over
+    type: decimal
+    scale: 1
+    default: 0
+  adjustment_days:
+    label: Adjustment
+    type: decimal
+    scale: 1
+    default: 0
+    help: Anything agreed by hand — a part-year start, a bought day, a correction.
+  total_days:
+    label: Total
+    type: decimal
+    scale: 1
+    computed:
+      expr: base_days + carry_over_days + adjustment_days
+  taken_days:
+    label: Taken
+    type: decimal
+    scale: 1
+    help: 'Summed from the approved absences that name this allowance. Not a sibling rollup through the person: a rollup cannot match through the platform directory, so the absence carries the link instead.'
+    computed:
+      rollup:
+        entity: time_off
+        via: allowance
+        op: sum
+        field: day_count
+        filters:
+          - field: status
+            operator: eq
+            value: approved
+          - field: deducts_allowance
+            operator: eq
+            value: true
+  pending_days:
+    label: Asked for
+    type: decimal
+    scale: 1
+    help: Requested and not decided. Shown apart from taken, because a manager looking at a balance needs to know what is already in the queue behind it.
+    computed:
+      rollup:
+        entity: time_off
+        via: allowance
+        op: sum
+        field: day_count
+        filters:
+          - field: status
+            operator: eq
+            value: pending
+          - field: deducts_allowance
+            operator: eq
+            value: true
+  remaining_days:
+    label: Left
+    type: decimal
+    scale: 1
+    computed:
+      expr: total_days - taken_days
+  carry_over_eligible:
+    label: Can carry
+    type: decimal
+    scale: 1
+    help: Whatever is left, capped at five. min() is how a cap is written here — there is no if/then, and there does not need to be.
+    computed:
+      expr: min(remaining_days, 5)
+  next_year:
+    label: Next year
+    type: integer
+    computed:
+      expr: year + 1

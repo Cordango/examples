@@ -1,0 +1,45 @@
+entity: intake_review
+label: Review
+description: 'One committee member scoring one proposal on one criterion. Several per project on purpose: the average is less interesting than the spread, and a spread only exists if the scores are recorded separately.'
+icon: mdi-clipboard-check-outline
+plural: Reviews
+display: comment
+ownedBy:
+  parent: project
+  via: project
+  as: table
+fields:
+  project:
+    label: Project
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: project
+    onDelete: cascade
+  reviewer:
+    label: Reviewer
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  criterion:
+    label: Criterion
+    type: select
+    options:
+      - value: strategic
+        label: Strategic
+      - value: financial
+        label: Financial
+      - value: technical
+        label: Technical
+      - value: risk
+        label: Risk
+  score:
+    label: Score
+    type: integer
+    help: One to five.
+  comment:
+    label: Comment
+    type: longtext
+  reviewed_at:
+    label: When
+    type: datetime

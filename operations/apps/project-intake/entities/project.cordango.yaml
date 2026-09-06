@@ -1,0 +1,238 @@
+entity: project
+label: Project
+description: Something somebody wants done, scored before anybody argues about it. The score is arithmetic over what the proposer claimed, which does not make it objective, but does make two proposals comparable and the disagreement about the inputs rather than the conclusion.
+icon: mdi-rocket-launch-outline
+plural: Projects
+display: title
+calendar: true
+fields:
+  title:
+    label: Title
+    type: text
+    required: true
+    group: Proposal
+  summary:
+    label: Summary
+    type: longtext
+    group: Proposal
+  portfolio:
+    label: Portfolio
+    type: reference
+    group: Proposal
+    targetEntity: portfolio
+  sponsor:
+    label: Sponsor
+    type: reference
+    required: true
+    help: Who wants it and will answer for it. The person whose calendar it lands in.
+    group: People
+    targetEntity: person
+    targetApp: platform
+  requested_by:
+    label: Proposed by
+    type: reference
+    group: People
+    targetEntity: person
+    targetApp: platform
+  project_manager:
+    label: Run by
+    type: reference
+    group: People
+    targetEntity: person
+    targetApp: platform
+  department:
+    label: Department
+    type: reference
+    group: People
+    targetEntity: department
+    targetApp: platform
+  customer:
+    label: Customer
+    type: reference
+    help: When it is for somebody outside. The same company record the CRM and Finance use.
+    group: People
+    targetEntity: organization
+    targetApp: core_organizations
+  estimated_cost:
+    label: Estimated cost
+    type: money
+    currency: EUR
+    group: Size
+  estimated_effort_days:
+    label: Estimated effort
+    type: integer
+    unit: days
+    group: Size
+  impact:
+    label: Impact
+    type: integer
+    help: One to five. What changes if this happens.
+    group: Score
+  urgency:
+    label: Urgency
+    type: integer
+    help: One to five. What happens if it waits.
+    group: Score
+  strategic_alignment:
+    label: Alignment
+    type: integer
+    help: One to five. How much it is the thing we said we were doing.
+    group: Score
+  cost_score:
+    label: Cost band
+    type: integer
+    help: The cost put into five bands when the proposal is made, so a score can subtract it. A band rather than the figure itself, or a single expensive project would swamp every other input.
+    group: Score
+    initial:
+      - when:
+          field: estimated_cost
+          operator: lt
+          value: 10000
+        value: 1
+      - when:
+          field: estimated_cost
+          operator: lt
+          value: 50000
+        value: 2
+      - when:
+          field: estimated_cost
+          operator: lt
+          value: 150000
+        value: 3
+      - when:
+          field: estimated_cost
+          operator: lt
+          value: 500000
+        value: 4
+      - when:
+          field: estimated_cost
+          operator: gte
+          value: 500000
+        value: 5
+  effort_score:
+    label: Effort band
+    type: integer
+    group: Score
+    initial:
+      - when:
+          field: estimated_effort_days
+          operator: lt
+          value: 10
+        value: 1
+      - when:
+          field: estimated_effort_days
+          operator: lt
+          value: 30
+        value: 2
+      - when:
+          field: estimated_effort_days
+          operator: lt
+          value: 90
+        value: 3
+      - when:
+          field: estimated_effort_days
+          operator: lt
+          value: 180
+        value: 4
+      - when:
+          field: estimated_effort_days
+          operator: gte
+          value: 180
+        value: 5
+  priority_score:
+    label: Priority
+    type: decimal
+    scale: 1
+    help: 'Value times three, two and three, minus cost and effort times two. Sorted by, never banded: there is no if/then here, and a High/Medium/Low label would hide exactly the disagreement a committee is for.'
+    group: Score
+    computed:
+      expr: (impact * 3 + urgency * 2 + strategic_alignment * 3) - (cost_score * 2 + effort_score * 2)
+  committee_score:
+    label: Committee
+    type: decimal
+    scale: 2
+    group: Score
+    computed:
+      rollup:
+        entity: intake_review
+        via: project
+        op: avg
+        field: score
+  risk:
+    label: Risk
+    type: select
+    group: Score
+    options:
+      - value: low
+        label: Low
+        color: '#16a34a'
+      - value: medium
+        label: Medium
+        color: '#f59e0b'
+      - value: high
+        label: High
+        color: '#dc2626'
+  target_start:
+    label: Starts
+    type: date
+    role: start
+    group: Dates
+  target_end:
+    label: Ends
+    type: date
+    role: due
+    group: Dates
+  actual_start:
+    label: Actually started
+    type: date
+    group: Dates
+  actual_end:
+    label: Actually finished
+    type: date
+    group: Dates
+  duration_days:
+    label: Planned days
+    type: integer
+    group: Dates
+    computed:
+      expr: days_between(target_start, target_end)
+  milestones_count:
+    label: Milestones
+    type: integer
+    group: Progress
+    computed:
+      rollup:
+        entity: milestone
+        via: project
+        op: count
+  milestones_done:
+    label: Milestones done
+    type: integer
+    group: Progress
+    computed:
+      rollup:
+        entity: milestone
+        via: project
+        op: count
+        filters:
+          - field: done
+            operator: eq
+            value: true
+  progress_pct:
+    label: Progress
+    type: decimal
+    scale: 1
+    unit: '%'
+    group: Progress
+    computed:
+      expr: milestones_done / milestones_count * 100
+  decision_notes:
+    label: Decision
+    type: longtext
+    group: Decision
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+    group: Decision

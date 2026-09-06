@@ -1,0 +1,8 @@
+view: subscriptions__calendar
+label: Renewal calendar
+entity: subscription
+kind: calendar
+settings:
+  dateField: cancellation_deadline
+  titleField: product_name
+  colorByField: dpa_status

@@ -1,0 +1,17 @@
+role: submitter
+name: Proposer
+description: Anybody with an idea. Writes it up and sends it to the committee, and cannot approve their own.
+grants:
+  project:
+    create: true
+    read: true
+    update: true
+    commands:
+      - submit_for_review
+      - reopen_project
+  intake_review:
+    read: true
+  milestone:
+    read: true
+  portfolio:
+    read: true

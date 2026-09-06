@@ -1,0 +1,61 @@
+screen: dashboard
+label: Dashboard
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: Waiting
+        blocks:
+          - kind: stat
+            label: Not decided yet
+            source:
+              entity: purchase_request
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: in
+                  value:
+                    - requested
+                    - finance_review
+                    - management_review
+      - kind: card
+        label: Approved
+        blocks:
+          - kind: stat
+            label: Approved, not yet bought
+            source:
+              entity: purchase_request
+              aggregate:
+                op: sum
+                field: amount
+              filters:
+                - field: status
+                  operator: eq
+                  value: approved
+      - kind: card
+        label: This year
+        blocks:
+          - kind: stat
+            label: Bought
+            source:
+              entity: purchase_request
+              aggregate:
+                op: sum
+                field: actual_amount
+              filters:
+                - field: status
+                  operator: eq
+                  value: purchased
+  - kind: chart
+    label: Requested by category
+    chartType: bar
+    source:
+      entity: purchase_request
+      aggregate:
+        op: sum
+        field: amount
+        groupBy: category
+  - kind: view
+    view: requests__awaiting_manager
+subject: purchase_request

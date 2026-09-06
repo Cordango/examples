@@ -1,0 +1,162 @@
+entity: asset
+label: Asset
+description: One physical thing the company owns. It sits in the calendar of whoever holds it, so a replacement date shows up beside their leave and their milestones rather than only in an IT spreadsheet nobody else opens.
+icon: mdi-devices
+plural: Assets
+display: asset_tag
+calendar: true
+fields:
+  asset_tag:
+    label: Tag
+    type: text
+    required: true
+    unique: true
+    group: Identity
+  model:
+    label: Model
+    type: reference
+    required: true
+    group: Identity
+    targetEntity: asset_model
+  category:
+    label: Category
+    type: select
+    help: Repeated from the model rather than read through it, because a field cannot copy itself from a reference and a list of assets has to be groupable without a join.
+    group: Identity
+    options:
+      - value: laptop
+        label: Laptop
+      - value: phone
+        label: Phone
+      - value: tablet
+        label: Tablet
+      - value: monitor
+        label: Monitor
+      - value: peripheral
+        label: Peripheral
+      - value: other
+        label: Other
+  serial_number:
+    label: Serial
+    type: text
+    unique: true
+    group: Identity
+  photo:
+    label: Photo
+    type: attachment
+    group: Identity
+  purchase_date:
+    label: Bought
+    type: date
+    group: Purchase
+  purchase_cost:
+    label: Cost
+    type: money
+    currency: EUR
+    group: Purchase
+  supplier:
+    label: Supplier
+    type: reference
+    group: Purchase
+    targetEntity: organization
+    targetApp: core_organizations
+  purchase_ref:
+    label: Purchase reference
+    type: text
+    help: 'The purchase request this arrived on. Text rather than a reference, deliberately: Purchase Requests is a different workspace, and a reference has to resolve to a real table while a subscription only has to tolerate the other app being absent. Inside one workspace this would be a real link.'
+    group: Purchase
+  warranty_until:
+    label: Warranty until
+    type: date
+    help: 'Typed rather than derived: an expression has no date-plus-months, and a warranty guessed from a cycle would be wrong for everything bought second hand.'
+    group: Purchase
+  replacement_due:
+    label: Replace by
+    type: date
+    role: due
+    group: Purchase
+  assigned_to:
+    label: Held by
+    type: reference
+    help: Whose desk it is on. This is the person whose calendar it appears in.
+    group: Custody
+    targetEntity: person
+    targetApp: platform
+  assigned_on:
+    label: Since
+    type: date
+    role: start
+    group: Custody
+  custodian:
+    label: Looked after by
+    type: reference
+    help: The IT owner, who gets the warranty and replacement warnings. Not the holder, because the person carrying a laptop is not the person who has to plan its replacement.
+    group: Custody
+    targetEntity: person
+    targetApp: platform
+  location:
+    label: Location
+    type: reference
+    group: Custody
+    targetEntity: location
+  department:
+    label: Department
+    type: reference
+    group: Custody
+    targetEntity: department
+    targetApp: platform
+  condition:
+    label: Condition
+    type: select
+    group: Custody
+    options:
+      - value: new
+        label: New
+        color: '#0f766e'
+      - value: good
+        label: Good
+        color: '#16a34a'
+      - value: fair
+        label: Fair
+        color: '#f59e0b'
+      - value: poor
+        label: Poor
+        color: '#dc2626'
+  retire_reason:
+    label: Retired because
+    type: text
+    group: End
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+    group: Custody
+  repairs_count:
+    label: Repairs
+    type: integer
+    group: End
+    computed:
+      rollup:
+        entity: repair_ticket
+        via: asset
+        op: count
+  repair_cost_total:
+    label: Spent on repairs
+    type: money
+    currency: EUR
+    group: End
+    computed:
+      rollup:
+        entity: repair_ticket
+        via: asset
+        op: sum
+        field: cost
+  total_cost:
+    label: Total cost
+    type: money
+    currency: EUR
+    help: What it has cost so far, which is the number a repair-or-replace conversation actually needs.
+    group: End
+    computed:
+      expr: purchase_cost + repair_cost_total

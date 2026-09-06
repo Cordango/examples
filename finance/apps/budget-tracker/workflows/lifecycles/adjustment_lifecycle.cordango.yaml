@@ -1,0 +1,80 @@
+lifecycle: adjustment_lifecycle
+entity: budget_adjustment
+stateField: status
+initial: proposed
+states:
+  proposed:
+    label: Proposed
+    color: '#f59e0b'
+    phase: not_started
+  approved:
+    label: Approved
+    color: '#0f766e'
+    terminal: true
+    phase: done
+  rejected:
+    label: Rejected
+    color: '#dc2626'
+    terminal: true
+    phase: cancelled
+transitions:
+  approve_adjustment:
+    label: Approve
+    from:
+      - proposed
+    to: approved
+    when:
+      field: requested_by
+      operator: neq
+      value: '{{actor.id}}'
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Approved. The line's plan moves with it.
+      effects:
+        - type: updateRecord
+          set:
+            approver: '{{actor.id}}'
+            decided_at: '{{now}}'
+      emits:
+        - adjustment.approved
+  reject_adjustment:
+    label: Reject
+    from:
+      - proposed
+    to: rejected
+    when:
+      field: requested_by
+      operator: neq
+      value: '{{actor.id}}'
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Reject this adjustment?
+        message: The plan stays where it is.
+        confirmLabel: Reject
+        tone: danger
+      effects:
+        - type: updateRecord
+          set:
+            approver: '{{actor.id}}'
+            decided_at: '{{now}}'
+      emits:
+        - adjustment.rejected
+  withdraw_adjustment:
+    label: Withdraw
+    from:
+      - proposed
+    to: rejected
+    when:
+      field: requested_by
+      operator: eq
+      value: '{{actor.id}}'
+    action:
+      placements:
+        - recordHeader
+      effects: []

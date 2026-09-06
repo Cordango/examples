@@ -1,0 +1,23 @@
+view: participants__calibration
+label: Calibration
+entity: participant
+filters:
+  - field: status
+    operator: in
+    value:
+      - calibrating
+      - collecting
+sort:
+  - field: overall_score
+    direction: desc
+kind: table
+settings:
+  columns:
+    - person
+    - manager
+    - department
+    - self_score
+    - manager_score
+    - peer_score
+    - overall_score
+    - final_rating

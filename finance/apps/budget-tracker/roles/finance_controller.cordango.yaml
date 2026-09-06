@@ -1,0 +1,42 @@
+role: finance_controller
+name: Finance controller
+description: Owns the plan. Opens and closes budgets, decides adjustments, and maintains the cost centres and categories every other app quotes.
+grants:
+  budget:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - activate
+      - close
+      - reopen
+  budget_line:
+    create: true
+    read: true
+    update: true
+    delete: true
+  spend_entry:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - mark_invoiced
+      - mark_paid
+      - cancel_spend
+  budget_adjustment:
+    create: true
+    read: true
+    update: true
+    commands:
+      - approve_adjustment
+      - reject_adjustment
+  cost_centre:
+    create: true
+    read: true
+    update: true
+  spend_category:
+    create: true
+    read: true
+    update: true

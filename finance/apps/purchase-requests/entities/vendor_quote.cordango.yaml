@@ -1,0 +1,36 @@
+entity: vendor_quote
+label: Quote
+description: What a supplier said it would cost. Several per request is the point — an approver comparing two quotes is doing the job, and one quote with nothing beside it is a decision nobody can check.
+icon: mdi-file-document-outline
+ownedBy:
+  parent: purchase_request
+  via: request
+  as: table
+plural: Quotes
+display: vendor
+fields:
+  request:
+    label: Request
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: purchase_request
+    onDelete: cascade
+  vendor:
+    label: Vendor
+    type: reference
+    targetEntity: organization
+    targetApp: core_organizations
+  amount:
+    label: Amount
+    type: money
+    currency: EUR
+  valid_until:
+    label: Valid until
+    type: date
+  document:
+    label: Document
+    type: attachment
+  preferred:
+    label: Preferred
+    type: boolean

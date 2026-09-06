@@ -1,0 +1,59 @@
+detail: participant
+blocks:
+  - kind: hub
+    title: person
+    status: status
+    subtitle:
+      - department
+    facts:
+      - manager
+      - overall_score
+      - final_rating
+      - peers_approved
+    actions:
+      - open_feedback
+      - calibrate
+      - complete_participant
+      - edit
+      - delete
+  - kind: process
+    label: Where they are
+  - kind: row
+    blocks:
+      - kind: card
+        label: Self
+        blocks:
+          - kind: stat
+            label: Self
+            field: self_score
+      - kind: card
+        label: Manager
+        blocks:
+          - kind: stat
+            label: Manager
+            field: manager_score
+      - kind: card
+        label: Peers
+        blocks:
+          - kind: stat
+            label: Peers
+            field: peer_score
+      - kind: card
+        label: Overall
+        blocks:
+          - kind: stat
+            label: Overall
+            field: overall_score
+  - kind: section
+    label: Summary
+    blocks:
+      - kind: fields
+        fields:
+          - final_rating
+          - summary
+  - kind: child
+    label: Peers
+    entity: nomination
+    via: participant
+    childType: table
+    inlineCreate: true

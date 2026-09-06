@@ -1,0 +1,80 @@
+detail: project
+blocks:
+  - kind: hub
+    title: title
+    status: status
+    subtitle:
+      - portfolio
+      - department
+    facts:
+      - sponsor
+      - estimated_cost
+      - priority_score
+      - target_end
+    actions:
+      - submit_for_review
+      - approve_project
+      - reject_project
+      - plan_project
+      - start_project
+      - hold_project
+      - resume_project
+      - complete_project
+      - reopen_project
+      - edit
+      - delete
+  - kind: process
+    label: Where it is
+  - kind: columns
+    columns:
+      - - kind: section
+          label: The proposal
+          blocks:
+            - kind: fields
+              fields:
+                - title
+                - summary
+                - sponsor
+                - department
+                - customer
+                - portfolio
+        - kind: section
+          label: Size
+          blocks:
+            - kind: fields
+              fields:
+                - estimated_cost
+                - estimated_effort_days
+                - risk
+      - - kind: section
+          label: Score
+          blocks:
+            - kind: fields
+              fields:
+                - impact
+                - urgency
+                - strategic_alignment
+                - priority_score
+                - committee_score
+        - kind: child
+          label: Committee
+          entity: intake_review
+          via: project
+          childType: table
+          inlineCreate: true
+        - kind: section
+          label: Delivery
+          blocks:
+            - kind: fields
+              fields:
+                - project_manager
+                - target_start
+                - target_end
+                - progress_pct
+                - decision_notes
+        - kind: child
+          label: Milestones
+          entity: milestone
+          via: project
+          childType: checklist
+          inlineCreate: true

@@ -1,0 +1,11 @@
+role: admin
+name: Administrator
+description: Everything, including the configuration lists other apps depend on.
+grants:
+  '*':
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - '*'

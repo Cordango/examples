@@ -1,0 +1,10 @@
+automation: stamp_spend_requester
+name: Stamp who filed a spend row
+effects:
+  - type: updateRecord
+    set:
+      requested_by: '{{actor.id}}'
+      incurred_on: '{{today}}'
+    setIfEmpty: true
+trigger: record.created
+entity: spend_entry

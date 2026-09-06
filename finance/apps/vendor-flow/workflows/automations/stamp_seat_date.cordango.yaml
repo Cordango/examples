@@ -1,0 +1,9 @@
+automation: stamp_seat_date
+name: A seat is assigned the day it is created
+effects:
+  - type: updateRecord
+    set:
+      assigned_on: '{{today}}'
+    setIfEmpty: true
+trigger: record.created
+entity: seat_assignment

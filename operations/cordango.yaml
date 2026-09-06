@@ -1,0 +1,8 @@
+formatVersion: 1
+workspaceId: 01M1W3F7DGA96BNTMP2MY34NMK
+name: Operations
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/project-intake
+  - apps/resource-planning

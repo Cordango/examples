@@ -1,0 +1,22 @@
+entity: public_holiday
+label: Public holiday
+description: A day the office is shut. Maintained as a list rather than computed, because holidays are a political fact per region and no rule derives them. Deliberately NOT on the personal calendar — a calendar entry needs somebody responsible for it, and a public holiday is nobody's.
+icon: mdi-flag-outline
+kind: config
+plural: Public holidays
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+  date:
+    label: Date
+    type: date
+    required: true
+    indexed: true
+    role: start
+  region:
+    label: Region
+    type: text
+    help: Free text on purpose — a workspace that operates in three countries names its own regions better than a fixed list would.

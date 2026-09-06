@@ -1,0 +1,6 @@
+screen: allowances
+label: Allowances
+subject: leave_allowance
+layout:
+  - kind: view
+    view: allowances__this_year

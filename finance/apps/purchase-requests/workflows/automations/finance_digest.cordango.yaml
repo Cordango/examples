@@ -1,0 +1,17 @@
+automation: finance_digest
+name: Monday list for finance and management
+when:
+  field: status
+  operator: in
+  value:
+    - finance_review
+    - management_review
+effects:
+  - type: notify
+    to: '{{record.finance_approver}}'
+    title: 'Waiting for you: {{record.title}}'
+    message: '{{record.amount}} for {{record.department}}.'
+    link: auto
+trigger: schedule
+entity: purchase_request
+cron: 0 8 * * 1

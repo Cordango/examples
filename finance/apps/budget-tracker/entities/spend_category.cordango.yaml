@@ -1,0 +1,48 @@
+entity: spend_category
+label: Category
+description: What the money was for. Its `kind` deliberately matches the categories Purchase Requests offers, so a request approved as software lands on a software line without either app translating the other's vocabulary.
+icon: mdi-tag-outline
+kind: config
+plural: Categories
+display: name
+fields:
+  code:
+    label: Code
+    type: text
+    required: true
+    unique: true
+  name:
+    label: Name
+    type: text
+    required: true
+  kind:
+    label: Kind
+    type: select
+    required: true
+    help: The same seven words a purchase request uses. Kept aligned on purpose — a subscription that matched on a prose label would break the first time somebody renamed one.
+    options:
+      - value: software
+        label: Software
+        color: '#0f766e'
+      - value: hardware
+        label: Hardware
+        color: '#0284c7'
+      - value: agency
+        label: Agency
+        color: '#a855f7'
+      - value: contractor
+        label: Contractor
+        color: '#f59e0b'
+      - value: travel
+        label: Travel
+        color: '#16a34a'
+      - value: equipment
+        label: Equipment
+        color: '#64748b'
+      - value: services
+        label: Services
+        color: '#dc2626'
+  active:
+    label: Active
+    type: boolean
+    default: true

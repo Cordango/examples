@@ -1,0 +1,78 @@
+app: budget_tracker
+name: Budget & Spend Tracker
+version: 0.1.0
+description: Budgets per cost centre and period, with planned, committed, actual and forecast money kept apart, and adjustments that somebody has to approve.
+schemaVersion: '2.0'
+purpose:
+  summary: Holds the plan and what has happened to it — budgets per cost centre and period, committed and actual spend against their lines, and the adjustments that move a plan.
+  duties:
+    - owns budgets and their lines, per cost centre and period
+    - owns committed and actual spend recorded against a line
+    - works out variance, forecast and how much a line is over by
+    - decides budget adjustments, and refuses to let somebody approve their own
+    - publishes the cost centres and spend categories the rest of Finance quotes
+    - tells an owner when their budget is forecast over
+uses:
+  - app: core_organizations
+    entities:
+      - organization
+    why: a vendor is the same company here, in Purchase Requests and in Vendor & SaaS
+  - app: purchase_requests
+    entities:
+      - purchase_request
+    why: an approved purchase becomes a commitment on the line it named
+  - app: vendor_flow
+    why: a renewed subscription commits next year's money
+  - app: project_intake
+    why: an approved project commits its estimate
+presentation:
+  icon: mdi-wallet-outline
+  color: '#0f766e'
+  category: Finance
+  tagline: What was planned, what is spoken for, and what actually went.
+order:
+  entities:
+    - budget
+    - budget_line
+    - spend_entry
+    - budget_adjustment
+    - cost_centre
+    - spend_category
+  pages:
+    - dashboard
+    - budgets
+    - spend
+    - adjustments
+    - configuration
+  views:
+    - budgets__active
+    - lines__over_plan
+    - spend__open_commitments
+    - adjustments__pending
+  roles:
+    - finance_controller
+    - budget_owner
+    - department_viewer
+    - admin
+  processes:
+    - budget_lifecycle
+    - spend_lifecycle
+    - adjustment_lifecycle
+  commands:
+    - activate
+    - close
+    - reopen
+    - mark_invoiced
+    - mark_paid
+    - cancel_spend
+    - approve_adjustment
+    - reject_adjustment
+    - withdraw_adjustment
+  workflows:
+    - commit_on_purchase_approved
+    - commit_on_subscription_renewed
+    - commit_on_project_approved
+    - stamp_spend_requester
+    - stamp_adjustment_requester
+    - weekly_variance_digest
+    - month_end_forecast_nudge

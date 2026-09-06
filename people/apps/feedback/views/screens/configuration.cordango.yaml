@@ -1,0 +1,14 @@
+screen: configuration
+label: Competencies
+subject: competency
+layout:
+  - kind: table
+    label: Competencies
+    source:
+      entity: competency
+    fields:
+      - name
+      - description
+      - weight
+      - active
+    newButton: true

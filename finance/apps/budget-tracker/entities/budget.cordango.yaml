@@ -1,0 +1,132 @@
+entity: budget
+label: Budget
+description: One cost centre's money for one period. The totals are rollups over its lines rather than typed figures, because a budget somebody can type a total into is a budget whose total disagrees with its own detail by the end of the first month.
+icon: mdi-wallet-outline
+plural: Budgets
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    group: Period
+  fiscal_year:
+    label: Fiscal year
+    type: integer
+    required: true
+    indexed: true
+    group: Period
+  period_type:
+    label: Period
+    type: select
+    required: true
+    group: Period
+    default: annual
+    options:
+      - value: annual
+        label: Annual
+      - value: quarterly
+        label: Quarterly
+      - value: monthly
+        label: Monthly
+  period_start:
+    label: From
+    type: date
+    required: true
+    group: Period
+    role: start
+  period_end:
+    label: To
+    type: date
+    required: true
+    group: Period
+    role: due
+  cost_centre:
+    label: Cost centre
+    type: reference
+    required: true
+    group: Ownership
+    targetEntity: cost_centre
+  owner:
+    label: Owner
+    type: reference
+    required: true
+    help: Who is answerable. Every alert about this budget goes here rather than to whoever happened to spend the money.
+    group: Ownership
+    targetEntity: person
+    targetApp: platform
+  status:
+    label: Status
+    type: select
+    indexed: true
+    group: Ownership
+    role: status
+  planned_total:
+    label: Planned
+    type: money
+    group: Money
+    currency: EUR
+    computed:
+      rollup:
+        entity: budget_line
+        via: budget
+        op: sum
+        field: planned
+  adjusted_total:
+    label: Adjusted plan
+    type: money
+    help: Planned plus every approved adjustment. This is the number a variance is measured against, not the original plan — comparing against a figure everybody has already agreed to change explains nothing.
+    group: Money
+    currency: EUR
+    computed:
+      rollup:
+        entity: budget_line
+        via: budget
+        op: sum
+        field: adjusted_plan
+  committed_total:
+    label: Committed
+    type: money
+    help: Approved and not yet invoiced. Money that is spoken for.
+    group: Money
+    currency: EUR
+    computed:
+      rollup:
+        entity: budget_line
+        via: budget
+        op: sum
+        field: committed
+  actual_total:
+    label: Actual
+    type: money
+    group: Money
+    currency: EUR
+    computed:
+      rollup:
+        entity: budget_line
+        via: budget
+        op: sum
+        field: actual
+  forecast_total:
+    label: Forecast
+    type: money
+    group: Money
+    currency: EUR
+    computed:
+      rollup:
+        entity: budget_line
+        via: budget
+        op: sum
+        field: forecast
+  variance:
+    label: Variance
+    type: money
+    help: Adjusted plan minus forecast. Negative means the forecast is over.
+    group: Money
+    currency: EUR
+    computed:
+      expr: adjusted_total - forecast_total
+  notes:
+    label: Notes
+    type: longtext
+    group: Notes

@@ -1,0 +1,18 @@
+automation: commit_on_subscription_renewed
+name: Commit next year's money when a subscription is renewed
+effects:
+  - type: createRecord
+    set:
+      description: '{{record.product_name}}'
+      kind: commitment
+      amount: '{{record.annual_cost}}'
+      department: '{{record.department}}'
+      vendor: '{{record.vendor}}'
+      requested_by: '{{record.owner}}'
+      source_app: vendor_flow
+      source_ref: '{{record.id}}'
+      incurred_on: '{{today}}'
+    entity: spend_entry
+trigger: command.emitted
+event: subscription.renewed
+app: vendor_flow

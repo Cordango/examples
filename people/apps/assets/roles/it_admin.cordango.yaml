@@ -1,0 +1,38 @@
+role: it_admin
+name: IT admin
+description: Owns the register. Buys, assigns, repairs and retires.
+grants:
+  asset:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - assign
+      - return_asset
+      - send_to_repair
+      - repair_done
+      - make_available
+      - retire
+  assignment:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - close_assignment
+  repair_ticket:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - close_repair
+  asset_model:
+    create: true
+    read: true
+    update: true
+  location:
+    create: true
+    read: true
+    update: true

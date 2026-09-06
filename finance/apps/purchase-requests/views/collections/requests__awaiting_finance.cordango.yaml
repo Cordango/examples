@@ -1,0 +1,21 @@
+view: requests__awaiting_finance
+label: With finance and management
+entity: purchase_request
+filters:
+  - field: status
+    operator: in
+    value:
+      - finance_review
+      - management_review
+sort:
+  - field: amount
+    direction: desc
+kind: table
+settings:
+  columns:
+    - title
+    - requester
+    - department
+    - amount
+    - budget_line
+    - approval_tier

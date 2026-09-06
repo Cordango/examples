@@ -1,0 +1,21 @@
+automation: overdue_feedback
+name: Chase feedback that is late
+trigger: schedule
+cron: 0 9 * * *
+entity: feedback_request
+when:
+  all:
+    - field: status
+      operator: in
+      value:
+        - pending
+        - in_progress
+    - field: due_on
+      operator: lt
+      value: '{{today}}'
+effects:
+  - type: notify
+    to: '{{record.reviewer}}'
+    title: Feedback overdue
+    message: The deadline was {{record.due_on}}.
+    link: auto

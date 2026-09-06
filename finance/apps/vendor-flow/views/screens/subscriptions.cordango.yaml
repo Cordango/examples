@@ -1,0 +1,40 @@
+screen: subscriptions
+label: Subscriptions
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: Annual spend
+        blocks:
+          - kind: stat
+            label: Active contracts
+            source:
+              entity: subscription
+              aggregate:
+                op: sum
+                field: annual_cost
+              filters:
+                - field: status
+                  operator: eq
+                  value: active
+      - kind: card
+        label: Deciding
+        blocks:
+          - kind: stat
+            label: Deadline within 90 days
+            source:
+              entity: subscription
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: active
+                - field: cancellation_deadline
+                  operator: lte
+                  value: '{{today+90}}'
+  - kind: view
+    view: subscriptions__renewing
+  - kind: view
+    view: subscriptions__spare_seats
+subject: subscription

@@ -1,0 +1,10 @@
+view: assets__board
+label: By status
+entity: asset
+kind: kanban
+settings:
+  groupByField: status
+  cardFields:
+    - model
+    - assigned_to
+    - condition

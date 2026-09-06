@@ -1,0 +1,24 @@
+screen: configuration
+label: Configuration
+subject: asset_model
+layout:
+  - kind: table
+    label: Models
+    source:
+      entity: asset_model
+    fields:
+      - manufacturer
+      - model_name
+      - category
+      - warranty_months
+      - replacement_cycle_months
+      - list_price
+    newButton: true
+  - kind: table
+    label: Locations
+    source:
+      entity: location
+    fields:
+      - name
+      - site
+    newButton: true

@@ -1,0 +1,39 @@
+role: hr_admin
+name: HR
+description: Runs cycles and is the only role that can read an individual answer. Everyone else, including the person being reviewed, sees averages.
+grants:
+  review_cycle:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - open_nominations
+      - start_collecting
+      - start_calibration
+      - close_cycle
+  participant:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - open_feedback
+      - calibrate
+  nomination:
+    create: true
+    read: true
+    update: true
+    commands:
+      - approve_nomination
+      - decline_nomination
+  feedback_request:
+    create: true
+    read: true
+    update: true
+  feedback_score:
+    read: true
+  competency:
+    create: true
+    read: true
+    update: true

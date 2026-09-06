@@ -1,0 +1,69 @@
+app: purchase_requests
+name: Purchase Requests
+version: 0.1.0
+description: Ask to spend company money, and let the amount decide how far the request has to travel — manager under five hundred, finance under five thousand, management above it.
+schemaVersion: '2.0'
+purpose:
+  summary: Owns the request to buy something — what is wanted, what it costs, who agreed, and what was finally bought.
+  duties:
+    - owns purchase requests, their line items and their quotes
+    - routes approval by amount, and refuses to let somebody approve their own request
+    - keeps a decision trail written by the approval itself rather than by hand
+    - records what was actually bought, which is rarely the estimate
+    - announces every state a request enters, and `purchase.completed` when something is actually bought
+uses:
+  - app: core_organizations
+    entities:
+      - organization
+    why: the vendor is the same company record the whole workspace uses
+  - app: budget_tracker
+    entities:
+      - budget_line
+    why: a request names the line it should come out of, and an approval commits against it
+  - app: vendor_flow
+    why: a newly approved vendor starts a draft request for the first purchase
+presentation:
+  icon: mdi-cart-outline
+  color: '#f59e0b'
+  category: Finance
+  tagline: One way to ask, and a trail of who agreed.
+order:
+  entities:
+    - purchase_request
+    - request_item
+    - vendor_quote
+    - approval_note
+  pages:
+    - dashboard
+    - my_requests
+    - approvals
+    - pipeline
+  views:
+    - requests__mine
+    - requests__awaiting_manager
+    - requests__awaiting_finance
+    - requests__board
+  roles:
+    - requester
+    - manager
+    - finance_approver
+    - executive_approver
+  processes:
+    - purchase_lifecycle
+  commands:
+    - submit_request
+    - manager_approve
+    - manager_escalate
+    - finance_approve
+    - finance_escalate
+    - management_approve
+    - reject_request
+    - mark_purchased
+    - cancel_request
+    - reopen_request
+  workflows:
+    - request_on_vendor_approved
+    - stamp_requester
+    - manager_digest
+    - finance_digest
+    - stale_request

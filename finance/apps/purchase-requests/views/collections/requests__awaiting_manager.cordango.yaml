@@ -1,0 +1,19 @@
+view: requests__awaiting_manager
+label: With the manager
+entity: purchase_request
+filters:
+  - field: status
+    operator: eq
+    value: requested
+sort:
+  - field: submitted_at
+    direction: asc
+kind: table
+settings:
+  columns:
+    - title
+    - requester
+    - department
+    - amount
+    - approval_tier
+    - needed_by

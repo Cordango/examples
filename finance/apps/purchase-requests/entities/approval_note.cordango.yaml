@@ -1,0 +1,52 @@
+entity: approval_note
+label: Decision
+description: One step of the approval, written by the transition that took it rather than by a person. The audit trail exists because each hop records itself, not because somebody remembered to add a comment.
+icon: mdi-gavel
+ownedBy:
+  parent: purchase_request
+  via: request
+  as: feed
+plural: Decisions
+display: comment
+fields:
+  request:
+    label: Request
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: purchase_request
+    onDelete: cascade
+  step:
+    label: Step
+    type: select
+    options:
+      - value: manager
+        label: Manager
+      - value: finance
+        label: Finance
+      - value: management
+        label: Management
+  decision:
+    label: Decision
+    type: select
+    options:
+      - value: approved
+        label: Approved
+        color: '#0f766e'
+      - value: escalated
+        label: Passed on
+        color: '#f59e0b'
+      - value: rejected
+        label: Rejected
+        color: '#dc2626'
+  decided_by:
+    label: By
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  decided_at:
+    label: When
+    type: datetime
+  comment:
+    label: Comment
+    type: longtext

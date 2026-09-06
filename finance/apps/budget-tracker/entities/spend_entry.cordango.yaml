@@ -1,0 +1,105 @@
+entity: spend_entry
+label: Spend
+description: 'One movement against a line — money committed, then invoiced, then paid. Most of these are not typed by anybody: they arrive because another app announced something, and `source_app` says which one so a person reading the line can tell.'
+icon: mdi-cash-multiple
+plural: Spend
+display: description
+fields:
+  budget_line:
+    label: Budget line
+    type: reference
+    required: true
+    indexed: true
+    group: Where
+    targetEntity: budget_line
+  description:
+    label: Description
+    type: text
+    required: true
+    group: Where
+  kind:
+    label: Kind
+    type: select
+    required: true
+    group: Where
+    default: commitment
+    options:
+      - value: commitment
+        label: Committed
+        color: '#f59e0b'
+      - value: actual
+        label: Actual
+        color: '#0f766e'
+  amount:
+    label: Amount
+    type: money
+    required: true
+    group: Where
+    currency: EUR
+  category:
+    label: Category
+    type: reference
+    group: Where
+    targetEntity: spend_category
+  department:
+    label: Department
+    type: reference
+    group: Where
+    targetEntity: department
+    targetApp: platform
+  vendor:
+    label: Vendor
+    type: reference
+    help: The canonical company record, shared with every other app. A supplier's purchases, subscriptions, spend and assets all hang off this one row rather than four spellings of a name.
+    group: Who
+    targetEntity: organization
+    targetApp: core_organizations
+  requested_by:
+    label: Requested by
+    type: reference
+    group: Who
+    targetEntity: person
+    targetApp: platform
+  purchase_request:
+    label: Purchase request
+    type: reference
+    help: The request this came from, when it came from one. A real reference into the other app — click it and you are reading the request, not a copied number.
+    group: Origin
+    targetEntity: purchase_request
+    targetApp: purchase_requests
+    onDelete: setNull
+  source_app:
+    label: Filed by
+    type: select
+    help: 'Which app put this here. Worth showing: a line that grew by itself is confusing until you can see what grew it.'
+    group: Origin
+    default: manual
+    options:
+      - value: manual
+        label: Entered by hand
+      - value: purchase_requests
+        label: Purchase Requests
+      - value: vendor_flow
+        label: Vendor & SaaS
+      - value: project_intake
+        label: Project Intake
+  source_ref:
+    label: Source reference
+    type: text
+    help: The announcing record's id. Kept as text rather than a reference because it may name an app this workspace does not have, and a dangling reference is worse than a string nobody has to resolve.
+    group: Origin
+  incurred_on:
+    label: Incurred
+    type: date
+    indexed: true
+    group: When
+  paid_on:
+    label: Paid
+    type: date
+    group: When
+  status:
+    label: Status
+    type: select
+    indexed: true
+    group: When
+    role: status

@@ -1,0 +1,14 @@
+view: nominations__waiting
+label: Nominations to agree
+entity: nomination
+filters:
+  - field: status
+    operator: eq
+    value: proposed
+kind: table
+settings:
+  columns:
+    - participant
+    - reviewer
+    - relationship
+    - reason

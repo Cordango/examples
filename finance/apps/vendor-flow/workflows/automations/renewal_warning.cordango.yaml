@@ -1,0 +1,25 @@
+automation: renewal_warning
+name: Warn the owner sixty days before the cancellation deadline
+when:
+  all:
+    - field: status
+      operator: eq
+      value: active
+    - field: renewal_flagged
+      operator: neq
+      value: true
+    - field: cancellation_deadline
+      operator: lte
+      value: '{{today+60}}'
+effects:
+  - type: notify
+    to: '{{record.owner}}'
+    title: Decide on {{record.product_name}}
+    message: The cancellation deadline is {{record.cancellation_deadline}}. After that it renews itself.
+    link: auto
+  - type: updateRecord
+    set:
+      renewal_flagged: true
+trigger: schedule
+entity: subscription
+cron: 0 8 * * *

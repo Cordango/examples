@@ -1,0 +1,24 @@
+role: requester
+name: Requester
+description: Anybody who needs something bought. Writes and submits their own request, and can cancel it; the guard that stops them approving it is on the transition, because a person who is also a manager would otherwise pass the role check on their own row.
+grants:
+  purchase_request:
+    create: true
+    read: true
+    update: true
+    commands:
+      - submit_request
+      - cancel_request
+      - reopen_request
+  request_item:
+    create: true
+    read: true
+    update: true
+    delete: true
+  vendor_quote:
+    create: true
+    read: true
+    update: true
+    delete: true
+  approval_note:
+    read: true

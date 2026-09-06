@@ -1,0 +1,83 @@
+detail: purchase_request
+blocks:
+  - kind: hub
+    title: title
+    status: status
+    subtitle:
+      - department
+      - category
+    facts:
+      - amount
+      - requester
+      - approval_tier
+      - needed_by
+    actions:
+      - submit_request
+      - manager_approve
+      - manager_escalate
+      - finance_approve
+      - finance_escalate
+      - management_approve
+      - reject_request
+      - mark_purchased
+      - cancel_request
+      - reopen_request
+      - edit
+      - delete
+  - kind: process
+    label: Approval
+  - kind: columns
+    columns:
+      - - kind: section
+          label: The request
+          blocks:
+            - kind: fields
+              fields:
+                - title
+                - description
+                - category
+                - amount
+                - justification
+                - needed_by
+        - kind: section
+          label: Money
+          blocks:
+            - kind: fields
+              fields:
+                - budget_line
+                - items_total
+        - kind: child
+          label: Items
+          entity: request_item
+          via: request
+          childType: lineItems
+          inlineCreate: true
+      - - kind: section
+          label: Decision
+          blocks:
+            - kind: fields
+              fields:
+                - manager_approver
+                - finance_approver
+                - management_approver
+                - rejection_reason
+        - kind: child
+          label: Trail
+          entity: approval_note
+          via: request
+          childType: feed
+        - kind: child
+          label: Quotes
+          entity: vendor_quote
+          via: request
+          childType: table
+          inlineCreate: true
+        - kind: section
+          label: Purchase
+          blocks:
+            - kind: fields
+              fields:
+                - vendor
+                - po_number
+                - actual_amount
+                - purchased_on

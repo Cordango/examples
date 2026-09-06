@@ -1,0 +1,184 @@
+lifecycle: project_lifecycle
+entity: project
+stateField: status
+initial: proposed
+states:
+  proposed:
+    label: Proposed
+    color: '#94a3b8'
+    phase: not_started
+  in_review:
+    label: In review
+    color: '#f59e0b'
+    phase: active
+  approved:
+    label: Approved
+    color: '#0284c7'
+    phase: active
+  planned:
+    label: Planned
+    color: '#a855f7'
+    phase: active
+  active:
+    label: Active
+    color: '#0f766e'
+    phase: active
+  on_hold:
+    label: On hold
+    color: '#64748b'
+    phase: active
+  completed:
+    label: Completed
+    color: '#16a34a'
+    phase: done
+  rejected:
+    label: Not doing it
+    color: '#dc2626'
+    phase: cancelled
+transitions:
+  submit_for_review:
+    label: Send to the committee
+    from:
+      - proposed
+    to: in_review
+    requiredFields:
+      - sponsor
+      - department
+      - estimated_cost
+      - estimated_effort_days
+      - impact
+      - urgency
+      - strategic_alignment
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: With the committee. Its priority score is on the queue now.
+      emits:
+        - project.submitted
+      effects: []
+  approve_project:
+    label: Approve
+    from:
+      - in_review
+    to: approved
+    when:
+      field: sponsor
+      operator: neq
+      value: '{{actor.id}}'
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Approved. The estimate is committed against the budget.
+      input:
+        fields:
+          - decision_notes
+      effects: []
+  reject_project:
+    label: Not doing it
+    from:
+      - in_review
+    to: rejected
+    requiredFields:
+      - decision_notes
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Turn this down?
+        message: The reason is what the proposer reads, so make it the real one.
+        confirmLabel: Turn it down
+        tone: danger
+      input:
+        fields:
+          - decision_notes
+        required:
+          - decision_notes
+      effects: []
+  plan_project:
+    label: Plan it
+    from:
+      - approved
+    to: planned
+    requiredFields:
+      - project_manager
+      - target_start
+      - target_end
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Planned. Resource Planning can start staffing it.
+      input:
+        fields:
+          - project_manager
+          - target_start
+          - target_end
+        required:
+          - project_manager
+          - target_start
+          - target_end
+      emits:
+        - project.planned
+      effects: []
+  start_project:
+    label: Start
+    from:
+      - planned
+    to: active
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      effects:
+        - type: updateRecord
+          set:
+            actual_start: '{{today}}'
+  hold_project:
+    label: Put on hold
+    from:
+      - active
+      - planned
+    to: on_hold
+    action:
+      placements:
+        - recordHeader
+      effects: []
+  resume_project:
+    label: Resume
+    from:
+      - on_hold
+    to: active
+    action:
+      placements:
+        - recordHeader
+      effects: []
+  complete_project:
+    label: Finished
+    from:
+      - active
+    to: completed
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Finished. The sponsor will be asked how it went.
+      emits:
+        - project.completed
+      effects:
+        - type: updateRecord
+          set:
+            actual_end: '{{today}}'
+  reopen_project:
+    label: Reopen
+    from:
+      - rejected
+    to: proposed
+    action:
+      placements:
+        - recordHeader
+      effects: []

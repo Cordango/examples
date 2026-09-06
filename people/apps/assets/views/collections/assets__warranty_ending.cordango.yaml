@@ -1,0 +1,22 @@
+view: assets__warranty_ending
+label: Warranty ending
+entity: asset
+filters:
+  - field: status
+    operator: neq
+    value: retired
+  - field: warranty_until
+    operator: lte
+    value: '{{today+60}}'
+sort:
+  - field: warranty_until
+    direction: asc
+kind: table
+settings:
+  columns:
+    - asset_tag
+    - model
+    - assigned_to
+    - warranty_until
+    - replacement_due
+    - total_cost

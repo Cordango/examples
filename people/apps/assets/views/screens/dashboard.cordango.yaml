@@ -1,0 +1,52 @@
+screen: dashboard
+label: Dashboard
+subject: asset
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: In stock
+        blocks:
+          - kind: stat
+            label: Available
+            source:
+              entity: asset
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: available
+      - kind: card
+        label: Out
+        blocks:
+          - kind: stat
+            label: Assigned
+            source:
+              entity: asset
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: assigned
+      - kind: card
+        label: Value
+        blocks:
+          - kind: stat
+            label: Bought
+            source:
+              entity: asset
+              aggregate:
+                op: sum
+                field: purchase_cost
+  - kind: chart
+    label: Assets by category
+    chartType: donut
+    source:
+      entity: asset
+      aggregate:
+        op: count
+        groupBy: category
+  - kind: view
+    view: assets__warranty_ending

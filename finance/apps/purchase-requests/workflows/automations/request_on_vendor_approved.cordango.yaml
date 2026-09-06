@@ -1,0 +1,20 @@
+automation: request_on_vendor_approved
+name: Start a request when a new vendor is approved
+when:
+  field: request_kind
+  operator: eq
+  value: new
+effects:
+  - type: createRecord
+    set:
+      title: '{{record.product_name}}'
+      category: software
+      amount: '{{record.annual_cost}}'
+      department: '{{record.department}}'
+      vendor: '{{record.vendor}}'
+      requester: '{{record.contract_owner}}'
+      justification: Approved through vendor review. Submit when you are ready to buy.
+    entity: purchase_request
+trigger: command.emitted
+event: vendor.approved
+app: vendor_flow

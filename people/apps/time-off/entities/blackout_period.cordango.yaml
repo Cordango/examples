@@ -1,0 +1,35 @@
+entity: blackout_period
+label: Blackout
+description: 'A stretch when a team cannot be away — a release, a stocktake, a season. It sits in the calendar next to the absences themselves, which is the only place the clash is actually visible: a guard cannot compare one record against another.'
+icon: mdi-calendar-remove-outline
+plural: Blackouts
+display: name
+calendar: true
+fields:
+  name:
+    label: What
+    type: text
+    required: true
+  department:
+    label: Department
+    type: reference
+    targetEntity: department
+    targetApp: platform
+  owner:
+    label: Set by
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  start_date:
+    label: From
+    type: date
+    required: true
+    role: start
+  end_date:
+    label: To
+    type: date
+    required: true
+    role: due
+  reason:
+    label: Why
+    type: longtext

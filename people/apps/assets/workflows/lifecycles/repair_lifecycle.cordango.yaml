@@ -1,0 +1,39 @@
+lifecycle: repair_lifecycle
+entity: repair_ticket
+stateField: status
+initial: open
+states:
+  open:
+    label: Open
+    color: '#f59e0b'
+    phase: active
+  closed:
+    label: Closed
+    color: '#0f766e'
+    phase: done
+    terminal: true
+transitions:
+  close_repair:
+    label: Close
+    from:
+      - open
+    to: closed
+    requiredFields:
+      - outcome
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      input:
+        fields:
+          - outcome
+          - cost
+          - closed_on
+        required:
+          - outcome
+      effects:
+        - type: updateRecord
+          setIfEmpty: true
+          set:
+            closed_on: '{{today}}'

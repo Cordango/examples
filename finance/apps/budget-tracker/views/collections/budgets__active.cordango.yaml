@@ -1,0 +1,21 @@
+view: budgets__active
+label: Active budgets
+entity: budget
+filters:
+  - field: status
+    operator: eq
+    value: active
+sort:
+  - field: name
+    direction: asc
+kind: table
+settings:
+  columns:
+    - name
+    - cost_centre
+    - owner
+    - adjusted_total
+    - committed_total
+    - actual_total
+    - forecast_total
+    - variance

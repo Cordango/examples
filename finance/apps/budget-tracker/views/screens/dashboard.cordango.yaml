@@ -1,0 +1,63 @@
+screen: dashboard
+label: Dashboard
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: Committed
+        blocks:
+          - kind: stat
+            label: Open commitments
+            source:
+              entity: spend_entry
+              aggregate:
+                op: sum
+                field: amount
+              filters:
+                - field: kind
+                  operator: eq
+                  value: commitment
+                - field: status
+                  operator: eq
+                  value: open
+      - kind: card
+        label: Actual
+        blocks:
+          - kind: stat
+            label: Invoiced and paid
+            source:
+              entity: spend_entry
+              aggregate:
+                op: sum
+                field: amount
+              filters:
+                - field: status
+                  operator: in
+                  value:
+                    - invoiced
+                    - paid
+      - kind: card
+        label: Waiting
+        blocks:
+          - kind: stat
+            label: Adjustments to decide
+            source:
+              entity: budget_adjustment
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: proposed
+  - kind: chart
+    label: Spend by category
+    chartType: bar
+    source:
+      entity: spend_entry
+      aggregate:
+        op: sum
+        field: amount
+        groupBy: category
+  - kind: view
+    view: lines__over_plan
+subject: budget

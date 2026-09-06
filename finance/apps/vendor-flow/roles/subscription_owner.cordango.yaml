@@ -1,0 +1,24 @@
+role: subscription_owner
+name: Subscription owner
+description: Answers for one contract. Assigns and releases seats, opens the renewal review and records the decision — but does not approve new vendors, which is a different question asked by different people.
+grants:
+  subscription:
+    read: true
+    update: true
+    commands:
+      - start_renewal_review
+      - renew
+      - give_notice
+  seat_assignment:
+    create: true
+    read: true
+    update: true
+    delete: true
+  renewal_review:
+    create: true
+    read: true
+    update: true
+    commands:
+      - decide_renewal
+  vendor_request:
+    read: true

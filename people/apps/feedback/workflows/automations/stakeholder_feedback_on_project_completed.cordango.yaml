@@ -1,0 +1,13 @@
+automation: stakeholder_feedback_on_project_completed
+name: Ask the sponsor how a finished project went
+trigger: event.emitted
+app: project_intake
+event: project.completed
+effects:
+  - type: createRecord
+    entity: feedback_request
+    set:
+      reviewer: '{{record.sponsor}}'
+      kind: stakeholder
+      project_ref: '{{record.title}}'
+      due_on: '{{today+14}}'

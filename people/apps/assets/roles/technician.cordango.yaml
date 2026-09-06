@@ -1,0 +1,29 @@
+role: technician
+name: Technician
+description: Moves things around and fixes them. Cannot retire an asset, because writing something off is a money decision rather than a repair one.
+grants:
+  asset:
+    read: true
+    update: true
+    commands:
+      - assign
+      - return_asset
+      - send_to_repair
+      - repair_done
+      - make_available
+  assignment:
+    create: true
+    read: true
+    update: true
+    commands:
+      - close_assignment
+  repair_ticket:
+    create: true
+    read: true
+    update: true
+    commands:
+      - close_repair
+  asset_model:
+    read: true
+  location:
+    read: true

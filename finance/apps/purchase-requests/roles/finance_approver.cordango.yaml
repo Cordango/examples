@@ -1,0 +1,19 @@
+role: finance_approver
+name: Finance approver
+description: The second hop, and the one that records what was actually bought.
+grants:
+  purchase_request:
+    read: true
+    update: true
+    commands:
+      - finance_approve
+      - finance_escalate
+      - reject_request
+      - mark_purchased
+  request_item:
+    read: true
+  vendor_quote:
+    read: true
+  approval_note:
+    create: true
+    read: true

@@ -1,0 +1,7 @@
+view: milestones__calendar
+label: Milestones
+entity: milestone
+kind: calendar
+settings:
+  dateField: due_on
+  titleField: title

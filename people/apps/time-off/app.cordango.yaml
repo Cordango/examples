@@ -1,0 +1,69 @@
+app: time_off
+name: PTO & Leave
+version: 2.0.0
+description: Absence from the request to the day off, with a yearly allowance whose balance is summed from the requests behind it rather than typed.
+schemaVersion: '2.0'
+purpose:
+  summary: Owns absence — who asked for time off, who approved it, how much of the year's allowance is left, and who is away when.
+  duties:
+    - owns time-off requests and their approval
+    - owns the yearly allowance per person, and works the balance out from the approved absences
+    - publishes approved absence to the shared calendar, where projects and resourcing can see it
+    - keeps blackout periods and public holidays so a clash is visible where the decision is made
+    - carries a year's unused days into the next one, capped
+uses:
+  - app: core_people
+    entities:
+      - employee
+    why: the personnel file is there; this app only holds what leave needs on top
+presentation:
+  icon: beach
+  color: '#4f46e5'
+  category: HR
+  tagline: Who's off, approvals
+archetype:
+  kind: scheduling
+  coreJob: See who is away at a glance and approve or decline time-off requests
+theme:
+  primaryColor: '#4f46e5'
+  secondaryColor: '#0ea5e9'
+  font: Inter
+  radius: medium
+  density: comfortable
+order:
+  entities:
+    - time_off
+    - leave_allowance
+    - blackout_period
+    - public_holiday
+  pages:
+    - schedule
+    - approvals
+    - my_time_off
+    - team_calendar
+    - allowances
+  views:
+    - my_time_off_table
+    - pending_table
+    - allowances__this_year
+    - time_off__calendar
+    - blackouts__calendar
+  roles:
+    - employee
+    - manager
+    - hr
+    - admin
+  processes:
+    - approval
+  commands:
+    - submit_time_off
+    - approve_time_off
+    - decline_time_off
+    - cancel_time_off
+    - reopen_time_off
+  workflows:
+    - stamp_requester
+    - attach_allowance
+    - pending_digest
+    - low_balance_warning
+    - roll_allowances

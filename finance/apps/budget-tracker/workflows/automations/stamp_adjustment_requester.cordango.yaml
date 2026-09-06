@@ -1,0 +1,9 @@
+automation: stamp_adjustment_requester
+name: Stamp who asked for an adjustment
+effects:
+  - type: updateRecord
+    set:
+      requested_by: '{{actor.id}}'
+    setIfEmpty: true
+trigger: record.created
+entity: budget_adjustment

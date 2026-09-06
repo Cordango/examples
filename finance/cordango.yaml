@@ -1,0 +1,9 @@
+formatVersion: 1
+workspaceId: 01M1W25SGRQ9C54J4FW6FEMMF7
+name: Finance
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/budget-tracker
+  - apps/purchase-requests
+  - apps/vendor-flow

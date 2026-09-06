@@ -1,0 +1,18 @@
+screen: adjustments
+label: Adjustments
+layout:
+  - kind: view
+    view: adjustments__pending
+  - kind: table
+    label: Everything
+    source:
+      entity: budget_adjustment
+    fields:
+      - reason
+      - budget_line
+      - amount
+      - requested_by
+      - approver
+      - status
+    newButton: true
+subject: budget_adjustment

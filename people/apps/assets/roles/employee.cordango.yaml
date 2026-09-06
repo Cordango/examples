@@ -1,0 +1,11 @@
+role: employee
+name: Employee
+description: Sees what they are holding, and can say something is broken.
+grants:
+  asset:
+    read: true
+  assignment:
+    read: true
+  repair_ticket:
+    create: true
+    read: true

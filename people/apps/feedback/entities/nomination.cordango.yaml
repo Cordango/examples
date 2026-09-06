@@ -1,0 +1,44 @@
+entity: nomination
+label: Nomination
+description: Somebody a participant asked to review them, and whether their manager agreed. Approving one is what creates the request, so nobody is asked for feedback that was never sanctioned.
+icon: mdi-account-plus-outline
+plural: Nominations
+display: reviewer
+fields:
+  participant:
+    label: For
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: participant
+    onDelete: cascade
+  cycle:
+    label: Cycle
+    type: reference
+    help: Stamped when the nomination is made. Carried here so approving one can create the request without reaching two references deep, which a template cannot do.
+    targetEntity: review_cycle
+    onDelete: cascade
+  reviewer:
+    label: Reviewer
+    type: reference
+    required: true
+    targetEntity: person
+    targetApp: platform
+  relationship:
+    label: How they know them
+    type: select
+    options:
+      - value: peer
+        label: Peer
+      - value: direct_report
+        label: Reports to them
+      - value: stakeholder
+        label: Works with them
+  reason:
+    label: Why
+    type: text
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status

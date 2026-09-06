@@ -1,0 +1,25 @@
+screen: configuration
+label: Configuration
+layout:
+  - kind: table
+    label: Cost centres
+    source:
+      entity: cost_centre
+    fields:
+      - code
+      - name
+      - department
+      - owner
+      - active
+    newButton: true
+  - kind: table
+    label: Categories
+    source:
+      entity: spend_category
+    fields:
+      - code
+      - name
+      - kind
+      - active
+    newButton: true
+subject: cost_centre

@@ -1,0 +1,72 @@
+lifecycle: spend_lifecycle
+entity: spend_entry
+stateField: status
+initial: open
+states:
+  open:
+    label: Open
+    color: '#f59e0b'
+    phase: active
+  invoiced:
+    label: Invoiced
+    color: '#0284c7'
+    phase: active
+  paid:
+    label: Paid
+    color: '#0f766e'
+    terminal: true
+    phase: done
+  cancelled:
+    label: Cancelled
+    color: '#64748b'
+    terminal: true
+    phase: cancelled
+transitions:
+  mark_invoiced:
+    label: Invoice received
+    from:
+      - open
+    to: invoiced
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      input:
+        fields:
+          - amount
+          - incurred_on
+      effects: []
+  mark_paid:
+    label: Paid
+    from:
+      - invoiced
+    to: paid
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Recorded as paid.
+      effects:
+        - type: updateRecord
+          set:
+            paid_on: '{{today}}'
+      emits:
+        - spend.paid
+  cancel_spend:
+    label: Cancel
+    from:
+      - open
+      - invoiced
+    to: cancelled
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Cancel this spend?
+        message: The money stops counting against the line. The row stays, so the line's history still explains itself.
+        confirmLabel: Cancel spend
+        tone: danger
+      effects: []

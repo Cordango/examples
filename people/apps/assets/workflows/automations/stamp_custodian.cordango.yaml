@@ -1,0 +1,9 @@
+automation: stamp_custodian
+name: Whoever registers a thing looks after it until somebody else does
+trigger: record.created
+entity: asset
+effects:
+  - type: updateRecord
+    setIfEmpty: true
+    set:
+      custodian: '{{actor.id}}'

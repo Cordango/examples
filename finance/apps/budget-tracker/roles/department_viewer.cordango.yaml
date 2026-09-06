@@ -1,0 +1,16 @@
+role: department_viewer
+name: Department viewer
+description: Reads the numbers and changes nothing. What a team lead needs to answer "how much is left" without being able to answer it differently.
+grants:
+  budget:
+    read: true
+  budget_line:
+    read: true
+  spend_entry:
+    read: true
+  budget_adjustment:
+    read: true
+  cost_centre:
+    read: true
+  spend_category:
+    read: true

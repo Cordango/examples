@@ -1,0 +1,6 @@
+screen: pipeline
+label: Pipeline
+layout:
+  - kind: view
+    view: requests__board
+subject: purchase_request

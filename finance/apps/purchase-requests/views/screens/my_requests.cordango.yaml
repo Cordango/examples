@@ -1,0 +1,9 @@
+screen: my_requests
+label: My requests
+layout:
+  - kind: view
+    view: requests__mine
+  - kind: create
+    label: Ask for something
+    entity: purchase_request
+subject: purchase_request

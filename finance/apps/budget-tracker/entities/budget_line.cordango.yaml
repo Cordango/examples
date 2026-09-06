@@ -1,0 +1,116 @@
+entity: budget_line
+label: Budget line
+description: One category's money inside a budget, and the thing every other app actually points at. A purchase request references a LINE rather than a budget, because "€900 against Marketing" is not a sentence anybody can check and "€900 against Marketing / Software" is.
+icon: mdi-format-list-bulleted
+plural: Budget lines
+display: label
+fields:
+  budget:
+    label: Budget
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: budget
+    onDelete: cascade
+  category:
+    label: Category
+    type: reference
+    required: true
+    targetEntity: spend_category
+  label:
+    label: Label
+    type: text
+    required: true
+  planned:
+    label: Planned
+    type: money
+    required: true
+    currency: EUR
+  adjustments:
+    label: Adjustments
+    type: money
+    help: The sum of adjustments somebody approved. Pending ones deliberately do not count — a plan that moved because somebody asked would make the request pointless.
+    currency: EUR
+    computed:
+      rollup:
+        entity: budget_adjustment
+        via: budget_line
+        op: sum
+        field: amount
+        filters:
+          - field: status
+            operator: eq
+            value: approved
+  adjusted_plan:
+    label: Adjusted plan
+    type: money
+    currency: EUR
+    computed:
+      expr: planned + adjustments
+  committed:
+    label: Committed
+    type: money
+    help: Open commitments only. An approved purchase lands here the moment it is approved and leaves when the invoice arrives, which is what stops the same money being counted twice.
+    currency: EUR
+    computed:
+      rollup:
+        entity: spend_entry
+        via: budget_line
+        op: sum
+        field: amount
+        filters:
+          - field: kind
+            operator: eq
+            value: commitment
+          - field: status
+            operator: eq
+            value: open
+  actual:
+    label: Actual
+    type: money
+    currency: EUR
+    computed:
+      rollup:
+        entity: spend_entry
+        via: budget_line
+        op: sum
+        field: amount
+        filters:
+          - field: status
+            operator: in
+            value:
+              - invoiced
+              - paid
+  forecast:
+    label: Forecast
+    type: money
+    help: The plan, or what is already spoken for, whichever is larger. There is no if/then here, and there does not need to be — a forecast below what you have already committed is not a forecast.
+    currency: EUR
+    computed:
+      expr: max(adjusted_plan, committed + actual)
+  variance:
+    label: Variance
+    type: money
+    currency: EUR
+    computed:
+      expr: adjusted_plan - forecast
+  over_by:
+    label: Over by
+    type: money
+    help: Zero until it is not. Clamped rather than left negative so a list can be sorted by it and read top-down.
+    currency: EUR
+    computed:
+      expr: max(0, committed + actual - adjusted_plan)
+  utilisation_pct:
+    label: Used
+    type: decimal
+    unit: '%'
+    computed:
+      expr: (committed + actual) / adjusted_plan * 100
+    scale: 1
+  owner:
+    label: Owner
+    type: reference
+    help: Defaults to the budget's owner when a line is created without one.
+    targetEntity: person
+    targetApp: platform

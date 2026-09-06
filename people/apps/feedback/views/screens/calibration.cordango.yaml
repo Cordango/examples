@@ -1,0 +1,16 @@
+screen: calibration
+label: Calibration
+subject: participant
+layout:
+  - kind: view
+    view: participants__calibration
+  - kind: table
+    label: Everyone in a cycle
+    source:
+      entity: participant
+    fields:
+      - person
+      - manager
+      - department
+      - status
+    newButton: true

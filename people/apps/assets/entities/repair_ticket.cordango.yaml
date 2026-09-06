@@ -1,0 +1,56 @@
+entity: repair_ticket
+label: Repair
+description: Something went wrong and what it cost to put right. The cost rolls up onto the asset, which is what eventually makes the case for replacing it instead. Not subordinate to the asset, because the open repairs across every asset are a queue somebody works through.
+icon: mdi-wrench-outline
+plural: Repairs
+display: issue
+fields:
+  asset:
+    label: Asset
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: asset
+    onDelete: cascade
+  issue:
+    label: What happened
+    type: longtext
+    required: true
+  vendor:
+    label: Repairer
+    type: reference
+    targetEntity: organization
+    targetApp: core_organizations
+  raised_by:
+    label: Raised by
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  opened_on:
+    label: Opened
+    type: date
+    role: start
+  closed_on:
+    label: Closed
+    type: date
+  cost:
+    label: Cost
+    type: money
+    currency: EUR
+  outcome:
+    label: Outcome
+    type: select
+    options:
+      - value: repaired
+        label: Repaired
+        color: '#0f766e'
+      - value: replaced
+        label: Replaced
+        color: '#0284c7'
+      - value: written_off
+        label: Written off
+        color: '#dc2626'
+  status:
+    label: Status
+    type: select
+    role: status

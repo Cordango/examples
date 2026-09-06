@@ -1,0 +1,90 @@
+lifecycle: participant_lifecycle
+entity: participant
+stateField: status
+initial: nominating
+states:
+  nominating:
+    label: Choosing peers
+    color: '#0284c7'
+    phase: not_started
+  collecting:
+    label: Collecting
+    color: '#f59e0b'
+    phase: active
+  calibrating:
+    label: Calibrating
+    color: '#a855f7'
+    phase: active
+  completed:
+    label: Done
+    color: '#0f766e'
+    phase: done
+transitions:
+  open_feedback:
+    label: Start collecting
+    from:
+      - nominating
+    to: collecting
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Self and manager reviews created. Approved peers get theirs as they are agreed.
+      effects:
+        - type: createRecord
+          entity: feedback_request
+          set:
+            cycle: '{{record.cycle}}'
+            subject: '{{record.id}}'
+            reviewer: '{{record.person}}'
+            kind: self
+        - type: createRecord
+          entity: feedback_request
+          set:
+            cycle: '{{record.cycle}}'
+            subject: '{{record.id}}'
+            reviewer: '{{record.manager}}'
+            kind: manager
+        - type: notify
+          to: '{{record.person}}'
+          title: Your review has started
+          message: Your self review is waiting.
+          link: auto
+  calibrate:
+    label: Ready to calibrate
+    from:
+      - collecting
+    to: calibrating
+    action:
+      placements:
+        - recordHeader
+        - tableRow
+      effects: []
+  complete_participant:
+    label: Finish
+    from:
+      - calibrating
+    to: completed
+    requiredFields:
+      - final_rating
+      - summary
+    when:
+      field: manager
+      operator: eq
+      value: '{{actor.id}}'
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Finished. The summary is what they will read.
+      input:
+        fields:
+          - final_rating
+          - summary
+        required:
+          - final_rating
+          - summary
+      emits:
+        - participant.completed
+      effects: []

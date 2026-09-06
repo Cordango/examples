@@ -1,0 +1,12 @@
+view: tasks__all
+label: Everything
+entity: task
+sort:
+  - field: due_on
+    direction: asc
+kind: table
+settings:
+  columns:
+    - title
+    - due_on
+    - done

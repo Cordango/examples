@@ -1,0 +1,22 @@
+automation: register_on_purchase_completed
+name: Register a subscription when software is bought
+when:
+  field: category
+  operator: eq
+  value: software
+effects:
+  - type: createRecord
+    set:
+      product_name: '{{record.title}}'
+      vendor: '{{record.vendor}}'
+      owner: '{{record.requester}}'
+      department: '{{record.department}}'
+      category: saas
+      annual_cost: '{{record.actual_amount}}'
+      purchase_request: '{{record.id}}'
+      contract_start: '{{record.purchased_on}}'
+      renewal_on: '{{today+365}}'
+    entity: subscription
+trigger: command.emitted
+event: purchase.completed
+app: purchase_requests

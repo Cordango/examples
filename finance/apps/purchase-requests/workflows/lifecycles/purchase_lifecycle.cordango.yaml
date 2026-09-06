@@ -1,0 +1,312 @@
+lifecycle: purchase_lifecycle
+entity: purchase_request
+stateField: status
+initial: draft
+states:
+  draft:
+    label: Draft
+    color: '#94a3b8'
+    phase: not_started
+  requested:
+    label: With the manager
+    color: '#f59e0b'
+    phase: active
+  finance_review:
+    label: With finance
+    color: '#0284c7'
+    phase: active
+  management_review:
+    label: With management
+    color: '#a855f7'
+    phase: active
+  approved:
+    label: Approved
+    color: '#0f766e'
+    phase: active
+  purchased:
+    label: Purchased
+    color: '#16a34a'
+    terminal: true
+    phase: done
+  rejected:
+    label: Rejected
+    color: '#dc2626'
+    phase: cancelled
+  cancelled:
+    label: Cancelled
+    color: '#64748b'
+    terminal: true
+    phase: cancelled
+transitions:
+  submit_request:
+    label: Submit
+    from:
+      - draft
+    to: requested
+    requiredFields:
+      - title
+      - amount
+      - category
+      - department
+      - justification
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Submitted. Your manager can see it now.
+      effects:
+        - type: updateRecord
+          set:
+            submitted_at: '{{now}}'
+  manager_approve:
+    label: Approve
+    from:
+      - requested
+    to: approved
+    when:
+      all:
+        - field: amount
+          operator: lt
+          value: 500
+        - field: requester
+          operator: neq
+          value: '{{actor.id}}'
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Approved.
+      effects:
+        - type: updateRecord
+          set:
+            manager_approver: '{{actor.id}}'
+            decided_at: '{{now}}'
+        - type: createRecord
+          set:
+            request: '{{record.id}}'
+            step: manager
+            decision: approved
+            decided_by: '{{actor.id}}'
+            decided_at: '{{now}}'
+          entity: approval_note
+        - type: notify
+          to: '{{record.requester}}'
+          title: Approved
+          message: '{{record.title}} was approved.'
+          link: auto
+  manager_escalate:
+    label: Approve and send to finance
+    from:
+      - requested
+    to: finance_review
+    when:
+      all:
+        - field: amount
+          operator: gte
+          value: 500
+        - field: requester
+          operator: neq
+          value: '{{actor.id}}'
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Passed to finance.
+      effects:
+        - type: updateRecord
+          set:
+            manager_approver: '{{actor.id}}'
+        - type: createRecord
+          set:
+            request: '{{record.id}}'
+            step: manager
+            decision: escalated
+            decided_by: '{{actor.id}}'
+            decided_at: '{{now}}'
+          entity: approval_note
+  finance_approve:
+    label: Approve
+    from:
+      - finance_review
+    to: approved
+    when:
+      field: amount
+      operator: lt
+      value: 5000
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Approved.
+      effects:
+        - type: updateRecord
+          set:
+            finance_approver: '{{actor.id}}'
+            decided_at: '{{now}}'
+        - type: createRecord
+          set:
+            request: '{{record.id}}'
+            step: finance
+            decision: approved
+            decided_by: '{{actor.id}}'
+            decided_at: '{{now}}'
+          entity: approval_note
+        - type: notify
+          to: '{{record.requester}}'
+          title: Approved
+          message: '{{record.title}} was approved.'
+          link: auto
+  finance_escalate:
+    label: Approve and send to management
+    from:
+      - finance_review
+    to: management_review
+    when:
+      field: amount
+      operator: gte
+      value: 5000
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Passed to management.
+      effects:
+        - type: updateRecord
+          set:
+            finance_approver: '{{actor.id}}'
+        - type: createRecord
+          set:
+            request: '{{record.id}}'
+            step: finance
+            decision: escalated
+            decided_by: '{{actor.id}}'
+            decided_at: '{{now}}'
+          entity: approval_note
+  management_approve:
+    label: Approve
+    from:
+      - management_review
+    to: approved
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Approved.
+      effects:
+        - type: updateRecord
+          set:
+            management_approver: '{{actor.id}}'
+            decided_at: '{{now}}'
+        - type: createRecord
+          set:
+            request: '{{record.id}}'
+            step: management
+            decision: approved
+            decided_by: '{{actor.id}}'
+            decided_at: '{{now}}'
+          entity: approval_note
+        - type: notify
+          to: '{{record.requester}}'
+          title: Approved
+          message: '{{record.title}} was approved.'
+          link: auto
+  reject_request:
+    label: Reject
+    from:
+      - requested
+      - finance_review
+      - management_review
+    to: rejected
+    requiredFields:
+      - rejection_reason
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Reject this request?
+        message: The requester can address the reason and reopen it.
+        confirmLabel: Reject
+        tone: danger
+      input:
+        fields:
+          - rejection_reason
+        required:
+          - rejection_reason
+      effects:
+        - type: updateRecord
+          set:
+            decided_at: '{{now}}'
+        - type: createRecord
+          set:
+            request: '{{record.id}}'
+            decision: rejected
+            decided_by: '{{actor.id}}'
+            decided_at: '{{now}}'
+            comment: '{{record.rejection_reason}}'
+          entity: approval_note
+        - type: notify
+          to: '{{record.requester}}'
+          title: Not approved
+          message: '{{record.title}} was rejected.'
+          link: auto
+  cancel_request:
+    label: Cancel
+    from:
+      - draft
+      - requested
+      - finance_review
+      - management_review
+      - approved
+    to: cancelled
+    when:
+      field: requester
+      operator: eq
+      value: '{{actor.id}}'
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Cancel your request?
+        message: Anything already committed against a budget is released.
+        confirmLabel: Cancel it
+        tone: danger
+      effects: []
+  mark_purchased:
+    label: Mark purchased
+    from:
+      - approved
+    to: purchased
+    requiredFields:
+      - po_number
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Recorded. The commitment becomes real spend.
+      input:
+        fields:
+          - po_number
+          - actual_amount
+          - purchased_on
+          - vendor
+        required:
+          - po_number
+      effects: []
+      emits:
+        - purchase.completed
+  reopen_request:
+    label: Reopen
+    from:
+      - rejected
+    to: draft
+    action:
+      placements:
+        - recordHeader
+      effects: []

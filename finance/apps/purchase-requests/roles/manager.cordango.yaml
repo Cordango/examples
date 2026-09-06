@@ -1,0 +1,18 @@
+role: manager
+name: Manager
+description: The first hop. Approves what is small enough to stop with them and passes on what is not — the amount decides which, not the manager.
+grants:
+  purchase_request:
+    read: true
+    update: true
+    commands:
+      - manager_approve
+      - manager_escalate
+      - reject_request
+  request_item:
+    read: true
+  vendor_quote:
+    read: true
+  approval_note:
+    create: true
+    read: true

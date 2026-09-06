@@ -1,0 +1,138 @@
+entity: participant
+label: Participant
+description: One person being reviewed in one cycle. Every score on it is an average of answers the person themselves cannot read — which is what makes the anonymity real rather than declared.
+icon: mdi-account-outline
+plural: Participants
+display: person
+fields:
+  cycle:
+    label: Cycle
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: review_cycle
+    onDelete: cascade
+  person:
+    label: Person
+    type: reference
+    required: true
+    targetEntity: person
+    targetApp: platform
+  manager:
+    label: Manager
+    type: reference
+    required: true
+    help: Who gives the manager review and writes the summary at the end.
+    targetEntity: person
+    targetApp: platform
+  department:
+    label: Department
+    type: reference
+    targetEntity: department
+    targetApp: platform
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  peers_nominated:
+    label: Peers put forward
+    type: integer
+    computed:
+      rollup:
+        entity: nomination
+        via: participant
+        op: count
+  peers_approved:
+    label: Peers agreed
+    type: integer
+    computed:
+      rollup:
+        entity: nomination
+        via: participant
+        op: count
+        filters:
+          - field: status
+            operator: eq
+            value: approved
+  self_score:
+    label: Self
+    type: decimal
+    scale: 2
+    computed:
+      rollup:
+        entity: feedback_request
+        via: subject
+        op: avg
+        field: overall_score
+        filters:
+          - field: kind
+            operator: eq
+            value: self
+          - field: status
+            operator: eq
+            value: submitted
+  manager_score:
+    label: Manager
+    type: decimal
+    scale: 2
+    computed:
+      rollup:
+        entity: feedback_request
+        via: subject
+        op: avg
+        field: overall_score
+        filters:
+          - field: kind
+            operator: eq
+            value: manager
+          - field: status
+            operator: eq
+            value: submitted
+  peer_score:
+    label: Peers
+    type: decimal
+    scale: 2
+    computed:
+      rollup:
+        entity: feedback_request
+        via: subject
+        op: avg
+        field: overall_score
+        filters:
+          - field: kind
+            operator: eq
+            value: peer
+          - field: status
+            operator: eq
+            value: submitted
+  overall_score:
+    label: Overall
+    type: decimal
+    scale: 2
+    help: Self a fifth, manager two fifths, peers two fifths. The weights are in the expression because there is no if/then and no settings lookup in one; changing them is a change to the app, which is honest about what it is.
+    computed:
+      expr: self_score * 0.2 + manager_score * 0.4 + peer_score * 0.4
+  final_rating:
+    label: Rating
+    type: select
+    options:
+      - value: '1'
+        label: 1 - Below
+        color: '#dc2626'
+      - value: '2'
+        label: 2 - Approaching
+        color: '#f59e0b'
+      - value: '3'
+        label: 3 - Meets
+        color: '#0284c7'
+      - value: '4'
+        label: 4 - Exceeds
+        color: '#0f766e'
+      - value: '5'
+        label: 5 - Outstanding
+        color: '#16a34a'
+  summary:
+    label: Summary
+    type: longtext
+    help: The manager writing in their own words what the numbers meant. The part the person actually reads.

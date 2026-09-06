@@ -1,0 +1,16 @@
+view: cycles__all
+label: Cycles
+entity: review_cycle
+sort:
+  - field: feedback_due
+    direction: desc
+kind: table
+settings:
+  columns:
+    - name
+    - owner
+    - nominations_due
+    - feedback_due
+    - participants_count
+    - completion_pct
+    - status

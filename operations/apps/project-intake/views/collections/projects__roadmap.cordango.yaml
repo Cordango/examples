@@ -1,0 +1,13 @@
+view: projects__roadmap
+label: Roadmap
+entity: project
+filters:
+  - field: status
+    operator: in
+    value:
+      - planned
+      - active
+kind: timeline
+settings:
+  dateField: target_start
+  groupBy: portfolio

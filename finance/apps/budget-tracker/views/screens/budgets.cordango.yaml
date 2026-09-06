@@ -1,0 +1,6 @@
+screen: budgets
+label: Budgets
+layout:
+  - kind: view
+    view: budgets__active
+subject: budget

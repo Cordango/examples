@@ -1,0 +1,24 @@
+view: subscriptions__renewing
+label: Decide soon
+entity: subscription
+filters:
+  - field: status
+    operator: eq
+    value: active
+  - field: cancellation_deadline
+    operator: lte
+    value: '{{today+90}}'
+sort:
+  - field: cancellation_deadline
+    direction: asc
+kind: table
+settings:
+  columns:
+    - product_name
+    - vendor
+    - owner
+    - annual_cost
+    - seats_used
+    - seats_licensed
+    - cancellation_deadline
+    - renewal_on

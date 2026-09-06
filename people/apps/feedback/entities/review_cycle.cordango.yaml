@@ -1,0 +1,100 @@
+entity: review_cycle
+label: Cycle
+description: One round of reviews with its own deadlines. The completion figure is counted from the requests rather than tracked by hand, so nobody has to believe a status somebody typed.
+icon: mdi-calendar-sync-outline
+plural: Cycles
+display: name
+calendar: true
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    group: Cycle
+  owner:
+    label: Run by
+    type: reference
+    required: true
+    help: HR. The person whose calendar the cycle deadlines land in.
+    group: Cycle
+    targetEntity: person
+    targetApp: platform
+  period_start:
+    label: Covers from
+    type: date
+    role: start
+    group: Cycle
+  period_end:
+    label: Covers to
+    type: date
+    group: Cycle
+  nominations_due:
+    label: Nominations by
+    type: date
+    group: Deadlines
+  feedback_due:
+    label: Feedback by
+    type: date
+    role: due
+    group: Deadlines
+  min_peers:
+    label: Fewest peers
+    type: integer
+    default: 3
+    group: Rules
+  max_peers:
+    label: Most peers
+    type: integer
+    default: 5
+    group: Rules
+  anonymous_peers:
+    label: Peer feedback is anonymous
+    type: boolean
+    default: true
+    help: 'Enforced by grants rather than by this flag: the subject has no read on a feedback request at all, only on the averages. A field that merely says "anonymous" while the data is readable is a promise the app does not keep.'
+    group: Rules
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+    group: Cycle
+  participants_count:
+    label: People
+    type: integer
+    group: Progress
+    computed:
+      rollup:
+        entity: participant
+        via: cycle
+        op: count
+  requests_total:
+    label: Requests
+    type: integer
+    group: Progress
+    computed:
+      rollup:
+        entity: feedback_request
+        via: cycle
+        op: count
+  requests_submitted:
+    label: Answered
+    type: integer
+    group: Progress
+    computed:
+      rollup:
+        entity: feedback_request
+        via: cycle
+        op: count
+        filters:
+          - field: status
+            operator: eq
+            value: submitted
+  completion_pct:
+    label: Complete
+    type: decimal
+    scale: 1
+    unit: '%'
+    group: Progress
+    computed:
+      expr: requests_submitted / requests_total * 100

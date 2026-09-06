@@ -1,0 +1,19 @@
+screen: inventory
+label: Inventory
+subject: asset
+layout:
+  - kind: view
+    view: assets__available
+  - kind: table
+    label: Everything
+    source:
+      entity: asset
+    fields:
+      - asset_tag
+      - model
+      - category
+      - status
+      - assigned_to
+      - custodian
+      - replacement_due
+    newButton: true

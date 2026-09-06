@@ -1,0 +1,6 @@
+screen: renewal_calendar
+label: Renewal calendar
+layout:
+  - kind: view
+    view: subscriptions__calendar
+subject: subscription

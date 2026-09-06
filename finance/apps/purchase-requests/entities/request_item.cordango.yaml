@@ -1,0 +1,37 @@
+entity: request_item
+label: Line item
+description: One thing on the request, so "five Figma seats" is five times a unit price rather than a number somebody worked out in their head and typed.
+icon: mdi-format-list-numbered
+ownedBy:
+  parent: purchase_request
+  via: request
+  as: table
+plural: Line items
+display: description
+fields:
+  request:
+    label: Request
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: purchase_request
+    onDelete: cascade
+  description:
+    label: What
+    type: text
+    required: true
+  quantity:
+    label: Quantity
+    type: integer
+    required: true
+    default: 1
+  unit_price:
+    label: Unit price
+    type: money
+    currency: EUR
+  line_total:
+    label: Total
+    type: money
+    currency: EUR
+    computed:
+      expr: quantity * unit_price

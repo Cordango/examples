@@ -1,0 +1,12 @@
+role: finance_viewer
+name: Finance viewer
+description: Reads what everything cost, and changes nothing.
+grants:
+  asset:
+    read: true
+  assignment:
+    read: true
+  repair_ticket:
+    read: true
+  asset_model:
+    read: true

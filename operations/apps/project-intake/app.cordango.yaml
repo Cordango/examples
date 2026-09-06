@@ -1,0 +1,63 @@
+app: project_intake
+name: Project Intake & Portfolio
+version: 0.1.0
+description: Proposals scored before anybody argues about them, decided by a committee, and then followed through planning and delivery.
+schemaVersion: '2.0'
+presentation:
+  icon: mdi-rocket-launch-outline
+  color: '#a855f7'
+  category: Operations
+  tagline: Which of these are we actually doing.
+purpose:
+  summary: Owns proposals and the portfolio — what has been asked for, what it scores, what the committee decided, and how the approved ones are going.
+  duties:
+    - owns project proposals and the estimates behind them
+    - scores priority from impact, urgency and alignment against cost and effort
+    - owns the committee decision, and refuses to let a sponsor approve their own
+    - owns the milestones of an approved project and how far along it is
+    - keeps portfolio headroom, so the next proposal can be answered with a number
+    - announces submitted, planned and completed, so budgets, resourcing and feedback can follow
+uses:
+  - app: core_organizations
+    entities:
+      - organization
+    why: a customer-facing project points at the same company record as the deal did
+order:
+  entities:
+    - project
+    - intake_review
+    - milestone
+    - portfolio
+  pages:
+    - dashboard
+    - intake_queue
+    - portfolio_board
+    - roadmap
+    - portfolios
+  views:
+    - projects__queue
+    - projects__board
+    - projects__roadmap
+    - milestones__calendar
+  roles:
+    - submitter
+    - committee_reviewer
+    - portfolio_manager
+  processes:
+    - project_lifecycle
+  commands:
+    - submit_for_review
+    - approve_project
+    - reject_project
+    - plan_project
+    - start_project
+    - hold_project
+    - resume_project
+    - complete_project
+    - reopen_project
+  workflows:
+    - stamp_proposer
+    - stamp_reviewer
+    - stale_review
+    - milestone_overdue
+    - end_approaching

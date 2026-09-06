@@ -1,0 +1,8 @@
+screen: approvals
+label: Approvals
+layout:
+  - kind: view
+    view: requests__awaiting_manager
+  - kind: view
+    view: requests__awaiting_finance
+subject: purchase_request

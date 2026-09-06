@@ -1,0 +1,19 @@
+automation: milestone_overdue
+name: Tell an owner when a milestone has slipped
+trigger: schedule
+cron: 0 9 * * *
+entity: milestone
+when:
+  all:
+    - field: done
+      operator: eq
+      value: false
+    - field: due_on
+      operator: lt
+      value: '{{today}}'
+effects:
+  - type: notify
+    to: '{{record.owner}}'
+    title: 'Overdue: {{record.title}}'
+    message: Was due {{record.due_on}}.
+    link: auto

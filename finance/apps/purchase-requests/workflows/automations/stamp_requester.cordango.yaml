@@ -1,0 +1,9 @@
+automation: stamp_requester
+name: A request belongs to whoever made it
+effects:
+  - type: updateRecord
+    set:
+      requester: '{{actor.id}}'
+    setIfEmpty: true
+trigger: record.created
+entity: purchase_request

@@ -1,0 +1,8 @@
+view: blackouts__calendar
+label: Blackouts
+entity: blackout_period
+kind: calendar
+settings:
+  dateField: start_date
+  endDateField: end_date
+  titleField: name

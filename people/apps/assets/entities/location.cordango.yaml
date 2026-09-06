@@ -1,0 +1,18 @@
+entity: location
+label: Location
+description: Where a thing lives when nobody is carrying it.
+icon: mdi-map-marker-outline
+kind: config
+plural: Locations
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+  site:
+    label: Site
+    type: text
+  address:
+    label: Address
+    type: longtext

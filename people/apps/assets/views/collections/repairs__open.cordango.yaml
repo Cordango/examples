@@ -1,0 +1,18 @@
+view: repairs__open
+label: Open repairs
+entity: repair_ticket
+filters:
+  - field: status
+    operator: eq
+    value: open
+sort:
+  - field: opened_on
+    direction: asc
+kind: table
+settings:
+  columns:
+    - issue
+    - asset
+    - vendor
+    - opened_on
+    - raised_by

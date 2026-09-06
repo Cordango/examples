@@ -1,0 +1,69 @@
+app: feedback_360
+name: 360 Feedback
+version: 0.1.0
+description: Review cycles with self, manager and peer feedback, where the person being reviewed sees the averages and never the individual answers.
+schemaVersion: '2.0'
+presentation:
+  icon: mdi-comment-quote-outline
+  color: '#a855f7'
+  category: HR
+  tagline: Ask everyone, tell them what it added up to.
+purpose:
+  summary: Owns review cycles — who is reviewed, who reviews them, what they said, and what it averaged to.
+  duties:
+    - owns review cycles and their deadlines
+    - owns who is being reviewed and by whom, through nominations a manager agrees to
+    - collects self, manager, peer and stakeholder feedback against a shared list of competencies
+    - keeps peer answers unreadable by their subject, by grant rather than by convention
+    - averages the scores into one figure per person for calibration
+    - chases the silence, which is how a review cycle usually fails
+uses:
+  - app: project_intake
+    why: a finished project asks its sponsor for feedback on whoever ran it
+order:
+  entities:
+    - review_cycle
+    - participant
+    - nomination
+    - feedback_request
+    - feedback_score
+    - competency
+  pages:
+    - dashboard
+    - my_tasks
+    - nominations
+    - calibration
+    - configuration
+  views:
+    - cycles__all
+    - requests__mine
+    - nominations__waiting
+    - participants__calibration
+  roles:
+    - hr_admin
+    - manager
+    - employee
+  processes:
+    - cycle_lifecycle
+    - participant_lifecycle
+    - nomination_lifecycle
+    - feedback_lifecycle
+  commands:
+    - open_nominations
+    - start_collecting
+    - start_calibration
+    - close_cycle
+    - open_feedback
+    - calibrate
+    - complete_participant
+    - approve_nomination
+    - decline_nomination
+    - start_feedback
+    - submit_feedback
+    - decline_feedback
+  workflows:
+    - stakeholder_feedback_on_project_completed
+    - notify_new_request
+    - reminder_before_due
+    - overdue_feedback
+    - cycle_closing_warning

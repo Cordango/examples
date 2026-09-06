@@ -1,0 +1,18 @@
+view: requests__mine
+label: Mine
+entity: purchase_request
+filters:
+  - field: requester
+    operator: eq
+    value: '{{actor.id}}'
+sort:
+  - field: submitted_at
+    direction: desc
+kind: table
+settings:
+  columns:
+    - title
+    - amount
+    - category
+    - status
+    - needed_by

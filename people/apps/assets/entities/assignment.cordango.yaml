@@ -1,0 +1,66 @@
+entity: assignment
+label: Assignment
+description: One spell of somebody holding one thing, with the condition at both ends. Kept as history, so "who had this when it broke" is a question with an answer.
+icon: mdi-account-arrow-right-outline
+plural: Assignments
+display: person
+ownedBy:
+  parent: asset
+  via: asset
+  as: table
+fields:
+  asset:
+    label: Asset
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: asset
+    onDelete: cascade
+  person:
+    label: Person
+    type: reference
+    required: true
+    targetEntity: person
+    targetApp: platform
+  assigned_on:
+    label: From
+    type: date
+    role: start
+  returned_on:
+    label: To
+    type: date
+    role: due
+  condition_out:
+    label: Condition out
+    type: select
+    options:
+      - value: new
+        label: New
+      - value: good
+        label: Good
+      - value: fair
+        label: Fair
+      - value: poor
+        label: Poor
+  condition_in:
+    label: Condition back
+    type: select
+    options:
+      - value: good
+        label: Good
+      - value: fair
+        label: Fair
+      - value: poor
+        label: Poor
+      - value: broken
+        label: Broken
+  acknowledged:
+    label: Acknowledged
+    type: boolean
+  notes:
+    label: Notes
+    type: longtext
+  status:
+    label: Status
+    type: select
+    role: status

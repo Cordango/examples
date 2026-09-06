@@ -1,0 +1,19 @@
+automation: repair_aging
+name: Chase a repair nobody has closed
+trigger: schedule
+cron: 0 9 * * *
+entity: repair_ticket
+when:
+  all:
+    - field: status
+      operator: eq
+      value: open
+    - field: opened_on
+      operator: lt
+      value: '{{today-14d}}'
+effects:
+  - type: notify
+    to: '{{record.raised_by}}'
+    title: Repair still open
+    message: Opened {{record.opened_on}} and not closed yet.
+    link: auto

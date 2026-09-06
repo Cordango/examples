@@ -1,0 +1,36 @@
+screen: dashboard
+label: Dashboard
+subject: review_cycle
+layout:
+  - kind: row
+    blocks:
+      - kind: card
+        label: Open cycles
+        blocks:
+          - kind: stat
+            label: Collecting
+            source:
+              entity: review_cycle
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: collecting
+      - kind: card
+        label: Outstanding
+        blocks:
+          - kind: stat
+            label: Not answered
+            source:
+              entity: feedback_request
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: in
+                  value:
+                    - pending
+                    - in_progress
+  - kind: view
+    view: cycles__all

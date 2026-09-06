@@ -1,0 +1,17 @@
+automation: commit_on_project_approved
+name: Commit the estimate when a project is approved
+effects:
+  - type: createRecord
+    set:
+      description: '{{record.title}}'
+      kind: commitment
+      amount: '{{record.estimated_cost}}'
+      department: '{{record.department}}'
+      requested_by: '{{record.sponsor}}'
+      source_app: project_intake
+      source_ref: '{{record.id}}'
+      incurred_on: '{{today}}'
+    entity: spend_entry
+trigger: command.emitted
+event: project.approved
+app: project_intake

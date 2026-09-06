@@ -1,0 +1,24 @@
+role: portfolio_manager
+name: Portfolio manager
+description: Takes an approved project through planning, delivery and completion, and keeps the portfolios.
+grants:
+  project:
+    read: true
+    update: true
+    commands:
+      - plan_project
+      - start_project
+      - hold_project
+      - resume_project
+      - complete_project
+  intake_review:
+    read: true
+  milestone:
+    create: true
+    read: true
+    update: true
+    delete: true
+  portfolio:
+    create: true
+    read: true
+    update: true

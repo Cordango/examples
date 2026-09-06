@@ -1,0 +1,47 @@
+entity: asset_model
+label: Model
+description: A kind of thing you buy more than one of. Holding the warranty and replacement cycle here rather than on every asset is what makes "which laptops are due next year" answerable.
+icon: mdi-laptop
+kind: config
+plural: Models
+display: model_name
+fields:
+  manufacturer:
+    label: Manufacturer
+    type: text
+    required: true
+  model_name:
+    label: Model
+    type: text
+    required: true
+  category:
+    label: Category
+    type: select
+    required: true
+    options:
+      - value: laptop
+        label: Laptop
+      - value: phone
+        label: Phone
+      - value: tablet
+        label: Tablet
+      - value: monitor
+        label: Monitor
+      - value: peripheral
+        label: Peripheral
+      - value: other
+        label: Other
+  replacement_cycle_months:
+    label: Replace after
+    type: integer
+    default: 36
+    unit: months
+  warranty_months:
+    label: Warranty
+    type: integer
+    default: 24
+    unit: months
+  list_price:
+    label: List price
+    type: money
+    currency: EUR

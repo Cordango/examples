@@ -1,0 +1,22 @@
+automation: stale_request
+name: Tell the requester when nothing has moved for a week
+when:
+  all:
+    - field: status
+      operator: in
+      value:
+        - requested
+        - finance_review
+        - management_review
+    - field: submitted_at
+      operator: lt
+      value: '{{today-7d}}'
+effects:
+  - type: notify
+    to: '{{record.requester}}'
+    title: 'Still waiting: {{record.title}}'
+    message: Submitted more than a week ago and not decided yet.
+    link: auto
+trigger: schedule
+entity: purchase_request
+cron: 0 9 * * *

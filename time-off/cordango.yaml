@@ -1,7 +1,0 @@
-formatVersion: 1
-workspaceId: 01M0GHH5FZ11AWNH91QNKBVHHG
-name: Time Off
-runtime: '>=0.1 <0.2'
-coreApps: default
-apps:
-  - apps/time-off

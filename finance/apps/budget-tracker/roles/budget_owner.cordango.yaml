@@ -1,0 +1,28 @@
+role: budget_owner
+name: Budget owner
+description: Answers for one cost centre's money. Records spend and asks for adjustments, but does not approve their own request — that guard is on the transition, not here, because a person who holds both roles would otherwise pass the role check on their own row.
+grants:
+  budget:
+    read: true
+    update: true
+  budget_line:
+    create: true
+    read: true
+    update: true
+  spend_entry:
+    create: true
+    read: true
+    update: true
+    commands:
+      - mark_invoiced
+      - mark_paid
+      - cancel_spend
+  budget_adjustment:
+    create: true
+    read: true
+    commands:
+      - withdraw_adjustment
+  cost_centre:
+    read: true
+  spend_category:
+    read: true

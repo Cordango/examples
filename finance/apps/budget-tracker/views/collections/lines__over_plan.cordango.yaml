@@ -1,0 +1,21 @@
+view: lines__over_plan
+label: Over plan
+entity: budget_line
+filters:
+  - field: over_by
+    operator: gt
+    value: 0
+sort:
+  - field: over_by
+    direction: desc
+kind: table
+settings:
+  columns:
+    - label
+    - budget
+    - category
+    - adjusted_plan
+    - committed
+    - actual
+    - over_by
+    - utilisation_pct

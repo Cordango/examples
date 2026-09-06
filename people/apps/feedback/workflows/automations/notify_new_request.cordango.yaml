@@ -1,0 +1,10 @@
+automation: notify_new_request
+name: Tell a reviewer they have been asked
+trigger: record.created
+entity: feedback_request
+effects:
+  - type: notify
+    to: '{{record.reviewer}}'
+    title: Feedback requested
+    message: Due {{record.due_on}}.
+    link: auto

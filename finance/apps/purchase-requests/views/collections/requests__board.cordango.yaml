@@ -1,0 +1,10 @@
+view: requests__board
+label: Pipeline
+entity: purchase_request
+kind: kanban
+settings:
+  groupByField: status
+  cardFields:
+    - amount
+    - department
+    - approval_tier

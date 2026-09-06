@@ -1,0 +1,146 @@
+lifecycle: asset_lifecycle
+entity: asset
+stateField: status
+initial: available
+states:
+  available:
+    label: Available
+    color: '#0284c7'
+    phase: not_started
+  assigned:
+    label: Assigned
+    color: '#0f766e'
+    phase: active
+  in_repair:
+    label: In repair
+    color: '#f59e0b'
+    phase: active
+  returned:
+    label: Returned
+    color: '#94a3b8'
+    phase: active
+  retired:
+    label: Retired
+    color: '#64748b'
+    phase: done
+    terminal: true
+transitions:
+  assign:
+    label: Assign
+    from:
+      - available
+      - returned
+    to: assigned
+    requiredFields:
+      - assigned_to
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Assigned. It is in their calendar now.
+      input:
+        fields:
+          - assigned_to
+          - assigned_on
+          - condition
+        required:
+          - assigned_to
+      emits:
+        - asset.assigned
+      effects:
+        - type: createRecord
+          entity: assignment
+          set:
+            asset: '{{record.id}}'
+            person: '{{record.assigned_to}}'
+            assigned_on: '{{today}}'
+            condition_out: '{{record.condition}}'
+        - type: notify
+          to: '{{record.assigned_to}}'
+          title: Something is yours now
+          message: '{{record.asset_tag}} has been assigned to you.'
+          link: auto
+  return_asset:
+    label: Returned
+    from:
+      - assigned
+    to: returned
+    action:
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Back in stock. Close the open assignment to record the condition.
+      input:
+        fields:
+          - condition
+      emits:
+        - asset.returned
+      effects: []
+  send_to_repair:
+    label: Send for repair
+    from:
+      - assigned
+      - available
+      - returned
+    to: in_repair
+    action:
+      placements:
+        - recordHeader
+      input:
+        fields:
+          - condition
+      emits:
+        - asset.repair_started
+      effects:
+        - type: createRecord
+          entity: repair_ticket
+          set:
+            asset: '{{record.id}}'
+            opened_on: '{{today}}'
+            raised_by: '{{actor.id}}'
+            issue: Sent for repair.
+  repair_done:
+    label: Back from repair
+    from:
+      - in_repair
+    to: returned
+    action:
+      placements:
+        - recordHeader
+      effects: []
+  make_available:
+    label: Back in stock
+    from:
+      - returned
+    to: available
+    action:
+      placements:
+        - recordHeader
+      effects: []
+  retire:
+    label: Retire
+    from:
+      - available
+      - returned
+      - in_repair
+    to: retired
+    requiredFields:
+      - retire_reason
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Retire this asset?
+        message: It leaves the active register and keeps its history.
+        confirmLabel: Retire
+        tone: danger
+      input:
+        fields:
+          - retire_reason
+        required:
+          - retire_reason
+      emits:
+        - asset.retired
+      effects: []

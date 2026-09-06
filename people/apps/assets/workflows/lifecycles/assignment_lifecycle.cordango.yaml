@@ -1,0 +1,35 @@
+lifecycle: assignment_lifecycle
+entity: assignment
+stateField: status
+initial: open
+states:
+  open:
+    label: Open
+    color: '#0f766e'
+    phase: active
+  closed:
+    label: Closed
+    color: '#64748b'
+    phase: done
+    terminal: true
+transitions:
+  close_assignment:
+    label: Record the return
+    from:
+      - open
+    to: closed
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      input:
+        fields:
+          - returned_on
+          - condition_in
+          - notes
+      effects:
+        - type: updateRecord
+          setIfEmpty: true
+          set:
+            returned_on: '{{today}}'

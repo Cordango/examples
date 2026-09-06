@@ -1,0 +1,19 @@
+screen: roadmap
+label: Roadmap
+subject: project
+layout:
+  - kind: view
+    view: projects__roadmap
+  - kind: view
+    view: milestones__calendar
+  - kind: table
+    label: Every milestone
+    source:
+      entity: milestone
+    fields:
+      - title
+      - project
+      - owner
+      - due_on
+      - done
+    newButton: true

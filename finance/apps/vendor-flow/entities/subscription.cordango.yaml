@@ -1,0 +1,200 @@
+entity: subscription
+label: Subscription
+description: A live contract with a vendor — what it costs, who owns it, how many seats are in use and when notice has to be given. The renewal date is not the deadline; the cancellation deadline is, and confusing the two is how a contract renews itself for another year.
+icon: mdi-autorenew
+calendar: true
+plural: Subscriptions
+display: product_name
+fields:
+  product_name:
+    label: Product
+    type: text
+    required: true
+    group: Contract
+  vendor:
+    label: Vendor
+    type: reference
+    required: true
+    group: Contract
+    targetEntity: organization
+    targetApp: core_organizations
+  request:
+    label: Came from
+    type: reference
+    help: The intake request this was approved through, when there was one.
+    group: Contract
+    targetEntity: vendor_request
+    onDelete: setNull
+  purchase_request:
+    label: Purchase request
+    type: reference
+    help: The purchase this was bought on, when Purchase Requests filed it. A real reference — click through and read the approval.
+    group: Contract
+    targetEntity: purchase_request
+    targetApp: purchase_requests
+    onDelete: setNull
+  owner:
+    label: Owner
+    type: reference
+    required: true
+    help: The person who answers for it, and whose calendar the renewal lands in.
+    group: Contract
+    targetEntity: person
+    targetApp: platform
+  department:
+    label: Department
+    type: reference
+    group: Contract
+    targetEntity: department
+    targetApp: platform
+  category:
+    label: Category
+    type: select
+    group: Contract
+    options:
+      - value: saas
+        label: SaaS
+      - value: infrastructure
+        label: Infrastructure
+      - value: agency
+        label: Agency
+      - value: consulting
+        label: Consulting
+      - value: licence
+        label: Licence
+      - value: other
+        label: Other
+  annual_cost:
+    label: Annual cost
+    type: money
+    group: Money
+    currency: EUR
+  billing_cycle:
+    label: Billed
+    type: select
+    group: Money
+    default: annual
+    options:
+      - value: monthly
+        label: Monthly
+      - value: quarterly
+        label: Quarterly
+      - value: annual
+        label: Annually
+      - value: one_off
+        label: One off
+  seats_licensed:
+    label: Seats paid for
+    type: integer
+    group: Seats
+  seats_used:
+    label: Seats assigned
+    type: integer
+    group: Seats
+    computed:
+      rollup:
+        entity: seat_assignment
+        via: subscription
+        op: count
+        filters:
+          - field: active
+            operator: eq
+            value: true
+  seats_free:
+    label: Seats spare
+    type: integer
+    help: What you are paying for and nobody is using. The number that makes a renewal conversation short.
+    group: Seats
+    computed:
+      expr: seats_licensed - seats_used
+  cost_per_seat:
+    label: Cost per seat
+    type: money
+    group: Seats
+    currency: EUR
+    computed:
+      expr: annual_cost / seats_licensed
+  contract_start:
+    label: Starts
+    type: date
+    group: Dates
+    role: start
+  renewal_on:
+    label: Renews
+    type: date
+    indexed: true
+    group: Dates
+    role: due
+  notice_period_days:
+    label: Notice period
+    type: integer
+    group: Dates
+    default: 30
+    unit: days
+  cancellation_deadline:
+    label: Cancel by
+    type: date
+    help: 'Typed, not worked out: there is no date arithmetic in an expression, and a deadline this important should not be a subtraction somebody has to trust anyway. The renewal warnings watch this field, not the renewal date.'
+    group: Dates
+  auto_renews:
+    label: Renews itself
+    type: boolean
+    group: Dates
+  notice_given_on:
+    label: Notice given
+    type: date
+    group: Dates
+  renewal_flagged:
+    label: Warned
+    type: boolean
+    help: Set by the sixty-day warning so it goes out once rather than every morning until somebody acts. Cleared on renewal.
+    group: Dates
+  dpa_status:
+    label: DPA
+    type: select
+    group: Compliance
+    options:
+      - value: not_required
+        label: Not required
+      - value: required
+        label: Required
+        color: '#dc2626'
+      - value: requested
+        label: Requested
+        color: '#f59e0b'
+      - value: signed
+        label: Signed
+        color: '#0f766e'
+    initial:
+      - when:
+          path: request.dpa_required
+          operator: eq
+          value: true
+        value: required
+      - when:
+          path: request.dpa_required
+          operator: eq
+          value: false
+        value: not_required
+  dpa_signed_on:
+    label: DPA signed
+    type: date
+    group: Compliance
+  dpa_document:
+    label: DPA
+    type: attachment
+    group: Compliance
+  sso_enforced:
+    label: SSO enforced
+    type: boolean
+    group: Compliance
+  status:
+    label: Status
+    type: select
+    indexed: true
+    group: Contract
+    role: status
+  notes:
+    label: Notes
+    type: longtext
+    group: Contract

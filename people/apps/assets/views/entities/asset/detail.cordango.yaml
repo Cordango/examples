@@ -1,0 +1,70 @@
+detail: asset
+blocks:
+  - kind: hub
+    title: asset_tag
+    status: status
+    subtitle:
+      - model
+      - category
+    facts:
+      - assigned_to
+      - custodian
+      - condition
+      - replacement_due
+    actions:
+      - assign
+      - return_asset
+      - send_to_repair
+      - repair_done
+      - make_available
+      - retire
+      - edit
+      - delete
+  - kind: process
+    label: Where it is
+  - kind: columns
+    columns:
+      - - kind: section
+          label: What it is
+          blocks:
+            - kind: fields
+              fields:
+                - asset_tag
+                - model
+                - category
+                - serial_number
+                - photo
+        - kind: section
+          label: Bought
+          blocks:
+            - kind: fields
+              fields:
+                - purchase_date
+                - purchase_cost
+                - supplier
+                - purchase_ref
+                - warranty_until
+                - replacement_due
+      - - kind: section
+          label: Custody
+          blocks:
+            - kind: fields
+              fields:
+                - assigned_to
+                - assigned_on
+                - custodian
+                - location
+                - department
+                - condition
+        - kind: child
+          label: Who has had it
+          entity: assignment
+          via: asset
+          childType: table
+          inlineCreate: true
+        - kind: child
+          label: Repairs
+          entity: repair_ticket
+          via: asset
+          childType: table
+          inlineCreate: true

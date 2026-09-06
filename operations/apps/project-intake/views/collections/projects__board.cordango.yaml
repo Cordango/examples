@@ -1,0 +1,10 @@
+view: projects__board
+label: Portfolio
+entity: project
+kind: kanban
+settings:
+  groupByField: status
+  cardFields:
+    - sponsor
+    - estimated_cost
+    - priority_score

@@ -1,0 +1,28 @@
+screen: team_calendar
+label: Team calendar
+subject: time_off
+layout:
+  - kind: view
+    view: time_off__calendar
+  - kind: view
+    view: blackouts__calendar
+  - kind: table
+    label: Blackout periods
+    source:
+      entity: blackout_period
+    fields:
+      - name
+      - department
+      - start_date
+      - end_date
+      - reason
+    newButton: true
+  - kind: table
+    label: Public holidays
+    source:
+      entity: public_holiday
+    fields:
+      - name
+      - date
+      - region
+    newButton: true

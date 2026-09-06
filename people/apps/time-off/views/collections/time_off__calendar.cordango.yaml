@@ -1,0 +1,15 @@
+view: time_off__calendar
+label: Who is away
+entity: time_off
+filters:
+  - field: status
+    operator: in
+    value:
+      - pending
+      - approved
+kind: calendar
+settings:
+  dateField: start_date
+  endDateField: end_date
+  titleField: type
+  colorByField: type

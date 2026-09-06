@@ -1,0 +1,15 @@
+automation: month_end_forecast_nudge
+name: Ask for last month's actuals before the month closes
+when:
+  field: status
+  operator: eq
+  value: active
+effects:
+  - type: notify
+    to: '{{record.owner}}'
+    title: Close the month on {{record.name}}
+    message: Enter what was actually spent so the forecast means something next week.
+    link: auto
+trigger: schedule
+entity: budget
+cron: 0 8 25 * *

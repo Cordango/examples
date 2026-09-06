@@ -1,0 +1,25 @@
+entity: competency
+label: Competency
+description: One thing people are asked to score each other on. A maintained list rather than free text, because feedback that cannot be compared between two people is feedback nobody can act on.
+icon: mdi-star-outline
+kind: config
+plural: Competencies
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+  description:
+    label: What it means
+    type: longtext
+    help: Worth writing. Two people scoring "communication" without a shared definition are answering different questions.
+  weight:
+    label: Weight
+    type: decimal
+    scale: 1
+    default: 1
+  active:
+    label: Active
+    type: boolean
+    default: true

@@ -1,0 +1,20 @@
+automation: commit_on_purchase_approved
+name: Commit the money when a purchase is approved
+effects:
+  - type: createRecord
+    set:
+      budget_line: '{{record.budget_line}}'
+      description: '{{record.title}}'
+      kind: commitment
+      amount: '{{record.amount}}'
+      department: '{{record.department}}'
+      vendor: '{{record.vendor}}'
+      requested_by: '{{record.requester}}'
+      purchase_request: '{{record.id}}'
+      source_app: purchase_requests
+      source_ref: '{{record.id}}'
+      incurred_on: '{{today}}'
+    entity: spend_entry
+trigger: process.state_entered
+event: purchase_request.approved
+app: purchase_requests

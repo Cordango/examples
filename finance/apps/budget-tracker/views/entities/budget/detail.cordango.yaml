@@ -1,0 +1,53 @@
+detail: budget
+blocks:
+  - kind: hub
+    title: name
+    status: status
+    subtitle:
+      - cost_centre
+      - period_type
+    facts:
+      - owner
+      - period_start
+      - period_end
+      - variance
+    actions:
+      - activate
+      - close
+      - reopen
+      - edit
+      - delete
+  - kind: process
+    label: Budget status
+  - kind: row
+    blocks:
+      - kind: card
+        label: Adjusted plan
+        blocks:
+          - kind: stat
+            label: Adjusted plan
+            field: adjusted_total
+      - kind: card
+        label: Committed
+        blocks:
+          - kind: stat
+            label: Committed
+            field: committed_total
+      - kind: card
+        label: Actual
+        blocks:
+          - kind: stat
+            label: Actual
+            field: actual_total
+      - kind: card
+        label: Forecast
+        blocks:
+          - kind: stat
+            label: Forecast
+            field: forecast_total
+  - kind: child
+    label: Lines
+    entity: budget_line
+    via: budget
+    childType: table
+    inlineCreate: true

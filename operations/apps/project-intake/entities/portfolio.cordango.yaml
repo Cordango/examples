@@ -1,0 +1,71 @@
+entity: portfolio
+label: Portfolio
+description: A pot of money and a theme to spend it on. Its headroom is the budget minus what the live projects have committed, which is the number that makes "can we take this on" answerable without a meeting.
+icon: mdi-folder-multiple-outline
+kind: config
+plural: Portfolios
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+  owner:
+    label: Owner
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  theme:
+    label: Theme
+    type: select
+    options:
+      - value: growth
+        label: Growth
+      - value: efficiency
+        label: Efficiency
+      - value: compliance
+        label: Compliance
+      - value: platform
+        label: Platform
+  budget:
+    label: Budget
+    type: money
+    currency: EUR
+  projects_count:
+    label: Live projects
+    type: integer
+    computed:
+      rollup:
+        entity: project
+        via: portfolio
+        op: count
+        filters:
+          - field: status
+            operator: in
+            value:
+              - approved
+              - planned
+              - active
+  committed_cost:
+    label: Committed
+    type: money
+    currency: EUR
+    computed:
+      rollup:
+        entity: project
+        via: portfolio
+        op: sum
+        field: estimated_cost
+        filters:
+          - field: status
+            operator: in
+            value:
+              - approved
+              - planned
+              - active
+  headroom:
+    label: Headroom
+    type: money
+    currency: EUR
+    computed:
+      expr: budget - committed_cost

@@ -1,0 +1,21 @@
+view: requests__mine
+label: Waiting on me
+entity: feedback_request
+filters:
+  - field: reviewer
+    operator: eq
+    value: '{{actor.id}}'
+  - field: status
+    operator: in
+    value:
+      - pending
+      - in_progress
+sort:
+  - field: due_on
+    direction: asc
+kind: table
+settings:
+  columns:
+    - kind
+    - due_on
+    - status

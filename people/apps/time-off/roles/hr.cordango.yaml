@@ -1,0 +1,30 @@
+role: hr
+name: HR
+description: Maintains allowances, blackouts and the holiday list, and can file an absence on somebody's behalf — a sick note arrives by phone, not through a form.
+grants:
+  time_off:
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - approve_time_off
+      - decline_time_off
+      - submit_time_off
+      - cancel_time_off
+      - reopen_time_off
+  leave_allowance:
+    create: true
+    read: true
+    update: true
+    delete: true
+  blackout_period:
+    create: true
+    read: true
+    update: true
+    delete: true
+  public_holiday:
+    create: true
+    read: true
+    update: true
+    delete: true

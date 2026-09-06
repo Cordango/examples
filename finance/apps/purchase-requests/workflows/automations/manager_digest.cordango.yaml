@@ -1,0 +1,15 @@
+automation: manager_digest
+name: Monday list for managers with something waiting
+when:
+  field: status
+  operator: eq
+  value: requested
+effects:
+  - type: notify
+    to: '{{record.manager_approver}}'
+    title: 'Waiting for you: {{record.title}}'
+    message: '{{record.amount}} for {{record.department}}, asked for by {{record.requester}}.'
+    link: auto
+trigger: schedule
+entity: purchase_request
+cron: 0 8 * * 1

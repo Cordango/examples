@@ -1,0 +1,89 @@
+lifecycle: feedback_lifecycle
+entity: feedback_request
+stateField: status
+initial: pending
+states:
+  pending:
+    label: Not started
+    color: '#94a3b8'
+    phase: not_started
+  in_progress:
+    label: In progress
+    color: '#f59e0b'
+    phase: active
+  submitted:
+    label: Submitted
+    color: '#0f766e'
+    phase: done
+    terminal: true
+  declined:
+    label: Declined
+    color: '#64748b'
+    phase: cancelled
+    terminal: true
+transitions:
+  start_feedback:
+    label: Start
+    from:
+      - pending
+    to: in_progress
+    when:
+      field: reviewer
+      operator: eq
+      value: '{{actor.id}}'
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      effects: []
+  submit_feedback:
+    label: Submit
+    from:
+      - pending
+      - in_progress
+    to: submitted
+    requiredFields:
+      - strengths
+      - improvements
+    when:
+      field: reviewer
+      operator: eq
+      value: '{{actor.id}}'
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Submitted. Thank you.
+      confirm:
+        title: Submit this feedback?
+        message: It cannot be edited afterwards, and the person will only ever see it as part of an average.
+        confirmLabel: Submit
+      input:
+        fields:
+          - strengths
+          - improvements
+          - examples
+        required:
+          - strengths
+          - improvements
+      emits:
+        - feedback.submitted
+      effects:
+        - type: updateRecord
+          set:
+            submitted_at: '{{now}}'
+  decline_feedback:
+    label: Decline
+    from:
+      - pending
+      - in_progress
+    to: declined
+    when:
+      field: reviewer
+      operator: eq
+      value: '{{actor.id}}'
+    action:
+      placements:
+        - recordHeader
+      effects: []

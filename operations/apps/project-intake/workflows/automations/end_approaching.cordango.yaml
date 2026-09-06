@@ -1,0 +1,19 @@
+automation: end_approaching
+name: Two weeks before a project is meant to end
+trigger: schedule
+cron: 0 8 * * *
+entity: project
+when:
+  all:
+    - field: status
+      operator: eq
+      value: active
+    - field: target_end
+      operator: eq
+      value: '{{today+14}}'
+effects:
+  - type: notify
+    to: '{{record.project_manager}}'
+    title: '{{record.title}} is due to end in two weeks'
+    message: '{{record.progress_pct}}% of its milestones are done.'
+    link: auto

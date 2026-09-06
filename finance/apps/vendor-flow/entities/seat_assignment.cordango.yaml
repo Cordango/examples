@@ -1,0 +1,37 @@
+entity: seat_assignment
+label: Seat
+description: One person on one subscription. A row rather than a number, because "who is actually using this" is the question a renewal turns on and a count cannot answer it.
+icon: mdi-account-check-outline
+ownedBy:
+  parent: subscription
+  via: subscription
+  as: table
+plural: Seats
+display: person
+fields:
+  subscription:
+    label: Subscription
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: subscription
+    onDelete: cascade
+  person:
+    label: Person
+    type: reference
+    required: true
+    targetEntity: person
+    targetApp: platform
+  assigned_on:
+    label: Assigned
+    type: date
+  released_on:
+    label: Released
+    type: date
+  active:
+    label: Active
+    type: boolean
+    default: true
+  note:
+    label: Note
+    type: text

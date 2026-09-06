@@ -1,0 +1,152 @@
+entity: vendor_request
+label: Vendor request
+description: A request to introduce or renew a third-party SaaS or vendor product.
+plural: Vendor requests
+display: product_name
+fields:
+  product_name:
+    label: Product
+    type: text
+    required: true
+    group: Request
+  vendor:
+    label: Vendor company
+    type: reference
+    group: Request
+    targetEntity: organization
+    targetApp: core_organizations
+  product_url:
+    label: Product URL
+    type: url
+    group: Request
+  requester:
+    label: Requested by
+    type: reference
+    required: true
+    group: Request
+    targetEntity: person
+    targetApp: platform
+  business_purpose:
+    label: Business purpose
+    type: longtext
+    required: true
+    group: Request
+  estimated_users:
+    label: Estimated users
+    type: integer
+    group: Request
+  annual_cost:
+    label: Annual cost
+    type: money
+    group: Commercial
+    currency: EUR
+  contract_owner:
+    label: Contract owner
+    type: reference
+    group: Commercial
+    targetEntity: person
+    targetApp: platform
+  renewal_on:
+    label: Renewal date
+    type: date
+    group: Commercial
+  data_classification:
+    label: Highest data classification
+    type: select
+    group: Security
+    options:
+      - value: public
+        label: Public
+      - value: internal
+        label: Internal
+      - value: confidential
+        label: Confidential
+      - value: restricted
+        label: Restricted
+  personal_data:
+    label: Processes personal data
+    type: boolean
+    group: Security
+  sso_available:
+    label: SSO available
+    type: boolean
+    group: Security
+  dpa_required:
+    label: DPA required
+    type: boolean
+    group: Security
+  security_risk:
+    label: Security risk
+    type: select
+    group: Security
+    options:
+      - value: low
+        label: Low
+      - value: medium
+        label: Medium
+      - value: high
+        label: High
+      - value: critical
+        label: Critical
+  security_notes:
+    label: Security notes
+    type: longtext
+    group: Security
+  finance_notes:
+    label: Finance notes
+    type: longtext
+    group: Commercial
+  department:
+    label: Department
+    type: reference
+    help: Whose budget this lands on. The same department key every other app in the workspace filters by.
+    group: Request
+    targetEntity: department
+    targetApp: platform
+  category:
+    label: Category
+    type: select
+    group: Request
+    options:
+      - value: saas
+        label: SaaS
+      - value: infrastructure
+        label: Infrastructure
+      - value: agency
+        label: Agency
+      - value: consulting
+        label: Consulting
+      - value: licence
+        label: Licence
+      - value: other
+        label: Other
+  request_kind:
+    label: Kind
+    type: select
+    help: A first purchase, a renewal or more seats. Only a genuinely new vendor starts a purchase request downstream — a renewal already has one.
+    group: Request
+    default: new
+    options:
+      - value: new
+        label: New vendor
+      - value: renewal
+        label: Renewal
+      - value: expansion
+        label: More seats
+  submitted_at:
+    label: Submitted at
+    type: datetime
+    group: Audit
+  security_reviewed_at:
+    label: Security reviewed at
+    type: datetime
+    group: Audit
+  decided_at:
+    label: Decision at
+    type: datetime
+    group: Audit
+  status:
+    label: Status
+    type: select
+    group: Audit
+    role: status

@@ -1,0 +1,118 @@
+entity: time_off
+label: Time off
+description: 'One absence, from the day it is asked for to the day it is taken. It carries `calendar: true`, so an approved holiday appears in the person''s own calendar beside their meetings and their project milestones without any app being told about the others.'
+icon: beach
+plural: Time off
+display: type
+calendar: true
+fields:
+  requested_by:
+    label: Person
+    type: reference
+    help: Who is taking the time off. Set to the signed-in user.
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  type:
+    label: Type
+    type: select
+    required: true
+    default: vacation
+    options:
+      - value: vacation
+        label: Vacation
+        color: '#0ea5e9'
+      - value: sick
+        label: Sick
+        color: '#ef4444'
+      - value: personal
+        label: Personal
+        color: '#a855f7'
+      - value: unpaid
+        label: Unpaid
+        color: '#64748b'
+      - value: other
+        label: Other
+        color: '#94a3b8'
+  start_date:
+    label: From
+    type: date
+    required: true
+    indexed: true
+    role: start
+  end_date:
+    label: To
+    type: date
+    required: true
+    role: due
+  reason:
+    label: Reason
+    type: text
+    help: Optional note for the approver.
+  allowance:
+    label: Counts against
+    type: reference
+    help: The allowance year this comes off. Filled in when the request is made, by picking the person's most recent one — a rollup cannot reach across the platform directory to find it, so the link is made explicit instead.
+    targetEntity: leave_allowance
+    onDelete: setNull
+  department:
+    label: Department
+    type: reference
+    targetEntity: department
+    targetApp: platform
+  approver:
+    label: Approver
+    type: reference
+    help: Who decided, or who is being waited on. Stamped by the approval rather than typed.
+    targetEntity: person
+    targetApp: platform
+  day_count:
+    label: Days
+    type: integer
+    help: 'Calendar days, inclusive of both ends. Not working days: there is no weekday-aware count in an expression, and a number that quietly excluded weekends in one country and not another would be worse than an honest one.'
+    computed:
+      expr: days_between(start_date, end_date) + 1
+  deducts_allowance:
+    label: Counts against the allowance
+    type: boolean
+    help: Holiday does, sickness does not. Decided when the request is made from the type, so changing the policy later does not silently rewrite last year's balances.
+    initial:
+      - when:
+          field: type
+          operator: in
+          value:
+            - vacation
+            - personal
+        value: true
+      - when:
+          field: type
+          operator: in
+          value:
+            - sick
+            - unpaid
+            - other
+        value: false
+  half_day:
+    label: Half day
+    type: boolean
+  submitted_at:
+    label: Submitted
+    type: datetime
+    group: Decision
+  decided_at:
+    label: Decided
+    type: datetime
+    group: Decision
+  cancel_reason:
+    label: Cancelled because
+    type: text
+    group: Decision
+  status:
+    label: Status
+    type: select
+    indexed: true
+    role: status
+  decline_reason:
+    label: Decline reason
+    type: longtext
+    group: Decision

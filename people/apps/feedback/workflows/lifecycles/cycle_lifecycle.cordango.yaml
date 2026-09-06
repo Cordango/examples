@@ -1,0 +1,77 @@
+lifecycle: cycle_lifecycle
+entity: review_cycle
+stateField: status
+initial: draft
+states:
+  draft:
+    label: Draft
+    color: '#94a3b8'
+    phase: not_started
+  nominating:
+    label: Nominating
+    color: '#0284c7'
+    phase: active
+  collecting:
+    label: Collecting
+    color: '#f59e0b'
+    phase: active
+  calibrating:
+    label: Calibrating
+    color: '#a855f7'
+    phase: active
+  closed:
+    label: Closed
+    color: '#64748b'
+    phase: done
+transitions:
+  open_nominations:
+    label: Open nominations
+    from:
+      - draft
+    to: nominating
+    requiredFields:
+      - nominations_due
+      - feedback_due
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Open. People can put forward the peers they want to hear from.
+      emits:
+        - cycle.opened
+      effects: []
+  start_collecting:
+    label: Start collecting
+    from:
+      - nominating
+    to: collecting
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      effects: []
+  start_calibration:
+    label: Start calibration
+    from:
+      - collecting
+    to: calibrating
+    action:
+      placements:
+        - recordHeader
+      effects: []
+  close_cycle:
+    label: Close
+    from:
+      - calibrating
+      - collecting
+    to: closed
+    action:
+      placements:
+        - recordHeader
+      confirm:
+        title: Close this cycle?
+        message: Outstanding requests stop being chased.
+        confirmLabel: Close
+      emits:
+        - cycle.closed
+      effects: []

@@ -1,0 +1,117 @@
+lifecycle: subscription_lifecycle
+entity: subscription
+stateField: status
+initial: active
+states:
+  active:
+    label: Active
+    color: '#0f766e'
+    phase: active
+  renewal_review:
+    label: Under review
+    color: '#f59e0b'
+    phase: active
+  cancelling:
+    label: Notice given
+    color: '#0284c7'
+    phase: active
+  cancelled:
+    label: Cancelled
+    color: '#64748b'
+    terminal: true
+    phase: cancelled
+  expired:
+    label: Expired
+    color: '#94a3b8'
+    terminal: true
+    phase: done
+transitions:
+  start_renewal_review:
+    label: Review the renewal
+    from:
+      - active
+    to: renewal_review
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Review opened with today's seat numbers.
+      effects:
+        - type: createRecord
+          set:
+            subscription: '{{record.id}}'
+            opened_on: '{{today}}'
+            due_on: '{{record.cancellation_deadline}}'
+            seats_licensed_at_review: '{{record.seats_licensed}}'
+            seats_used_at_review: '{{record.seats_used}}'
+          entity: renewal_review
+      emits:
+        - subscription.review_started
+  renew:
+    label: Renew
+    from:
+      - renewal_review
+      - active
+    to: active
+    requiredFields:
+      - renewal_on
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Renewed. The next year's money is committed against the budget.
+      input:
+        fields:
+          - renewal_on
+          - cancellation_deadline
+          - annual_cost
+          - seats_licensed
+        required:
+          - renewal_on
+      effects:
+        - type: updateRecord
+          set:
+            renewal_flagged: false
+      emits:
+        - subscription.renewed
+  give_notice:
+    label: Give notice
+    from:
+      - active
+      - renewal_review
+    to: cancelling
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Give notice on this subscription?
+        message: It keeps running until the term ends. Seats stay assigned so people are not cut off early.
+        confirmLabel: Give notice
+        tone: danger
+      effects:
+        - type: updateRecord
+          set:
+            notice_given_on: '{{today}}'
+      emits:
+        - subscription.notice_given
+  cancel_subscription:
+    label: Cancelled
+    from:
+      - cancelling
+    to: cancelled
+    action:
+      placements:
+        - recordHeader
+      successMessage: Cancelled. The committed money is released.
+      effects: []
+  expire:
+    label: Expired
+    from:
+      - active
+    to: expired
+    action:
+      placements:
+        - recordHeader
+      effects: []

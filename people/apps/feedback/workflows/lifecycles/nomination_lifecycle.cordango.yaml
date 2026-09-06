@@ -1,0 +1,55 @@
+lifecycle: nomination_lifecycle
+entity: nomination
+stateField: status
+initial: proposed
+states:
+  proposed:
+    label: Proposed
+    color: '#f59e0b'
+    phase: not_started
+  approved:
+    label: Agreed
+    color: '#0f766e'
+    phase: done
+  declined:
+    label: Declined
+    color: '#64748b'
+    phase: cancelled
+transitions:
+  approve_nomination:
+    label: Agree
+    from:
+      - proposed
+    to: approved
+    action:
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      successMessage: Agreed. They have been asked.
+      effects:
+        - type: createRecord
+          entity: feedback_request
+          set:
+            cycle: '{{record.cycle}}'
+            subject: '{{record.participant}}'
+            reviewer: '{{record.reviewer}}'
+            kind: peer
+        - type: notify
+          to: '{{record.reviewer}}'
+          title: You have been asked for feedback
+          message: A colleague put you forward as a peer reviewer.
+          link: auto
+  decline_nomination:
+    label: Decline
+    from:
+      - proposed
+    to: declined
+    action:
+      placements:
+        - recordHeader
+        - tableRow
+      input:
+        fields:
+          - reason
+      effects: []

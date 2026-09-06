@@ -1,0 +1,37 @@
+entity: milestone
+label: Milestone
+description: A date somebody has promised. It sits in its owner calendar beside their leave, which is the cheapest possible way to notice that the two collide.
+icon: mdi-flag-checkered
+plural: Milestones
+display: title
+calendar: true
+fields:
+  project:
+    label: Project
+    type: reference
+    required: true
+    indexed: true
+    targetEntity: project
+    onDelete: cascade
+  title:
+    label: Title
+    type: text
+    required: true
+  owner:
+    label: Owner
+    type: reference
+    targetEntity: person
+    targetApp: platform
+  due_on:
+    label: Due
+    type: date
+    role: due
+  done:
+    label: Done
+    type: boolean
+  completed_on:
+    label: Completed
+    type: date
+  notes:
+    label: Notes
+    type: longtext

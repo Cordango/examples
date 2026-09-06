@@ -1,0 +1,22 @@
+view: spend__open_commitments
+label: Open commitments
+entity: spend_entry
+filters:
+  - field: kind
+    operator: eq
+    value: commitment
+  - field: status
+    operator: eq
+    value: open
+sort:
+  - field: incurred_on
+    direction: desc
+kind: table
+settings:
+  columns:
+    - description
+    - budget_line
+    - amount
+    - vendor
+    - source_app
+    - incurred_on

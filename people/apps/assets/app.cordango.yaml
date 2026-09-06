@@ -1,0 +1,67 @@
+app: assets
+name: Asset Register
+version: 0.1.0
+description: What the company owns, who has it, what it has cost, and when it stops being worth keeping.
+schemaVersion: '2.0'
+presentation:
+  icon: mdi-devices
+  color: '#0284c7'
+  category: IT
+  tagline: Where the laptops are.
+purpose:
+  summary: Owns the register of physical things the company owns, who holds each one, what it has cost in purchase and repair, and when it is due for replacement.
+  duties:
+    - owns assets, their models and where they live
+    - owns who holds what, and the history of who held it before
+    - owns repairs and what they cost, rolled up onto the asset
+    - warns the custodian before a warranty ends or a replacement falls due
+    - puts an asset in the calendar of the person holding it
+uses:
+  - app: core_organizations
+    entities:
+      - organization
+    why: the supplier and the repairer are the same company records the rest of the workspace uses
+  - app: purchase_requests
+    why: hardware bought through a purchase request arrives on the register by itself
+order:
+  entities:
+    - asset
+    - assignment
+    - repair_ticket
+    - asset_model
+    - location
+  pages:
+    - dashboard
+    - inventory
+    - status_board
+    - repairs
+    - configuration
+  views:
+    - assets__available
+    - assets__warranty_ending
+    - assets__board
+    - repairs__open
+  roles:
+    - it_admin
+    - technician
+    - employee
+    - finance_viewer
+  processes:
+    - asset_lifecycle
+    - assignment_lifecycle
+    - repair_lifecycle
+  commands:
+    - assign
+    - return_asset
+    - send_to_repair
+    - repair_done
+    - make_available
+    - retire
+    - close_assignment
+    - close_repair
+  workflows:
+    - register_on_purchase_completed
+    - stamp_custodian
+    - warranty_expiring
+    - replacement_due
+    - repair_aging

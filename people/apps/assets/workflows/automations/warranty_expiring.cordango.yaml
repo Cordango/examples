@@ -1,0 +1,19 @@
+automation: warranty_expiring
+name: Warn before a warranty runs out
+trigger: schedule
+cron: 0 8 * * 1
+entity: asset
+when:
+  all:
+    - field: status
+      operator: neq
+      value: retired
+    - field: warranty_until
+      operator: lte
+      value: '{{today+60}}'
+effects:
+  - type: notify
+    to: '{{record.custodian}}'
+    title: 'Warranty ending: {{record.asset_tag}}'
+    message: Cover ends {{record.warranty_until}}. Worth deciding before it does.
+    link: auto

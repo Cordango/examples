@@ -1,0 +1,17 @@
+screen: portfolios
+label: Portfolios
+subject: portfolio
+layout:
+  - kind: table
+    label: Portfolios
+    source:
+      entity: portfolio
+    fields:
+      - name
+      - owner
+      - theme
+      - budget
+      - committed_cost
+      - headroom
+      - projects_count
+    newButton: true

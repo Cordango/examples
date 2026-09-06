@@ -1,0 +1,137 @@
+lifecycle: approval
+entity: time_off
+stateField: status
+initial: draft
+states:
+  draft:
+    label: Draft
+    color: '#94a3b8'
+    phase: not_started
+  pending:
+    label: Pending
+    color: '#f59e0b'
+    phase: not_started
+  approved:
+    label: Approved
+    color: '#16a34a'
+    phase: done
+  declined:
+    label: Declined
+    color: '#dc2626'
+    phase: cancelled
+  cancelled:
+    label: Cancelled
+    color: '#64748b'
+    phase: cancelled
+    terminal: true
+transitions:
+  submit_time_off:
+    label: Send for approval
+    from:
+      - draft
+    to: pending
+    requiredFields:
+      - start_date
+      - end_date
+      - type
+    action:
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Sent. Your manager can see it now.
+      effects:
+        - type: updateRecord
+          set:
+            submitted_at: '{{now}}'
+        - type: notify
+          to: '{{record.approver}}'
+          title: Time off to approve
+          message: '{{record.requested_by}} asked for {{record.day_count}} days from {{record.start_date}}.'
+          link: auto
+  approve:
+    label: Approve
+    from:
+      - pending
+    to: approved
+    when:
+      field: requested_by
+      operator: neq
+      value: '{{actor.id}}'
+    action:
+      key: approve_time_off
+      style: primary
+      placements:
+        - recordHeader
+      successMessage: Time off approved. It is in the team calendar now.
+      effects:
+        - type: updateRecord
+          set:
+            approver: '{{actor.id}}'
+            decided_at: '{{now}}'
+        - type: notify
+          to: '{{record.requested_by}}'
+          title: Time off approved
+          message: Your time-off request was approved.
+          link: auto
+  decline:
+    label: Decline
+    from:
+      - pending
+    to: declined
+    when:
+      field: requested_by
+      operator: neq
+      value: '{{actor.id}}'
+    action:
+      key: decline_time_off
+      style: danger
+      placements:
+        - recordHeader
+      successMessage: Time off declined.
+      confirm:
+        title: Decline this request?
+        confirmLabel: Decline
+        tone: danger
+      input:
+        fields:
+          - decline_reason
+        required:
+          - decline_reason
+      effects:
+        - type: notify
+          to: '{{record.requested_by}}'
+          title: Time off declined
+          message: Your time-off request was declined.
+          link: auto
+  cancel_time_off:
+    label: Cancel
+    from:
+      - pending
+      - approved
+    to: cancelled
+    when:
+      field: requested_by
+      operator: eq
+      value: '{{actor.id}}'
+    action:
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Cancel this time off?
+        message: The days go back on your allowance and the entry leaves the team calendar.
+        confirmLabel: Cancel it
+        tone: danger
+      input:
+        fields:
+          - cancel_reason
+      effects: []
+  reopen_time_off:
+    label: Reopen
+    from:
+      - declined
+    to: draft
+    action:
+      placements:
+        - recordHeader
+      effects: []

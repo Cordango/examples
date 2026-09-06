@@ -1,0 +1,16 @@
+screen: nominations
+label: Nominations
+subject: nomination
+layout:
+  - kind: view
+    view: nominations__waiting
+  - kind: table
+    label: Everyone put forward
+    source:
+      entity: nomination
+    fields:
+      - participant
+      - reviewer
+      - relationship
+      - status
+    newButton: true
