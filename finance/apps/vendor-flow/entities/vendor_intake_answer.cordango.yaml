@@ -1,0 +1,24 @@
+entity: vendor_intake_answer
+label: Answer
+description: One answer to one question of one submission.
+icon: mdi-message-reply-text-outline
+role: formAnswer
+plural: Answers
+display: question
+fields:
+  submission:
+    label: Submission
+    type: reference
+    required: true
+    targetEntity: vendor_intake_submission
+    onDelete: cascade
+  question:
+    label: Question
+    type: reference
+    required: true
+    targetEntity: vendor_intake_question
+    onDelete: cascade
+  value:
+    label: Answer
+    type: json
+    role: answerValue

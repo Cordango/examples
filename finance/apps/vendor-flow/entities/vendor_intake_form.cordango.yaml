@@ -1,0 +1,70 @@
+entity: vendor_intake_form
+label: Intake form
+description: 'A form the vendor team designs so that anybody in the company can ask for a tool without joining this app. Its questions are its own records, and what it FILES is declared here: every request from this form starts with the department, category and kind the form names.'
+icon: mdi-clipboard-text-outline
+role: formTemplate
+kind: config
+plural: Intake forms
+display: name
+fields:
+  name:
+    label: Form name
+    type: text
+    required: true
+    group: Form
+  intro:
+    label: Intro text
+    type: longtext
+    help: Shown above the questions. Say what happens after somebody presses Submit — that a security review follows, and how long it usually takes.
+    group: Form
+  active:
+    label: Active
+    type: boolean
+    help: Retired forms keep their submissions but are not offered.
+    group: Form
+    default: true
+  creates:
+    label: Creates
+    type: text
+    help: The entity a submission files. Picked in the form designer, not typed.
+    group: What it files
+    role: targetEntity
+  route_department:
+    label: Department
+    type: reference
+    help: Every request from this form lands on this department's budget. A form per department is the ordinary shape.
+    group: What it files
+    targetEntity: department
+    targetApp: platform
+    mapsTo: department
+  route_category:
+    label: Category
+    type: select
+    group: What it files
+    options:
+      - value: saas
+        label: SaaS
+      - value: infrastructure
+        label: Infrastructure
+      - value: agency
+        label: Agency
+      - value: consulting
+        label: Consulting
+      - value: licence
+        label: Licence
+      - value: other
+        label: Other
+    mapsTo: category
+  route_kind:
+    label: Kind of request
+    type: select
+    group: What it files
+    default: new
+    options:
+      - value: new
+        label: New vendor
+      - value: renewal
+        label: Renewal
+      - value: expansion
+        label: More seats
+    mapsTo: request_kind

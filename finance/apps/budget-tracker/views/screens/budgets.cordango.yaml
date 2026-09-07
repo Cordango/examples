@@ -2,5 +2,5 @@ screen: budgets
 label: Budgets
 layout:
   - kind: view
-    view: budgets__active
+    view: budgets__all
 subject: budget

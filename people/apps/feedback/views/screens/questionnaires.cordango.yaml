@@ -1,0 +1,13 @@
+screen: questionnaires
+label: Questionnaires
+layout:
+  - kind: table
+    label: What each kind of review asks
+    source:
+      entity: feedback_form
+    fields:
+      - name
+      - kind
+      - active
+    newButton: true
+subject: feedback_form

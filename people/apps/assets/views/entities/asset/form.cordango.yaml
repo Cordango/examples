@@ -1,0 +1,35 @@
+form: asset
+blocks:
+  - kind: section
+    label: What it is
+    blocks:
+      - kind: fields
+        fields:
+          - asset_tag
+          - model
+          - category
+          - serial_number
+        columns: 2
+      - kind: fields
+        fields:
+          - photo
+  - kind: section
+    label: Where it came from
+    blocks:
+      - kind: fields
+        fields:
+          - purchase_date
+          - purchase_cost
+          - supplier
+          - warranty_until
+          - replacement_due
+        columns: 2
+  - kind: section
+    label: Who looks after it
+    blocks:
+      - kind: fields
+        fields:
+          - custodian
+          - location
+          - department
+        columns: 2

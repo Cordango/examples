@@ -1,0 +1,15 @@
+screen: intake_forms
+label: Intake forms
+layout:
+  - kind: table
+    label: Forms people can fill in
+    source:
+      entity: vendor_intake_form
+    fields:
+      - name
+      - route_department
+      - route_category
+      - route_kind
+      - active
+    newButton: true
+subject: vendor_intake_form

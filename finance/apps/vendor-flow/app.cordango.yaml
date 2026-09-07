@@ -1,12 +1,13 @@
 app: vendor_flow
 name: Vendor & SaaS Management
-version: 0.2.0
-description: Vendor intake with a security and finance review, and the register of what you are actually paying for afterwards — cost, seats, renewal dates and the notice you have to give to stop it.
+version: 0.3.0
+description: Vendor intake through forms the vendor team designs, a security and finance review, and the register of what you are actually paying for afterwards — cost, seats, renewal dates and the notice you have to give to stop it.
 schemaVersion: '2.0'
 purpose:
   summary: 'Owns third-party vendors — the review that lets one in, and the live contracts that follow: owner, cost, seats, renewal date, notice period and DPA.'
   duties:
     - owns vendor requests and their security, privacy and operational checks
+    - lets anybody in the company ask for a tool through a form the vendor team designs, without joining the app
     - owns the register of live subscriptions and what each one costs
     - tracks who actually holds a seat, so a renewal can be argued with numbers
     - warns the owner before the cancellation deadline, once rather than daily
@@ -33,18 +34,26 @@ order:
     - subscription
     - seat_assignment
     - renewal_review
+    - vendor_intake_form
+    - vendor_intake_question
+    - vendor_intake_submission
+    - vendor_intake_answer
   pages:
+    - request_vendor
     - dashboard
     - requests
     - subscriptions
     - renewals
     - renewal_calendar
+    - intake_forms
   views:
+    - requests__mine
     - requests__renewals
     - subscriptions__renewing
     - subscriptions__spare_seats
     - subscriptions__calendar
   roles:
+    - employee
     - requester
     - security_reviewer
     - finance_reviewer

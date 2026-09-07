@@ -1,13 +1,13 @@
 app: time_off
 name: PTO & Leave
-version: 2.0.0
-description: Absence from the request to the day off, with a yearly allowance whose balance is summed from the requests behind it rather than typed.
+version: 2.1.0
+description: Absence from the request to the day off. The person asking fills in four things; the approver, the department and the allowance are worked out, and the balance is summed from the requests behind it rather than typed.
 schemaVersion: '2.0'
 purpose:
   summary: Owns absence — who asked for time off, who approved it, how much of the year's allowance is left, and who is away when.
   duties:
     - owns time-off requests and their approval
-    - owns the yearly allowance per person, and works the balance out from the approved absences
+    - owns the yearly allowance per person, who approves their leave, and works the balance out from the approved absences
     - publishes approved absence to the shared calendar, where projects and resourcing can see it
     - keeps blackout periods and public holidays so a clash is visible where the decision is made
     - carries a year's unused days into the next one, capped
@@ -63,7 +63,7 @@ order:
     - reopen_time_off
   workflows:
     - stamp_requester
-    - attach_allowance
+    - attach_context
     - pending_digest
     - low_balance_warning
     - roll_allowances

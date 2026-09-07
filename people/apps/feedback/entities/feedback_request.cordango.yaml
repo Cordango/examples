@@ -1,6 +1,6 @@
 entity: feedback_request
 label: Feedback request
-description: One person being asked about one participant. It lands in the reviewer calendar with its deadline, because the commonest failure of a review cycle is not disagreement but silence.
+description: One person being asked about one participant. The reviewer scores the competencies and answers the questionnaire HR designed for this kind of review, then submits. It lands in the reviewer's calendar with its deadline, because the commonest failure of a review cycle is not disagreement but silence.
 icon: mdi-comment-quote-outline
 calendar: true
 plural: Feedback requests
@@ -9,15 +9,15 @@ fields:
   cycle:
     label: Cycle
     type: reference
-    required: true
     indexed: true
+    help: Empty for a request that arrived from outside a cycle — a sponsor asked how a finished project went.
     targetEntity: review_cycle
     onDelete: cascade
   subject:
     label: About
     type: reference
-    required: true
     indexed: true
+    help: The participant this is about. Empty until HR files a request from another app against a participant.
     targetEntity: participant
     onDelete: cascade
   reviewer:
@@ -31,6 +31,7 @@ fields:
     label: Kind
     type: select
     required: true
+    help: Decides which questionnaire the reviewer is offered, and whether the answers are anonymous to the subject.
     options:
       - value: self
         label: Self review
@@ -45,7 +46,7 @@ fields:
   anonymous:
     label: Anonymous
     type: boolean
-    help: Set from the kind when the request is made. Peer and upward feedback is anonymous to the subject; a self or manager review obviously is not.
+    help: Set from the kind when the request is made, never asked for. Peer and upward feedback is anonymous to the subject; a self or manager review obviously is not.
     initial:
       - when:
           field: kind
@@ -70,16 +71,6 @@ fields:
     label: About the project
     type: text
     help: 'Set when a finished project asked for stakeholder feedback. Text rather than a reference: Project Intake is another workspace, and a subscription only needs the other app to be reachable when it fires, while a reference needs its table to exist.'
-  strengths:
-    label: What went well
-    type: longtext
-  improvements:
-    label: What could be better
-    type: longtext
-  examples:
-    label: Examples
-    type: longtext
-    help: Asked for on purpose. A score with no example behind it is an opinion nobody can act on.
   submitted_at:
     label: Submitted
     type: datetime
@@ -88,6 +79,23 @@ fields:
     type: select
     indexed: true
     role: status
+  scores_count:
+    label: Competencies scored
+    type: integer
+    help: How many competencies the reviewer has scored so far. Shown to the reviewer, who cannot read the scores back once they are in, so this is how they know where they are.
+    computed:
+      rollup:
+        entity: feedback_score
+        via: request
+        op: count
+  responses_count:
+    label: Questionnaires answered
+    type: integer
+    computed:
+      rollup:
+        entity: feedback_response
+        via: request
+        op: count
   overall_score:
     label: Score
     type: decimal

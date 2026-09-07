@@ -1,0 +1,27 @@
+form: planned_project
+blocks:
+  - kind: section
+    label: The project
+    blocks:
+      - kind: fields
+        fields:
+          - name
+          - priority
+        columns: 2
+  - kind: section
+    label: Who
+    blocks:
+      - kind: fields
+        fields:
+          - project_manager
+          - sponsor
+          - department
+        columns: 2
+  - kind: section
+    label: When
+    blocks:
+      - kind: fields
+        fields:
+          - start_on
+          - end_on
+        columns: 2

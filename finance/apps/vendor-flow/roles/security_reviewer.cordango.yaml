@@ -14,3 +14,9 @@ grants:
     read: true
     update: true
     delete: true
+  vendor_intake_submission:
+    read: true
+  vendor_intake_question:
+    read: true
+  vendor_intake_answer:
+    read: true

@@ -1,0 +1,24 @@
+form: allocation
+blocks:
+  - kind: section
+    label: Who, on what
+    blocks:
+      - kind: fields
+        fields:
+          - resource
+          - project
+          - demand
+          - role_on_project
+        columns: 2
+  - kind: section
+    label: How much, for how long
+    blocks:
+      - kind: fields
+        fields:
+          - hours_per_week
+          - start_on
+          - end_on
+        columns: 2
+      - kind: fields
+        fields:
+          - notes

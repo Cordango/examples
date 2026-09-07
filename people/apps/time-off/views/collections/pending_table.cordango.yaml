@@ -15,3 +15,5 @@ settings:
     - type
     - start_date
     - end_date
+    - day_count
+    - approver

@@ -7,27 +7,59 @@ blocks:
       - requested_by
       - start_date
       - end_date
+      - day_count
     actions:
+      - submit_time_off
       - approve_time_off
       - decline_time_off
+      - cancel_time_off
+      - reopen_time_off
       - edit
       - delete
   - kind: process
     visibleWhen:
       value: '{{record.status}}'
-      eq: pending
-  - kind: section
-    label: Reason
-    blocks:
-      - kind: fields
-        fields:
-          - reason
-  - kind: section
-    label: Why this was declined
-    visibleWhen:
-      value: '{{record.status}}'
-      eq: declined
-    blocks:
-      - kind: fields
-        fields:
-          - decline_reason
+      in:
+        - draft
+        - pending
+  - kind: columns
+    columns:
+      - - kind: section
+          label: The request
+          blocks:
+            - kind: fields
+              fields:
+                - reason
+                - half_day
+                - deducts_allowance
+                - department
+      - - kind: section
+          label: Decision
+          edit:
+            - approver
+            - department
+          blocks:
+            - kind: fields
+              fields:
+                - approver
+                - submitted_at
+                - decided_by
+                - decided_at
+        - kind: section
+          label: Why this was declined
+          visibleWhen:
+            value: '{{record.status}}'
+            eq: declined
+          blocks:
+            - kind: fields
+              fields:
+                - decline_reason
+        - kind: section
+          label: Why this was cancelled
+          visibleWhen:
+            value: '{{record.status}}'
+            eq: cancelled
+          blocks:
+            - kind: fields
+              fields:
+                - cancel_reason

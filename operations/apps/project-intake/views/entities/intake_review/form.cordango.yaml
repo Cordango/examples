@@ -1,0 +1,10 @@
+form: intake_review
+blocks:
+  - kind: fields
+    fields:
+      - criterion
+      - score
+    columns: 2
+  - kind: fields
+    fields:
+      - comment

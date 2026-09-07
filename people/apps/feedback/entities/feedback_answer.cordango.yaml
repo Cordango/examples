@@ -1,0 +1,24 @@
+entity: feedback_answer
+label: Answer
+description: One answer to one question, by one reviewer. HR reads these; the person being reviewed never does.
+icon: mdi-message-reply-text-outline
+role: formAnswer
+plural: Answers
+display: question
+fields:
+  response:
+    label: Answers
+    type: reference
+    required: true
+    targetEntity: feedback_response
+    onDelete: cascade
+  question:
+    label: Question
+    type: reference
+    required: true
+    targetEntity: feedback_question
+    onDelete: cascade
+  value:
+    label: Answer
+    type: json
+    role: answerValue

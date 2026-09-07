@@ -1,6 +1,6 @@
 entity: vendor_request
 label: Vendor request
-description: A request to introduce or renew a third-party SaaS or vendor product.
+description: A request to introduce or renew a third-party SaaS or vendor product. Filed by anybody through an intake form the vendor team designs, or typed by the team itself. The requester says what and why; security and finance add their part when they review it.
 plural: Vendor requests
 display: product_name
 fields:
@@ -78,6 +78,7 @@ fields:
   security_risk:
     label: Security risk
     type: select
+    help: The reviewer's verdict, asked for when security passes or fails the request. Never on the request form.
     group: Security
     options:
       - value: low
@@ -133,6 +134,13 @@ fields:
         label: Renewal
       - value: expansion
         label: More seats
+  submission:
+    label: Filed from
+    type: reference
+    help: The form submission this request came from. Empty for a request the team typed in. What the person actually answered is shown on the request, question by question.
+    group: Request
+    targetEntity: vendor_intake_submission
+    onDelete: setNull
   submitted_at:
     label: Submitted at
     type: datetime

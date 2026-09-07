@@ -7,7 +7,7 @@ blocks:
       - cost_centre
       - period_type
     facts:
-      - owner
+      - holder
       - period_start
       - period_end
       - variance

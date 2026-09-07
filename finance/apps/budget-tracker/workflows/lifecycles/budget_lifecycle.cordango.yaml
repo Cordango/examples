@@ -22,7 +22,7 @@ transitions:
       - draft
     to: active
     requiredFields:
-      - owner
+      - holder
       - period_start
       - period_end
     action:

@@ -63,7 +63,7 @@ fields:
   purchase_request:
     label: Purchase request
     type: reference
-    help: The request this came from, when it came from one. A real reference into the other app — click it and you are reading the request, not a copied number.
+    help: The request this came from, when it came from one. A real reference into the other app — click it and you are reading the request, not a copied number. Written by the reaction, never typed.
     group: Origin
     targetEntity: purchase_request
     targetApp: purchase_requests

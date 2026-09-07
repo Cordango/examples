@@ -12,7 +12,7 @@ cordango discover
 | --- | --- | --- |
 | [`time-off`](apps/time-off) | Leave requests, approval, yearly allowances and the balance left | 4 |
 | [`assets`](apps/assets) | What the company owns, who holds it, what it has cost, when to replace it | 5 |
-| [`feedback`](apps/feedback) | Review cycles: self, manager and peer feedback, and what it averaged to | 6 |
+| [`feedback`](apps/feedback) | Review cycles: self, manager and peer feedback through questionnaires HR designs, and what it averaged to | 10 |
 
 ## Connecting without copying
 
@@ -46,18 +46,33 @@ nobody responsible for it cannot land anywhere.
 | a project finishes (in `operations/`) | 360 Feedback asks the sponsor how it went | subscription |
 | leave is approved | Resource Planning (in `operations/`) takes the person out of the plan | subscription, declared there |
 
-## Three things worth reading the source for
+## Worth reading the source for
 
 **Anonymity is a grant, not a label.** `review_cycle.anonymous_peers` says peer feedback is
-anonymous, and the field is not what makes it true. The `employee` role has no `read` on
-`feedback_request` or `feedback_score` at all — only on the `participant` averages. A flag saying
-"anonymous" over data the subject can read is a promise the app does not keep.
+anonymous, and the field is not what makes it true. The `employee` role reads a `feedback_request` —
+it has to, to see what is asked of it — and has no `read` on `feedback_score` or `feedback_answer`
+at all; only on the `participant` averages. A flag saying "anonymous" over data the subject can read
+is a promise the app does not keep. The honest limit: there are no row-level permissions yet, so an
+employee who reads requests reads all of them, and the anonymity lives in what they cannot read.
 
-**A balance is summed, never typed.** `leave_allowance.taken_days` rolls up the approved absences
-that name it. It cannot roll up through the platform directory — a sibling rollup needs both sides to
-point at a local entity — so the absence carries an explicit `allowance` link, filled in by a `pick`
-when the request is made. The constraint is real and the model is better for it: a day off is taken
-*from* a year's entitlement.
+**The questionnaire is HR's, not the app's.** `feedback_form` is a `formTemplate`, one per kind of
+review; its questions are records. The reviewer answers it from inside the request — the `intake`
+block in `feedback_request`'s detail carries `via: request`, so the submission points at the request
+it is about instead of filing something new. The competency scores stay structured rows, because a
+calibration sorts by an average and an average needs numbers, not answers.
+
+**A balance is summed, never typed.** `leave_allowance.taken_days` rolls up the approved absences of
+its own person that start inside the year — a sibling rollup through the platform directory, matching
+`time_off.requested_by` against `leave_allowance.person` with a window on `start_date`. Nobody links
+an absence to an allowance, and the employee asking for a day off is not asked what it counts
+against.
+
+**The employee fills in four fields.** Type, from, to, and a word for the approver. Who approves and
+which department it belongs to come from the allowance record HR keeps (`attach_context`); whether it
+counts against the allowance is an `initial` rule on the type; who decided and when is stamped by the
+decision. `views/entities/time_off/form.cordango.yaml` is the whole create dialog, and the Decision
+section of the detail carries `edit: [approver, department]` so HR can correct what the employee never
+saw.
 
 **Working days are not expressible, and the field says so.** `day_count` is
 `days_between(start_date, end_date) + 1` — calendar days. There is no weekday-aware count in an

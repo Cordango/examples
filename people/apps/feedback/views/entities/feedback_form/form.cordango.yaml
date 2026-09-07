@@ -1,0 +1,11 @@
+form: feedback_form
+blocks:
+  - kind: fields
+    fields:
+      - name
+      - kind
+      - active
+    columns: 2
+  - kind: fields
+    fields:
+      - intro

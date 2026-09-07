@@ -1,0 +1,10 @@
+form: budget_adjustment
+blocks:
+  - kind: fields
+    fields:
+      - budget_line
+      - amount
+    columns: 2
+  - kind: fields
+    fields:
+      - reason

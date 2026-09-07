@@ -34,11 +34,12 @@ transitions:
       - start_date
       - end_date
       - type
+      - approver
     action:
       style: primary
       placements:
         - recordHeader
-      successMessage: Sent. Your manager can see it now.
+      successMessage: Sent. Your approver can see it now.
       effects:
         - type: updateRecord
           set:
@@ -66,7 +67,7 @@ transitions:
       effects:
         - type: updateRecord
           set:
-            approver: '{{actor.id}}'
+            decided_by: '{{actor.id}}'
             decided_at: '{{now}}'
         - type: notify
           to: '{{record.requested_by}}'
@@ -98,6 +99,10 @@ transitions:
         required:
           - decline_reason
       effects:
+        - type: updateRecord
+          set:
+            decided_by: '{{actor.id}}'
+            decided_at: '{{now}}'
         - type: notify
           to: '{{record.requested_by}}'
           title: Time off declined

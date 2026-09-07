@@ -13,7 +13,7 @@ cordango inspect      # what is in here
 | --- | --- | --- |
 | [`budget-tracker`](apps/budget-tracker) | Budgets per cost centre and period; committed, actual and forecast money against their lines; adjustments somebody has to approve | 6 |
 | [`purchase-requests`](apps/purchase-requests) | The request to buy something, routed by amount, and what was finally bought | 4 |
-| [`vendor-flow`](apps/vendor-flow) | Vendor intake with a security and finance review, and the register of live contracts, seats and renewal deadlines | 5 |
+| [`vendor-flow`](apps/vendor-flow) | Vendor intake through forms the team designs, a security and finance review, and the register of live contracts, seats and renewal deadlines | 9 |
 
 ## What connects them, and how
 
@@ -63,7 +63,7 @@ stops there. Adding a second listener changes nothing in it.
 | a subscription is renewed | Budget Tracker commits next year's money | subscription |
 | a project is approved (in `operations/`) | Budget Tracker commits the estimate | subscription |
 
-## Three things worth reading the source for
+## Worth reading the source for
 
 **The approval tier is a snapshot, not a calculation.** `purchase_request.approval_tier` is set from
 the amount by an `initial` rule when the request is created, and then left alone. A live calculation
@@ -76,12 +76,20 @@ subscription listens for the STATE instead, which the runtime publishes however 
 
 **Separation of duties lives on the transition, not on the role.** `approve_adjustment` carries
 `when: requested_by neq {{actor.id}}`. A role grant cannot express it: somebody who is both a budget
-owner and a controller passes every role check on their own row.
+holder and a controller passes every role check on their own row.
 
-## What is not here yet
+**Anybody can ask for a tool; only the team joins the app.** `vendor_intake_form` is a
+`formTemplate` the vendor team designs per department, with the department, category and kind every
+request from it starts with. The `employee` role can read the forms and create a submission, and
+nothing else — the request is filed by the platform on their behalf, and the reviewers see what they
+answered in the `answers` block of the request.
 
-A purchase request cannot show "this would take Marketing / Software over its plan", even though the
-budget line it points at knows. Reading another app's field at display time is a cross-app query, and
-that is slice Q of
-[`plan-connected-runtime-2026-09.md`](../../../_docs/10-platform/plan-connected-runtime-2026-09.md).
-The reference and the reaction both work today; the warning does not.
+**The security review's fields are the reviewer's.** `data_classification`, `security_risk` and the
+rest are collected by `approve_security` and `reject_security`, which is what keeps them off the
+request form: a person asking for a tool is not asked to rate its risk. The same goes for
+`contract_owner` and `finance_notes` on the finance step, and for every approver and timestamp on a
+purchase request, which the transitions stamp.
+
+**A budget has a holder, not an owner.** `owner`, `requester` and anything ending in `_by` mean
+"whoever created the record" to the platform, and are filled in as such. A budget is handed to
+somebody by the controller who set it up, so the field is `holder`; a cost centre has a `head`.

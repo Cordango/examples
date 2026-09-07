@@ -1,6 +1,6 @@
 entity: leave_allowance
 label: Allowance
-description: One person's holiday for one year, and what is left of it. The days taken are not typed by anybody — they are summed from the absences that fall inside the year, so a balance cannot disagree with the requests behind it.
+description: "One person's holiday for one year, and what is left of it. HR sets it up once a year, with who approves that person's leave. The days taken are not typed by anybody: they are summed from the person's own absences that fall inside the year, so a balance cannot disagree with the requests behind it."
 icon: mdi-calendar-account-outline
 plural: Allowances
 display: year
@@ -19,6 +19,18 @@ fields:
     targetEntity: employee
     targetApp: core_people
     onDelete: setNull
+  manager:
+    label: Approves their leave
+    type: reference
+    help: Who decides this person's requests. A request picks it up the moment it is made, so the employee never has to choose an approver. Kept here rather than read from the personnel file, because nothing in an app can reach into a core app's field yet.
+    targetEntity: person
+    targetApp: platform
+  department:
+    label: Department
+    type: reference
+    help: Copied onto each request, so the team calendar can be filtered without asking the employee.
+    targetEntity: department
+    targetApp: platform
   year:
     label: Year
     type: integer
@@ -70,13 +82,19 @@ fields:
   taken_days:
     label: Taken
     type: decimal
-    help: 'Summed from the approved absences that name this allowance. Not a sibling rollup through the person: a rollup cannot match through the platform directory, so the absence carries the link instead.'
+    help: "Summed from this person's approved absences that start inside the year. A sibling rollup through the directory: the absence and the allowance both point at the same person, and nobody has to link one to the other."
     computed:
       rollup:
         entity: time_off
-        via: allowance
+        via: requested_by
+        match: person
         op: sum
         field: day_count
+        window:
+          at: start_date
+          within:
+            from: year_start
+            to: year_end
         filters:
           - field: status
             operator: eq
@@ -92,9 +110,15 @@ fields:
     computed:
       rollup:
         entity: time_off
-        via: allowance
+        via: requested_by
+        match: person
         op: sum
         field: day_count
+        window:
+          at: start_date
+          within:
+            from: year_start
+            to: year_end
         filters:
           - field: status
             operator: eq

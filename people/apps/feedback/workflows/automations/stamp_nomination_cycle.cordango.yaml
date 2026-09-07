@@ -1,0 +1,19 @@
+automation: stamp_nomination_cycle
+name: A nomination belongs to the cycle its participant is in
+effects:
+  - type: updateRecord
+    set:
+      cycle:
+        pick:
+          entity: participant
+          filters:
+            - field: id
+              operator: eq
+              value: '{{record.participant}}'
+          sort:
+            - field: person
+              direction: asc
+          field: cycle
+    setIfEmpty: true
+trigger: record.created
+entity: nomination

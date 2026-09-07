@@ -3,6 +3,8 @@ workspaceId: 01M1W2YWV0H1TC6JGXV2AF6H2P
 name: People
 runtime: '>=0.1 <0.2'
 coreApps: default
+build:
+  target: platform
 apps:
   - apps/assets
   - apps/feedback

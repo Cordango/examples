@@ -47,11 +47,11 @@ fields:
     required: true
     group: Ownership
     targetEntity: cost_centre
-  owner:
-    label: Owner
+  holder:
+    label: Budget holder
     type: reference
     required: true
-    help: Who is answerable. Every alert about this budget goes here rather than to whoever happened to spend the money.
+    help: 'Who is answerable for the money. Every alert about this budget goes here rather than to whoever happened to spend it. Not called `owner` on purpose: that word means "whoever created the record" to the platform, and a budget is handed to somebody, not kept by the controller who set it up.'
     group: Ownership
     targetEntity: person
     targetApp: platform

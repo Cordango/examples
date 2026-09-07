@@ -6,7 +6,7 @@ when:
   value: requested
 effects:
   - type: notify
-    to: '{{record.manager_approver}}'
+    to: '{{record.manager}}'
     title: 'Waiting for you: {{record.title}}'
     message: '{{record.amount}} for {{record.department}}, asked for by {{record.requester}}.'
     link: auto

@@ -161,6 +161,7 @@ fields:
   risk:
     label: Risk
     type: select
+    help: The committee's call, made when the project is approved. Not the proposer's to fill in.
     group: Score
     options:
       - value: low

@@ -1,6 +1,6 @@
 role: employee
 name: Employee
-description: Nominates their own peers, answers the requests addressed to them, and reads their own participant record. Deliberately has NO read on a feedback request or a score, which is what makes peer anonymity a property of the data rather than a promise in a label.
+description: Nominates their own peers, answers the requests addressed to them, and reads their own participant record. Reads a feedback request — it has to, to see what is asked of it — but NOT a score or a questionnaire answer, which is what makes peer anonymity a property of the data rather than a promise in a label.
 grants:
   review_cycle:
     read: true
@@ -10,6 +10,7 @@ grants:
     create: true
     read: true
   feedback_request:
+    read: true
     update: true
     commands:
       - start_feedback
@@ -18,5 +19,11 @@ grants:
   feedback_score:
     create: true
     update: true
+  feedback_form:
+    read: true
+  feedback_question:
+    read: true
+  feedback_response:
+    create: true
   competency:
     read: true

@@ -1,0 +1,15 @@
+form: milestone
+blocks:
+  - kind: fields
+    fields:
+      - project
+      - title
+    columns: 2
+  - kind: fields
+    fields:
+      - owner
+      - due_on
+    columns: 2
+  - kind: fields
+    fields:
+      - notes

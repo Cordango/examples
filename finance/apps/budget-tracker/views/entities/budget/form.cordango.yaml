@@ -1,0 +1,27 @@
+form: budget
+blocks:
+  - kind: section
+    label: Period
+    blocks:
+      - kind: fields
+        fields:
+          - name
+          - fiscal_year
+          - period_type
+        columns: 2
+      - kind: fields
+        fields:
+          - period_start
+          - period_end
+        columns: 2
+  - kind: section
+    label: Whose money
+    blocks:
+      - kind: fields
+        fields:
+          - cost_centre
+          - holder
+        columns: 2
+      - kind: fields
+        fields:
+          - notes

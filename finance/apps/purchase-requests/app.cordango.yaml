@@ -1,6 +1,6 @@
 app: purchase_requests
 name: Purchase Requests
-version: 0.1.0
+version: 0.2.0
 description: Ask to spend company money, and let the amount decide how far the request has to travel — manager under five hundred, finance under five thousand, management above it.
 schemaVersion: '2.0'
 purpose:

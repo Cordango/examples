@@ -1,0 +1,45 @@
+form: subscription
+blocks:
+  - kind: section
+    label: Contract
+    blocks:
+      - kind: fields
+        fields:
+          - product_name
+          - vendor
+          - owner
+          - department
+          - category
+        columns: 2
+  - kind: section
+    label: Money and seats
+    blocks:
+      - kind: fields
+        fields:
+          - annual_cost
+          - billing_cycle
+          - seats_licensed
+        columns: 2
+  - kind: section
+    label: Dates
+    blocks:
+      - kind: fields
+        fields:
+          - contract_start
+          - renewal_on
+          - notice_period_days
+          - cancellation_deadline
+          - auto_renews
+        columns: 2
+  - kind: section
+    label: Compliance
+    blocks:
+      - kind: fields
+        fields:
+          - sso_enforced
+          - dpa_signed_on
+          - dpa_document
+        columns: 2
+      - kind: fields
+        fields:
+          - notes

@@ -17,5 +17,7 @@ kind: table
 settings:
   columns:
     - kind
+    - subject
     - due_on
+    - scores_count
     - status

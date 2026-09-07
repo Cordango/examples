@@ -1,0 +1,14 @@
+entity: vendor_intake_submission
+label: Submission
+description: One filled-in form. The durable artifact — the answers are kept whether or not the request it filed is still around.
+icon: mdi-inbox-arrow-down-outline
+role: formResponse
+plural: Submissions
+display: form
+fields:
+  form:
+    label: Form
+    type: reference
+    required: true
+    targetEntity: vendor_intake_form
+    onDelete: cascade

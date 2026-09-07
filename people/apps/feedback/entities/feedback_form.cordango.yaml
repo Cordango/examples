@@ -1,0 +1,42 @@
+entity: feedback_form
+label: Questionnaire
+description: The questions a reviewer is asked, designed by HR rather than fixed by the app. One per kind of review — a self review asks different things from a peer review — and the questions are their own records, so a cycle can change what it asks without anybody changing the app.
+icon: mdi-clipboard-text-outline
+role: formTemplate
+kind: config
+plural: Questionnaires
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    group: Form
+  kind:
+    label: For which review
+    type: select
+    required: true
+    help: A reviewer opening a request of this kind is offered this questionnaire.
+    group: Form
+    options:
+      - value: self
+        label: Self review
+      - value: manager
+        label: Manager
+      - value: peer
+        label: Peer
+      - value: upward
+        label: Upward
+      - value: stakeholder
+        label: Stakeholder
+  intro:
+    label: Intro text
+    type: longtext
+    help: Shown above the questions. Say who will read the answers, because that is the first thing a reviewer wants to know.
+    group: Form
+  active:
+    label: Active
+    type: boolean
+    help: A retired questionnaire keeps its answers but is no longer offered.
+    group: Form
+    default: true

@@ -1,6 +1,6 @@
 role: requester
-name: Requester
-description: Employees who request new vendors and maintain their own request information.
+name: Vendor team
+description: The people who run vendor intake. They design the forms the rest of the company fills in, type a request in directly when somebody phones instead, and keep the request information current through the review.
 grants:
   vendor_request:
     create: true
@@ -10,4 +10,19 @@ grants:
       - submit_request
       - reopen_request
   review_check:
+    read: true
+  vendor_intake_form:
+    create: true
+    read: true
+    update: true
+    delete: true
+  vendor_intake_question:
+    create: true
+    read: true
+    update: true
+    delete: true
+  vendor_intake_submission:
+    create: true
+    read: true
+  vendor_intake_answer:
     read: true

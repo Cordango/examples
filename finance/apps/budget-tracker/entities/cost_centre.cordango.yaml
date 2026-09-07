@@ -22,10 +22,10 @@ fields:
     help: The team this belongs to, from the platform directory. Not a copy — the same department key filters every app in the workspace.
     targetEntity: department
     targetApp: platform
-  owner:
-    label: Owner
+  head:
+    label: Head
     type: reference
-    help: Who answers for the money. Gets the variance digest.
+    help: Who answers for the cost centre. Assigned by Finance, which is why it is not called `owner` — that word would make it whoever set the row up.
     targetEntity: person
     targetApp: platform
   active:

@@ -1,0 +1,22 @@
+form: vendor_intake_form
+blocks:
+  - kind: section
+    label: The form
+    blocks:
+      - kind: fields
+        fields:
+          - name
+          - active
+        columns: 2
+      - kind: fields
+        fields:
+          - intro
+  - kind: section
+    label: Every request from it starts with
+    blocks:
+      - kind: fields
+        fields:
+          - route_department
+          - route_category
+          - route_kind
+        columns: 2

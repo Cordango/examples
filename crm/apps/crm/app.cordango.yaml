@@ -1,8 +1,21 @@
 app: crm
 name: Cordango CRM
-version: 0.1.0
+version: 0.2.0
 description: Capture leads from forms you build yourself, qualify them, convert them into deals on a pipeline board, and keep every call and meeting in the calendar of whoever owns it.
 schemaVersion: '2.0'
+purpose:
+  summary: Owns the people who might buy something and the deals that follow — leads captured by forms the team builds, qualified and converted, and a pipeline of what is being sold to whom.
+  duties:
+    - owns leads, from a form submission or a typed-in name, through qualification
+    - owns the deal pipeline and what each deal is worth
+    - owns the calls and meetings behind every lead and deal, in the calendar of whoever owns them
+    - lets the team design the intake forms a website or an event captures leads with
+uses:
+  - app: core_organizations
+    entities:
+      - organization
+      - contact
+    why: a company and the person at it are the same records the rest of the workspace uses
 presentation:
   icon: mdi-account-group-outline
   color: '#0f766e'

@@ -1,0 +1,13 @@
+form: unavailability
+blocks:
+  - kind: fields
+    fields:
+      - resource
+      - reason
+    columns: 2
+  - kind: fields
+    fields:
+      - from_on
+      - to_on
+      - hours_per_week
+    columns: 2

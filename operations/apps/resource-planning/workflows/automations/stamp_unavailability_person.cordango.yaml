@@ -1,0 +1,19 @@
+automation: stamp_unavailability_person
+name: An absence lands in the calendar of the person it is about
+effects:
+  - type: updateRecord
+    set:
+      person:
+        pick:
+          entity: resource
+          filters:
+            - field: id
+              operator: eq
+              value: '{{record.resource}}'
+          sort:
+            - field: person
+              direction: asc
+          field: person
+    setIfEmpty: true
+trigger: record.created
+entity: unavailability

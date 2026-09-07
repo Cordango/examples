@@ -108,9 +108,3 @@ fields:
     computed:
       expr: (committed + actual) / adjusted_plan * 100
     scale: 1
-  owner:
-    label: Owner
-    type: reference
-    help: Defaults to the budget's owner when a line is created without one.
-    targetEntity: person
-    targetApp: platform

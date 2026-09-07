@@ -1,0 +1,24 @@
+form: time_off
+blocks:
+  - kind: section
+    label: Time off
+    blocks:
+      - kind: fields
+        fields:
+          - type
+          - half_day
+        columns: 2
+      - kind: fields
+        fields:
+          - start_date
+          - end_date
+        columns: 2
+      - kind: fields
+        fields:
+          - reason
+  - kind: section
+    label: For whom
+    blocks:
+      - kind: fields
+        fields:
+          - requested_by

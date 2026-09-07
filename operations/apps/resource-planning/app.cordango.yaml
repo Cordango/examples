@@ -1,6 +1,6 @@
 app: resource_planning
 name: Resource Planning
-version: 0.1.0
+version: 0.2.0
 description: Who can do what, how much of them there is, and what they are already on — with approved leave taken out of the plan without anybody having to mention it.
 schemaVersion: '2.0'
 purpose:
@@ -69,6 +69,7 @@ order:
     - register_on_project_planned
     - unavailable_on_leave_approved
     - stamp_allocation_requester
+    - stamp_unavailability_person
     - over_allocation_alert
     - gap_digest
     - allocation_ending

@@ -14,7 +14,7 @@ fields:
   intake_ref:
     label: Intake reference
     type: text
-    help: The proposal this came from, by title. Written by the subscription to Project Intake.
+    help: The proposal this came from, by title. Written by the subscription to Project Intake, never typed.
     group: Project
   project_manager:
     label: Run by

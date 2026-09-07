@@ -1,0 +1,24 @@
+form: spend_entry
+blocks:
+  - kind: section
+    label: What was spent
+    blocks:
+      - kind: fields
+        fields:
+          - budget_line
+          - description
+      - kind: fields
+        fields:
+          - kind
+          - amount
+          - incurred_on
+        columns: 2
+  - kind: section
+    label: With whom
+    blocks:
+      - kind: fields
+        fields:
+          - vendor
+          - department
+          - category
+        columns: 2

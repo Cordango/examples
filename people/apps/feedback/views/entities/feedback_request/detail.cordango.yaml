@@ -1,0 +1,62 @@
+detail: feedback_request
+blocks:
+  - kind: hub
+    title: kind
+    status: status
+    subtitle:
+      - subject
+      - cycle
+    facts:
+      - reviewer
+      - due_on
+      - scores_count
+      - responses_count
+    actions:
+      - start_feedback
+      - submit_feedback
+      - decline_feedback
+      - edit
+      - delete
+  - kind: process
+    label: Where this is
+  - kind: columns
+    columns:
+      - - kind: child
+          label: 1. Score each competency
+          entity: feedback_score
+          via: request
+          childType: table
+          inlineCreate: true
+        - kind: intake
+          label: 2. Answer the questionnaire
+          entity: feedback_form
+          via: request
+          visibleWhen:
+            value: '{{record.status}}'
+            in:
+              - pending
+              - in_progress
+          filters:
+            - field: active
+              operator: eq
+              value: true
+            - field: kind
+              operator: eq
+              value: '{{record.kind}}'
+      - - kind: section
+          label: About
+          blocks:
+            - kind: fields
+              fields:
+                - subject
+                - cycle
+                - project_ref
+                - due_on
+                - anonymous
+                - submitted_at
+        - kind: child
+          label: Questionnaires answered
+          entity: feedback_response
+          via: request
+          childType: table
+          inlineCreate: false

@@ -1,0 +1,89 @@
+detail: vendor_request
+blocks:
+  - kind: hub
+    title: product_name
+    status: status
+    subtitle:
+      - vendor
+      - department
+    facts:
+      - requester
+      - request_kind
+      - annual_cost
+      - security_risk
+    actions:
+      - submit_request
+      - start_security_review
+      - approve_security
+      - reject_security
+      - approve_finance
+      - reject_finance
+      - reopen_request
+      - edit
+      - delete
+  - kind: process
+    label: Review
+  - kind: columns
+    columns:
+      - - kind: section
+          label: The request
+          blocks:
+            - kind: fields
+              fields:
+                - product_name
+                - vendor
+                - product_url
+                - request_kind
+                - category
+                - department
+                - business_purpose
+                - estimated_users
+        - kind: answers
+          label: What they told us
+        - kind: section
+          label: Commercial
+          edit:
+            - annual_cost
+            - renewal_on
+            - contract_owner
+            - finance_notes
+          blocks:
+            - kind: fields
+              fields:
+                - annual_cost
+                - renewal_on
+                - contract_owner
+                - finance_notes
+      - - kind: section
+          label: Security review
+          edit:
+            - data_classification
+            - personal_data
+            - sso_available
+            - dpa_required
+            - security_risk
+            - security_notes
+          blocks:
+            - kind: fields
+              fields:
+                - data_classification
+                - personal_data
+                - sso_available
+                - dpa_required
+                - security_risk
+                - security_notes
+        - kind: child
+          label: Checks
+          entity: review_check
+          via: request
+          childType: table
+          inlineCreate: true
+        - kind: section
+          label: Audit
+          blocks:
+            - kind: fields
+              fields:
+                - submission
+                - submitted_at
+                - security_reviewed_at
+                - decided_at

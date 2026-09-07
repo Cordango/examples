@@ -74,6 +74,7 @@ transitions:
       successMessage: Approved. The estimate is committed against the budget.
       input:
         fields:
+          - risk
           - decision_notes
       effects: []
   reject_project:
@@ -115,12 +116,8 @@ transitions:
       input:
         fields:
           - project_manager
-          - target_start
-          - target_end
         required:
           - project_manager
-          - target_start
-          - target_end
       effects: []
       emits:
         - project.planned

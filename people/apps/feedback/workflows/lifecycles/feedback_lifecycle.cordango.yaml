@@ -43,13 +43,14 @@ transitions:
       - pending
       - in_progress
     to: submitted
-    requiredFields:
-      - strengths
-      - improvements
     when:
-      field: reviewer
-      operator: eq
-      value: '{{actor.id}}'
+      all:
+        - field: reviewer
+          operator: eq
+          value: '{{actor.id}}'
+        - field: scores_count
+          operator: gte
+          value: 1
     action:
       style: primary
       placements:
@@ -57,16 +58,8 @@ transitions:
       successMessage: Submitted. Thank you.
       confirm:
         title: Submit this feedback?
-        message: It cannot be edited afterwards, and the person will only ever see it as part of an average.
+        message: It cannot be edited afterwards, and the person will only ever see the scores as part of an average.
         confirmLabel: Submit
-      input:
-        fields:
-          - strengths
-          - improvements
-          - examples
-        required:
-          - strengths
-          - improvements
       effects:
         - type: updateRecord
           set:

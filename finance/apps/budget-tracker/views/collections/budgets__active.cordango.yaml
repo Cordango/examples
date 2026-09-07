@@ -13,7 +13,7 @@ settings:
   columns:
     - name
     - cost_centre
-    - owner
+    - holder
     - adjusted_total
     - committed_total
     - actual_total

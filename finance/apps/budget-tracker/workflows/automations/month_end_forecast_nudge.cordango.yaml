@@ -6,7 +6,7 @@ when:
   value: active
 effects:
   - type: notify
-    to: '{{record.owner}}'
+    to: '{{record.holder}}'
     title: Close the month on {{record.name}}
     message: Enter what was actually spent so the forecast means something next week.
     link: auto

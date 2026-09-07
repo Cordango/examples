@@ -27,5 +27,11 @@ grants:
     create: true
     read: true
     update: true
+  feedback_form:
+    read: true
+  feedback_question:
+    read: true
+  feedback_response:
+    create: true
   competency:
     read: true

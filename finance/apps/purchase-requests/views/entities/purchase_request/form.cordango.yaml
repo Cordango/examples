@@ -1,0 +1,32 @@
+form: purchase_request
+blocks:
+  - kind: section
+    label: What you need
+    blocks:
+      - kind: fields
+        fields:
+          - title
+          - category
+          - amount
+        columns: 2
+      - kind: fields
+        fields:
+          - description
+          - justification
+  - kind: section
+    label: When, and for whom
+    blocks:
+      - kind: fields
+        fields:
+          - needed_by
+          - department
+          - manager
+        columns: 2
+  - kind: section
+    label: If you already know
+    blocks:
+      - kind: fields
+        fields:
+          - vendor
+          - budget_line
+        columns: 2

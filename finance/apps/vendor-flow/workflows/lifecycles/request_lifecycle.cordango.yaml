@@ -40,6 +40,11 @@ transitions:
         - type: updateRecord
           set:
             submitted_at: '{{now}}'
+        - type: notify
+          to: '{{record.requester}}'
+          title: 'Vendor request received: {{record.product_name}}'
+          message: Security looks at it first, then Finance. You will hear from both.
+          link: auto
       emits:
         - vendor.requested
   start_security_review:
@@ -65,6 +70,17 @@ transitions:
       placements:
         - recordHeader
       successMessage: Security review passed and sent to Finance.
+      input:
+        fields:
+          - data_classification
+          - personal_data
+          - sso_available
+          - dpa_required
+          - security_risk
+          - security_notes
+        required:
+          - data_classification
+          - security_risk
       effects:
         - type: updateRecord
           set:
@@ -85,11 +101,22 @@ transitions:
         message: The requester can reopen it after addressing the findings.
         confirmLabel: Reject
         tone: danger
+      input:
+        fields:
+          - security_risk
+          - security_notes
+        required:
+          - security_notes
       effects:
         - type: updateRecord
           set:
             security_reviewed_at: '{{now}}'
             decided_at: '{{now}}'
+        - type: notify
+          to: '{{record.requester}}'
+          title: 'Vendor request rejected: {{record.product_name}}'
+          message: Security did not clear it. The findings are on the request; address them and reopen it.
+          link: auto
   approve_finance:
     label: Approve vendor
     from:
@@ -107,10 +134,21 @@ transitions:
         title: Approve this vendor?
         message: This records the vendor as approved and opens a subscription for it.
         confirmLabel: Approve
+      input:
+        fields:
+          - contract_owner
+          - finance_notes
+        required:
+          - contract_owner
       effects:
         - type: updateRecord
           set:
             decided_at: '{{now}}'
+        - type: notify
+          to: '{{record.requester}}'
+          title: 'Vendor approved: {{record.product_name}}'
+          message: It is on the register now, owned by {{record.contract_owner}}.
+          link: auto
         - type: createRecord
           set:
             product_name: '{{record.product_name}}'
@@ -137,10 +175,20 @@ transitions:
         title: Reject this vendor request?
         confirmLabel: Reject
         tone: danger
+      input:
+        fields:
+          - finance_notes
+        required:
+          - finance_notes
       effects:
         - type: updateRecord
           set:
             decided_at: '{{now}}'
+        - type: notify
+          to: '{{record.requester}}'
+          title: 'Vendor request rejected: {{record.product_name}}'
+          message: Finance did not approve it. The reason is on the request.
+          link: auto
   reopen_request:
     label: Reopen
     from:

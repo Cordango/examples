@@ -1,0 +1,12 @@
+form: nomination
+blocks:
+  - kind: fields
+    fields:
+      - participant
+      - reviewer
+    columns: 2
+  - kind: fields
+    fields:
+      - relationship
+      - reason
+    columns: 2

@@ -1,6 +1,6 @@
 app: budget_tracker
 name: Budget & Spend Tracker
-version: 0.1.0
+version: 0.2.0
 description: Budgets per cost centre and period, with planned, committed, actual and forecast money kept apart, and adjustments that somebody has to approve.
 schemaVersion: '2.0'
 purpose:
@@ -45,6 +45,7 @@ order:
     - adjustments
     - configuration
   views:
+    - budgets__all
     - budgets__active
     - lines__over_plan
     - spend__open_commitments

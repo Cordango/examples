@@ -1,6 +1,6 @@
 app: project_intake
 name: Project Intake & Portfolio
-version: 0.1.0
+version: 0.2.0
 description: Proposals scored before anybody argues about them, decided by a committee, and then followed through planning and delivery.
 schemaVersion: '2.0'
 purpose:

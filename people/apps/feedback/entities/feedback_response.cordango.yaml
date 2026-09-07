@@ -1,0 +1,21 @@
+entity: feedback_response
+label: Questionnaire answers
+description: "One reviewer's answers to one questionnaire, about one request. Filled in from the request itself, which is what links the two: the questionnaire is answered ABOUT something, not filed on its own."
+icon: mdi-inbox-arrow-down-outline
+role: formResponse
+plural: Questionnaire answers
+display: form
+fields:
+  form:
+    label: Questionnaire
+    type: reference
+    required: true
+    targetEntity: feedback_form
+    onDelete: cascade
+  request:
+    label: Request
+    type: reference
+    indexed: true
+    help: The feedback request this answers. Set by the page the questionnaire was opened from, never picked.
+    targetEntity: feedback_request
+    onDelete: cascade

@@ -1,0 +1,50 @@
+detail: vendor_intake_form
+blocks:
+  - kind: hub
+    title: name
+    subtitle:
+      - route_department
+    facts:
+      - active
+      - route_category
+      - route_kind
+    actions:
+      - edit
+      - delete
+  - kind: columns
+    columns:
+      - - kind: section
+          label: The form
+          blocks:
+            - kind: fields
+              fields:
+                - name
+                - intro
+                - active
+        - kind: section
+          label: What it files
+          blocks:
+            - kind: fields
+              fields:
+                - creates
+                - route_department
+                - route_category
+                - route_kind
+      - - kind: tabs
+          tabs:
+            - label: Questions
+              blocks:
+                - kind: child
+                  label: What it asks
+                  entity: vendor_intake_question
+                  via: form
+                  childType: table
+                  inlineCreate: true
+            - label: Submissions
+              blocks:
+                - kind: child
+                  label: What came back
+                  entity: vendor_intake_submission
+                  via: form
+                  childType: table
+                  inlineCreate: false

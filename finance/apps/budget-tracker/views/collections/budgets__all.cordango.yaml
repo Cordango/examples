@@ -1,0 +1,21 @@
+view: budgets__all
+label: All budgets
+entity: budget
+sort:
+  - field: fiscal_year
+    direction: desc
+  - field: name
+    direction: asc
+kind: table
+settings:
+  columns:
+    - name
+    - fiscal_year
+    - cost_centre
+    - holder
+    - status
+    - adjusted_total
+    - committed_total
+    - actual_total
+    - forecast_total
+    - variance

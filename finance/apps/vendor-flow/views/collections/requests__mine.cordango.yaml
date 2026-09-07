@@ -1,0 +1,18 @@
+view: requests__mine
+label: What I have asked for
+entity: vendor_request
+filters:
+  - field: requester
+    operator: eq
+    value: '{{actor.id}}'
+sort:
+  - field: submitted_at
+    direction: desc
+kind: table
+settings:
+  columns:
+    - product_name
+    - request_kind
+    - category
+    - status
+    - decided_at

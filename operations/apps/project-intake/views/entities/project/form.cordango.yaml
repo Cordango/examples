@@ -1,0 +1,42 @@
+form: project
+blocks:
+  - kind: section
+    label: The proposal
+    blocks:
+      - kind: fields
+        fields:
+          - title
+          - portfolio
+        columns: 2
+      - kind: fields
+        fields:
+          - summary
+  - kind: section
+    label: Who
+    blocks:
+      - kind: fields
+        fields:
+          - sponsor
+          - department
+          - customer
+          - requested_by
+        columns: 2
+  - kind: section
+    label: How big
+    blocks:
+      - kind: fields
+        fields:
+          - estimated_cost
+          - estimated_effort_days
+          - target_start
+          - target_end
+        columns: 2
+  - kind: section
+    label: Why it matters
+    blocks:
+      - kind: fields
+        fields:
+          - impact
+          - urgency
+          - strategic_alignment
+        columns: 2

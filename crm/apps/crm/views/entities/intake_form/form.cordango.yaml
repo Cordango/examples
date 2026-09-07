@@ -1,0 +1,31 @@
+form: intake_form
+blocks:
+  - kind: section
+    label: The form
+    blocks:
+      - kind: fields
+        fields:
+          - name
+          - active
+        columns: 2
+      - kind: fields
+        fields:
+          - intro
+  - kind: section
+    label: Every lead from it starts with
+    blocks:
+      - kind: fields
+        fields:
+          - route_assigned_to
+          - route_source
+          - route_campaign
+          - route_rating
+        columns: 2
+  - kind: section
+    label: Publishing
+    blocks:
+      - kind: fields
+        fields:
+          - confirm_mode
+          - publish
+        columns: 2

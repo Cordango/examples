@@ -46,13 +46,10 @@ transitions:
       successMessage: Lead qualified. Convert it when there is something to sell.
       input:
         fields:
-          - email
-          - assigned_to
           - rating
           - budget
         required:
-          - email
-          - assigned_to
+          - rating
       effects:
         - type: updateRecord
           set:

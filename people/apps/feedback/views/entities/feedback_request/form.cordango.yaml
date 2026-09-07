@@ -1,0 +1,21 @@
+form: feedback_request
+blocks:
+  - kind: section
+    label: Who is asked about whom
+    blocks:
+      - kind: fields
+        fields:
+          - cycle
+          - subject
+        columns: 2
+      - kind: fields
+        fields:
+          - reviewer
+          - kind
+        columns: 2
+  - kind: section
+    label: By when
+    blocks:
+      - kind: fields
+        fields:
+          - due_on

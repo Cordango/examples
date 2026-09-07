@@ -10,7 +10,7 @@ when:
       value: 0
 effects:
   - type: notify
-    to: '{{record.owner}}'
+    to: '{{record.holder}}'
     title: '{{record.name}} is forecast over'
     message: Forecast {{record.forecast_total}} against an adjusted plan of {{record.adjusted_total}}. Open it to see which lines.
     link: auto

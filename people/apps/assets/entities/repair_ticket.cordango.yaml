@@ -29,6 +29,7 @@ fields:
   opened_on:
     label: Opened
     type: date
+    default: '{{today}}'
     role: start
   closed_on:
     label: Closed

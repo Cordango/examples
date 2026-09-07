@@ -1,0 +1,32 @@
+form: lead
+blocks:
+  - kind: section
+    label: Who
+    blocks:
+      - kind: fields
+        fields:
+          - full_name
+          - email
+          - phone
+          - job_title
+        columns: 2
+  - kind: section
+    label: Company
+    blocks:
+      - kind: fields
+        fields:
+          - company_name
+          - organization
+        columns: 2
+  - kind: section
+    label: Where it came from
+    blocks:
+      - kind: fields
+        fields:
+          - source
+          - campaign
+          - assigned_to
+        columns: 2
+      - kind: fields
+        fields:
+          - notes

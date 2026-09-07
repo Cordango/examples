@@ -40,6 +40,14 @@ blocks:
                 - justification
                 - needed_by
         - kind: section
+          label: Who
+          blocks:
+            - kind: fields
+              fields:
+                - requester
+                - department
+                - manager
+        - kind: section
           label: Money
           blocks:
             - kind: fields
@@ -57,10 +65,13 @@ blocks:
           blocks:
             - kind: fields
               fields:
+                - approval_tier
                 - manager_approver
                 - finance_approver
                 - management_approver
                 - rejection_reason
+                - submitted_at
+                - decided_at
         - kind: child
           label: Trail
           entity: approval_note
@@ -74,6 +85,11 @@ blocks:
           inlineCreate: true
         - kind: section
           label: Purchase
+          edit:
+            - vendor
+            - po_number
+            - actual_amount
+            - purchased_on
           blocks:
             - kind: fields
               fields:

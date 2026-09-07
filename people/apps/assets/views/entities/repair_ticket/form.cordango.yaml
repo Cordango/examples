@@ -1,0 +1,10 @@
+form: repair_ticket
+blocks:
+  - kind: fields
+    fields:
+      - asset
+      - vendor
+    columns: 2
+  - kind: fields
+    fields:
+      - issue

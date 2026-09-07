@@ -1,6 +1,6 @@
 role: hr_admin
 name: HR
-description: Runs cycles and is the only role that can read an individual answer. Everyone else, including the person being reviewed, sees averages.
+description: Runs cycles, designs the questionnaires, and is the only role that can read an individual answer. Everyone else, including the person being reviewed, sees averages.
 grants:
   review_cycle:
     create: true
@@ -31,7 +31,24 @@ grants:
     create: true
     read: true
     update: true
+    delete: true
   feedback_score:
+    read: true
+  feedback_form:
+    create: true
+    read: true
+    update: true
+    delete: true
+  feedback_question:
+    create: true
+    read: true
+    update: true
+    delete: true
+  feedback_response:
+    create: true
+    read: true
+    delete: true
+  feedback_answer:
     read: true
   competency:
     create: true

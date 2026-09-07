@@ -1,15 +1,15 @@
 entity: time_off
 label: Time off
-description: "One absence, from the day it is asked for to the day it is taken. It carries `calendar: true`, so an approved holiday appears in the person's own calendar beside their meetings and their project milestones without any app being told about the others."
+description: "One absence, from the day it is asked for to the day it is taken. The person asking fills in four things — what kind, from when, until when, and a word for the approver. Everything else is worked out or decided by somebody else. It carries `calendar: true`, so an approved holiday appears in the person's own calendar beside their meetings and their project milestones without any app being told about the others."
 icon: beach
 calendar: true
 plural: Time off
 display: type
 fields:
   requested_by:
-    label: Person
+    label: For
     type: reference
-    help: Who is taking the time off. Set to the signed-in user.
+    help: Who is taking the time off. Opens as you; HR can change it to file a sick note that arrived by phone.
     targetEntity: person
     targetApp: platform
     onDelete: setNull
@@ -45,25 +45,30 @@ fields:
     type: date
     required: true
     role: due
+  half_day:
+    label: Half day
+    type: boolean
   reason:
     label: Reason
     type: text
     help: Optional note for the approver.
-  allowance:
-    label: Counts against
-    type: reference
-    help: The allowance year this comes off. Filled in when the request is made, by picking the person's most recent one — a rollup cannot reach across the platform directory to find it, so the link is made explicit instead.
-    targetEntity: leave_allowance
-    onDelete: setNull
   department:
     label: Department
     type: reference
+    help: Taken from the person's allowance record when the request is made, so the team calendar can be filtered without asking.
     targetEntity: department
     targetApp: platform
   approver:
     label: Approver
     type: reference
-    help: Who decided, or who is being waited on. Stamped by the approval rather than typed.
+    help: Who decides. Taken from the person's allowance record when the request is made; HR can change it when somebody else should decide.
+    targetEntity: person
+    targetApp: platform
+  decided_by:
+    label: Decided by
+    type: reference
+    help: Who actually approved or declined it. Stamped by the decision, never typed.
+    group: Decision
     targetEntity: person
     targetApp: platform
   day_count:
@@ -75,7 +80,7 @@ fields:
   deducts_allowance:
     label: Counts against the allowance
     type: boolean
-    help: Holiday does, sickness does not. Decided when the request is made from the type, so changing the policy later does not silently rewrite last year's balances.
+    help: Holiday does, sickness does not. Decided when the request is made from the type, so changing the policy later does not silently rewrite last year's balances. Never asked for.
     initial:
       - when:
           field: type
@@ -92,9 +97,6 @@ fields:
             - unpaid
             - other
         value: false
-  half_day:
-    label: Half day
-    type: boolean
   submitted_at:
     label: Submitted
     type: datetime

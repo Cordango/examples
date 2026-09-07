@@ -49,6 +49,7 @@ transitions:
       - category
       - department
       - justification
+      - manager
     action:
       style: primary
       placements:
@@ -58,6 +59,11 @@ transitions:
         - type: updateRecord
           set:
             submitted_at: '{{now}}'
+        - type: notify
+          to: '{{record.manager}}'
+          title: 'Purchase request to approve: {{record.title}}'
+          message: '{{record.amount}} for {{record.department}}, asked for by {{record.requester}}.'
+          link: auto
   manager_approve:
     label: Approve
     from:
@@ -295,7 +301,6 @@ transitions:
           - po_number
           - actual_amount
           - purchased_on
-          - vendor
         required:
           - po_number
       effects: []

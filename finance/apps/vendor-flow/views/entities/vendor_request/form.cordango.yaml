@@ -1,0 +1,29 @@
+form: vendor_request
+blocks:
+  - kind: section
+    label: What
+    blocks:
+      - kind: fields
+        fields:
+          - product_name
+          - vendor
+          - product_url
+        columns: 2
+      - kind: fields
+        fields:
+          - request_kind
+          - category
+          - department
+        columns: 2
+  - kind: section
+    label: Why
+    blocks:
+      - kind: fields
+        fields:
+          - business_purpose
+      - kind: fields
+        fields:
+          - estimated_users
+          - annual_cost
+          - renewal_on
+        columns: 2

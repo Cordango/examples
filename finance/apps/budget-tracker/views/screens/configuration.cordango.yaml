@@ -9,7 +9,7 @@ layout:
       - code
       - name
       - department
-      - owner
+      - head
       - active
     newButton: true
   - kind: table

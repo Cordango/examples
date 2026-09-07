@@ -16,7 +16,7 @@ fields:
   person:
     label: Person
     type: reference
-    help: The same person the resource points at, held here as well so the entry can land in their calendar. A calendar binding needs a person reference on the record itself.
+    help: The same person the resource points at, copied here when the entry is made so it can land in their calendar. A calendar binding needs a person reference on the record itself; nobody types it.
     targetEntity: person
     targetApp: platform
   from_on:

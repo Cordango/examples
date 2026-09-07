@@ -1,0 +1,12 @@
+role: employee
+name: Employee
+description: Anybody in the company. Asks for a tool by filling in a form the vendor team designed, and can see what they asked for and where it is. Never edits a request directly and never sees the review behind it.
+grants:
+  vendor_intake_form:
+    read: true
+  vendor_intake_question:
+    read: true
+  vendor_intake_submission:
+    create: true
+  vendor_request:
+    read: true

@@ -1,7 +1,7 @@
 app: feedback_360
 name: 360 Feedback
-version: 0.1.0
-description: Review cycles with self, manager and peer feedback, where the person being reviewed sees the averages and never the individual answers.
+version: 0.2.0
+description: Review cycles with self, manager and peer feedback, asked through questionnaires HR designs, where the person being reviewed sees the averages and never the individual answers.
 schemaVersion: '2.0'
 purpose:
   summary: Owns review cycles — who is reviewed, who reviews them, what they said, and what it averaged to.
@@ -9,6 +9,7 @@ purpose:
     - owns review cycles and their deadlines
     - owns who is being reviewed and by whom, through nominations a manager agrees to
     - collects self, manager, peer and stakeholder feedback against a shared list of competencies
+    - lets HR design the questionnaire each kind of review asks, without changing the app
     - keeps peer answers unreadable by their subject, by grant rather than by convention
     - averages the scores into one figure per person for calibration
     - chases the silence, which is how a review cycle usually fails
@@ -27,12 +28,17 @@ order:
     - nomination
     - feedback_request
     - feedback_score
+    - feedback_form
+    - feedback_question
+    - feedback_response
+    - feedback_answer
     - competency
   pages:
     - dashboard
     - my_tasks
     - nominations
     - calibration
+    - questionnaires
     - configuration
   views:
     - cycles__all
@@ -63,6 +69,7 @@ order:
     - decline_feedback
   workflows:
     - stakeholder_feedback_on_project_completed
+    - stamp_nomination_cycle
     - notify_new_request
     - reminder_before_due
     - overdue_feedback

@@ -1,0 +1,13 @@
+screen: request_vendor
+label: Ask for a tool
+layout:
+  - kind: intake
+    label: Pick the form for your department
+    entity: vendor_intake_form
+    filters:
+      - field: active
+        operator: eq
+        value: true
+  - kind: view
+    view: requests__mine
+subject: vendor_request

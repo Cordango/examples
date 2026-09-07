@@ -73,6 +73,13 @@ fields:
     group: Who
     targetEntity: department
     targetApp: platform
+  manager:
+    label: Your manager
+    type: reference
+    help: Who approves for you. Picked from the directory, because nothing here can read the personnel file yet; the request is sent to this person when it is submitted.
+    group: Who
+    targetEntity: person
+    targetApp: platform
   vendor:
     label: Vendor
     type: reference
@@ -91,7 +98,7 @@ fields:
   approval_tier:
     label: Approval tier
     type: select
-    help: Worked out from the amount when the request is created, and then left alone. A snapshot rather than a live calculation, so a board grouped by it does not silently reshuffle when somebody edits a figure mid-approval.
+    help: 'Worked out from the amount when the request is created, and then left alone. Never asked for: a rule fills it in. A snapshot rather than a live calculation, so a board grouped by it does not silently reshuffle when somebody edits a figure mid-approval.'
     group: Money
     options:
       - value: manager
@@ -122,6 +129,7 @@ fields:
   manager_approver:
     label: Manager
     type: reference
+    help: Stamped by the approval. Never typed.
     group: Decision
     targetEntity: person
     targetApp: platform
