@@ -39,6 +39,7 @@ transitions:
       style: primary
       placements:
         - recordHeader
+        - tableRow
       successMessage: Sent. Your approver can see it now.
       effects:
         - type: updateRecord
@@ -63,6 +64,7 @@ transitions:
       style: primary
       placements:
         - recordHeader
+        - tableRow
       successMessage: Time off approved. It is in the team calendar now.
       effects:
         - type: updateRecord
@@ -88,6 +90,7 @@ transitions:
       style: danger
       placements:
         - recordHeader
+        - tableRow
       successMessage: Time off declined.
       confirm:
         title: Decline this request?
@@ -122,6 +125,7 @@ transitions:
       style: danger
       placements:
         - recordHeader
+        - tableRow
       confirm:
         title: Cancel this time off?
         message: The days go back on your allowance and the entry leaves the team calendar.

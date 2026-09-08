@@ -56,16 +56,18 @@ is a promise the app does not keep. The honest limit: there are no row-level per
 employee who reads requests reads all of them, and the anonymity lives in what they cannot read.
 
 **The questionnaire is HR's, not the app's.** `feedback_form` is a `formTemplate`, one per kind of
-review; its questions are records. The reviewer answers it from inside the request — the `intake`
-block in `feedback_request`'s detail carries `via: request`, so the submission points at the request
+review; its questions are records. The reviewer answers it from inside the request — the `feedback_response`
+child block in `feedback_request`'s detail carries `via: request`, so the submission points at the request
 it is about instead of filing something new. The competency scores stay structured rows, because a
 calibration sorts by an average and an average needs numbers, not answers.
 
-**A balance is summed, never typed.** `leave_allowance.taken_days` rolls up the approved absences of
-its own person that start inside the year — a sibling rollup through the platform directory, matching
-`time_off.requested_by` against `leave_allowance.person` with a window on `start_date`. Nobody links
-an absence to an allowance, and the employee asking for a day off is not asked what it counts
-against.
+**A balance is summed, never typed.** `leave_allowance.taken_days` rolls up the approved absences
+stamped against that allowance — `time_off.allowance` is set by `attach_context` the moment a request
+is made, and the rollup counts `day_count` through it with a window on `start_date`. Nobody links
+an absence to an allowance by hand, and the employee asking for a day off is not asked what it counts
+against. (A sibling rollup matching `requested_by` against `leave_allowance.person` through the platform
+directory would read nicer — nothing to stamp — but a rollup's `via` and `match` must be local reference
+fields, and `person` lives in the platform, so the stamped link is the shape the checker accepts.)
 
 **The employee fills in four fields.** Type, from, to, and a word for the approver. Who approves and
 which department it belongs to come from the allowance record HR keeps (`attach_context`); whether it

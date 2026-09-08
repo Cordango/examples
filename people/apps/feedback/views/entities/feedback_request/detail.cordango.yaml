@@ -27,22 +27,17 @@ blocks:
           via: request
           childType: table
           inlineCreate: true
-        - kind: intake
+        - kind: child
           label: 2. Answer the questionnaire
-          entity: feedback_form
+          entity: feedback_response
           via: request
+          childType: table
+          inlineCreate: true
           visibleWhen:
             value: '{{record.status}}'
             in:
               - pending
               - in_progress
-          filters:
-            - field: active
-              operator: eq
-              value: true
-            - field: kind
-              operator: eq
-              value: '{{record.kind}}'
       - - kind: section
           label: About
           blocks:
@@ -54,9 +49,3 @@ blocks:
                 - due_on
                 - anonymous
                 - submitted_at
-        - kind: child
-          label: Questionnaires answered
-          entity: feedback_response
-          via: request
-          childType: table
-          inlineCreate: false

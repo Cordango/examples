@@ -82,12 +82,11 @@ fields:
   taken_days:
     label: Taken
     type: decimal
-    help: "Summed from this person's approved absences that start inside the year. A sibling rollup through the directory: the absence and the allowance both point at the same person, and nobody has to link one to the other."
+    help: Summed from the approved absences stamped against this allowance. The link is made by the request the moment it is made, so a balance cannot disagree with the requests behind it.
     computed:
       rollup:
         entity: time_off
-        via: requested_by
-        match: person
+        via: allowance
         op: sum
         field: day_count
         window:
@@ -110,8 +109,7 @@ fields:
     computed:
       rollup:
         entity: time_off
-        via: requested_by
-        match: person
+        via: allowance
         op: sum
         field: day_count
         window:

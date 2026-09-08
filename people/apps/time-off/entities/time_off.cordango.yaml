@@ -58,6 +58,12 @@ fields:
     help: Taken from the person's allowance record when the request is made, so the team calendar can be filtered without asking.
     targetEntity: department
     targetApp: platform
+  allowance:
+    label: Allowance year
+    type: reference
+    help: The allowance this request draws on. Stamped from the entitlement of the same kind whose leave year covers the start date, so a request filed late still counts against the year it was taken in. Never picked by hand — it is what the balance is summed from.
+    targetEntity: leave_allowance
+    onDelete: setNull
   approver:
     label: Approver
     type: reference

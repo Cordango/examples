@@ -33,6 +33,7 @@ blocks:
                 - half_day
                 - deducts_allowance
                 - department
+                - allowance
       - - kind: section
           label: Decision
           edit:

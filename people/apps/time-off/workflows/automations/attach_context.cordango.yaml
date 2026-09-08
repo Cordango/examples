@@ -1,8 +1,28 @@
 automation: attach_context
-name: A request knows who decides it and which team it belongs to
+name: A request knows who decides it, which team it belongs to, and what it counts against
 effects:
   - type: updateRecord
     set:
+      allowance:
+        pick:
+          entity: leave_allowance
+          filters:
+            - field: person
+              operator: eq
+              value: '{{record.requested_by}}'
+            - field: leave_type
+              operator: eq
+              value: '{{record.type}}'
+            - field: year_start
+              operator: lte
+              value: '{{record.start_date}}'
+            - field: year_end
+              operator: gte
+              value: '{{record.start_date}}'
+          sort:
+            - field: year
+              direction: desc
+          field: id
       approver:
         pick:
           entity: leave_allowance
@@ -10,6 +30,12 @@ effects:
             - field: person
               operator: eq
               value: '{{record.requested_by}}'
+            - field: year_start
+              operator: lte
+              value: '{{record.start_date}}'
+            - field: year_end
+              operator: gte
+              value: '{{record.start_date}}'
           sort:
             - field: year
               direction: desc
@@ -21,6 +47,12 @@ effects:
             - field: person
               operator: eq
               value: '{{record.requested_by}}'
+            - field: year_start
+              operator: lte
+              value: '{{record.start_date}}'
+            - field: year_end
+              operator: gte
+              value: '{{record.start_date}}'
           sort:
             - field: year
               direction: desc
