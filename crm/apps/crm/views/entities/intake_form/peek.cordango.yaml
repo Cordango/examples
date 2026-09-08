@@ -10,20 +10,15 @@ blocks:
       - route_assigned_to
     actions:
       - edit
-  - kind: section
-    label: What it files
-    blocks:
-      - kind: fields
-        fields:
-          - route_source
-          - route_campaign
-          - route_rating
-        hideEmpty: true
-        emptyText: Every lead from this form starts with nothing pre-filled.
-  - kind: child
+  - kind: table
     label: What it asks
-    entity: intake_question
-    via: form
-    childType: table
-    inlineCreate: false
-    limit: 6
+    source:
+      entity: intake_question
+      via: form
+      sort:
+        - field: position
+          direction: asc
+      limit: 4
+    fields:
+      - text
+      - answer_type
