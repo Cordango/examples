@@ -4,29 +4,70 @@ stateField: status
 initial: todo
 states:
   todo:
-    label: To do
+    label: Backlog
     color: '#94a3b8'
     phase: not_started
+  qualified:
+    label: Qualified
+    color: '#a855f7'
+    phase: not_started
   in_progress:
-    label: In progress
+    label: Started
     color: '#3b82f6'
+    phase: active
+  qa:
+    label: Quality assurance
+    color: '#f59e0b'
+    phase: active
+  deployment:
+    label: Deployment
+    color: '#0f766e'
     phase: active
   done:
     label: Done
     color: '#16a34a'
     phase: done
 transitions:
+  qualify:
+    label: Qualify
+    from:
+      - todo
+    to: qualified
   start:
     label: Start
     from:
       - todo
+      - qualified
     to: in_progress
+  send_to_qa:
+    label: Send to QA
+    from:
+      - in_progress
+    to: qa
+  send_back:
+    label: Send back
+    from:
+      - qa
+      - deployment
+    to: in_progress
+  deploy:
+    label: Deploy
+    from:
+      - qa
+    to: deployment
   complete:
     label: Complete
     from:
-      - todo
       - in_progress
+      - qa
+      - deployment
     to: done
+  back_to_backlog:
+    label: Back to backlog
+    from:
+      - qualified
+      - in_progress
+    to: todo
   reopen:
     label: Reopen
     from:
