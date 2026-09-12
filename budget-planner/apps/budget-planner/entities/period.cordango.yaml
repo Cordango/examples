@@ -140,7 +140,7 @@ fields:
     help: Whole companies. The fraction is carried in the exact figure beside this one and rounded once, here.
     group: Calculated
     computed:
-      expr: active_exact
+      expr: custom.round(active_exact)
   gross_profit:
     label: Gross profit
     type: money
