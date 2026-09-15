@@ -20,12 +20,8 @@ layout:
       - kind: row
         gap: md
         align: center
+        justify: end
         blocks:
-          - kind: text
-            value: Room availability
-            size: lg
-            weight: bold
-            grow: true
           - kind: control
             control: segmented
             stateKey: mode

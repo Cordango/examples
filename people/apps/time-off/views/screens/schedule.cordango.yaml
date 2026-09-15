@@ -6,15 +6,6 @@ state:
     type: date
     default: '{{today}}'
 layout:
-  - kind: row
-    align: center
-    gap: md
-    blocks:
-      - kind: text
-        text: Who's off
-        size: lg
-        weight: bold
-        grow: true
   - kind: timeline
     entity: time_off
     rowBy: requested_by
