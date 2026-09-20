@@ -1,0 +1,40 @@
+entity: showcase_settings
+label: Showcase settings
+description: The one record this app keeps about itself.
+icon: cog
+kind: settings
+display: headline
+fields:
+  headline:
+    label: Headline
+    type: text
+    default: Everything this runtime can draw
+  welcome:
+    label: Welcome text
+    type: longtext
+    help: Markdown, shown at the top of the Overview.
+  home_area:
+    label: Area shown first
+    type: reference
+    targetEntity: area
+    onDelete: setNull
+  curator:
+    label: Curator
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  show_retired:
+    label: Show retired capabilities
+    type: boolean
+    default: false
+  session_zone:
+    label: Session time zone
+    type: text
+    default: Europe/Berlin
+    input: timezone
+  public_slug:
+    label: Public path
+    type: text
+    prefix: cordango.com/showcase/
+    input: slug

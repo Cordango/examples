@@ -1,0 +1,59 @@
+entity: adopter
+label: Adopter
+description: A company using one of these capabilities. Its organization and its contact are records in the platform's Organizations app - this app does not keep a second copy of a company, it points at the one the whole workspace shares.
+icon: handshake
+imageField: logo_url
+plural: Adopters
+display: headline
+fields:
+  headline:
+    label: Headline
+    type: text
+    required: true
+  organization:
+    label: Company
+    type: reference
+    required: true
+    help: Another APP's entity. The runtime resolves it through the workspace, so the chip is clickable and the name stays right when somebody renames the company.
+    targetEntity: organization
+    targetApp: core_organizations
+    onDelete: setNull
+  contact:
+    label: Who we talk to
+    type: reference
+    help: Narrowed to the contacts of the company chosen above - a picker listing every contact in the workspace is unusable even when it is harmless.
+    targetEntity: contact
+    targetApp: core_organizations
+    onDelete: setNull
+    optionsFilter:
+      - field: organization
+        operator: eq
+        value: '{{record.organization}}'
+  capability:
+    label: Using
+    type: reference
+    targetEntity: capability
+    onDelete: setNull
+  since:
+    label: Since
+    type: date
+    role: start
+  seats:
+    label: Seats
+    type: integer
+    min: 1
+    max: 5000
+  hotline:
+    label: Hotline
+    type: phone
+  logo_url:
+    label: Logo
+    type: url
+    help: 'imageField: what the record LOOKS like, the peer of displayField. Drawn wherever the record appears.'
+  agreement:
+    label: Agreement
+    type: attachment
+    help: The signed thing itself, held by the platform rather than linked to.
+  notes:
+    label: Notes
+    type: longtext

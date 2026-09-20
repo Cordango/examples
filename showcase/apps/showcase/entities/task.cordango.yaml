@@ -1,0 +1,39 @@
+entity: task
+label: Check
+description: What has to be true before a capability counts as shipped.
+icon: format-list-checks
+ownedBy:
+  parent: capability
+  via: capability
+  as: checklist
+plural: Checks
+display: title
+fields:
+  capability:
+    label: Capability
+    type: reference
+    required: true
+    targetEntity: capability
+    onDelete: cascade
+  title:
+    label: Check
+    type: text
+    required: true
+  done:
+    label: Done
+    type: boolean
+    default: false
+  assignee:
+    label: Assignee
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  due_on:
+    label: Due
+    type: date
+    role: due
+  position:
+    label: Order
+    type: integer
+    role: order

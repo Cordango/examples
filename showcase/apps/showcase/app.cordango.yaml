@@ -1,0 +1,109 @@
+app: showcase
+name: Showcase
+version: 1.0.0
+description: "A working application whose subject is the platform it runs on. Every block kind the runtime can draw has a record in its catalogue and an instance on one of its pages, so the list of what is possible and the demonstration of it are the same document. Read it to judge the ceiling of a definition-driven app: composed grids, a roadmap, an org chart, a master-detail queue, an intake form, a record's own documentation, and the ordinary tables and boards underneath them."
+schemaVersion: '2.0'
+purpose:
+  summary: Shows every surface the Cordango runtime can render, over a catalogue of the platform's own capabilities
+  duties:
+    - owns the catalogue of platform capabilities and their lifecycle
+    - owns the release plan and what each release costs
+    - owns the readiness rating of each capability against each audience
+    - records demo and workshop sessions
+    - collects suggestions through a public intake form
+uses:
+  - app: core_documents
+    entities:
+      - space
+    why: a capability's own written pages live in the platform's document store
+  - app: core_organizations
+    entities:
+      - organization
+      - contact
+    why: the companies using a capability are the workspace's own companies, not a second copy kept here
+archetype:
+  kind: tracker
+  coreJob: Keep a catalogue of what the platform can do, move each entry through its lifecycle, and show the result on every surface the runtime offers.
+weekStart: monday
+presentation:
+  icon: apps
+  color: '#6366F1'
+  category: Reference
+  tagline: Every surface this runtime can draw, over a catalogue of itself
+theme:
+  primaryColor: '#6366F1'
+  secondaryColor: '#0EA5E9'
+  preset: soft
+  radius: large
+  density: comfortable
+order:
+  entities:
+    - area
+    - capability
+    - task
+    - note
+    - review
+    - mention
+    - attendee
+    - checkin
+    - adopter
+    - release_note
+    - release
+    - milestone
+    - budget_line
+    - persona
+    - fit
+    - session
+    - contributor
+    - adoption
+    - request_form
+    - request_question
+    - request_submission
+    - request_answer
+    - suggestion
+    - showcase_settings
+  pages:
+    - overview
+    - capabilities
+    - roadmap
+    - sessions
+    - readiness
+    - triage
+    - team
+    - areas
+    - calculation
+    - connected
+    - automation
+    - requests
+    - interactivity
+    - styling
+    - library
+    - configuration
+  views:
+    - shipped_blocks
+  roles:
+    - curator
+    - builder
+    - visitor
+  processes:
+    - capability_lifecycle
+    - suggestion_triage
+  commands:
+    - ship_it
+    - retire_it
+    - assign_to_me
+    - reprice
+    - accept_suggestion
+    - decline_suggestion
+    - mark_reviewed
+    - discard_check
+    - publish_notes
+    - reach_milestone
+  workflows:
+    - stamp_start
+    - stamp_note_time
+    - stamp_review_time
+    - stamp_suggestion_date
+    - write_release_notes
+    - tell_the_owner
+    - greet_a_new_company

@@ -28,6 +28,22 @@ cordango vocabulary core organizations  what a core app holds
 `cordango vocabulary` cannot answer your question, that is a missing feature in cordango — say so
 rather than working around it.
 
+## Finding out how something is BUILT
+
+`vocabulary` tells you what a construct accepts. That is not the same as knowing what a correct
+one looks like, and the gap between them is where most authoring mistakes live.
+
+```
+cordango example                        every block kind that has a worked example
+cordango example gantt                  one, with the properties it actually uses
+cordango example data.gantt             the authoring name works too
+```
+
+Each example is a real block lifted out of a shipped application that passes the gate — not a
+snippet somebody wrote for the documentation, so it cannot be subtly wrong and cannot go stale.
+Reach for it whenever a construct is new to you, and whenever `cordango check` rejects one: a
+rejection that names a block kind already points at its example.
+
 ## Some things already exist — link to them
 
 People, Organizations and Calendar are **core apps** the platform provides to every

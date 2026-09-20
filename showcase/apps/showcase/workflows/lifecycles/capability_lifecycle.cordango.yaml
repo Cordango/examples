@@ -1,0 +1,109 @@
+lifecycle: capability_lifecycle
+entity: capability
+stateField: status
+initial:
+  rules:
+    - when:
+        field: family
+        operator: eq
+        value: platform
+      state: planned
+  fallback: idea
+states:
+  idea:
+    label: Idea
+    color: '#94A3B8'
+    phase: not_started
+  planned:
+    label: Planned
+    color: '#0EA5E9'
+    phase: not_started
+  building:
+    label: Building
+    color: '#F59E0B'
+    phase: active
+  shipped:
+    label: Shipped
+    color: '#16A34A'
+    phase: done
+  retired:
+    label: Retired
+    color: '#64748B'
+    terminal: true
+    phase: cancelled
+transitions:
+  plan_it:
+    label: Plan it
+    from:
+      - idea
+    to: planned
+    requiredFields:
+      - area
+      - owner
+  start_it:
+    label: Start building
+    from:
+      - planned
+    to: building
+    requiredFields:
+      - owner
+      - effort
+  ship_it:
+    label: Ship it
+    from:
+      - building
+    to: shipped
+    action:
+      description: Mark the capability shipped and stamp the date.
+      icon: rocket-launch
+      style: primary
+      placements:
+        - recordHeader
+        - kanbanCard
+      successMessage: Shipped.
+      confirm:
+        title: Ship this capability?
+        message: It will show as shipped everywhere, including on the Overview.
+        confirmLabel: Ship it
+      effects:
+        - type: updateRecord
+          set:
+            shipped_on: '{{today}}'
+      busy:
+        when:
+          field: status
+          operator: eq
+          value: shipped
+        label: Already shipped
+      emits:
+        - capability.shipped
+  send_back:
+    label: Send back
+    from:
+      - building
+      - shipped
+    to: planned
+  retire_it:
+    label: Retire
+    from:
+      - shipped
+      - planned
+      - idea
+    to: retired
+    action:
+      description: Take a capability out of the offered set without deleting what it left behind.
+      icon: alert
+      style: danger
+      placements:
+        - recordHeader
+      confirm:
+        title: Retire this capability?
+        message: Retired capabilities stay in the record but drop out of the default lists.
+        confirmLabel: Retire
+        tone: danger
+      effects:
+        - type: updateRecord
+          set:
+            is_authorable: false
+      emits:
+        - capability.retired

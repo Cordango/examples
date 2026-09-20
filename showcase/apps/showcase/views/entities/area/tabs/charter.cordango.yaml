@@ -1,0 +1,14 @@
+tab: charter
+key: charter
+label: Charter
+blocks:
+  - kind: section
+    label: What this area owns
+    icon: book-open
+    edit:
+      - charter
+      - blurb
+      - docs_folder
+    blocks:
+      - kind: field
+        field: charter

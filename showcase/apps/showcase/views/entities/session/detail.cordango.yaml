@@ -1,0 +1,61 @@
+detail: session
+blocks:
+  - kind: hub
+    title: title
+    status: kind
+    subtitle:
+      - room
+    facts:
+      - host
+      - starts_at
+      - ends_at
+      - seats
+      - capability
+    icon: calendar-clock
+    actions:
+      - edit
+      - delete
+  - kind: columns
+    weights:
+      - 2
+      - 1
+    gap: md
+    columns:
+      - - kind: section
+          label: Agenda
+          icon: clipboard-list
+          edit:
+            - agenda
+          blocks:
+            - kind: field
+              field: agenda
+      - - kind: card
+          padding: md
+          bordered: true
+          class: rounded-lg
+          blocks:
+            - kind: row
+              gap: sm
+              align: center
+              blocks:
+                - kind: avatar
+                  field: host
+                  size: md
+                - kind: field
+                  field: host
+                  avatar: false
+                  weight: medium
+            - kind: fields
+              cols: 1
+              hideEmpty: true
+              fields:
+                - room
+                - seats
+                - capability
+  - kind: child
+    entity: attendee
+    via: session
+    childType: chips
+    label: Attendees
+  - kind: history
+    limit: 20

@@ -1,0 +1,17 @@
+action: publish_notes
+label: Publish the notes
+entity: release
+description: Turn the release's public address on. The address already exists and is inert; this is the separate act of publishing.
+icon: earth
+placements:
+  - recordHeader
+confirm:
+  title: Publish these notes?
+  message: Anyone holding the link will be able to read them.
+  confirmLabel: Publish
+effects:
+  - type: updateRecord
+    set:
+      notes_public: true
+emits:
+  - release.published

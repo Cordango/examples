@@ -1,0 +1,54 @@
+entity: budget_line
+label: Cost line
+description: What a release is expected to cost, one line at a time.
+icon: receipt
+ownedBy:
+  parent: release
+  via: release
+  as: lineItems
+plural: Cost lines
+display: description
+fields:
+  release:
+    label: Release
+    type: reference
+    required: true
+    targetEntity: release
+    onDelete: cascade
+  description:
+    label: Description
+    type: text
+    required: true
+  category:
+    label: Category
+    type: select
+    default: build
+    options:
+      - value: build
+        label: Build
+        color: '#0EA5E9'
+      - value: design
+        label: Design
+        color: '#8B5CF6'
+      - value: infra
+        label: Infrastructure
+        color: '#64748B'
+      - value: external
+        label: External
+        color: '#F59E0B'
+  quantity:
+    label: Quantity
+    type: decimal
+    default: 1
+    scale: 2
+    min: 0
+  unit_cost:
+    label: Unit cost
+    type: money
+    currency: EUR
+  amount:
+    label: Amount
+    type: money
+    currency: EUR
+    computed:
+      expr: quantity * unit_cost

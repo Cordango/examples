@@ -1,0 +1,163 @@
+screen: capabilities
+label: Capabilities
+icon: shape
+detailFull: true
+state:
+  - key: q
+    type: text
+  - key: f_family
+    type: text
+  - key: f_area
+    type: text
+  - key: f_owner
+    type: text
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        align: center
+        gap: sm
+        blocks:
+          - kind: filterbar
+            entity: capability
+            grow: true
+            search:
+              state: q
+              placeholder: Search capabilities
+            facets:
+              - field: family
+                state: f_family
+                label: Family
+              - field: area
+                state: f_area
+                label: Area
+              - field: owner
+                state: f_owner
+                label: Owner
+          - kind: create
+            entity: capability
+            style: primary
+            icon: shape
+            label: New capability
+      - kind: tabs
+        tabs:
+          - key: board
+            label: Board
+            blocks:
+              - kind: board
+                groupField: status
+                sumField: effort
+                cardFields:
+                  - area
+                  - owner
+                  - effort
+                  - family
+                openDetail: true
+                search:
+                  state: q
+                  fields:
+                    - name
+                    - block_kind
+                    - authoring_name
+                source:
+                  entity: capability
+                  filters:
+                    - field: family
+                      operator: eq
+                      value: '{{state.f_family}}'
+                      optional: true
+                    - field: area
+                      operator: eq
+                      value: '{{state.f_area}}'
+                      optional: true
+                    - field: owner
+                      operator: eq
+                      value: '{{state.f_owner}}'
+                      optional: true
+          - key: list
+            label: List
+            blocks:
+              - kind: table
+                openDetail: true
+                inlineEdit: true
+                allowDelete: true
+                orderField: position
+                groupBy:
+                  field: area
+                  orderBy: position
+                  showEmpty: true
+                search:
+                  state: q
+                  fields:
+                    - name
+                    - block_kind
+                    - authoring_name
+                fields:
+                  - key: name
+                    width: 260
+                    overflow: clip
+                  - family
+                  - status
+                  - owner
+                  - effort
+                  - value
+                  - priority_score
+                  - adoption_pct
+                  - maturity
+                source:
+                  entity: capability
+                  filters:
+                    - field: family
+                      operator: eq
+                      value: '{{state.f_family}}'
+                      optional: true
+                    - field: area
+                      operator: eq
+                      value: '{{state.f_area}}'
+                      optional: true
+                    - field: owner
+                      operator: eq
+                      value: '{{state.f_owner}}'
+                      optional: true
+          - key: tree
+            label: Families
+            blocks:
+              - kind: text
+                size: sm
+                color: medium-emphasis
+                class: mb-2
+                value: One table, nested by the self-reference. Effort rolls up the subtree.
+              - kind: table
+                tree: true
+                openDetail: true
+                fields:
+                  - name
+                  - family
+                  - block_kind
+                  - status
+                  - effort
+                  - owner
+                filterBar:
+                  search:
+                    - name
+                    - block_kind
+                  facets:
+                    - family
+                    - status
+                source:
+                  entity: capability
+                  sort:
+                    - field: position
+                      direction: asc
+          - key: saved
+            label: Saved view
+            blocks:
+              - kind: text
+                size: sm
+                color: medium-emphasis
+                class: mb-2
+                value: The same rows through a named, reusable view rather than an inline table.
+              - kind: view
+                view: shipped_blocks
+subject: capability

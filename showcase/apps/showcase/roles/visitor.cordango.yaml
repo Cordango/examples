@@ -1,0 +1,48 @@
+role: visitor
+name: Visitor
+description: Reads the showcase and may file a suggestion through the form. Creates nothing directly - which is the point of the intake surface.
+grants:
+  capability:
+    read: true
+  task:
+    read: true
+  note:
+    read: true
+  review:
+    read: true
+  area:
+    read: true
+  persona:
+    read: true
+  fit:
+    read: true
+  release:
+    read: true
+  milestone:
+    read: true
+  session:
+    read: true
+  checkin:
+    read: true
+  adopter:
+    read: true
+  release_note:
+    read: true
+  contributor:
+    read: true
+  adoption:
+    read: true
+  suggestion:
+    read: true
+  request_form:
+    read: true
+  request_question:
+    read: true
+  request_submission:
+    create: true
+    read: true
+  request_answer:
+    create: true
+    read: true
+  showcase_settings:
+    read: true

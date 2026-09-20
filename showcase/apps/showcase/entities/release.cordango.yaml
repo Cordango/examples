@@ -1,0 +1,109 @@
+entity: release
+label: Release
+description: A dated band of work. The bars of the roadmap are these.
+icon: rocket-launch
+plural: Releases
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+  number:
+    label: Version
+    type: text
+    required: true
+    unique: true
+  phase:
+    label: Phase
+    type: select
+    default: planned
+    role: status
+    options:
+      - value: planned
+        label: Planned
+        color: '#94A3B8'
+        phase: not_started
+      - value: in_flight
+        label: In flight
+        color: '#F59E0B'
+        phase: active
+      - value: released
+        label: Released
+        color: '#16A34A'
+        phase: done
+      - value: parked
+        label: Parked
+        color: '#64748B'
+        phase: cancelled
+  starts_on:
+    label: Starts
+    type: date
+    required: true
+    role: start
+  ends_on:
+    label: Ends
+    type: date
+    required: true
+    role: due
+  owner:
+    label: Owner
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  theme:
+    label: Theme
+    type: longtext
+  budget:
+    label: Budget
+    type: money
+    currency: EUR
+  committed:
+    label: Committed
+    type: money
+    currency: EUR
+    computed:
+      rollup:
+        entity: budget_line
+        via: release
+        op: sum
+        field: amount
+  milestone_count:
+    label: Milestones
+    type: integer
+    computed:
+      rollup:
+        entity: milestone
+        via: release
+        op: count
+  capability_count:
+    label: Capabilities
+    type: integer
+    computed:
+      rollup:
+        entity: capability
+        via: release
+        op: count
+  effort_planned:
+    label: Effort planned
+    type: integer
+    unit: ' pt'
+    computed:
+      rollup:
+        entity: capability
+        via: release
+        op: sum
+        field: effort
+  notes_public:
+    label: Notes are public
+    type: boolean
+    help: Publishes the release notes to a link anyone holding it can read.
+    default: false
+    role: publicShare
+  public_token:
+    label: Public address
+    type: text
+    unique: true
+    help: 'Minted by the runtime, never authored: 128 bits as 26 readable characters. Every record is born with an inert address; publishing is the separate act.'
+    role: publicToken

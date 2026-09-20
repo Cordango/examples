@@ -1,0 +1,15 @@
+action: mark_reviewed
+label: Mark today reviewed
+entity: checkin
+description: Stamp today's check. Reached from a page through a self-anchoring action, which creates the row if today has none.
+icon: clipboard-check
+style: primary
+placements:
+  - recordHeader
+  - tableRow
+successMessage: Today is marked.
+effects:
+  - type: updateRecord
+    set:
+      reviewed: true
+      note: Reviewed.

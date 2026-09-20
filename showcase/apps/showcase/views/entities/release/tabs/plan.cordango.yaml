@@ -1,0 +1,17 @@
+tab: plan
+key: plan
+label: Plan
+blocks:
+  - kind: field
+    field: theme
+  - kind: child
+    entity: milestone
+    via: release
+    childType: table
+    label: Milestones
+    inlineEdit: true
+    allowDelete: true
+    fields:
+      - name
+      - due_on
+      - reached

@@ -1,0 +1,39 @@
+entity: adoption
+label: Adoption month
+description: One month of one area, with a running total that carries from the row before it.
+icon: chart-line
+series:
+  partition: area
+  order: month
+unique:
+  - - area
+    - month
+plural: Adoption
+display: month
+fields:
+  area:
+    label: Area
+    type: reference
+    required: true
+    targetEntity: area
+    onDelete: cascade
+  month:
+    label: Month
+    type: date
+    required: true
+    role: start
+  shipped:
+    label: Shipped
+    type: integer
+    default: 0
+    min: 0
+  apps_using:
+    label: Apps using
+    type: integer
+    default: 0
+    min: 0
+  running_shipped:
+    label: Shipped to date
+    type: integer
+    computed:
+      expr: prev(running_shipped, 0) + shipped

@@ -1,0 +1,16 @@
+screen: library
+label: Library
+icon: book-open
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        value: Written down
+        size: lg
+        weight: medium
+      - kind: text
+        size: sm
+        color: medium-emphasis
+        value: The same stored pages the Documents app keeps, rendered here. Who may read or change one is decided by its space, never by the page it is shown on.
+      - kind: documents

@@ -1,0 +1,87 @@
+tab: overview
+key: overview
+label: Overview
+blocks:
+  - kind: columns
+    weights:
+      - 2
+      - 1
+    gap: md
+    columns:
+      - - kind: section
+          label: What it is
+          icon: book-open
+          edit:
+            - summary
+            - docs_url
+          blocks:
+            - kind: field
+              field: summary
+        - kind: section
+          label: Where it stands
+          icon: progress-check
+          edit:
+            - maturity
+            - surface
+            - started_on
+            - shipped_on
+            - effort
+            - value
+          blocks:
+            - kind: fields
+              cols: 3
+              hideEmpty: false
+              fields:
+                - maturity
+                - surface
+                - started_on
+                - shipped_on
+                - effort
+                - value
+      - - kind: card
+          padding: md
+          bordered: true
+          tint: family
+          class: rounded-lg
+          blocks:
+            - kind: text
+              value: At a glance
+              weight: bold
+              class: mb-2
+            - kind: grid
+              cols: 2
+              gap: sm
+              blocks:
+                - kind: chip
+                  field: family
+                - kind: chip
+                  field: maturity
+                - kind: chip
+                  field: surface
+                - kind: chip
+                  value: '{block_kind}'
+            - kind: progress
+              label: Adoption against target
+              field: adoption_pct
+              max: adoption_target
+              class: mt-3
+            - kind: progress
+              label: Checks done
+              field: done_tasks
+              max: total_tasks
+              class: mt-2
+              visibleWhen:
+                value: '{{record.total_tasks}}'
+                neq: 0
+            - kind: row
+              gap: sm
+              align: center
+              class: mt-3
+              blocks:
+                - kind: avatar
+                  field: owner
+                  size: sm
+                - kind: field
+                  field: owner
+                  avatar: false
+                  size: sm

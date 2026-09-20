@@ -1,0 +1,14 @@
+tab: review
+key: review
+label: Review
+blocks:
+  - kind: child
+    entity: review
+    via: capability
+    childType: thread
+    label: Review conversation
+    kindField: kind
+    messageValue: message
+    commentValue: comment
+    authorNameField: author_name
+    authorEmailField: author_email

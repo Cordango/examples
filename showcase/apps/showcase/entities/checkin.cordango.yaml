@@ -1,0 +1,20 @@
+entity: checkin
+label: Daily check
+description: One row per day, so a button on a page with no record has something to act on. A self-anchoring action names this entity and the keys that identify today; if no row matches, one is CREATED with exactly those keys and the command runs on it. That is the whole mechanism, and it is what a punch clock or a 'mark today done' toggle is built from.
+icon: clipboard-check
+plural: Daily checks
+display: datum
+fields:
+  datum:
+    label: Day
+    type: date
+    required: true
+    unique: true
+    role: start
+  reviewed:
+    label: Reviewed
+    type: boolean
+    default: false
+  note:
+    label: Note
+    type: text

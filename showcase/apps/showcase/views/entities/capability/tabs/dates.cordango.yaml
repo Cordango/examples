@@ -1,0 +1,15 @@
+tab: dates
+key: dates
+label: Sessions
+blocks:
+  - kind: calendar
+    label: Sessions about this
+    startField: starts_at
+    endField: ends_at
+    labelField: title
+    colorField: kind
+    range: month
+    openDetail: true
+    source:
+      entity: session
+      via: capability

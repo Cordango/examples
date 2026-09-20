@@ -1,0 +1,11 @@
+role: curator
+name: Curator
+description: 'Owns the catalogue: adds capabilities, moves them through the lifecycle and decides what a release contains.'
+grants:
+  '*':
+    create: true
+    read: true
+    update: true
+    delete: true
+    commands:
+      - '*'

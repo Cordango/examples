@@ -141,3 +141,8 @@ blocks:
                   via: deal
                   childType: table
                   inlineCreate: true
+            - label: Documentation
+              blocks:
+                - kind: documents
+                  field: documentation
+                  empty: No documentation yet.

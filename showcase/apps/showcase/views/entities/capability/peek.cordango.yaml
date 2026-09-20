@@ -1,0 +1,26 @@
+peek: capability
+blocks:
+  - kind: hub
+    title: name
+    status: status
+    subtitle:
+      - authoring_name
+    facts:
+      - family
+      - owner
+      - effort
+    actions:
+      - edit
+  - kind: field
+    field: summary
+  - kind: progress
+    label: Adoption
+    field: adoption_pct
+    max: adoption_target
+  - kind: child
+    entity: task
+    via: capability
+    childType: checklist
+    label: Checks
+    limit: 5
+    inlineCreate: false

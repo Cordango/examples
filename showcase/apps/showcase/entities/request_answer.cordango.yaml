@@ -1,0 +1,23 @@
+entity: request_answer
+label: Answer
+icon: message-text
+role: formAnswer
+plural: Answers
+display: id
+fields:
+  submission:
+    label: Submission
+    type: reference
+    required: true
+    targetEntity: request_submission
+    onDelete: cascade
+  question:
+    label: Question
+    type: reference
+    required: true
+    targetEntity: request_question
+    onDelete: cascade
+  value:
+    label: Answer
+    type: json
+    role: answerValue

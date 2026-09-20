@@ -1,0 +1,44 @@
+detail: area
+blocks:
+  - kind: hub
+    title: name
+    subtitle:
+      - code
+      - blurb
+    facts:
+      - lead
+      - docs_folder
+      - total_count
+      - shipped_count
+      - effort_booked
+    icon: sitemap
+    actions:
+      - edit
+  - kind: row
+    gap: md
+    blocks:
+      - kind: stat
+        label: Shipped
+        field: shipped_count
+        size: lg
+        icon: check-circle
+      - kind: stat
+        label: Capabilities
+        field: total_count
+        icon: shape
+      - kind: stat
+        label: Effort booked
+        field: effort_booked
+        icon: briefcase
+      - kind: stat
+        label: Share shipped
+        format: share
+        field: shipped_count
+        max: total_count
+        icon: percent
+  - kind: tabs
+    tabs:
+      - board
+      - charter
+      - trend
+      - people

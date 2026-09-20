@@ -1,0 +1,305 @@
+screen: automation
+label: Automation
+icon: robot
+layout:
+  - kind: stack
+    gap: lg
+    blocks:
+      - kind: stack
+        gap: sm
+        class: bg-pink-darken-3 text-white pa-6 rounded-xl
+        blocks:
+          - kind: text
+            value: Things that happen on their own
+            size: xl
+            weight: bold
+          - kind: text
+            size: sm
+            value: Four triggers and six kinds of effect. None of it is code, and none of it runs in a browser - a workflow fires inside the write that set it off.
+      - kind: section
+        label: What sets one off
+        icon: bolt
+        blocks:
+          - kind: grid
+            cols: 4
+            gap: md
+            blocks:
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-blue-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A record arriving
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: record.created on `note`
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Stamps when it was posted. The author is filled by the runtime from whoever wrote it, not by the workflow.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-blue-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A state being entered
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: 'process.state_entered: capability.building'
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Not a transition - a STATE. Three transitions that all end in one state announce the same fact, and this is the name for it.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-blue-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: An event a command announced
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: 'command.emitted: capability.shipped'
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: '`ship_it` declares it emits this. Nothing about the command knows anybody is listening.'
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-blue-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: ANOTHER APP announcing
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: record.created in core_organizations
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: A subscription. The source app knows nothing about it, and the reaction runs under the grants of THIS app's owner - never the actor who caused the event.
+                    size: sm
+                    color: medium-emphasis
+      - kind: section
+        label: What one can do
+        icon: robot
+        blocks:
+          - kind: grid
+            cols: 3
+            gap: md
+            blocks:
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-pink-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Write to the record
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: updateRecord + setIfEmpty
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: '`setIfEmpty` is a fill-once stamp: it records the FIRST time something happened and leaves later ones alone.'
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-pink-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Make another record
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: createRecord
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Into this app, or into another one - but only from a workflow whose trigger already names that app.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-pink-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Make a whole set
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: 'createForEach + key: [release, capability]'
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: 'One row per source row. `key` is what makes it safe to run twice: a row whose key already exists is updated, not duplicated.'
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-pink-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Remove one
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: deleteRecord
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: A record can end, and saying so is a verb like any other.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-pink-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Tell somebody
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: 'notify: to the owner, link: auto'
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Lands in the bell, deep-linked to the record. `email` is the sibling for somebody who is not looking at the app.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 150
+                class: bg-amber-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Call the outside
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: 'webhook: POST to an https endpoint'
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: The host must be allow-listed at runtime. One that is not is SKIPPED with a reason rather than failing the write that triggered it - which is why this template can ship one that is inert.
+                    size: sm
+                    color: medium-emphasis
+      - kind: section
+        label: Watch one run
+        icon: rocket-launch
+        blocks:
+          - kind: text
+            value: Open a release that is not yet released and move it there. Entering the released state writes one note per capability the release carries - and doing it again updates those notes rather than doubling them.
+            size: sm
+            color: medium-emphasis
+          - kind: columns
+            weights:
+              - 1
+              - 1
+            gap: md
+            class: mt-2
+            columns:
+              - - kind: table
+                  label: Releases
+                  openDetail: true
+                  inlineEdit: true
+                  fields:
+                    - name
+                    - phase
+                    - starts_on
+                    - ends_on
+                    - capability_count
+                  source:
+                    entity: release
+                    sort:
+                      - field: starts_on
+                        direction: asc
+              - - kind: table
+                  label: Notes the automation wrote
+                  openDetail: true
+                  fields:
+                    - headline
+                    - release
+                    - published
+                  source:
+                    entity: release_note
+                    sort:
+                      - field: headline
+                        direction: asc
+      - kind: section
+        label: A link anyone can open
+        icon: earth
+        blocks:
+          - kind: text
+            value: 'A public address is a PAIR: a switch somebody turns on, and an address the runtime mints. One without the other is refused - a switch with nowhere to publish, or an address with no way to turn it off. Every release is born with an inert address; publishing is the separate act, and it is a command with a confirmation on it.'
+            size: sm
+            color: medium-emphasis
+          - kind: table
+            class: mt-2
+            openDetail: true
+            fields:
+              - name
+              - number
+              - phase
+              - notes_public
+            source:
+              entity: release
+subject: release

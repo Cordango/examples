@@ -1,0 +1,17 @@
+automation: tell_the_owner
+name: Tell the owner when their capability ships
+effects:
+  - type: notify
+    to: '{{record.owner}}'
+    title: Shipped
+    message: '{{record.name}} is shipped. It shows on the Overview from now on.'
+    link: auto
+  - type: webhook
+    url: https://hooks.example.com/cordango/shipped
+    method: POST
+    payload:
+      capability: '{{record.name}}'
+      family: '{{record.family}}'
+      shipped_on: '{{record.shipped_on}}'
+trigger: command.emitted
+event: capability.shipped

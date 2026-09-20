@@ -1,0 +1,37 @@
+tab: scope
+key: scope
+label: Scope
+blocks:
+  - kind: child
+    entity: capability
+    via: release
+    childType: table
+    label: What lands in this release
+    inlineEdit: true
+    fields:
+      - name
+      - area
+      - family
+      - status
+      - owner
+      - effort
+    filterBar:
+      search:
+        - name
+      facets:
+        - status
+        - area
+    groupBy:
+      field: area
+      orderBy: position
+  - kind: gantt
+    label: Work in this release
+    startField: started_on
+    endField: shipped_on
+    labelField: name
+    colorField: status
+    openDetail: true
+    interaction: visualization
+    source:
+      entity: capability
+      via: release

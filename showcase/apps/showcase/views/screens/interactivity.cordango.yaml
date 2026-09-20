@@ -1,0 +1,698 @@
+screen: interactivity
+label: Interactivity
+icon: gesture-tap
+state:
+  - key: mode
+    type: enum
+    default: compact
+    options:
+      - value: compact
+        label: Compact
+      - value: roomy
+        label: Roomy
+  - key: when
+    type: date
+    default: '{{today}}'
+  - key: q
+    type: text
+  - key: f_family
+    type: text
+layout:
+  - kind: stack
+    gap: lg
+    blocks:
+      - kind: stack
+        gap: sm
+        class: bg-indigo-darken-3 text-white pa-6 rounded-xl
+        blocks:
+          - kind: text
+            value: Press something
+            size: xl
+            weight: bold
+          - kind: text
+            size: sm
+            value: Every control on this page is authored, not coded. A button is a command with a guard; a dialog is that command declaring it wants confirming or wants input; an editable cell is a record that may not exist yet.
+      - kind: section
+        label: Buttons, and the four shapes a command takes
+        icon: gesture-tap
+        blocks:
+          - kind: text
+            value: A command is a named verb on an entity. What makes the button different is what the command DECLARES around it - nothing here is a different widget.
+            size: sm
+            color: medium-emphasis
+          - kind: repeat
+            as: cap
+            direction: column
+            gap: md
+            class: mt-2
+            source:
+              entity: capability
+              limit: 2
+              sort:
+                - field: priority_score
+                  direction: desc
+              filters:
+                - field: status
+                  operator: eq
+                  value: building
+            blocks:
+              - kind: card
+                padding: lg
+                bordered: true
+                tint: family
+                class: rounded-lg
+                blocks:
+                  - kind: row
+                    align: center
+                    gap: sm
+                    blocks:
+                      - kind: field
+                        field: name
+                        weight: bold
+                        size: lg
+                        grow: true
+                      - kind: chip
+                        field: status
+                  - kind: text
+                    value: Three buttons on one record. The first runs immediately; the second opens a confirmation; the third opens a dialog that collects two values before it runs.
+                    size: sm
+                    color: medium-emphasis
+                    class: mt-1 mb-3
+                  - kind: row
+                    gap: sm
+                    wrap: true
+                    blocks:
+                      - kind: action
+                        command: assign_to_me
+                        style: primary
+                        icon: account
+                        label: Take it (runs at once)
+                      - kind: action
+                        command: ship_it
+                        style: default
+                        icon: rocket-launch
+                        label: Ship it (asks first)
+                      - kind: action
+                        command: reprice
+                        style: default
+                        icon: scale-balance
+                        label: Re-estimate (asks for values)
+                      - kind: action
+                        command: retire_it
+                        style: danger
+                        icon: alert
+                        label: Retire (danger)
+          - kind: repeat
+            as: done
+            direction: column
+            gap: sm
+            class: mt-4
+            source:
+              entity: capability
+              limit: 1
+              filters:
+                - field: status
+                  operator: eq
+                  value: shipped
+            blocks:
+              - kind: card
+                padding: lg
+                bordered: true
+                tone: muted
+                blocks:
+                  - kind: row
+                    align: center
+                    gap: sm
+                    blocks:
+                      - kind: field
+                        field: name
+                        weight: bold
+                        grow: true
+                      - kind: chip
+                        field: status
+                  - kind: text
+                    value: 'A command can declare a `busy` state: while its condition holds the button STAYS VISIBLE, disabled, reading something else. A control that vanishes when you click it is worse than one that does nothing.'
+                    size: sm
+                    color: medium-emphasis
+                    class: mt-1 mb-3
+                  - kind: action
+                    command: ship_it
+                    style: default
+                    icon: rocket-launch
+      - kind: section
+        label: A button on a page that has no record
+        icon: check-circle
+        blocks:
+          - kind: text
+            value: 'This page is about a collection, so there is no record for a button to act on. A self-anchoring action names the entity and the KEYS that identify one - and if nothing matches, the record is created with exactly those keys and the command runs on it. Press it twice: the second press finds what the first one made.'
+            size: sm
+            color: medium-emphasis
+          - kind: row
+            gap: md
+            align: center
+            class: mt-2
+            blocks:
+              - kind: action
+                command: mark_reviewed
+                entity: checkin
+                keys:
+                  datum: '{{today}}'
+                style: primary
+                icon: clipboard-check
+                label: Mark today reviewed
+              - kind: text
+                value: 'entity: checkin, keys: { datum: {{today}} }'
+                size: sm
+                color: medium-emphasis
+          - kind: table
+            label: What that button has written
+            class: mt-3
+            fields:
+              - datum
+              - reviewed
+              - note
+            openDetail: true
+            source:
+              entity: checkin
+              sort:
+                - field: datum
+                  direction: desc
+      - kind: section
+        label: Dialogs
+        icon: message-text
+        blocks:
+          - kind: grid
+            cols: 2
+            gap: md
+            blocks:
+              - kind: card
+                padding: lg
+                bordered: true
+                class: rounded-lg
+                blocks:
+                  - kind: row
+                    align: center
+                    gap: sm
+                    blocks:
+                      - kind: text
+                        value: A create form
+                        weight: bold
+                        icon: plus-circle-outline
+                        grow: true
+                  - kind: text
+                    value: The `create` block opens the entity's authored form in a dialog. For a page whose main surface cannot draw its own New button.
+                    size: sm
+                    color: medium-emphasis
+                    class: mb-3
+                  - kind: create
+                    entity: session
+                    style: primary
+                    icon: calendar
+                    label: New session
+              - kind: card
+                padding: lg
+                bordered: true
+                class: rounded-lg
+                blocks:
+                  - kind: row
+                    align: center
+                    gap: sm
+                    blocks:
+                      - kind: text
+                        value: A quick look
+                        weight: bold
+                        icon: open-in-app
+                        grow: true
+                  - kind: text
+                    value: Click a row. `openDetail` opens the record in a panel over the page - its hub, its process, its tabs - with a link through to the full page.
+                    size: sm
+                    color: medium-emphasis
+                    class: mb-3
+                  - kind: table
+                    openDetail: true
+                    fields:
+                      - name
+                      - family
+                      - status
+                      - owner
+                    source:
+                      entity: capability
+                      limit: 4
+                      sort:
+                        - field: position
+                          direction: asc
+      - kind: section
+        label: Editing without leaving the list
+        icon: table
+        blocks:
+          - kind: text
+            value: "One table doing six things: click a cell to change it, drag a row to reorder, type in the last row to add one, delete from the row menu, and the rows are grouped. The status column is governed by a process, so clicking it offers the transitions that are LEGAL from where the record is - and picking one runs the real command, confirmation and all, rather than writing the field behind the process's back."
+            size: sm
+            color: medium-emphasis
+          - kind: table
+            class: mt-2
+            inlineEdit: true
+            inlineCreate: true
+            allowDelete: true
+            orderField: position
+            openDetail: true
+            newDefaults:
+              family: data
+              value: 3
+            groupBy:
+              field: area
+              orderBy: position
+            filterBar:
+              search:
+                - name
+                - block_kind
+              facets:
+                - family
+                - status
+                - owner
+            fields:
+              - key: name
+                width: 240
+              - status
+              - family
+              - owner
+              - effort
+              - value
+              - adoption_pct
+            source:
+              entity: capability
+              limit: 12
+              filters:
+                - field: parent
+                  operator: isEmpty
+              sort:
+                - field: position
+                  direction: asc
+      - kind: section
+        label: A square that becomes a record
+        icon: view-grid
+        blocks:
+          - kind: text
+            value: Each cell below is one `fit` record, identified by its row and its column. Most of them do not exist. Change one and it is created with the capability and the persona already filled in - nobody re-picks the two things the grid already knows.
+            size: sm
+            color: medium-emphasis
+          - kind: card
+            padding: none
+            bordered: true
+            class: rounded-lg mt-2
+            blocks:
+              - kind: row
+                gap: none
+                tone: muted
+                blocks:
+                  - kind: stack
+                    width: 200
+                    padding: sm
+                    bordered: true
+                    blocks:
+                      - kind: text
+                        value: Capability
+                        size: sm
+                        weight: bold
+                  - kind: repeat
+                    as: head
+                    direction: row
+                    gap: none
+                    source:
+                      entity: persona
+                      sort:
+                        - field: position
+                          direction: asc
+                    blocks:
+                      - kind: stack
+                        width: 130
+                        padding: sm
+                        bordered: true
+                        align: center
+                        blocks:
+                          - kind: field
+                            field: name
+                            size: sm
+                            weight: bold
+              - kind: repeat
+                as: row
+                direction: column
+                gap: none
+                source:
+                  entity: capability
+                  limit: 6
+                  sort:
+                    - field: position
+                      direction: asc
+                  filters:
+                    - field: parent
+                      operator: isEmpty
+                blocks:
+                  - kind: row
+                    gap: none
+                    blocks:
+                      - kind: card
+                        width: 200
+                        padding: sm
+                        bordered: true
+                        tint: family
+                        minHeight: 48
+                        openDetail: true
+                        blocks:
+                          - kind: field
+                            field: name
+                            size: sm
+                      - kind: repeat
+                        as: col
+                        direction: row
+                        gap: none
+                        source:
+                          entity: persona
+                          sort:
+                            - field: position
+                              direction: asc
+                        blocks:
+                          - kind: stack
+                            width: 130
+                            padding: sm
+                            bordered: true
+                            align: center
+                            minHeight: 48
+                            blocks:
+                              - kind: cell
+                                entity: fit
+                                field: level
+                                editable: true
+                                placeholder: '-'
+                                keys:
+                                  capability: '{{row.id}}'
+                                  persona: '{{col.id}}'
+      - kind: section
+        label: Controls that change the page, not the data
+        icon: swap-horizontal
+        blocks:
+          - kind: text
+            value: A segmented control and a stepper write typed, page-scoped state. Nothing is saved and no command runs - but filters, date axes and `visibleWhen` all read it, which is how one toggle swaps a whole surface.
+            size: sm
+            color: medium-emphasis
+          - kind: row
+            gap: md
+            align: center
+            class: mt-2
+            blocks:
+              - kind: control
+                control: segmented
+                stateKey: mode
+              - kind: control
+                control: stepper
+                stateKey: when
+                step:
+                  unit: week
+                  amount: 1
+          - kind: stack
+            padding: lg
+            class: bg-teal-lighten-5 rounded-lg mt-3
+            visibleWhen:
+              value: '{{state.mode}}'
+              eq: compact
+            blocks:
+              - kind: text
+                value: Compact
+                weight: bold
+                size: lg
+                color: teal
+              - kind: text
+                value: This panel is here because the toggle says compact. The other one is not rendered at all - `visibleWhen` is not a CSS class.
+                size: sm
+                color: medium-emphasis
+          - kind: stack
+            padding: lg
+            class: bg-amber-lighten-5 rounded-lg mt-3
+            visibleWhen:
+              value: '{{state.mode}}'
+              eq: roomy
+            blocks:
+              - kind: text
+                value: Roomy
+                weight: bold
+                size: lg
+                color: orange
+              - kind: text
+                value: A different panel, a different colour, the same toggle.
+                size: sm
+                color: medium-emphasis
+          - kind: calendar
+            label: The stepper moves this calendar
+            class: mt-3
+            startField: starts_at
+            endField: ends_at
+            labelField: title
+            colorField: kind
+            range: week
+            allowCreate: true
+            openDetail: true
+            quickAdd:
+              fields:
+                - kind
+                - host
+                - room
+            source:
+              entity: session
+          - kind: text
+            value: 'Click empty space on it: `allowCreate` opens a quick-add with the date and time already filled in from where you clicked.'
+            size: sm
+            color: medium-emphasis
+            class: mt-2
+      - kind: section
+        label: One filter bar driving two surfaces
+        icon: magnify
+        blocks:
+          - kind: text
+            value: The bar writes page state. The board and the list below both read it, so one query narrows both - rather than each growing its own toolbar that disagrees with the other.
+            size: sm
+            color: medium-emphasis
+          - kind: filterbar
+            entity: capability
+            class: mt-2
+            search:
+              state: q
+              placeholder: Search capabilities
+            facets:
+              - field: family
+                state: f_family
+                label: Family
+          - kind: columns
+            gap: md
+            class: mt-3
+            columns:
+              - - kind: board
+                  groupField: status
+                  sumField: effort
+                  openDetail: true
+                  cardFields:
+                    - owner
+                    - family
+                  search:
+                    state: q
+                    fields:
+                      - name
+                      - block_kind
+                  source:
+                    entity: capability
+                    limit: 30
+                    filters:
+                      - field: family
+                        operator: eq
+                        value: '{{state.f_family}}'
+                        optional: true
+                      - field: parent
+                        operator: isEmpty
+              - - kind: table
+                  openDetail: true
+                  fields:
+                    - name
+                    - status
+                    - owner
+                  search:
+                    state: q
+                    fields:
+                      - name
+                      - block_kind
+                  source:
+                    entity: capability
+                    limit: 30
+                    filters:
+                      - field: family
+                        operator: eq
+                        value: '{{state.f_family}}'
+                        optional: true
+                      - field: parent
+                        operator: isEmpty
+          - kind: text
+            value: "Drag a card between the board's columns: that runs the process transition, with its confirmation, rather than writing the status field."
+            size: sm
+            color: medium-emphasis
+            class: mt-2
+      - kind: section
+        label: Dragging changes the data
+        icon: timeline-clock
+        blocks:
+          - kind: text
+            value: Drag a bar to move a release, or drag its edge to change one end. Gated on update access AND on the date fields being editable - a bar that moved under your finger when you are not allowed to move it would be a lie.
+            size: sm
+            color: medium-emphasis
+          - kind: gantt
+            class: mt-2
+            startField: starts_on
+            endField: ends_on
+            labelField: name
+            colorField: phase
+            openDetail: true
+            interaction: interactive
+            source:
+              entity: release
+              sort:
+                - field: starts_on
+                  direction: asc
+            milestones:
+              source:
+                entity: milestone
+              dateField: due_on
+              labelField: name
+      - kind: section
+        label: A queue you work down
+        icon: format-list-bulleted
+        blocks:
+          - kind: text
+            value: 'Selection persists: move down the list and the detail follows, the list stays on screen. Different from the quick-look panel, which opens and closes.'
+            size: sm
+            color: medium-emphasis
+          - kind: split
+            as: sugg
+            class: mt-2
+            fields:
+              - title
+              - priority
+              - verdict
+            emptyText: Nothing waiting.
+            source:
+              entity: suggestion
+              sort:
+                - field: raised_on
+                  direction: desc
+            blocks:
+              - kind: stack
+                gap: md
+                padding: md
+                blocks:
+                  - kind: row
+                    align: center
+                    gap: sm
+                    blocks:
+                      - kind: field
+                        field: title
+                        size: lg
+                        weight: bold
+                        grow: true
+                      - kind: chip
+                        field: verdict
+                  - kind: field
+                    field: detail
+                  - kind: row
+                    gap: sm
+                    class: mt-2
+                    blocks:
+                      - kind: action
+                        command: accept_suggestion
+                        style: primary
+                        icon: check-circle
+                      - kind: action
+                        command: decline_suggestion
+                        style: danger
+                        icon: alert-circle
+      - kind: section
+        label: Filling in a form
+        icon: clipboard-list
+        blocks:
+          - kind: text
+            value: Pick a form, answer it, submit. Filing needs only the right to RESPOND - not the right to create the record it files, which is the whole point of the surface.
+            size: sm
+            color: medium-emphasis
+          - kind: intake
+            entity: request_form
+            class: mt-2
+            filters:
+              - field: active
+                operator: eq
+                value: true
+      - kind: section
+        label: Every number is a door
+        icon: target
+        blocks:
+          - kind: text
+            value: 'Press one. A tile or a chart segment carries a deep link: it opens another page already filtered to what the number counted.'
+            size: sm
+            color: medium-emphasis
+          - kind: tiles
+            class: mt-2
+            tiles:
+              - label: Shipped
+                icon: check-circle
+                source:
+                  entity: capability
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: status
+                      operator: eq
+                      value: shipped
+                link:
+                  page: capabilities
+                  filters:
+                    - field: status
+                      operator: eq
+                      value: shipped
+              - label: In build
+                icon: hammer
+                source:
+                  entity: capability
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: status
+                      operator: eq
+                      value: building
+                link:
+                  page: capabilities
+                  filters:
+                    - field: status
+                      operator: eq
+                      value: building
+              - label: Sessions
+                icon: calendar-clock
+                source:
+                  entity: session
+                  aggregate:
+                    op: count
+                link:
+                  page: sessions
+              - label: Suggestions
+                icon: lightbulb
+                source:
+                  entity: suggestion
+                  aggregate:
+                    op: count
+                link:
+                  page: triage
+          - kind: chart
+            chartType: bar
+            class: mt-3
+            label: 'Click a bar: it opens the list filtered to that family'
+            source:
+              entity: capability
+              aggregate:
+                op: count
+                groupBy: family
+            link:
+              page: capabilities
+subject: capability

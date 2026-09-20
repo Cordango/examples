@@ -1,0 +1,81 @@
+detail: capability
+blocks:
+  - kind: hub
+    title: name
+    status: status
+    subtitle:
+      - authoring_name
+      - area
+    facts:
+      - family
+      - owner
+      - maturity
+      - effort
+      - value
+      - shipped_on
+    avatar:
+      field: owner
+    icon: shape
+    actions:
+      - edit
+      - assign_to_me
+      - reprice
+      - delete
+  - kind: process
+  - kind: row
+    gap: sm
+    blocks:
+      - kind: action
+        command: assign_to_me
+        style: default
+        icon: account
+        label: Take it
+      - kind: action
+        command: reprice
+        style: default
+        icon: scale-balance
+      - kind: action
+        command: retire_it
+        style: danger
+        icon: alert
+  - kind: tiles
+    tiles:
+      - label: Adoption
+        field: adoption_pct
+        format: share
+        max: adoption_target
+        icon: percent
+      - label: Priority
+        field: priority_score
+        icon: target
+      - label: Checks open
+        field: open_tasks
+        icon: format-list-checks
+        attention:
+          op: gt
+          value: 0
+      - label: Sessions about it
+        icon: calendar-clock
+        source:
+          entity: session
+          via: capability
+          aggregate:
+            op: count
+      - label: Sub-capabilities
+        icon: sitemap
+        source:
+          entity: capability
+          via: parent
+          aggregate:
+            op: count
+  - kind: tabs
+    tabs:
+      - overview
+      - work
+      - review
+      - press
+      - parts
+      - dates
+      - docs
+      - elsewhere
+      - activity

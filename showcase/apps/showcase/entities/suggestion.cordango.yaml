@@ -1,0 +1,57 @@
+entity: suggestion
+label: Suggestion
+description: Something somebody wants the platform to be able to do. Filed through a form, triaged in a two-pane queue.
+icon: lightbulb
+plural: Suggestions
+display: title
+fields:
+  title:
+    label: Title
+    type: text
+    required: true
+  detail:
+    label: Detail
+    type: longtext
+  area:
+    label: Area
+    type: reference
+    targetEntity: area
+    onDelete: setNull
+  priority:
+    label: Priority
+    type: select
+    default: normal
+    options:
+      - value: low
+        label: Low
+        color: '#64748B'
+      - value: normal
+        label: Normal
+        color: '#0EA5E9'
+      - value: high
+        label: High
+        color: '#F59E0B'
+  verdict:
+    label: Verdict
+    type: select
+    role: status
+  becomes:
+    label: Became
+    type: reference
+    targetEntity: capability
+    onDelete: setNull
+  submission:
+    label: Submission
+    type: reference
+    help: The form submission this came in on. What the requester actually wrote is read from here.
+    targetEntity: request_submission
+    onDelete: setNull
+  from_name:
+    label: Raised by
+    type: text
+    help: "The requester's own name, as they typed it. NOT called raised_by: the compiler flags anything ending in _by as auto:currentUser, which would drop this and stamp the actor's user id into a column that reads as a person's name."
+  raised_on:
+    label: Raised
+    type: date
+    help: "NOT raised_at: that spelling is in the compiler's currentTime list, so every suggestion would be stamped with the moment it was written and the queue would have no order."
+    role: start

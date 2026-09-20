@@ -1,0 +1,121 @@
+screen: sessions
+label: Sessions
+icon: calendar-clock
+state:
+  - key: day
+    type: date
+    default: '{{today}}'
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        align: center
+        gap: sm
+        blocks:
+          - kind: text
+            value: Demos, workshops and office hours
+            size: lg
+            weight: medium
+            grow: true
+          - kind: create
+            entity: session
+            style: primary
+            icon: calendar
+            label: New session
+      - kind: tabs
+        tabs:
+          - key: month
+            label: Month
+            blocks:
+              - kind: calendar
+                startField: starts_at
+                endField: ends_at
+                labelField: title
+                colorField: kind
+                range: month
+                allowCreate: true
+                openDetail: true
+                quickAdd:
+                  fields:
+                    - kind
+                    - host
+                    - room
+                source:
+                  entity: session
+          - key: day
+            label: Day
+            blocks:
+              - kind: row
+                align: center
+                gap: sm
+                class: mb-2
+                blocks:
+                  - kind: control
+                    control: stepper
+                    stateKey: day
+                    step:
+                      unit: day
+                      amount: 1
+              - kind: calendar
+                startField: starts_at
+                endField: ends_at
+                labelField: title
+                colorField: kind
+                range: day
+                allowCreate: true
+                openDetail: true
+                timeAxis:
+                  startHour: 8
+                  endHour: 19
+                  slotMinutes: 30
+                source:
+                  entity: session
+          - key: list
+            label: List
+            blocks:
+              - kind: table
+                openDetail: true
+                newButton: true
+                allowDelete: true
+                fields:
+                  - title
+                  - kind
+                  - starts_at
+                  - ends_at
+                  - host
+                  - capability
+                  - room
+                  - seats
+                filterBar:
+                  search:
+                    - title
+                    - room
+                  facets:
+                    - kind
+                    - host
+                source:
+                  entity: session
+                  sort:
+                    - field: starts_at
+                      direction: asc
+      - kind: columns
+        gap: md
+        columns:
+          - - kind: chart
+              chartType: bar
+              label: Sessions by kind
+              source:
+                entity: session
+                aggregate:
+                  op: count
+                  groupBy: kind
+          - - kind: chart
+              chartType: line
+              label: Sessions by month
+              source:
+                entity: session
+                aggregate:
+                  op: count
+                  groupBy: month_of:starts_at
+subject: session

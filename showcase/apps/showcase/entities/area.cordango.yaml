@@ -1,0 +1,69 @@
+entity: area
+label: Product area
+description: A part of the platform. Each area is a DESTINATION - its own entry in the sidebar, opening a workspace with a board, a charter and a trend - which is why it is a collection rather than kind:'config'. A config entity's page is stamped into the shell's Configuration section, and that would hide the data-driven navigation this app exists to demonstrate.
+icon: sitemap
+plural: Product areas
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    unique: true
+  code:
+    label: Code
+    type: text
+    required: true
+    unique: true
+    help: A short handle for the area, unique across them - what a chart axis and a nav entry can fit.
+  docs_folder:
+    label: Docs folder
+    type: text
+    help: Where this area's documentation lives, e.g. 10-platform. Several areas may share one, which is why it is not the code.
+  blurb:
+    label: In one line
+    type: text
+  charter:
+    label: Charter
+    type: longtext
+    help: Markdown. What this area owns and what it deliberately leaves to another.
+  lead:
+    label: Lead
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  position:
+    label: Order
+    type: integer
+    role: order
+  shipped_count:
+    label: Shipped
+    type: integer
+    computed:
+      rollup:
+        entity: capability
+        via: area
+        op: count
+        filters:
+          - field: status
+            operator: eq
+            value: shipped
+  total_count:
+    label: Capabilities
+    type: integer
+    computed:
+      rollup:
+        entity: capability
+        via: area
+        op: count
+  effort_booked:
+    label: Effort booked
+    type: integer
+    unit: ' pt'
+    computed:
+      rollup:
+        entity: capability
+        via: area
+        op: sum
+        field: effort

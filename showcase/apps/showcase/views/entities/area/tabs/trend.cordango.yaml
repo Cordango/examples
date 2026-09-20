@@ -1,0 +1,28 @@
+tab: trend
+key: trend
+label: Trend
+blocks:
+  - kind: chart
+    chartType: area
+    label: Shipped to date
+    source:
+      entity: adoption
+      via: area
+      aggregate:
+        op: sum
+        field: running_shipped
+        groupBy: month_of:month
+  - kind: table
+    label: By month
+    class: mt-4
+    fields:
+      - month
+      - shipped
+      - running_shipped
+      - apps_using
+    source:
+      entity: adoption
+      via: area
+      sort:
+        - field: month
+          direction: asc

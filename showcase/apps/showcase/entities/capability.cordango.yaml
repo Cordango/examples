@@ -1,0 +1,310 @@
+entity: capability
+label: Capability
+description: One thing the platform can do. Every block kind the runtime draws has a row here, which is what makes this app a description of itself.
+icon: shape
+plural: Capabilities
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    group: Identity
+  parent:
+    label: Part of
+    type: reference
+    help: 'A variant belongs to its family: bar, line and donut are all part of Chart.'
+    group: Identity
+    targetEntity: capability
+    onDelete: setNull
+  area:
+    label: Area
+    type: reference
+    required: true
+    group: Identity
+    targetEntity: area
+    onDelete: restrict
+  release:
+    label: Lands in
+    type: reference
+    help: The release that carries it. Empty until it is scheduled.
+    group: Identity
+    targetEntity: release
+    onDelete: setNull
+  family:
+    label: Family
+    type: select
+    required: true
+    help: The five authoring families, plus platform for things that are not blocks at all.
+    group: Identity
+    options:
+      - value: layout
+        label: Layout
+        color: '#6366F1'
+      - value: data
+        label: Data
+        color: '#0EA5E9'
+      - value: display
+        label: Display
+        color: '#14B8A6'
+      - value: domain
+        label: Domain
+        color: '#F59E0B'
+      - value: control
+        label: Control
+        color: '#8B5CF6'
+      - value: platform
+        label: Platform
+        color: '#64748B'
+  block_kind:
+    label: Block kind
+    type: text
+    help: The canonical kind the stored definition speaks, e.g. chart. Blank for a capability that is not a block.
+    group: Identity
+  authoring_name:
+    label: Authoring name
+    type: text
+    help: The dotted name the model writes, e.g. data.chart.
+    group: Identity
+  summary:
+    label: What it is
+    type: longtext
+    help: Markdown. One paragraph, written for somebody deciding whether to reach for it.
+    group: Identity
+  status:
+    label: Status
+    type: select
+    group: Progress
+    role: status
+  maturity:
+    label: Maturity
+    type: select
+    help: 'Not asked for on create: the rules below work it out from the value, and a question whose answer the server overwrites is a control that does nothing.'
+    group: Progress
+    default: stable
+    options:
+      - value: experimental
+        label: Experimental
+        color: '#F59E0B'
+      - value: stable
+        label: Stable
+        color: '#16A34A'
+      - value: mature
+        label: Mature
+        color: '#0EA5E9'
+    initial:
+      - when:
+          field: value
+          operator: gte
+          value: 5
+        value: mature
+      - when:
+          field: value
+          operator: lte
+          value: 2
+        value: experimental
+  surface:
+    label: Where it renders
+    type: select
+    group: Progress
+    default: both
+    options:
+      - value: page
+        label: Page
+      - value: detail
+        label: Record detail
+      - value: both
+        label: Both
+  owner:
+    label: Owner
+    type: reference
+    group: Progress
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  started_on:
+    label: Started
+    type: date
+    group: Progress
+    role: start
+  shipped_on:
+    label: Shipped
+    type: date
+    group: Progress
+    role: due
+  effort:
+    label: Effort
+    type: integer
+    help: Story points. A parent shows its own beside its subtree total.
+    group: Progress
+    min: 0
+    max: 200
+    unit: ' pt'
+    treeAggregate: sum
+  value:
+    label: Value
+    type: integer
+    help: 1-5. How much an app is worse off without it.
+    group: Progress
+    default: 3
+    min: 1
+    max: 5
+  priority_score:
+    label: Priority
+    type: integer
+    group: Progress
+    computed:
+      expr: value * 20 - effort
+  capped_effort:
+    label: Effort, capped
+    type: integer
+    help: min(effort, 20). A cap is inexpressible without min() - clamping with an if is two comparisons and a mistake waiting to happen. 20 is a threshold this data actually crosses; a cap nothing reaches demonstrates nothing.
+    group: Calculated
+    unit: ' pt'
+    computed:
+      expr: min(effort, 20)
+  effort_band:
+    label: Size
+    type: text
+    help: 'case() over thresholds: the tariff shape. Read top to bottom, first test wins, and it always ends in a default.'
+    group: Calculated
+    computed:
+      expr: case(effort <= 5, 'small', effort <= 20, 'medium', 'large')
+  family_weight:
+    label: Family weight
+    type: integer
+    help: switch() keyed on one select. A key that is not one of the field's options is REFUSED at compile time, which is why this cannot drift when an option is renamed.
+    group: Calculated
+    computed:
+      expr: switch(family, 'layout', 1, 'data', 3, 'display', 1, 'domain', 3, 'control', 2, 2)
+  weeks_open:
+    label: Weeks open
+    type: decimal
+    help: days_between(started_on, shipped_on) / 7. Both arguments are bare date fields.
+    group: Calculated
+    scale: 1
+    computed:
+      expr: days_between(started_on, shipped_on) / 7
+  shipped_week:
+    label: Week it shipped
+    type: date
+    help: start_of_week(shipped_on) - the ONLY computed field that is neither a number nor a boolean. Both ends of a boundary are inclusive.
+    group: Calculated
+    computed:
+      expr: start_of_week(shipped_on)
+  is_quick_win:
+    label: Quick win
+    type: boolean
+    help: 'A computed boolean: worth a lot, costs little, and not finished.'
+    group: Calculated
+    computed:
+      expr: value >= 4 and effort <= 8
+  adoption_pct:
+    label: Adoption
+    type: decimal
+    help: Share of shipped apps that use this block at least once.
+    group: Adoption
+    scale: 1
+    min: 0
+    max: 100
+    unit: '%'
+  adoption_target:
+    label: Target
+    type: decimal
+    group: Adoption
+    default: 60
+    scale: 1
+    min: 0
+    max: 100
+    unit: '%'
+  is_authorable:
+    label: Model may author it
+    type: boolean
+    help: 'Off for the kinds a person places by hand: documents, relatedApps, externalEmbed.'
+    group: Adoption
+    default: true
+  tags:
+    label: Tags
+    type: multiselect
+    group: Adoption
+    options:
+      - value: charting
+        label: Charting
+      - value: scheduling
+        label: Scheduling
+      - value: editing
+        label: Editing in place
+      - value: hierarchy
+        label: Hierarchy
+      - value: aggregation
+        label: Aggregation
+      - value: interaction
+        label: Interaction
+      - value: composition
+        label: Composition
+  docs_url:
+    label: Documentation
+    type: url
+    group: Adoption
+  open_tasks:
+    label: Open checks
+    type: integer
+    group: Adoption
+    computed:
+      rollup:
+        entity: task
+        via: capability
+        op: count
+        filters:
+          - field: done
+            operator: eq
+            value: false
+  done_tasks:
+    label: Checks done
+    type: integer
+    group: Adoption
+    computed:
+      rollup:
+        entity: task
+        via: capability
+        op: count
+        filters:
+          - field: done
+            operator: eq
+            value: true
+  total_tasks:
+    label: Checks
+    type: integer
+    group: Adoption
+    computed:
+      rollup:
+        entity: task
+        via: capability
+        op: count
+  checks_due_in_build:
+    label: Checks due while building
+    type: integer
+    group: Calculated
+    computed:
+      rollup:
+        entity: task
+        via: capability
+        op: count
+        window:
+          at: due_on
+          within:
+            from: started_on
+            to: shipped_on
+  position:
+    label: Order
+    type: integer
+    group: Adoption
+    role: order
+  space:
+    label: Documentation space
+    type: reference
+    help: The pages this capability owns. Created on first use.
+    group: Adoption
+    targetEntity: space
+    targetApp: core_documents
+    onDelete: setNull

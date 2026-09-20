@@ -1,0 +1,44 @@
+entity: contributor
+label: Contributor
+description: Who builds what, and who they answer to. The reporting tree the org chart draws.
+icon: account-tie
+plural: Contributors
+display: title
+fields:
+  person:
+    label: Person
+    type: reference
+    required: true
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  reports_to:
+    label: Reports to
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  title:
+    label: Title
+    type: text
+    required: true
+  area:
+    label: Area
+    type: reference
+    targetEntity: area
+    onDelete: setNull
+  joined_on:
+    label: Joined
+    type: date
+  focus:
+    label: Focus
+    type: text
+  owned_count:
+    label: Owns
+    type: integer
+    computed:
+      rollup:
+        entity: capability
+        via: owner
+        match: person
+        op: count

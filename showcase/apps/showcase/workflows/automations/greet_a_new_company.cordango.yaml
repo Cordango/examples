@@ -1,0 +1,11 @@
+automation: greet_a_new_company
+name: Note a company arriving in the workspace
+effects:
+  - type: createRecord
+    set:
+      datum: '{{today}}'
+      note: A company was added to the workspace.
+    entity: checkin
+trigger: record.created
+entity: organization
+app: core_organizations

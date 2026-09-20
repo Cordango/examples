@@ -1,0 +1,114 @@
+screen: triage
+label: Triage
+icon: lightbulb
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: tiles
+        tiles:
+          - label: Open
+            icon: lightbulb
+            source:
+              entity: suggestion
+              aggregate:
+                op: count
+              filters:
+                - field: verdict
+                  operator: eq
+                  value: new
+          - label: Accepted
+            icon: check-circle
+            source:
+              entity: suggestion
+              aggregate:
+                op: count
+              filters:
+                - field: verdict
+                  operator: eq
+                  value: accepted
+          - label: Declined
+            icon: alert-circle
+            source:
+              entity: suggestion
+              aggregate:
+                op: count
+              filters:
+                - field: verdict
+                  operator: eq
+                  value: declined
+          - label: Accepted share
+            icon: percent
+            format: share
+            source:
+              entity: suggestion
+              aggregate:
+                op: count
+              filters:
+                - field: verdict
+                  operator: in
+                  value:
+                    - accepted
+                    - merged
+            max:
+              source:
+                entity: suggestion
+                aggregate:
+                  op: count
+      - kind: split
+        label: Suggestions
+        as: sugg
+        fields:
+          - title
+          - priority
+          - verdict
+          - area
+          - raised_on
+        emptyText: Nothing waiting.
+        source:
+          entity: suggestion
+          sort:
+            - field: raised_on
+              direction: desc
+        blocks:
+          - kind: stack
+            gap: md
+            padding: md
+            blocks:
+              - kind: row
+                align: center
+                gap: sm
+                blocks:
+                  - kind: field
+                    field: title
+                    size: lg
+                    weight: bold
+                    grow: true
+                  - kind: chip
+                    field: verdict
+                  - kind: chip
+                    field: priority
+              - kind: row
+                gap: lg
+                wrap: true
+                blocks:
+                  - kind: stat
+                    label: Area
+                    field: area
+                  - kind: stat
+                    label: Raised by
+                    field: from_name
+                  - kind: stat
+                    label: Raised
+                    field: raised_on
+                    format: date
+                  - kind: stat
+                    label: Became
+                    field: becomes
+              - kind: field
+                field: detail
+              - kind: text
+                size: sm
+                color: medium-emphasis
+                value: Open the record itself to read the form answers it came in on.
+subject: suggestion

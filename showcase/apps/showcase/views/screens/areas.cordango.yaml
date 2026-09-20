@@ -1,0 +1,69 @@
+screen: areas
+label: Areas
+icon: sitemap
+detailFull: true
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        size: sm
+        color: medium-emphasis
+        value: Each area is its own entry in the sidebar. Open one and you get its workspace, not a filtered list.
+      - kind: repeat
+        as: a
+        wrap: true
+        cols: 3
+        gap: md
+        openDetail: false
+        emptyText: No areas yet.
+        source:
+          entity: area
+          sort:
+            - field: position
+              direction: asc
+        blocks:
+          - kind: card
+            padding: md
+            bordered: true
+            class: rounded-lg
+            blocks:
+              - kind: row
+                align: center
+                gap: sm
+                blocks:
+                  - kind: field
+                    field: name
+                    size: lg
+                    weight: bold
+                    grow: true
+                  - kind: chip
+                    field: code
+              - kind: field
+                field: blurb
+                size: sm
+                color: medium-emphasis
+                class: mt-1
+              - kind: row
+                gap: lg
+                class: mt-3 pt-3 border-t
+                blocks:
+                  - kind: stat
+                    label: Shipped
+                    field: shipped_count
+                  - kind: stat
+                    label: Total
+                    field: total_count
+                  - kind: stat
+                    label: Effort
+                    field: effort_booked
+              - kind: progress
+                label: Shipped
+                field: shipped_count
+                max: total_count
+                class: mt-3
+subject: area
+navigationSource:
+  labelField: name
+  sort: position
+  max: 12

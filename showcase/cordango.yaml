@@ -1,0 +1,7 @@
+formatVersion: 1
+workspaceId: 01M2ZKC6MTVAJW7N5BS4F537NV
+name: Showcase
+runtime: '>=0.1 <0.2'
+coreApps: default
+apps:
+  - apps/showcase

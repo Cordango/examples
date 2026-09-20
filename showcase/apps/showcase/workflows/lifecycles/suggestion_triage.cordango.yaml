@@ -1,0 +1,66 @@
+lifecycle: suggestion_triage
+entity: suggestion
+stateField: verdict
+initial: new
+states:
+  new:
+    label: New
+    color: '#0EA5E9'
+    phase: not_started
+  accepted:
+    label: Accepted
+    color: '#16A34A'
+    phase: done
+  declined:
+    label: Declined
+    color: '#64748B'
+    terminal: true
+    phase: cancelled
+  merged:
+    label: Merged in
+    color: '#8B5CF6'
+    terminal: true
+    phase: done
+transitions:
+  accept_suggestion:
+    label: Accept
+    from:
+      - new
+    to: accepted
+    action:
+      icon: check-circle
+      style: primary
+      placements:
+        - recordHeader
+        - tableRow
+      effects:
+        - type: updateRecord
+          set:
+            priority: high
+      emits:
+        - suggestion.accepted
+  decline_suggestion:
+    label: Decline
+    from:
+      - new
+    to: declined
+    action:
+      icon: alert-circle
+      placements:
+        - recordHeader
+        - tableRow
+      confirm:
+        title: Decline this suggestion?
+        confirmLabel: Decline
+      effects:
+        - type: updateRecord
+          set:
+            priority: low
+  merge_suggestion:
+    label: Merge into a capability
+    from:
+      - new
+      - accepted
+    to: merged
+    requiredFields:
+      - becomes

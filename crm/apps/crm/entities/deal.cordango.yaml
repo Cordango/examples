@@ -129,3 +129,11 @@ fields:
     label: Notes
     type: longtext
     group: Notes
+  documentation:
+    label: Documentation
+    type: reference
+    targetApp: core_documents
+    targetEntity: space
+    onDelete: setNull
+    group: Notes
+    help: The Documents space this deal owns. Filled by the Documentation tab on first use.

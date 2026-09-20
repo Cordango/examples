@@ -1,0 +1,158 @@
+screen: readiness
+label: Readiness
+icon: view-grid
+state:
+  - key: f_family
+    type: text
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        align: center
+        gap: sm
+        blocks:
+          - kind: text
+            size: lg
+            weight: medium
+            grow: true
+            value: How well each capability serves each audience
+          - kind: filterbar
+            entity: capability
+            facets:
+              - field: family
+                state: f_family
+                label: Family
+          - kind: create
+            entity: capability
+            label: New capability
+      - kind: text
+        size: sm
+        color: medium-emphasis
+        value: Every square is a record that may not exist yet. Change one and it is created with the row and the column already filled in - nobody re-picks the two things the grid already knows.
+      - kind: card
+        padding: none
+        bordered: true
+        class: rounded-lg
+        blocks:
+          - kind: row
+            gap: none
+            tone: muted
+            blocks:
+              - kind: stack
+                width: 240
+                padding: sm
+                bordered: true
+                blocks:
+                  - kind: text
+                    value: Capability
+                    size: sm
+                    weight: bold
+              - kind: repeat
+                as: head
+                direction: row
+                gap: none
+                source:
+                  entity: persona
+                  sort:
+                    - field: position
+                      direction: asc
+                blocks:
+                  - kind: stack
+                    width: 150
+                    padding: sm
+                    bordered: true
+                    align: center
+                    blocks:
+                      - kind: field
+                        field: name
+                        size: sm
+                        weight: bold
+                      - kind: field
+                        field: blurb
+                        size: xs
+                        color: medium-emphasis
+          - kind: repeat
+            as: row
+            direction: column
+            gap: none
+            emptyText: No capabilities match.
+            source:
+              entity: capability
+              limit: 40
+              sort:
+                - field: position
+                  direction: asc
+              filters:
+                - field: family
+                  operator: eq
+                  value: '{{state.f_family}}'
+                  optional: true
+                - field: parent
+                  operator: isEmpty
+            blocks:
+              - kind: row
+                gap: none
+                blocks:
+                  - kind: card
+                    width: 240
+                    padding: sm
+                    bordered: true
+                    tint: family
+                    openDetail: true
+                    minHeight: 56
+                    blocks:
+                      - kind: field
+                        field: name
+                        size: sm
+                        weight: medium
+                      - kind: field
+                        field: block_kind
+                        size: xs
+                        color: medium-emphasis
+                  - kind: repeat
+                    as: col
+                    direction: row
+                    gap: none
+                    source:
+                      entity: persona
+                      sort:
+                        - field: position
+                          direction: asc
+                    blocks:
+                      - kind: stack
+                        width: 150
+                        padding: sm
+                        bordered: true
+                        align: center
+                        minHeight: 56
+                        blocks:
+                          - kind: cell
+                            entity: fit
+                            field: level
+                            editable: true
+                            openDetail: true
+                            placeholder: '-'
+                            keys:
+                              capability: '{{row.id}}'
+                              persona: '{{col.id}}'
+      - kind: columns
+        gap: md
+        columns:
+          - - kind: chart
+              chartType: bar
+              label: Readiness by persona
+              source:
+                entity: fit
+                aggregate:
+                  op: count
+                  groupBy: persona
+          - - kind: chart
+              chartType: donut
+              label: Readiness overall
+              source:
+                entity: fit
+                aggregate:
+                  op: count
+                  groupBy: level
+subject: fit

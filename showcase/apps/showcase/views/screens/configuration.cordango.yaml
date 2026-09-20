@@ -1,0 +1,51 @@
+screen: configuration
+label: Configuration
+icon: cog
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: text
+        size: sm
+        color: medium-emphasis
+        value: One record, edited in place. A settings entity has no list and no New button because there is only ever one of it.
+      - kind: settings
+        entity: showcase_settings
+      - kind: columns
+        gap: md
+        columns:
+          - - kind: table
+              label: Areas
+              newButton: true
+              inlineEdit: true
+              allowDelete: true
+              orderField: position
+              fields:
+                - name
+                - code
+                - blurb
+                - lead
+                - docs_folder
+                - position
+              source:
+                entity: area
+                sort:
+                  - field: position
+                    direction: asc
+          - - kind: table
+              label: Personas
+              newButton: true
+              inlineEdit: true
+              allowDelete: true
+              orderField: position
+              fields:
+                - name
+                - blurb
+                - position
+              source:
+                entity: persona
+                sort:
+                  - field: position
+                    direction: asc
+subject: showcase_settings
+navigationGroup: config

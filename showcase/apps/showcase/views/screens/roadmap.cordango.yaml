@@ -1,0 +1,159 @@
+screen: roadmap
+label: Roadmap
+icon: timeline-clock
+state:
+  - key: mode
+    type: enum
+    default: releases
+    options:
+      - value: releases
+        label: Releases
+      - value: lanes
+        label: Area lanes
+  - key: cursor
+    type: date
+    default: '{{today}}'
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        align: center
+        justify: between
+        gap: sm
+        blocks:
+          - kind: control
+            control: segmented
+            stateKey: mode
+          - kind: row
+            align: center
+            gap: sm
+            blocks:
+              - kind: control
+                control: stepper
+                stateKey: cursor
+                step:
+                  unit: month
+                  amount: 1
+              - kind: create
+                entity: release
+                label: New release
+                icon: rocket-launch
+      - kind: tiles
+        tiles:
+          - label: Releases
+            icon: rocket-launch
+            source:
+              entity: release
+              aggregate:
+                op: count
+          - label: In flight
+            icon: airplane
+            source:
+              entity: release
+              aggregate:
+                op: count
+              filters:
+                - field: phase
+                  operator: eq
+                  value: in_flight
+          - label: Committed
+            icon: cash
+            format: money
+            source:
+              entity: release
+              aggregate:
+                op: sum
+                field: committed
+          - label: Budget
+            icon: bank
+            format: money
+            source:
+              entity: release
+              aggregate:
+                op: sum
+                field: budget
+          - label: Milestones reached
+            icon: flag
+            format: share
+            source:
+              entity: milestone
+              aggregate:
+                op: count
+              filters:
+                - field: reached
+                  operator: eq
+                  value: true
+            max:
+              source:
+                entity: milestone
+                aggregate:
+                  op: count
+      - kind: section
+        label: Releases
+        icon: timeline-clock
+        visibleWhen:
+          value: '{{state.mode}}'
+          eq: releases
+        blocks:
+          - kind: gantt
+            startField: starts_on
+            endField: ends_on
+            labelField: name
+            colorField: phase
+            openDetail: true
+            interaction: interactive
+            source:
+              entity: release
+              sort:
+                - field: starts_on
+                  direction: asc
+            milestones:
+              source:
+                entity: milestone
+              dateField: due_on
+              labelField: name
+      - kind: section
+        label: Work by area
+        icon: sitemap
+        visibleWhen:
+          value: '{{state.mode}}'
+          eq: lanes
+        blocks:
+          - kind: timeline
+            entity: capability
+            rowBy: area
+            startField: started_on
+            endField: shipped_on
+            labelField: name
+            colorField: status
+            openDetail: true
+            axis:
+              from: '{{state.cursor}}'
+              range: year
+      - kind: columns
+        gap: md
+        columns:
+          - - kind: chart
+              chartType: bar
+              label: Committed cost by category
+              source:
+                entity: budget_line
+                aggregate:
+                  op: sum
+                  field: amount
+                  groupBy: category
+          - - kind: table
+              label: Milestones
+              fields:
+                - name
+                - release
+                - due_on
+                - reached
+              openDetail: true
+              source:
+                entity: milestone
+                sort:
+                  - field: due_on
+                    direction: asc
+subject: release

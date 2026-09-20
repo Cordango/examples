@@ -1,0 +1,53 @@
+entity: request_question
+label: Question
+icon: help-circle-outline
+role: formField
+plural: Questions
+display: text
+fields:
+  form:
+    label: Form
+    type: reference
+    required: true
+    targetEntity: request_form
+    onDelete: cascade
+  text:
+    label: Question
+    type: text
+    required: true
+  answer_type:
+    label: Answer type
+    type: select
+    default: short_text
+    role: answerType
+    options:
+      - value: short_text
+        label: Short text
+      - value: long_text
+        label: Long text
+      - value: single_choice
+        label: Pick one
+      - value: multi_choice
+        label: Pick any
+      - value: yes_no
+        label: Yes / no
+      - value: number
+        label: Number
+      - value: date
+        label: Date
+  choices:
+    label: Choices
+    type: json
+  position:
+    label: Order
+    type: integer
+    role: order
+  mandatory:
+    label: Required
+    type: boolean
+    default: false
+    role: answerRequired
+  fills:
+    label: Fills
+    type: text
+    role: mapsTo

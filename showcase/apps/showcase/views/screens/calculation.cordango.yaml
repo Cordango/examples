@@ -1,0 +1,370 @@
+screen: calculation
+label: Calculation
+icon: finance
+layout:
+  - kind: stack
+    gap: lg
+    blocks:
+      - kind: stack
+        gap: sm
+        class: bg-teal-darken-3 text-white pa-6 rounded-xl
+        blocks:
+          - kind: text
+            value: Figures the server works out
+            size: xl
+            weight: bold
+          - kind: text
+            size: sm
+            value: 'A computed field is read-only everywhere and recomputed on every write. There is deliberately no today() in the language: a value worked out at write time from the clock is right for one day and quietly wrong after it. Those questions belong in a filter, which runs when somebody looks.'
+      - kind: section
+        label: The expression language
+        icon: finance
+        blocks:
+          - kind: grid
+            cols: 3
+            gap: md
+            blocks:
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-indigo-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A cap
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: min(effort, 20)
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: A ceiling is inexpressible without min(). Clamping with an if is two comparisons and a mistake waiting to happen.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-indigo-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A tariff
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: case(effort <= 5, 'small', effort <= 20, 'medium', 'large')
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Read top to bottom, first test wins, always ends in a default. Exactly the nested ifs it replaces - same laziness, same figures.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-indigo-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A lookup
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: switch(family, 'layout', 1, 'data', 3, ..., 2)
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Keyed on ONE select. A key that is not one of the field's options is refused at compile time, so this cannot drift when an option is renamed.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-indigo-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A duration
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: days_between(started_on, shipped_on) / 7
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Both arguments are bare date fields, and one may be a datetime.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-amber-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A date, computed
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: start_of_week(shipped_on)
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: The only computed field that is neither a number nor a boolean. Both ends of a boundary are inclusive.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-amber-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A running total
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: prev(running_shipped, 0) + shipped
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Inside an ordered series. State the rule once; the runtime carries it down the column and recomputes the whole partition after any change.
+                    size: sm
+                    color: medium-emphasis
+      - kind: section
+        label: All of it, on real rows
+        icon: table
+        blocks:
+          - kind: text
+            value: Every column right of the name is computed. None of them is stored by anybody, none is editable, and all of them move when the inputs do.
+            size: sm
+            color: medium-emphasis
+          - kind: table
+            class: mt-2
+            openDetail: true
+            filterBar:
+              search:
+                - name
+              facets:
+                - family
+                - status
+            fields:
+              - key: name
+                width: 220
+              - effort
+              - value
+              - capped_effort
+              - effort_band
+              - family_weight
+              - priority_score
+              - weeks_open
+              - shipped_week
+              - is_quick_win
+            source:
+              entity: capability
+              limit: 25
+              sort:
+                - field: priority_score
+                  direction: desc
+      - kind: section
+        label: 'Rollups: three different questions'
+        icon: sitemap
+        blocks:
+          - kind: grid
+            cols: 3
+            gap: md
+            blocks:
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-green-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Children
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: 'rollup: task via capability, count'
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: 'The ordinary one: the rows that point AT this record.'
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-green-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Siblings
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: 'rollup: capability via owner, match person'
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Rows are counted when their `via` equals this record's `match` - both point at the same person. Neither owns the other; they share a record.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-green-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A window
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: 'window: { at: due_on, within: { started_on, shipped_on } }'
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: A declarative SUMIFS. The window does not LINK the rows - `via` does that - it narrows the linked ones to those whose date falls inside a range on THIS record.
+                    size: sm
+                    color: medium-emphasis
+          - kind: table
+            label: 'Checks: all of them, and the ones due while building'
+            class: mt-3
+            openDetail: true
+            fields:
+              - name
+              - started_on
+              - shipped_on
+              - total_tasks
+              - done_tasks
+              - checks_due_in_build
+            source:
+              entity: capability
+              limit: 12
+              filters:
+                - field: total_tasks
+                  operator: gt
+                  value: 0
+      - kind: section
+        label: An ordered series
+        icon: chart-line
+        blocks:
+          - kind: text
+            value: Rows grouped into a partition and ordered, so prev() can reach the row before it. Change one month and the whole partition is recomputed in order - a figure cannot be left stale by an edit further up.
+            size: sm
+            color: medium-emphasis
+          - kind: columns
+            weights:
+              - 1
+              - 1
+            gap: md
+            class: mt-2
+            columns:
+              - - kind: chart
+                  chartType: area
+                  label: Shipped to date
+                  source:
+                    entity: adoption
+                    aggregate:
+                      op: sum
+                      field: running_shipped
+                      groupBy: month_of:month
+              - - kind: table
+                  label: The rows behind it
+                  inlineEdit: true
+                  fields:
+                    - area
+                    - month
+                    - shipped
+                    - running_shipped
+                  source:
+                    entity: adoption
+                    limit: 14
+                    sort:
+                      - field: month
+                        direction: desc
+          - kind: text
+            value: 'Edit a `shipped` cell on the right: every running total below it in the same area moves.'
+            size: sm
+            color: medium-emphasis
+            class: mt-2
+      - kind: section
+        label: Values worked out at insert
+        icon: cog
+        blocks:
+          - kind: grid
+            cols: 2
+            gap: md
+            blocks:
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-purple-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A field's initial rules
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: value >= 5 -> mature,  value <= 2 -> experimental
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: Evaluated top to bottom against the NEW record; the first match wins. A field with initial rules is hidden from the create form, because asking a question the server then overrides is a control that does nothing.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 128
+                class: bg-purple-lighten-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: A process's conditional entry
+                    weight: bold
+                  - kind: stack
+                    padding: sm
+                    class: bg-surface rounded-sm
+                    blocks:
+                      - kind: text
+                        value: family == platform -> planned,  otherwise idea
+                        size: sm
+                        weight: medium
+                  - kind: text
+                    value: '`field.initial` is not allowed on a process-governed field, so this is the only way a governed status can start somewhere conditional. The guard may hop one relation, so entry can depend on a referenced record.'
+                    size: sm
+                    color: medium-emphasis
+subject: capability

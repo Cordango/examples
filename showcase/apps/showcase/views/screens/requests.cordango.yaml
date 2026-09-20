@@ -1,0 +1,67 @@
+screen: requests
+label: Requests
+icon: clipboard-list
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: card
+        tone: muted
+        padding: md
+        blocks:
+          - kind: text
+            value: Ask for something
+            size: lg
+            weight: bold
+          - kind: text
+            size: sm
+            class: mt-1
+            value: Filing a request needs only the right to respond - not the right to create the record it files.
+      - kind: intake
+        entity: request_form
+        filters:
+          - field: active
+            operator: eq
+            value: true
+      - kind: section
+        label: What came in
+        icon: clipboard-text
+        blocks:
+          - kind: table
+            openDetail: true
+            fields:
+              - title
+              - area
+              - priority
+              - verdict
+              - from_name
+              - raised_on
+            filterBar:
+              search:
+                - title
+                - from_name
+              facets:
+                - verdict
+                - priority
+                - area
+            source:
+              entity: suggestion
+              sort:
+                - field: raised_on
+                  direction: desc
+      - kind: section
+        label: The forms themselves
+        icon: clipboard-list
+        blocks:
+          - kind: table
+            openDetail: true
+            newButton: true
+            fields:
+              - name
+              - active
+              - creates
+              - route_area
+              - route_priority
+            source:
+              entity: request_form
+subject: request_form

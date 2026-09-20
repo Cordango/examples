@@ -1,0 +1,9 @@
+automation: stamp_review_time
+name: Stamp when a review entry was posted
+effects:
+  - type: updateRecord
+    set:
+      posted_at: '{{now}}'
+    setIfEmpty: true
+trigger: record.created
+entity: review

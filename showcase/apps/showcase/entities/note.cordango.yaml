@@ -1,0 +1,31 @@
+entity: note
+label: Note
+description: 'The running commentary on a capability: what was tried, what broke, what was decided.'
+icon: message-text
+ownedBy:
+  parent: capability
+  via: capability
+  as: feed
+plural: Notes
+display: body
+fields:
+  capability:
+    label: Capability
+    type: reference
+    required: true
+    targetEntity: capability
+    onDelete: cascade
+  body:
+    label: Note
+    type: longtext
+    required: true
+  author:
+    label: Author
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  posted_at:
+    label: Posted
+    type: datetime
+    role: start

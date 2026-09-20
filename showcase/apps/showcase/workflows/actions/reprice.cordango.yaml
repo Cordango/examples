@@ -1,0 +1,27 @@
+action: reprice
+label: Re-estimate
+entity: capability
+description: Ask for a new effort and value, then write both.
+icon: scale-balance
+placements:
+  - recordHeader
+  - tableRow
+successMessage: Re-estimated.
+input:
+  fields:
+    - effort
+    - value
+  required:
+    - effort
+when:
+  field: status
+  operator: neq
+  value: retired
+effects:
+  - type: createRecord
+    set:
+      capability: '{{record.id}}'
+      author: '{{actor.id}}'
+      posted_at: '{{now}}'
+      body: 'Re-estimated: {{record.effort}} points, value {{record.value}}.'
+    entity: note

@@ -1,0 +1,11 @@
+action: reach_milestone
+label: Reached
+entity: milestone
+icon: flag
+placements:
+  - recordHeader
+  - tableRow
+effects:
+  - type: updateRecord
+    set:
+      reached: true

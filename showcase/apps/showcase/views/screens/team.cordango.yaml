@@ -1,0 +1,103 @@
+screen: team
+label: Team
+icon: account-group
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        align: center
+        gap: sm
+        blocks:
+          - kind: text
+            value: Who builds what
+            size: lg
+            weight: medium
+            grow: true
+          - kind: create
+            entity: contributor
+            label: Add contributor
+            icon: account
+      - kind: tabs
+        tabs:
+          - key: chart
+            label: Reporting
+            blocks:
+              - kind: orgchart
+                entity: contributor
+                manager: reports_to
+                identity: person
+                subtitle: title
+          - key: cards
+            label: Directory
+            blocks:
+              - kind: repeat
+                as: c
+                wrap: true
+                cols: 4
+                gap: md
+                openDetail: true
+                emptyText: Nobody yet.
+                source:
+                  entity: contributor
+                  sort:
+                    - field: title
+                      direction: asc
+                filterBar:
+                  search:
+                    - title
+                    - focus
+                  facets:
+                    - area
+                    - person
+                blocks:
+                  - kind: card
+                    padding: md
+                    bordered: true
+                    align: center
+                    class: rounded-lg
+                    blocks:
+                      - kind: avatar
+                        field: person
+                        size: xl
+                      - kind: field
+                        field: person
+                        avatar: false
+                        weight: bold
+                        class: mt-2
+                      - kind: field
+                        field: title
+                        size: sm
+                        color: medium-emphasis
+                      - kind: chip
+                        field: area
+                        class: mt-2
+                      - kind: stat
+                        label: Owns
+                        field: owned_count
+                        format: number
+                        class: mt-2
+          - key: load
+            label: Load
+            blocks:
+              - kind: chart
+                chartType: bar
+                label: Capabilities owned
+                source:
+                  entity: capability
+                  aggregate:
+                    op: count
+                    groupBy: owner
+              - kind: table
+                openDetail: true
+                class: mt-4
+                fields:
+                  - person
+                  - title
+                  - area
+                  - reports_to
+                  - joined_on
+                  - owned_count
+                source:
+                  entity: contributor
+subject: contributor

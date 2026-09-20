@@ -1,0 +1,33 @@
+entity: release_note
+label: Release note
+description: 'One line per capability in a release, written by an automation rather than by a person: entering the released state produces the whole set at once.'
+icon: newspaper
+ownedBy:
+  parent: release
+  via: release
+unique:
+  - - release
+    - capability
+plural: Release notes
+display: headline
+fields:
+  release:
+    label: Release
+    type: reference
+    required: true
+    targetEntity: release
+    onDelete: cascade
+  capability:
+    label: Capability
+    type: reference
+    required: true
+    targetEntity: capability
+    onDelete: cascade
+  headline:
+    label: Headline
+    type: text
+    required: true
+  published:
+    label: Published
+    type: boolean
+    default: false

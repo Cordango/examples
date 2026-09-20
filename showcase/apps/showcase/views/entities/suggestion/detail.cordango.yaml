@@ -1,0 +1,34 @@
+detail: suggestion
+blocks:
+  - kind: hub
+    title: title
+    status: verdict
+    subtitle:
+      - from_name
+    facts:
+      - area
+      - priority
+      - raised_on
+      - becomes
+    icon: lightbulb
+    actions:
+      - edit
+      - accept_suggestion
+      - decline_suggestion
+      - delete
+  - kind: answers
+    label: What the requester wrote
+    via: submission
+  - kind: section
+    label: Our reading of it
+    icon: message-text
+    edit:
+      - detail
+      - priority
+      - area
+      - becomes
+    blocks:
+      - kind: field
+        field: detail
+  - kind: history
+    limit: 20

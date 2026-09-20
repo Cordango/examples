@@ -1,0 +1,6 @@
+tab: elsewhere
+key: elsewhere
+label: Elsewhere
+blocks:
+  - kind: relatedApps
+    empty: No other app in this workspace points at this record yet.

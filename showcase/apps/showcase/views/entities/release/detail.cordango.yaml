@@ -1,0 +1,47 @@
+detail: release
+blocks:
+  - kind: hub
+    title: name
+    status: phase
+    subtitle:
+      - number
+    facts:
+      - owner
+      - starts_on
+      - ends_on
+      - budget
+      - committed
+    icon: rocket-launch
+    actions:
+      - edit
+      - publish_notes
+      - delete
+  - kind: tiles
+    tiles:
+      - label: Budget
+        field: budget
+        format: money
+        icon: bank
+      - label: Committed
+        field: committed
+        format: share
+        max: budget
+        icon: cash
+        attention:
+          op: gt
+          value: 0.9
+      - label: Milestones
+        field: milestone_count
+        icon: flag
+      - label: Capabilities in it
+        field: capability_count
+        icon: shape
+      - label: Effort planned
+        field: effort_planned
+        icon: briefcase
+  - kind: tabs
+    tabs:
+      - plan
+      - scope
+      - cost
+      - activity

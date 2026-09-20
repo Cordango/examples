@@ -1,0 +1,15 @@
+action: discard_check
+label: Discard
+entity: checkin
+description: Throw the day away. The one command here whose effect DELETES rather than writes - a record can end, and saying so is a verb like any other.
+icon: alert
+style: danger
+placements:
+  - recordHeader
+  - tableRow
+confirm:
+  title: Discard this day?
+  confirmLabel: Discard
+  tone: danger
+effects:
+  - type: deleteRecord

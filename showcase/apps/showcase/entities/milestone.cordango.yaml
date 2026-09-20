@@ -1,0 +1,29 @@
+entity: milestone
+label: Milestone
+description: A dated point inside a release. Drawn as a diamond over the roadmap.
+icon: flag
+ownedBy:
+  parent: release
+  via: release
+plural: Milestones
+display: name
+fields:
+  release:
+    label: Release
+    type: reference
+    required: true
+    targetEntity: release
+    onDelete: cascade
+  name:
+    label: Milestone
+    type: text
+    required: true
+  due_on:
+    label: Date
+    type: date
+    required: true
+    role: due
+  reached:
+    label: Reached
+    type: boolean
+    default: false

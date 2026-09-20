@@ -1,0 +1,10 @@
+automation: stamp_start
+name: Stamp the start date when building begins
+effects:
+  - type: updateRecord
+    set:
+      started_on: '{{today}}'
+    setIfEmpty: true
+trigger: process.state_entered
+event: capability.building
+entity: capability

@@ -1,0 +1,7 @@
+tab: docs
+key: docs
+label: Documentation
+blocks:
+  - kind: documents
+    field: space
+    empty: Nothing written down yet. The first page creates this capability's space.

@@ -1,0 +1,33 @@
+tab: parts
+key: parts
+label: Parts
+blocks:
+  - kind: child
+    entity: capability
+    via: parent
+    childType: table
+    label: Sub-capabilities
+    hideWhenEmpty: false
+    inlineEdit: true
+    fields:
+      - name
+      - block_kind
+      - status
+      - effort
+      - owner
+    filterBar:
+      search:
+        - name
+        - block_kind
+      facets:
+        - status
+  - kind: table
+    label: Readiness by persona
+    fields:
+      - persona
+      - level
+      - note
+      - rated_by
+    source:
+      entity: fit
+      via: capability

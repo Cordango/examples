@@ -1,0 +1,44 @@
+entity: request_form
+label: Request form
+description: The front door. Somebody who may not create a suggestion can still file one.
+icon: clipboard-list
+role: formTemplate
+plural: Request forms
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+  intro:
+    label: What it is for
+    type: longtext
+  active:
+    label: Offered
+    type: boolean
+    default: true
+  creates:
+    label: Creates
+    type: text
+    help: The entity a submission files. Empty collects answers only.
+    role: targetEntity
+  route_area:
+    label: Area
+    type: reference
+    targetEntity: area
+    onDelete: setNull
+    mapsTo: area
+  route_priority:
+    label: Priority
+    type: select
+    options:
+      - value: low
+        label: Low
+        color: '#64748B'
+      - value: normal
+        label: Normal
+        color: '#0EA5E9'
+      - value: high
+        label: High
+        color: '#F59E0B'
+    mapsTo: priority

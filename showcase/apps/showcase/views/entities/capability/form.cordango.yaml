@@ -1,0 +1,44 @@
+form: capability
+blocks:
+  - kind: section
+    label: What it is
+    blocks:
+      - kind: fields
+        columns: 2
+        fields:
+          - name
+          - area
+          - family
+          - parent
+          - block_kind
+          - authoring_name
+      - kind: fields
+        columns: 1
+        fields:
+          - summary
+  - kind: section
+    label: Where it stands
+    blocks:
+      - kind: fields
+        columns: 2
+        fields:
+          - maturity
+          - surface
+          - owner
+          - release
+          - started_on
+          - shipped_on
+          - effort
+          - value
+  - kind: section
+    label: Adoption
+    blocks:
+      - kind: fields
+        columns: 2
+        fields:
+          - adoption_pct
+          - adoption_target
+          - is_authorable
+          - tags
+          - docs_url
+          - position

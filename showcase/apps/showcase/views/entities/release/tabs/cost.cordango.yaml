@@ -1,0 +1,20 @@
+tab: cost
+key: cost
+label: Cost
+blocks:
+  - kind: child
+    entity: budget_line
+    via: release
+    childType: lineItems
+    label: Cost lines
+    allowDelete: true
+  - kind: chart
+    chartType: donut
+    label: By category
+    source:
+      entity: budget_line
+      via: release
+      aggregate:
+        op: sum
+        field: amount
+        groupBy: category

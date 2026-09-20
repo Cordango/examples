@@ -1,0 +1,11 @@
+tab: press
+key: press
+label: Written up
+blocks:
+  - kind: child
+    entity: mention
+    via: capability
+    childType: cards
+    label: Mentions elsewhere
+    hideWhenEmpty: false
+    readOnly: false

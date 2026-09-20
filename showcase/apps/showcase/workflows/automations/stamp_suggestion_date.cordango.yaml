@@ -1,0 +1,9 @@
+automation: stamp_suggestion_date
+name: Date a suggestion when it arrives
+effects:
+  - type: updateRecord
+    set:
+      raised_on: '{{today}}'
+    setIfEmpty: true
+trigger: record.created
+entity: suggestion

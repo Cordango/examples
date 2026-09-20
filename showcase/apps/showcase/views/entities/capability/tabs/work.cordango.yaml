@@ -1,0 +1,25 @@
+tab: work
+key: work
+label: Work
+blocks:
+  - kind: child
+    entity: task
+    via: capability
+    childType: checklist
+    label: Checks
+    orderField: position
+    inlineCreate: true
+    allowDelete: true
+  - kind: child
+    entity: note
+    via: capability
+    childType: feed
+    label: Notes
+    limit: 20
+  - kind: section
+    label: Add a note without leaving the page
+    icon: message-text
+    blocks:
+      - kind: form
+        entity: note
+        via: capability

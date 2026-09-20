@@ -1,0 +1,20 @@
+entity: persona
+label: Persona
+description: Who a capability is for. The columns of the readiness grid.
+icon: account-group
+kind: config
+plural: Personas
+display: name
+fields:
+  name:
+    label: Name
+    type: text
+    required: true
+    unique: true
+  blurb:
+    label: In one line
+    type: text
+  position:
+    label: Order
+    type: integer
+    role: order

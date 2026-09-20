@@ -1,0 +1,35 @@
+detail: contributor
+blocks:
+  - kind: hub
+    title: title
+    subtitle:
+      - focus
+    facts:
+      - person
+      - reports_to
+      - area
+      - joined_on
+      - owned_count
+    avatar:
+      field: person
+    icon: account-tie
+    actions:
+      - edit
+      - delete
+  - kind: table
+    label: What they own
+    fields:
+      - name
+      - family
+      - status
+      - effort
+      - adoption_pct
+    openDetail: true
+    source:
+      entity: capability
+      filters:
+        - field: owner
+          operator: eq
+          value: '{{record.person}}'
+  - kind: history
+    limit: 20

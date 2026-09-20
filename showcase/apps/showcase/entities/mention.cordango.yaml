@@ -1,0 +1,33 @@
+entity: mention
+label: Mention
+description: Something written about this capability somewhere else. The point is to read the item, not to edit the row.
+icon: newspaper
+ownedBy:
+  parent: capability
+  via: capability
+plural: Mentions
+display: headline
+fields:
+  capability:
+    label: Capability
+    type: reference
+    required: true
+    targetEntity: capability
+    onDelete: cascade
+  headline:
+    label: Headline
+    type: text
+    required: true
+  outlet:
+    label: Where
+    type: text
+  published_on:
+    label: Published
+    type: date
+    role: start
+  excerpt:
+    label: Excerpt
+    type: longtext
+  link:
+    label: Link
+    type: url

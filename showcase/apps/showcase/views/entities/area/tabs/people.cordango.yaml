@@ -1,0 +1,13 @@
+tab: people
+key: people
+label: People
+blocks:
+  - kind: child
+    entity: contributor
+    via: area
+    childType: table
+    label: Contributors
+    fields:
+      - person
+      - title
+      - owned_count

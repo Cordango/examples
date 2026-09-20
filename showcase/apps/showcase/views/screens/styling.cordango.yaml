@@ -1,0 +1,782 @@
+screen: styling
+label: Look and feel
+icon: palette-swatch
+layout:
+  - kind: stack
+    gap: lg
+    blocks:
+      - kind: stack
+        gap: sm
+        class: bg-deep-purple-darken-3 text-white pa-6 rounded-xl
+        blocks:
+          - kind: text
+            value: Purple, because we can
+            size: xl
+            weight: bold
+          - kind: text
+            size: sm
+            value: Every pixel on this page is authored in the App Definition - a colour is a class on a layout box, a size is a block property, a wash is `tone`. There is no stylesheet behind it and no component nobody else can have.
+          - kind: row
+            gap: sm
+            wrap: true
+            class: mt-2
+            blocks:
+              - kind: chip
+                value: bg-deep-purple-darken-3
+              - kind: chip
+                value: text-white
+              - kind: chip
+                value: pa-6
+              - kind: chip
+                value: rounded-xl
+      - kind: section
+        label: Colour
+        icon: palette-swatch
+        blocks:
+          - kind: text
+            value: The whole Material palette is in the bundle. A layout box takes any of it.
+            size: sm
+            color: medium-emphasis
+          - kind: grid
+            cols: 6
+            gap: sm
+            class: mt-2
+            blocks:
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-deep-purple-darken-2 text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Deep purple
+                    weight: bold
+                  - kind: text
+                    value: bg-deep-purple-darken-2
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-purple text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Purple
+                    weight: bold
+                  - kind: text
+                    value: bg-purple
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-indigo text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Indigo
+                    weight: bold
+                  - kind: text
+                    value: bg-indigo
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-blue-darken-1 text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Blue
+                    weight: bold
+                  - kind: text
+                    value: bg-blue-darken-1
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-teal-darken-1 text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Teal
+                    weight: bold
+                  - kind: text
+                    value: bg-teal-darken-1
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-green-darken-2 text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Green
+                    weight: bold
+                  - kind: text
+                    value: bg-green-darken-2
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-amber-lighten-1  pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Amber
+                    weight: bold
+                  - kind: text
+                    value: bg-amber-lighten-1
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-orange-lighten-1  pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Orange
+                    weight: bold
+                  - kind: text
+                    value: bg-orange-lighten-1
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-red-lighten-1 text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Red
+                    weight: bold
+                  - kind: text
+                    value: bg-red-lighten-1
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-pink-lighten-1 text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Pink
+                    weight: bold
+                  - kind: text
+                    value: bg-pink-lighten-1
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-brown-lighten-1 text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Brown
+                    weight: bold
+                  - kind: text
+                    value: bg-brown-lighten-1
+                    size: xs
+              - kind: stack
+                gap: none
+                minHeight: 82
+                class: bg-blue-grey-lighten-1 text-white pa-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Blue grey
+                    weight: bold
+                  - kind: text
+                    value: bg-blue-grey-lighten-1
+                    size: xs
+      - kind: section
+        label: Washes that mean something
+        icon: shape
+        blocks:
+          - kind: text
+            value: "`tone` is the one colour vocabulary that is not decoration: it reads the theme, so it stays right in dark mode and under a tenant's own palette."
+            size: sm
+            color: medium-emphasis
+          - kind: grid
+            cols: 4
+            gap: md
+            class: mt-2
+            blocks:
+              - kind: card
+                tone: muted
+                padding: md
+                bordered: true
+                blocks:
+                  - kind: text
+                    value: Muted
+                    weight: bold
+                  - kind: text
+                    value: A header strip, or a rail beside the body.
+                    size: sm
+                    class: mt-1
+                  - kind: text
+                    value: 'tone: muted'
+                    size: xs
+                    class: mt-2
+              - kind: card
+                tone: accent
+                padding: md
+                bordered: true
+                blocks:
+                  - kind: text
+                    value: Accent
+                    weight: bold
+                  - kind: text
+                    value: The one thing on the screen that matters.
+                    size: sm
+                    class: mt-1
+                  - kind: text
+                    value: 'tone: accent'
+                    size: xs
+                    class: mt-2
+              - kind: card
+                tone: warn
+                padding: md
+                bordered: true
+                blocks:
+                  - kind: text
+                    value: Warn
+                    weight: bold
+                  - kind: text
+                    value: Something a person should look at.
+                    size: sm
+                    class: mt-1
+                  - kind: text
+                    value: 'tone: warn'
+                    size: xs
+                    class: mt-2
+              - kind: card
+                tone: danger
+                padding: md
+                bordered: true
+                blocks:
+                  - kind: text
+                    value: Danger
+                    weight: bold
+                  - kind: text
+                    value: Something already wrong.
+                    size: sm
+                    class: mt-1
+                  - kind: text
+                    value: 'tone: danger'
+                    size: xs
+                    class: mt-2
+      - kind: section
+        label: Six ways to build a card
+        icon: view-grid
+        blocks:
+          - kind: text
+            value: Not six skins on one card - six different compositions. A card is a box with blocks in it, so its structure is as authorable as its colour.
+            size: sm
+            color: medium-emphasis
+          - kind: repeat
+            as: cap
+            wrap: true
+            cols: 3
+            gap: md
+            class: mt-2
+            openDetail: true
+            source:
+              entity: capability
+              limit: 6
+              sort:
+                - field: adoption_pct
+                  direction: desc
+            blocks:
+              - kind: card
+                padding: lg
+                bordered: true
+                blocks:
+                  - kind: stat
+                    field: adoption_pct
+                    format: percent
+                    size: xl
+                    icon: chart-line
+                    color: primary
+                  - kind: field
+                    field: name
+                    weight: bold
+                    class: mt-2
+                  - kind: field
+                    field: summary
+                    size: sm
+          - kind: grid
+            cols: 2
+            gap: md
+            class: mt-4
+            blocks:
+              - kind: row
+                gap: none
+                class: rounded-lg elevation-1
+                blocks:
+                  - kind: stack
+                    width: 8
+                    minHeight: 96
+                    class: bg-deep-purple
+                    blocks:
+                      - kind: text
+                        value: ''
+                        size: xs
+                  - kind: stack
+                    gap: sm
+                    padding: lg
+                    grow: true
+                    class: bg-surface
+                    blocks:
+                      - kind: text
+                        value: Rail
+                        weight: bold
+                        size: lg
+                      - kind: text
+                        value: A row, a narrow coloured box, and the content beside it. The rail is 8px of `bg-deep-purple` and nothing else.
+                        size: sm
+                        color: medium-emphasis
+              - kind: row
+                gap: md
+                align: center
+                padding: lg
+                class: bg-surface rounded-lg elevation-1
+                minHeight: 96
+                blocks:
+                  - kind: stack
+                    align: center
+                    minHeight: 56
+                    width: 56
+                    padding: md
+                    class: bg-teal-lighten-4 rounded-pill
+                    blocks:
+                      - kind: stat
+                        size: lg
+                        icon: rocket-launch
+                        color: teal
+                        source:
+                          entity: capability
+                          aggregate:
+                            op: count
+                          filters:
+                            - field: status
+                              operator: eq
+                              value: shipped
+                  - kind: stack
+                    gap: none
+                    grow: true
+                    blocks:
+                      - kind: text
+                        value: Badge
+                        weight: bold
+                        size: lg
+                      - kind: text
+                        value: A round tinted box with one icon in it, then the copy. `stat` at size xl draws a 28px icon - the biggest the runtime has.
+                        size: sm
+                        color: medium-emphasis
+              - kind: stack
+                gap: none
+                class: rounded-lg elevation-2
+                blocks:
+                  - kind: row
+                    padding: md
+                    align: center
+                    gap: sm
+                    class: bg-indigo text-white
+                    blocks:
+                      - kind: text
+                        value: Banded
+                        weight: bold
+                  - kind: stack
+                    padding: lg
+                    gap: sm
+                    class: bg-surface
+                    blocks:
+                      - kind: text
+                        value: A coloured header strip over a plain body. Two stacked boxes, the outer one rounded and raised.
+                        size: sm
+                        color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                class: bg-blue-grey-lighten-5 rounded-xl
+                minHeight: 96
+                blocks:
+                  - kind: text
+                    value: Quiet
+                    weight: bold
+                    size: lg
+                    color: blue-grey
+                  - kind: text
+                    value: No border, no shadow, a soft ground and a large radius. Restraint is a style the language can express too.
+                    size: sm
+                    color: medium-emphasis
+              - kind: stack
+                gap: sm
+                padding: lg
+                minHeight: 96
+                class: bg-grey-darken-4 text-white rounded-lg
+                blocks:
+                  - kind: text
+                    value: Inverted
+                    weight: bold
+                    size: lg
+                  - kind: text
+                    size: sm
+                    value: Light on dark, in the middle of a light page. The text colour is one class; nothing else changes.
+              - kind: repeat
+                as: fam
+                direction: column
+                gap: sm
+                source:
+                  entity: capability
+                  limit: 3
+                  filters:
+                    - field: parent
+                      operator: isEmpty
+                blocks:
+                  - kind: card
+                    padding: md
+                    bordered: true
+                    tint: family
+                    openDetail: true
+                    blocks:
+                      - kind: row
+                        align: center
+                        gap: sm
+                        blocks:
+                          - kind: field
+                            field: name
+                            weight: bold
+                            grow: true
+                          - kind: chip
+                            field: family
+                      - kind: text
+                        size: xs
+                        value: 'tint: family - the wash is the option colour of this row'
+      - kind: section
+        label: Elevation
+        icon: layers-triple
+        blocks:
+          - kind: text
+            value: Zero to five. Anything above five is not in the bundle, whatever the schema description says.
+            size: sm
+            color: medium-emphasis
+          - kind: row
+            gap: md
+            wrap: true
+            class: mt-2 pa-2
+            blocks:
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface elevation-0 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Elevation 0
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: elevation-0 rounded-lg
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface elevation-1 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Elevation 1
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: elevation-1 rounded-lg
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface elevation-2 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Elevation 2
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: elevation-2 rounded-lg
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface elevation-3 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Elevation 3
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: elevation-3 rounded-lg
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface elevation-4 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Elevation 4
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: elevation-4 rounded-lg
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface elevation-5 rounded-lg
+                blocks:
+                  - kind: text
+                    value: Elevation 5
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: elevation-5 rounded-lg
+                    size: xs
+                    color: medium-emphasis
+      - kind: section
+        label: Corners
+        icon: shape
+        blocks:
+          - kind: row
+            gap: md
+            wrap: true
+            blocks:
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface rounded-0 border
+                blocks:
+                  - kind: text
+                    value: Square
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: rounded-0 border
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface rounded-sm border
+                blocks:
+                  - kind: text
+                    value: Small
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: rounded-sm border
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface rounded-lg border
+                blocks:
+                  - kind: text
+                    value: Large
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: rounded-lg border
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface rounded-xl border
+                blocks:
+                  - kind: text
+                    value: Extra
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: rounded-xl border
+                    size: xs
+                    color: medium-emphasis
+              - kind: stack
+                gap: none
+                minHeight: 64
+                padding: md
+                class: bg-surface rounded-pill border
+                blocks:
+                  - kind: text
+                    value: Pill
+                    size: sm
+                    weight: medium
+                  - kind: text
+                    value: rounded-pill border
+                    size: xs
+                    color: medium-emphasis
+      - kind: section
+        label: Density
+        icon: format-list-bulleted
+        blocks:
+          - kind: text
+            value: '`padding` is a block property rather than a class, because a grid cell needs its own and the composed surface reads as one texture otherwise.'
+            size: sm
+            color: medium-emphasis
+          - kind: row
+            gap: md
+            wrap: true
+            class: mt-2
+            blocks:
+              - kind: stack
+                padding: none
+                class: bg-surface border rounded-lg
+                minHeight: 56
+                blocks:
+                  - kind: text
+                    value: none
+                    size: sm
+                    weight: medium
+              - kind: stack
+                padding: xs
+                class: bg-surface border rounded-lg
+                minHeight: 56
+                blocks:
+                  - kind: text
+                    value: xs
+                    size: sm
+                    weight: medium
+              - kind: stack
+                padding: sm
+                class: bg-surface border rounded-lg
+                minHeight: 56
+                blocks:
+                  - kind: text
+                    value: sm
+                    size: sm
+                    weight: medium
+              - kind: stack
+                padding: md
+                class: bg-surface border rounded-lg
+                minHeight: 56
+                blocks:
+                  - kind: text
+                    value: md
+                    size: sm
+                    weight: medium
+              - kind: stack
+                padding: lg
+                class: bg-surface border rounded-lg
+                minHeight: 56
+                blocks:
+                  - kind: text
+                    value: lg
+                    size: sm
+                    weight: medium
+      - kind: section
+        label: Scale and weight
+        icon: format-list-bulleted
+        blocks:
+          - kind: text
+            value: 'Typography comes from the block, not from a class: text runs 11px to 24px, and a stat runs 13px to 40px with its icon scaling alongside.'
+            size: sm
+            color: medium-emphasis
+          - kind: row
+            gap: lg
+            wrap: true
+            align: baseline
+            class: mt-2
+            blocks:
+              - kind: text
+                value: xs
+                size: xs
+                weight: normal
+              - kind: text
+                value: sm
+                size: sm
+                weight: normal
+              - kind: text
+                value: md
+                size: md
+                weight: normal
+              - kind: text
+                value: lg
+                size: lg
+                weight: bold
+              - kind: text
+                value: xl
+                size: xl
+                weight: bold
+          - kind: row
+            gap: lg
+            wrap: true
+            align: center
+            class: mt-4
+            blocks:
+              - kind: stat
+                label: xs
+                size: xs
+                icon: star
+                source:
+                  entity: capability
+                  aggregate:
+                    op: count
+              - kind: stat
+                label: sm
+                size: sm
+                icon: star
+                source:
+                  entity: capability
+                  aggregate:
+                    op: count
+              - kind: stat
+                label: md
+                size: md
+                icon: star
+                source:
+                  entity: capability
+                  aggregate:
+                    op: count
+              - kind: stat
+                label: lg
+                size: lg
+                icon: star
+                source:
+                  entity: capability
+                  aggregate:
+                    op: count
+              - kind: stat
+                label: xl
+                size: xl
+                icon: star
+                color: deep-purple
+                source:
+                  entity: capability
+                  aggregate:
+                    op: count
+      - kind: section
+        label: It composes with the real thing
+        icon: view-grid
+        blocks:
+          - kind: text
+            value: A working board inside a coloured, rounded, raised container. The styling is the container's; the board is the same board as on Capabilities.
+            size: sm
+            color: medium-emphasis
+          - kind: stack
+            padding: md
+            gap: md
+            class: bg-deep-purple-lighten-5 rounded-xl mt-2
+            blocks:
+              - kind: board
+                groupField: status
+                sumField: effort
+                openDetail: true
+                cardFields:
+                  - owner
+                  - family
+                source:
+                  entity: capability
+                  limit: 24
+                  filters:
+                    - field: parent
+                      operator: isEmpty
+subject: capability

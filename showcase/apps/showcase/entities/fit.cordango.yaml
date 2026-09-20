@@ -1,0 +1,44 @@
+entity: fit
+label: Readiness
+description: How well one capability serves one persona. One record per crossing, created the moment somebody fills the cell in.
+icon: view-grid
+unique:
+  - - capability
+    - persona
+plural: Readiness
+display: level
+fields:
+  capability:
+    label: Capability
+    type: reference
+    required: true
+    targetEntity: capability
+    onDelete: cascade
+  persona:
+    label: Persona
+    type: reference
+    required: true
+    targetEntity: persona
+    onDelete: cascade
+  level:
+    label: Level
+    type: select
+    options:
+      - value: none
+        label: Not yet
+        color: '#E2E8F0'
+      - value: partial
+        label: Partial
+        color: '#F59E0B'
+      - value: strong
+        label: Strong
+        color: '#16A34A'
+  note:
+    label: Note
+    type: text
+  rated_by:
+    label: Rated by
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull

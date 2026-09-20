@@ -1,0 +1,29 @@
+entity: attendee
+label: Attendee
+description: Who is coming. There is no multi-reference field type, so many people on one record has to be a child entity - drawn as closable chips rather than a form.
+icon: account-multiple
+ownedBy:
+  parent: session
+  via: session
+plural: Attendees
+display: email
+fields:
+  session:
+    label: Session
+    type: reference
+    required: true
+    targetEntity: session
+    onDelete: cascade
+  email:
+    label: Email
+    type: email
+    required: true
+  person:
+    label: Colleague
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  display_name:
+    label: Name
+    type: text

@@ -1,6 +1,6 @@
 app: crm
 name: Cordango CRM
-version: 0.2.0
+version: 0.3.0
 description: Capture leads from forms you build yourself, qualify them, convert them into deals on a pipeline board, and keep every call and meeting in the calendar of whoever owns it.
 schemaVersion: '2.0'
 purpose:
@@ -16,6 +16,10 @@ uses:
       - organization
       - contact
     why: a company and the person at it are the same records the rest of the workspace uses
+  - app: core_documents
+    entities:
+      - space
+    why: a deal owns one documentation space — proposals, call notes and account background as pages
 presentation:
   icon: mdi-account-group-outline
   color: '#0f766e'

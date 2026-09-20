@@ -1,0 +1,13 @@
+entity: request_submission
+label: Submission
+icon: clipboard-text
+role: formResponse
+plural: Submissions
+display: id
+fields:
+  form:
+    label: Form
+    type: reference
+    required: true
+    targetEntity: request_form
+    onDelete: cascade

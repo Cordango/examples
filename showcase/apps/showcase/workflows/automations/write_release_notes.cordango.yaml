@@ -1,0 +1,21 @@
+automation: write_release_notes
+name: Draft a note per capability when a release ships
+effects:
+  - type: createForEach
+    set:
+      release: '{{record.id}}'
+      capability: '{{source.id}}'
+      headline: '{{source.name}} shipped in {{record.name}}'
+    entity: release_note
+    source:
+      entity: capability
+      filters:
+        - field: release
+          operator: eq
+          value: '{{record.id}}'
+    key:
+      - release
+      - capability
+trigger: process.state_entered
+event: release.released
+entity: release

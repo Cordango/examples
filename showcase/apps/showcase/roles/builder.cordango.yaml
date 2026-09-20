@@ -1,0 +1,83 @@
+role: builder
+name: Builder
+description: Works on capabilities and writes them up, but does not shape releases or the configuration.
+grants:
+  capability:
+    create: true
+    read: true
+    update: true
+    commands:
+      - ship_it
+      - assign_to_me
+      - reprice
+  task:
+    create: true
+    read: true
+    update: true
+    delete: true
+  note:
+    create: true
+    read: true
+    update: true
+  review:
+    create: true
+    read: true
+    update: true
+  fit:
+    create: true
+    read: true
+    update: true
+  session:
+    create: true
+    read: true
+    update: true
+  checkin:
+    create: true
+    read: true
+    update: true
+    commands:
+      - mark_reviewed
+  adopter:
+    create: true
+    read: true
+    update: true
+  release_note:
+    read: true
+    update: true
+  suggestion:
+    read: true
+    update: true
+    commands:
+      - accept_suggestion
+      - decline_suggestion
+  area:
+    read: true
+  persona:
+    read: true
+  release:
+    read: true
+  milestone:
+    read: true
+  budget_line:
+    read: true
+    fieldOverrides:
+      - field: unit_cost
+        read: false
+      - field: amount
+        read: false
+  contributor:
+    read: true
+  adoption:
+    read: true
+  request_form:
+    read: true
+  request_question:
+    read: true
+  request_submission:
+    create: true
+    read: true
+  request_answer:
+    create: true
+    read: true
+  showcase_settings:
+    read: true

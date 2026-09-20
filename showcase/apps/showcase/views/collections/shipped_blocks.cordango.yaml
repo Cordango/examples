@@ -1,0 +1,22 @@
+view: shipped_blocks
+label: Shipped blocks
+entity: capability
+filters:
+  - field: status
+    operator: eq
+    value: shipped
+sort:
+  - field: family
+    direction: asc
+  - field: name
+    direction: asc
+kind: table
+settings:
+  columns:
+    - name
+    - family
+    - block_kind
+    - authoring_name
+    - area
+    - adoption_pct
+    - owner

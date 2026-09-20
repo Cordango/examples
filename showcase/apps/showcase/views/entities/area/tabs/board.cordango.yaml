@@ -1,0 +1,16 @@
+tab: board
+key: board
+label: Board
+blocks:
+  - kind: board
+    groupField: status
+    sumField: effort
+    openDetail: true
+    newButton: true
+    cardFields:
+      - owner
+      - family
+      - effort
+    source:
+      entity: capability
+      via: area

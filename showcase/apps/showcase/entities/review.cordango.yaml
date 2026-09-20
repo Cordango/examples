@@ -1,0 +1,48 @@
+entity: review
+label: Review entry
+description: The review conversation. A message is what a reader of the changelog sees; a note stays inside the team.
+icon: forum
+ownedBy:
+  parent: capability
+  via: capability
+plural: Review
+display: body
+fields:
+  capability:
+    label: Capability
+    type: reference
+    required: true
+    targetEntity: capability
+    onDelete: cascade
+  kind:
+    label: Kind
+    type: select
+    default: message
+    options:
+      - value: message
+        label: Message
+        color: '#0EA5E9'
+      - value: comment
+        label: Internal note
+        color: '#F59E0B'
+  body:
+    label: Body
+    type: longtext
+    required: true
+  author:
+    label: Author
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  author_name:
+    label: From
+    type: text
+    help: For an entry that came in from outside, where there is no colleague to name.
+  author_email:
+    label: Email
+    type: email
+  posted_at:
+    label: Posted
+    type: datetime
+    role: start

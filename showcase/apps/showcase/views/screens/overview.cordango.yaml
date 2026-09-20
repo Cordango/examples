@@ -1,0 +1,324 @@
+screen: overview
+label: Overview
+icon: view-dashboard
+layout:
+  - kind: stack
+    gap: md
+    blocks:
+      - kind: row
+        gap: none
+        class: rounded-xl elevation-1
+        blocks:
+          - kind: stack
+            width: 10
+            minHeight: 120
+            class: bg-deep-purple
+            blocks:
+              - kind: text
+                value: ''
+                size: xs
+          - kind: stack
+            gap: sm
+            padding: lg
+            grow: true
+            class: bg-deep-purple-lighten-5
+            blocks:
+              - kind: text
+                value: Everything this runtime can draw
+                size: xl
+                weight: bold
+                color: deep-purple
+              - kind: text
+                size: sm
+                value: This app is a description of the platform it runs on. Every block kind the renderer knows has a row in Capabilities, and every page here is built out of those blocks - so the catalogue and the demonstration are the same document.
+              - kind: row
+                gap: sm
+                wrap: true
+                class: mt-1
+                blocks:
+                  - kind: chip
+                    value: 40 of 42 block kinds
+                  - kind: chip
+                    value: 12 pages
+                  - kind: chip
+                    value: 21 entities
+      - kind: tiles
+        tiles:
+          - label: Capabilities
+            icon: shape
+            source:
+              entity: capability
+              aggregate:
+                op: count
+            link:
+              page: capabilities
+          - label: Shipped
+            icon: check-circle
+            source:
+              entity: capability
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: shipped
+            link:
+              page: capabilities
+              filters:
+                - field: status
+                  operator: eq
+                  value: shipped
+          - label: In build
+            icon: hammer
+            source:
+              entity: capability
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: building
+            link:
+              page: capabilities
+              filters:
+                - field: status
+                  operator: eq
+                  value: building
+          - label: Shipped share
+            icon: percent
+            format: share
+            source:
+              entity: capability
+              aggregate:
+                op: count
+              filters:
+                - field: status
+                  operator: eq
+                  value: shipped
+            max:
+              source:
+                entity: capability
+                aggregate:
+                  op: count
+          - label: Effort booked
+            icon: briefcase
+            source:
+              entity: capability
+              aggregate:
+                op: sum
+                field: effort
+            attention:
+              op: gt
+              value: 1200
+          - label: Average adoption
+            icon: chart-line
+            format: percent
+            source:
+              entity: capability
+              aggregate:
+                op: avg
+                field: adoption_pct
+      - kind: columns
+        weights:
+          - 2
+          - 1
+        gap: md
+        columns:
+          - - kind: chart
+              chartType: bar
+              label: Effort against value, by family
+              sources:
+                - label: Effort
+                  color: '#94A3B8'
+                  source:
+                    entity: capability
+                    aggregate:
+                      op: sum
+                      field: effort
+                      groupBy: family
+                - label: Value
+                  color: '#0D9488'
+                  source:
+                    entity: capability
+                    aggregate:
+                      op: sum
+                      field: value
+                      groupBy: family
+              link:
+                page: capabilities
+          - - kind: chart
+              chartType: donut
+              label: Where the work sits
+              source:
+                entity: capability
+                aggregate:
+                  op: count
+                  groupBy: status
+              link:
+                page: capabilities
+      - kind: columns
+        gap: md
+        columns:
+          - - kind: chart
+              chartType: line
+              label: Shipped to date
+              source:
+                entity: adoption
+                aggregate:
+                  op: sum
+                  field: running_shipped
+                  groupBy: month_of:month
+          - - kind: chart
+              chartType: area
+              label: Apps using these blocks
+              source:
+                entity: adoption
+                aggregate:
+                  op: sum
+                  field: apps_using
+                  groupBy: month_of:month
+      - kind: columns
+        gap: md
+        columns:
+          - - kind: chart
+              chartType: pie
+              label: Capabilities by area
+              source:
+                entity: capability
+                aggregate:
+                  op: count
+                  groupBy: area
+              link:
+                page: capabilities
+          - - kind: chart
+              chartType: bar
+              label: Shipped by month
+              source:
+                entity: capability
+                aggregate:
+                  op: count
+                  groupBy: month_of:shipped_on
+                filters:
+                  - field: status
+                    operator: eq
+                    value: shipped
+      - kind: section
+        label: Recently shipped
+        icon: rocket-launch
+        blocks:
+          - kind: repeat
+            as: cap
+            wrap: true
+            cols: 4
+            gap: md
+            openDetail: true
+            emptyText: Nothing shipped yet.
+            source:
+              entity: capability
+              filters:
+                - field: status
+                  operator: eq
+                  value: shipped
+              limit: 8
+              sort:
+                - field: shipped_on
+                  direction: desc
+            filterBar:
+              search:
+                - name
+                - block_kind
+              facets:
+                - family
+                - area
+            blocks:
+              - kind: card
+                padding: lg
+                bordered: true
+                tint: family
+                openDetail: true
+                class: rounded-lg
+                blocks:
+                  - kind: row
+                    align: center
+                    gap: sm
+                    blocks:
+                      - kind: stat
+                        field: adoption_pct
+                        format: percent
+                        size: xl
+                        icon: chart-line
+                        grow: true
+                      - kind: chip
+                        field: family
+                  - kind: field
+                    field: name
+                    size: lg
+                    weight: bold
+                    class: mt-2
+                  - kind: text
+                    size: xs
+                    color: medium-emphasis
+                    value: '{block_kind} - {authoring_name}'
+                  - kind: progress
+                    label: Against target
+                    field: adoption_pct
+                    max: adoption_target
+                    class: mt-3
+                  - kind: row
+                    align: center
+                    gap: sm
+                    class: mt-3 pt-3 border-t
+                    blocks:
+                      - kind: avatar
+                        field: owner
+                        size: sm
+                      - kind: field
+                        field: owner
+                        avatar: false
+                        grow: true
+                        size: sm
+                      - kind: field
+                        field: shipped_on
+                        format: date
+                        size: sm
+                        icon: calendar
+      - kind: columns
+        gap: md
+        columns:
+          - - kind: table
+              label: In build
+              source:
+                entity: capability
+                sort:
+                  - field: priority_score
+                    direction: desc
+                filters:
+                  - field: status
+                    operator: eq
+                    value: building
+              fields:
+                - name
+                - area
+                - owner
+                - effort
+                - priority_score
+              openDetail: true
+          - - kind: table
+              label: Next up
+              source:
+                entity: capability
+                limit: 10
+                sort:
+                  - field: priority_score
+                    direction: desc
+                filters:
+                  - field: status
+                    operator: eq
+                    value: planned
+              fields:
+                - name
+                - family
+                - value
+                - effort
+              openDetail: true
+subject: capability

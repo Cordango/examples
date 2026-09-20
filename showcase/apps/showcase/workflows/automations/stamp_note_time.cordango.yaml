@@ -1,0 +1,9 @@
+automation: stamp_note_time
+name: Stamp when a note was posted
+effects:
+  - type: updateRecord
+    set:
+      posted_at: '{{now}}'
+    setIfEmpty: true
+trigger: record.created
+entity: note

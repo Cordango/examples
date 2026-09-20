@@ -1,0 +1,63 @@
+entity: session
+label: Session
+description: A demo, a workshop or an office hour. Dated, so it lands on a calendar rather than in a list.
+icon: calendar-clock
+calendar: true
+plural: Sessions
+display: title
+fields:
+  title:
+    label: Title
+    type: text
+    required: true
+  kind:
+    label: Kind
+    type: select
+    required: true
+    default: demo
+    options:
+      - value: demo
+        label: Demo
+        color: '#0EA5E9'
+      - value: workshop
+        label: Workshop
+        color: '#8B5CF6'
+      - value: office_hours
+        label: Office hours
+        color: '#14B8A6'
+      - value: review
+        label: Design review
+        color: '#F59E0B'
+  starts_at:
+    label: Starts
+    type: datetime
+    required: true
+    role: start
+  ends_at:
+    label: Ends
+    type: datetime
+    required: true
+    role: due
+  host:
+    label: Host
+    type: reference
+    targetEntity: person
+    targetApp: platform
+    onDelete: setNull
+  capability:
+    label: About
+    type: reference
+    targetEntity: capability
+    onDelete: setNull
+  room:
+    label: Where
+    type: text
+  seats:
+    label: Seats
+    type: integer
+    default: 12
+    min: 1
+    max: 200
+  agenda:
+    label: Agenda
+    type: longtext

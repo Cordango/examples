@@ -1,0 +1,14 @@
+action: assign_to_me
+label: Take it
+entity: capability
+description: Put your own name on it.
+icon: account
+placements:
+  - recordHeader
+  - tableRow
+  - kanbanCard
+successMessage: Yours now.
+effects:
+  - type: updateRecord
+    set:
+      owner: '{{actor.id}}'
