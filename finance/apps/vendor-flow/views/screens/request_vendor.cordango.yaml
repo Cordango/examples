@@ -1,5 +1,6 @@
 screen: request_vendor
 label: Ask for a tool
+subtitle: Ask for a new tool or vendor. Security and finance review it before anyone signs.
 layout:
   - kind: intake
     label: Pick the form for your department

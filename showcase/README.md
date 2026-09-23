@@ -14,7 +14,7 @@ cordango inspect --app showcase
 | Entities | 24 |
 | Pages | 16 |
 | Commands | 10 · Processes 2 · Automations 7 · Roles 3 |
-| Block kinds drawn | 40 of the 42 that exist |
+| Block kinds drawn | 42 of the 44 that exist |
 
 ## Why it is in this repository
 

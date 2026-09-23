@@ -1,6 +1,6 @@
 entity: booking_attendee
 label: Attendee
-icon: person
+icon: account-outline
 ownedBy:
   parent: booking
   via: booking

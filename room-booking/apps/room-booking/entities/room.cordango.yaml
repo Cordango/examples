@@ -1,6 +1,6 @@
 entity: room
 label: Room
-icon: meeting_room
+icon: door
 plural: Rooms
 display: name
 fields:

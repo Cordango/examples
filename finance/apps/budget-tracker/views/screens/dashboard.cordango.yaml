@@ -1,54 +1,52 @@
 screen: dashboard
 label: Dashboard
+subtitle: Spend against plan, and the adjustments waiting for a decision.
 layout:
-  - kind: row
-    blocks:
-      - kind: card
-        label: Committed
-        blocks:
-          - kind: stat
-            label: Open commitments
-            source:
-              entity: spend_entry
-              aggregate:
-                op: sum
-                field: amount
-              filters:
-                - field: kind
-                  operator: eq
-                  value: commitment
-                - field: status
-                  operator: eq
-                  value: open
-      - kind: card
-        label: Actual
-        blocks:
-          - kind: stat
-            label: Invoiced and paid
-            source:
-              entity: spend_entry
-              aggregate:
-                op: sum
-                field: amount
-              filters:
-                - field: status
-                  operator: in
-                  value:
-                    - invoiced
-                    - paid
-      - kind: card
-        label: Waiting
-        blocks:
-          - kind: stat
-            label: Adjustments to decide
-            source:
-              entity: budget_adjustment
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: eq
-                  value: proposed
+  - kind: tiles
+    tiles:
+      - label: Committed
+        icon: file-sign
+        color: warning
+        caption: Open commitments
+        source:
+          entity: spend_entry
+          aggregate:
+            op: sum
+            field: amount
+          filters:
+            - field: kind
+              operator: eq
+              value: commitment
+            - field: status
+              operator: eq
+              value: open
+      - label: Actual
+        icon: cash-check
+        color: primary
+        caption: Invoiced and paid
+        source:
+          entity: spend_entry
+          aggregate:
+            op: sum
+            field: amount
+          filters:
+            - field: status
+              operator: in
+              value:
+                - invoiced
+                - paid
+      - label: Waiting
+        icon: scale-balance
+        color: info
+        caption: Adjustments to decide
+        source:
+          entity: budget_adjustment
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: eq
+              value: proposed
   - kind: chart
     label: Spend by category
     chartType: bar

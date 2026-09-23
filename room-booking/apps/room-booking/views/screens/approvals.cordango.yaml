@@ -1,6 +1,6 @@
 screen: approvals
 label: Approvals
-icon: fact_check
+icon: clipboard-check-outline
 layout:
   - kind: stack
     gap: md

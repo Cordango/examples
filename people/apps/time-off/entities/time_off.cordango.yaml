@@ -22,18 +22,23 @@ fields:
       - value: vacation
         label: Vacation
         color: '#0ea5e9'
+        icon: airplane
       - value: sick
         label: Sick
         color: '#ef4444'
+        icon: thermometer
       - value: personal
         label: Personal
         color: '#a855f7'
+        icon: account-heart-outline
       - value: unpaid
         label: Unpaid
         color: '#64748b'
+        icon: minus-circle-outline
       - value: other
         label: Other
         color: '#94a3b8'
+        icon: dots-horizontal-circle-outline
   start_date:
     label: From
     type: date

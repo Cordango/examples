@@ -1,6 +1,6 @@
 screen: my_bookings
 label: My bookings
-icon: event_available
+icon: calendar-check-outline
 layout:
   - kind: view
     view: my_bookings_table

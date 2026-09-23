@@ -1,6 +1,6 @@
 entity: booking
 label: Booking
-icon: event
+icon: calendar-clock
 plural: Bookings
 display: purpose
 fields:

@@ -1,6 +1,6 @@
 screen: rooms
 label: Rooms
-icon: meeting_room
+icon: door
 layout:
   - kind: view
     view: rooms_table

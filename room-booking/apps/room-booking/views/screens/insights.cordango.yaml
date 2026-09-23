@@ -1,35 +1,33 @@
 screen: insights
 label: Insights
-icon: chart_bar
+subtitle: How heavily each room is booked, and where the week's demand falls.
+icon: chart-bar
 layout:
   - kind: stack
     gap: md
     blocks:
-      - kind: text
-        value: Room load
-        size: lg
-        weight: bold
-      - kind: text
-        value: How heavily each room is booked, and where the week's demand falls.
-        size: sm
-        color: '#94a3b8'
-      - kind: row
-        gap: md
-        blocks:
-          - kind: stat
-            label: Total bookings
+      - kind: tiles
+        tiles:
+          - label: Total bookings
+            icon: calendar-clock
+            color: primary
+            caption: All time
             source:
               entity: booking
               aggregate:
                 op: count
-          - kind: stat
-            label: Rooms
+          - label: Rooms
+            icon: door
+            color: info
+            caption: Rooms you can book
             source:
               entity: room
               aggregate:
                 op: count
-          - kind: stat
-            label: Awaiting decision
+          - label: Awaiting decision
+            icon: clock-outline
+            color: warning
+            caption: Requests to approve
             source:
               entity: booking
               filters:

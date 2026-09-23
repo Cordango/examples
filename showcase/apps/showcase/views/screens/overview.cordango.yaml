@@ -37,11 +37,11 @@ layout:
                 class: mt-1
                 blocks:
                   - kind: chip
-                    value: 40 of 42 block kinds
+                    value: 42 of 44 block kinds
                   - kind: chip
-                    value: 12 pages
+                    value: 16 pages
                   - kind: chip
-                    value: 21 entities
+                    value: 24 entities
       - kind: tiles
         tiles:
           - label: Capabilities

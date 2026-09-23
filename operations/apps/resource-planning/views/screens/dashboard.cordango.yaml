@@ -1,45 +1,43 @@
 screen: dashboard
 label: Dashboard
+subtitle: Capacity against demand, and the projects still short of people.
 layout:
-  - kind: row
-    blocks:
-      - kind: card
-        label: Capacity
-        blocks:
-          - kind: stat
-            label: Plannable hours a week
-            source:
-              entity: resource
-              aggregate:
-                op: sum
-                field: effective_capacity
-              filters:
-                - field: active
-                  operator: eq
-                  value: true
-      - kind: card
-        label: Demand
-        blocks:
-          - kind: stat
-            label: Hours a week wanted
-            source:
-              entity: staffing_demand
-              aggregate:
-                op: sum
-                field: hours_per_week
-      - kind: card
-        label: Unfilled
-        blocks:
-          - kind: stat
-            label: Projects short of people
-            source:
-              entity: planned_project
-              aggregate:
-                op: count
-              filters:
-                - field: staffing_gap
-                  operator: gt
-                  value: 0
+  - kind: tiles
+    tiles:
+      - label: Capacity
+        icon: account-clock-outline
+        color: primary
+        caption: Plannable hours a week
+        source:
+          entity: resource
+          aggregate:
+            op: sum
+            field: effective_capacity
+          filters:
+            - field: active
+              operator: eq
+              value: true
+      - label: Demand
+        icon: clipboard-text-clock-outline
+        color: info
+        caption: Hours a week wanted
+        source:
+          entity: staffing_demand
+          aggregate:
+            op: sum
+            field: hours_per_week
+      - label: Unfilled
+        icon: account-alert-outline
+        color: error
+        caption: Projects short of people
+        source:
+          entity: planned_project
+          aggregate:
+            op: count
+          filters:
+            - field: staffing_gap
+              operator: gt
+              value: 0
   - kind: chart
     label: Utilisation by department
     chartType: bar

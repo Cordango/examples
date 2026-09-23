@@ -1,51 +1,49 @@
 screen: dashboard
 label: Overview
+subtitle: Vendor requests in review and what approved vendors cost a year.
 layout:
-  - kind: row
-    blocks:
-      - kind: card
-        label: In review
-        blocks:
-          - kind: stat
-            label: In review
-            source:
-              entity: vendor_request
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: in
-                  value:
-                    - submitted
-                    - security_review
-                    - finance_review
-      - kind: card
-        label: Approved vendors
-        blocks:
-          - kind: stat
-            label: Approved
-            source:
-              entity: vendor_request
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: eq
-                  value: approved
-      - kind: card
-        label: Approved annual spend
-        blocks:
-          - kind: stat
-            label: Annual spend
-            source:
-              entity: vendor_request
-              aggregate:
-                op: sum
-                field: annual_cost
-              filters:
-                - field: status
-                  operator: eq
-                  value: approved
+  - kind: tiles
+    tiles:
+      - label: In review
+        icon: shield-search
+        color: warning
+        caption: Security or finance review
+        source:
+          entity: vendor_request
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: in
+              value:
+                - submitted
+                - security_review
+                - finance_review
+      - label: Approved
+        icon: check-decagram-outline
+        color: success
+        caption: Vendors cleared to use
+        source:
+          entity: vendor_request
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: eq
+              value: approved
+      - label: Annual spend
+        icon: cash-multiple
+        color: primary
+        caption: Approved vendors, per year
+        source:
+          entity: vendor_request
+          aggregate:
+            op: sum
+            field: annual_cost
+          filters:
+            - field: status
+              operator: eq
+              value: approved
   - kind: card
     label: Requests by status
     blocks:

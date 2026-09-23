@@ -1,13 +1,13 @@
 app: room_booking
 name: Room Booking
-version: 1.0.0
+version: 1.1.0
 description: Find an available meeting room, book a slot inline from a weekly grid, and let managers approve or decline requests. The hand-authored reference app for COMPOSITION_REFRAME_FINAL.md Phase 1 — the best room-booking experience expressible against today's runtime, with the gaps recorded in GAPS.md.
 schemaVersion: '2.0'
 archetype:
   kind: scheduling
   coreJob: See which rooms are free across the week and book a slot inline
 presentation:
-  icon: meeting_room
+  icon: door
   color: '#0e7490'
   category: Operations
   tagline: Book a room in one click

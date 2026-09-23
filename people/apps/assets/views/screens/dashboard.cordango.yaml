@@ -1,44 +1,42 @@
 screen: dashboard
 label: Dashboard
+subtitle: What is in stock and who has what.
 layout:
-  - kind: row
-    blocks:
-      - kind: card
-        label: In stock
-        blocks:
-          - kind: stat
-            label: Available
-            source:
-              entity: asset
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: eq
-                  value: available
-      - kind: card
-        label: Out
-        blocks:
-          - kind: stat
-            label: Assigned
-            source:
-              entity: asset
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: eq
-                  value: assigned
-      - kind: card
-        label: Value
-        blocks:
-          - kind: stat
-            label: Bought
-            source:
-              entity: asset
-              aggregate:
-                op: sum
-                field: purchase_cost
+  - kind: tiles
+    tiles:
+      - label: Available
+        icon: package-variant-closed
+        color: success
+        caption: Ready to hand out
+        source:
+          entity: asset
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: eq
+              value: available
+      - label: Assigned
+        icon: account-arrow-right-outline
+        color: primary
+        caption: With people
+        source:
+          entity: asset
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: eq
+              value: assigned
+      - label: Bought for
+        icon: cash-multiple
+        color: info
+        caption: What every asset cost
+        source:
+          entity: asset
+          aggregate:
+            op: sum
+            field: purchase_cost
   - kind: chart
     label: Assets by category
     chartType: donut

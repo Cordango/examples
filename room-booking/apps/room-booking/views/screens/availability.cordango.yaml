@@ -1,6 +1,7 @@
 screen: availability
 label: Availability
-icon: grid_view
+subtitle: Find a free room and book it straight from the grid.
+icon: view-grid-outline
 state:
   - key: mode
     type: enum

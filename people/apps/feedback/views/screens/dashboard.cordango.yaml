@@ -1,36 +1,35 @@
 screen: dashboard
 label: Dashboard
+subtitle: Review cycles in progress and the feedback still owed.
 layout:
-  - kind: row
-    blocks:
-      - kind: card
-        label: Open cycles
-        blocks:
-          - kind: stat
-            label: Collecting
-            source:
-              entity: review_cycle
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: eq
-                  value: collecting
-      - kind: card
-        label: Outstanding
-        blocks:
-          - kind: stat
-            label: Not answered
-            source:
-              entity: feedback_request
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: in
-                  value:
-                    - pending
-                    - in_progress
+  - kind: tiles
+    tiles:
+      - label: Collecting
+        icon: message-draw
+        color: primary
+        caption: Cycles collecting feedback
+        source:
+          entity: review_cycle
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: eq
+              value: collecting
+      - label: Not answered
+        icon: message-alert-outline
+        color: warning
+        caption: Requests still open
+        source:
+          entity: feedback_request
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: in
+              value:
+                - pending
+                - in_progress
   - kind: view
     view: cycles__all
 subject: review_cycle

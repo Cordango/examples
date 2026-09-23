@@ -1,6 +1,6 @@
 app: vendor_flow
 name: Vendor & SaaS Management
-version: 0.3.0
+version: 0.4.0
 description: Vendor intake through forms the vendor team designs, a security and finance review, and the register of what you are actually paying for afterwards — cost, seats, renewal dates and the notice you have to give to stop it.
 schemaVersion: '2.0'
 purpose:

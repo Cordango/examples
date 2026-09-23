@@ -1,6 +1,6 @@
 app: time_off
 name: PTO & Leave
-version: 2.2.0
+version: 2.3.0
 description: Absence from the request to the day off. The person asking fills in four things, in the New dialog or on a form HR designs; the approver, the department and the allowance are worked out, and the balance is summed from the requests behind it rather than typed. A request filed from a form goes straight to the approver.
 schemaVersion: '2.0'
 purpose:

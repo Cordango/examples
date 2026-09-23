@@ -1,16 +1,17 @@
 screen: overview
 label: Overview
+subtitle: Claims waiting for a decision and money still to pay back.
 icon: view-dashboard
 layout:
   - kind: stack
     gap: md
     blocks:
-      - kind: row
-        gap: md
-        blocks:
-          - kind: stat
-            label: Awaiting approval
+      - kind: tiles
+        tiles:
+          - label: Awaiting approval
             icon: clock-outline
+            color: warning
+            caption: Submitted, not decided
             source:
               entity: expense_claim
               aggregate:
@@ -25,29 +26,31 @@ layout:
                 - field: status
                   operator: eq
                   value: submitted
-          - kind: stat
-            label: To reimburse
-            format: money
+          - label: To reimburse
             icon: cash-clock
-            source:
-              entity: expense_claim
-              aggregate:
-                op: sum
-                field: amount
-              filters:
-                - field: status
-                  operator: eq
-                  value: approved
-            link:
-              page: claims
-              filters:
-                - field: status
-                  operator: eq
-                  value: approved
-          - kind: stat
-            label: Reimbursed
+            color: info
+            caption: Approved, not paid yet
             format: money
+            source:
+              entity: expense_claim
+              aggregate:
+                op: sum
+                field: amount
+              filters:
+                - field: status
+                  operator: eq
+                  value: approved
+            link:
+              page: claims
+              filters:
+                - field: status
+                  operator: eq
+                  value: approved
+          - label: Reimbursed
             icon: cash-check
+            color: success
+            caption: Paid back so far
+            format: money
             source:
               entity: expense_claim
               aggregate:
@@ -63,9 +66,10 @@ layout:
                 - field: status
                   operator: eq
                   value: reimbursed
-          - kind: stat
-            label: Declined
+          - label: Declined
             icon: close-circle-outline
+            color: error
+            caption: All time
             source:
               entity: expense_claim
               aggregate:

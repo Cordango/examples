@@ -1,6 +1,6 @@
 app: feedback_360
 name: 360 Feedback
-version: 0.2.0
+version: 0.3.0
 description: Review cycles with self, manager and peer feedback, asked through questionnaires HR designs, where the person being reviewed sees the averages and never the individual answers.
 schemaVersion: '2.0'
 purpose:

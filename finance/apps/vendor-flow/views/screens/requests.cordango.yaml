@@ -1,34 +1,32 @@
 screen: requests
 label: Requests
 layout:
-  - kind: row
-    blocks:
-      - kind: card
-        label: Needs security
-        blocks:
-          - kind: stat
-            label: Needs security
-            source:
-              entity: vendor_request
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: eq
-                  value: security_review
-      - kind: card
-        label: Needs finance
-        blocks:
-          - kind: stat
-            label: Needs finance
-            source:
-              entity: vendor_request
-              aggregate:
-                op: count
-              filters:
-                - field: status
-                  operator: eq
-                  value: finance_review
+  - kind: tiles
+    tiles:
+      - label: Needs security
+        icon: shield-lock-outline
+        color: warning
+        caption: Waiting for a security review
+        source:
+          entity: vendor_request
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: eq
+              value: security_review
+      - label: Needs finance
+        icon: bank-outline
+        color: info
+        caption: Waiting for a finance review
+        source:
+          entity: vendor_request
+          aggregate:
+            op: count
+          filters:
+            - field: status
+              operator: eq
+              value: finance_review
   - kind: board
     label: Request pipeline
     source:

@@ -1,6 +1,6 @@
 entity: booking_policy
 label: Booking Policy
-icon: settings
+icon: cog-outline
 kind: settings
 fields:
   max_advance_days:

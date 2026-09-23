@@ -1,5 +1,6 @@
 screen: schedule
 label: Who's off
+subtitle: See who's out of office and plan your team's time ahead.
 icon: calendar-month
 state:
   - key: cursor
@@ -13,7 +14,7 @@ layout:
     endField: end_date
     axis:
       from: '{{state.cursor}}'
-      range: week
+      range: month
     colorField: type
     labelField: type
     openDetail: true
