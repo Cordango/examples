@@ -1,6 +1,13 @@
 screen: my_requests
 label: My requests
 layout:
+  - kind: intake
+    label: Ask with a form
+    entity: purchase_form
+    filters:
+      - field: active
+        operator: eq
+        value: true
   - kind: view
     view: requests__mine
   - kind: create

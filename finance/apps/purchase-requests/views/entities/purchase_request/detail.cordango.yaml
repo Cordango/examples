@@ -39,8 +39,13 @@ blocks:
                 - amount
                 - justification
                 - needed_by
+        - kind: answers
+          label: What they told us
         - kind: section
           label: Who
+          edit:
+            - department
+            - manager
           blocks:
             - kind: fields
               fields:

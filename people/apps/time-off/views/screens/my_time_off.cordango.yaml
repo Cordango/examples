@@ -2,6 +2,13 @@ screen: my_time_off
 label: My time off
 icon: account-clock
 layout:
+  - kind: intake
+    label: Ask for time off
+    entity: leave_form
+    filters:
+      - field: active
+        operator: eq
+        value: true
   - kind: view
     view: my_time_off_table
 subject: time_off

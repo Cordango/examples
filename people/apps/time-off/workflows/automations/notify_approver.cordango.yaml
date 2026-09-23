@@ -1,0 +1,15 @@
+automation: notify_approver
+name: Tell the approver when a pending request lands with them
+when:
+  field: status
+  operator: eq
+  value: pending
+effects:
+  - type: notify
+    to: '{{record.approver}}'
+    title: Time off to approve
+    message: '{{record.requested_by}} asked for {{record.day_count}} days from {{record.start_date}}.'
+    link: auto
+trigger: field.changed
+entity: time_off
+field: approver

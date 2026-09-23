@@ -1,6 +1,6 @@
 role: requester
 name: Requester
-description: Anybody who needs something bought. Writes and submits their own request, and can cancel it; the guard that stops them approving it is on the transition, because a person who is also a manager would otherwise pass the role check on their own row.
+description: Anybody who needs something bought. Writes their own request, or files one through a purchase form, submits it, and can cancel it; the guard that stops them approving it is on the transition, because a person who is also a manager would otherwise pass the role check on their own row.
 grants:
   purchase_request:
     create: true
@@ -21,4 +21,13 @@ grants:
     update: true
     delete: true
   approval_note:
+    read: true
+  purchase_form:
+    read: true
+  purchase_question:
+    read: true
+  purchase_submission:
+    create: true
+    read: true
+  purchase_answer:
     read: true

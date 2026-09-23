@@ -12,7 +12,7 @@ cordango inspect      # what is in here
 | App | What it owns | Entities |
 | --- | --- | --- |
 | [`budget-tracker`](apps/budget-tracker) | Budgets per cost centre and period; committed, actual and forecast money against their lines; adjustments somebody has to approve | 6 |
-| [`purchase-requests`](apps/purchase-requests) | The request to buy something, routed by amount, and what was finally bought | 4 |
+| [`purchase-requests`](apps/purchase-requests) | The request to buy something, asked for directly or through forms finance designs, routed by amount, and what was finally bought | 8 |
 | [`vendor-flow`](apps/vendor-flow) | Vendor intake through forms the team designs, a security and finance review, and the register of live contracts, seats and renewal deadlines | 9 |
 
 ## What connects them, and how
@@ -83,6 +83,19 @@ holder and a controller passes every role check on their own row.
 request from it starts with. The `employee` role can read the forms and create a submission, and
 nothing else — the request is filed by the platform on their behalf, and the reviewers see what they
 answered in the `answers` block of the request.
+
+**A purchase form files a draft, on purpose.** `purchase_form` is the same archetype in Purchase
+Requests: finance designs "Ask to buy something", or one per department with the department and
+category already set. But a request needs the requester's manager before it can be submitted, and a
+form question cannot pick a person, so what a form files is a draft the requester checks and submits.
+That is also why `purchase_request.department` is required by `submit_request` rather than on create:
+a form the whole company uses cannot know it. The Who section of the request carries
+`edit: [department, manager]`, so finishing a filed draft is one small dialog.
+
+Two apps of this workspace now use forms. That is fine on the platform, where each app is its own
+application. A standalone build that links the whole workspace into ONE application refuses it,
+because a linked build carries a single form descriptor found by entity role, and two apps' forms
+cannot be told apart there.
 
 **The security review's fields are the reviewer's.** `data_classification`, `security_risk` and the
 rest are collected by `approve_security` and `reject_security`, which is what keeps them off the

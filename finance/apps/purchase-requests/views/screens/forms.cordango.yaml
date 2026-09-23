@@ -1,0 +1,14 @@
+screen: forms
+label: Purchase forms
+layout:
+  - kind: table
+    label: Forms people can ask with
+    source:
+      entity: purchase_form
+    fields:
+      - name
+      - route_category
+      - route_department
+      - active
+    newButton: true
+subject: purchase_form

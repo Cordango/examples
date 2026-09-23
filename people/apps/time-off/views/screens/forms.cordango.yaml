@@ -1,0 +1,14 @@
+screen: forms
+label: Leave forms
+icon: clipboard-text-outline
+layout:
+  - kind: table
+    label: Forms people can ask with
+    source:
+      entity: leave_form
+    fields:
+      - name
+      - route_type
+      - active
+    newButton: true
+subject: leave_form

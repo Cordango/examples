@@ -1,0 +1,48 @@
+entity: leave_form
+label: Leave form
+description: 'A form HR designs, so that asking for time off is a few questions rather than a record to fill in. Its questions are its own records, and what it FILES is declared here: a time-off request of the kind the form names. A request filed from a form skips the draft and goes straight to the approver.'
+icon: mdi-clipboard-text-outline
+role: formTemplate
+kind: config
+plural: Leave forms
+display: name
+fields:
+  name:
+    label: Form name
+    type: text
+    required: true
+    group: Form
+  intro:
+    label: Intro text
+    type: longtext
+    help: Shown above the questions. Say what happens after somebody presses Submit, and who decides.
+    group: Form
+  active:
+    label: Active
+    type: boolean
+    help: Retired forms keep their submissions but are not offered.
+    group: Form
+    default: true
+  creates:
+    label: Creates
+    type: text
+    help: The entity a submission files. Picked in the form designer, not typed.
+    group: What it files
+    role: targetEntity
+  route_type:
+    label: Type
+    type: select
+    help: Every request from this form starts as this kind of leave. A form per kind is the ordinary shape, one to ask for holiday and one to report sick. A question that asks for the kind overrides it.
+    group: What it files
+    options:
+      - value: vacation
+        label: Vacation
+      - value: sick
+        label: Sick
+      - value: personal
+        label: Personal
+      - value: unpaid
+        label: Unpaid
+      - value: other
+        label: Other
+    mapsTo: type

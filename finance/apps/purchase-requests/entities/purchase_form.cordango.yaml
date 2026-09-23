@@ -1,0 +1,60 @@
+entity: purchase_form
+label: Purchase form
+description: 'A form finance designs, so that asking to buy something is a handful of questions rather than a record to fill in. Its questions are its own records, and what it FILES is declared here: a purchase request, starting with the category and department the form names. What a form files is a draft. The requester checks it and presses Submit, because a form cannot know who approves for them.'
+icon: mdi-clipboard-text-outline
+role: formTemplate
+kind: config
+plural: Purchase forms
+display: name
+fields:
+  name:
+    label: Form name
+    type: text
+    required: true
+    group: Form
+  intro:
+    label: Intro text
+    type: longtext
+    help: Shown above the questions. Say what happens next, that the request arrives as a draft to check and submit, and roughly how long approval takes.
+    group: Form
+  active:
+    label: Active
+    type: boolean
+    help: Retired forms keep their submissions but are not offered.
+    group: Form
+    default: true
+  creates:
+    label: Creates
+    type: text
+    help: The entity a submission files. Picked in the form designer, not typed.
+    group: What it files
+    role: targetEntity
+  route_category:
+    label: Category
+    type: select
+    help: Every request from this form starts in this category. Leave it empty and ask for the category as a question instead.
+    group: What it files
+    options:
+      - value: software
+        label: Software
+      - value: hardware
+        label: Hardware
+      - value: agency
+        label: Agency
+      - value: contractor
+        label: Contractor
+      - value: travel
+        label: Travel
+      - value: equipment
+        label: Equipment
+      - value: services
+        label: Services
+    mapsTo: category
+  route_department:
+    label: Department
+    type: reference
+    help: Every request from this form lands on this department's budget. A form per department saves the requester picking it; leave it empty on a form the whole company uses.
+    group: What it files
+    targetEntity: department
+    targetApp: platform
+    mapsTo: department

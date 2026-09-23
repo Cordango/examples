@@ -1,7 +1,7 @@
 app: purchase_requests
 name: Purchase Requests
-version: 0.2.0
-description: Ask to spend company money, and let the amount decide how far the request has to travel — manager under five hundred, finance under five thousand, management above it.
+version: 0.3.0
+description: Ask to spend company money, directly or through a form finance designs, and let the amount decide how far the request has to travel — manager under five hundred, finance under five thousand, management above it.
 schemaVersion: '2.0'
 purpose:
   summary: Owns the request to buy something — what is wanted, what it costs, who agreed, and what was finally bought.
@@ -11,6 +11,7 @@ purpose:
     - keeps a decision trail written by the approval itself rather than by hand
     - records what was actually bought, which is rarely the estimate
     - announces every state a request enters, and `purchase.completed` when something is actually bought
+    - lets anybody ask to buy something through a form finance designs, filed as a draft they check and submit
 uses:
   - app: core_organizations
     entities:
@@ -27,17 +28,24 @@ presentation:
   color: '#f59e0b'
   category: Finance
   tagline: One way to ask, and a trail of who agreed.
+plugins:
+  - id: forms
 order:
   entities:
     - purchase_request
     - request_item
     - vendor_quote
     - approval_note
+    - purchase_form
+    - purchase_question
+    - purchase_submission
+    - purchase_answer
   pages:
     - dashboard
     - my_requests
     - approvals
     - pipeline
+    - forms
   views:
     - requests__mine
     - requests__awaiting_manager

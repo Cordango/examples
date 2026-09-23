@@ -1,7 +1,13 @@
 lifecycle: approval
 entity: time_off
 stateField: status
-initial: draft
+initial:
+  rules:
+    - when:
+        field: submission
+        operator: isNotEmpty
+      state: pending
+  fallback: draft
 states:
   draft:
     label: Draft

@@ -1,6 +1,6 @@
 role: finance_approver
 name: Finance approver
-description: The second hop, and the one that records what was actually bought.
+description: The second hop, the one that records what was actually bought, and the owner of the purchase forms everybody else asks with.
 grants:
   purchase_request:
     read: true
@@ -16,4 +16,19 @@ grants:
     read: true
   approval_note:
     create: true
+    read: true
+  purchase_form:
+    create: true
+    read: true
+    update: true
+    delete: true
+  purchase_question:
+    create: true
+    read: true
+    update: true
+    delete: true
+  purchase_submission:
+    read: true
+    delete: true
+  purchase_answer:
     read: true

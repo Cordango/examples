@@ -1,7 +1,7 @@
 app: time_off
 name: PTO & Leave
-version: 2.1.0
-description: Absence from the request to the day off. The person asking fills in four things; the approver, the department and the allowance are worked out, and the balance is summed from the requests behind it rather than typed.
+version: 2.2.0
+description: Absence from the request to the day off. The person asking fills in four things, in the New dialog or on a form HR designs; the approver, the department and the allowance are worked out, and the balance is summed from the requests behind it rather than typed. A request filed from a form goes straight to the approver.
 schemaVersion: '2.0'
 purpose:
   summary: Owns absence — who asked for time off, who approved it, how much of the year's allowance is left, and who is away when.
@@ -11,6 +11,7 @@ purpose:
     - publishes approved absence to the shared calendar, where projects and resourcing can see it
     - keeps blackout periods and public holidays so a clash is visible where the decision is made
     - carries a year's unused days into the next one, capped
+    - lets anybody ask for time off through a form HR designs, and sends what it files straight to the approver
 uses:
   - app: core_people
     entities:
@@ -30,18 +31,25 @@ theme:
   font: Inter
   radius: medium
   density: comfortable
+plugins:
+  - id: forms
 order:
   entities:
     - time_off
     - leave_allowance
     - blackout_period
     - public_holiday
+    - leave_form
+    - leave_question
+    - leave_submission
+    - leave_answer
   pages:
     - schedule
     - approvals
     - my_time_off
     - team_calendar
     - allowances
+    - forms
   views:
     - my_time_off_table
     - pending_table
@@ -64,6 +72,8 @@ order:
   workflows:
     - stamp_requester
     - attach_context
+    - stamp_form_submitted
+    - notify_approver
     - pending_digest
     - low_balance_warning
     - roll_allowances

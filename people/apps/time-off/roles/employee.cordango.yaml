@@ -1,6 +1,6 @@
 role: employee
 name: Employee
-description: Asks for time off, sends it for approval, and can take it back. Reads the team's absences so a clash is visible before it is asked for.
+description: Asks for time off, on a leave form or in the New dialog, and can take it back. Reads the team's absences so a clash is visible before it is asked for.
 grants:
   time_off:
     create: true
@@ -15,4 +15,13 @@ grants:
   blackout_period:
     read: true
   public_holiday:
+    read: true
+  leave_form:
+    read: true
+  leave_question:
+    read: true
+  leave_submission:
+    create: true
+    read: true
+  leave_answer:
     read: true

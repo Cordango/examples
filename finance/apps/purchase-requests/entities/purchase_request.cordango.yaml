@@ -69,7 +69,7 @@ fields:
   department:
     label: Department
     type: reference
-    required: true
+    help: Whose budget this lands on. Needed before the request can be submitted rather than when it is created, because a request a purchase form filed arrives without one unless the form is a department's own.
     group: Who
     targetEntity: department
     targetApp: platform
@@ -197,3 +197,10 @@ fields:
         entity: vendor_quote
         via: request
         op: count
+  submission:
+    label: Filed from
+    type: reference
+    help: The purchase form submission this request came from. Empty for a request typed in directly. What the person answered is shown on the request, question by question.
+    group: Request
+    targetEntity: purchase_submission
+    onDelete: setNull

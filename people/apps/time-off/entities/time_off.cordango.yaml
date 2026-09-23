@@ -124,3 +124,9 @@ fields:
     label: Decline reason
     type: longtext
     group: Decision
+  submission:
+    label: Filed from
+    type: reference
+    help: The leave form submission this request came from. Empty for a request made with the New button. A request filed from a form skips the draft and goes straight to the approver, because pressing Submit on the form already was the asking.
+    targetEntity: leave_submission
+    onDelete: setNull

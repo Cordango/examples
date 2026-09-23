@@ -1,6 +1,6 @@
 role: hr
 name: HR
-description: Maintains allowances, blackouts and the holiday list, and can file an absence on somebody's behalf — a sick note arrives by phone, not through a form.
+description: Maintains allowances, blackouts, the holiday list and the leave forms, and can file an absence on somebody's behalf — a sick note arrives by phone, not through a form.
 grants:
   time_off:
     create: true
@@ -28,3 +28,19 @@ grants:
     read: true
     update: true
     delete: true
+  leave_form:
+    create: true
+    read: true
+    update: true
+    delete: true
+  leave_question:
+    create: true
+    read: true
+    update: true
+    delete: true
+  leave_submission:
+    create: true
+    read: true
+    delete: true
+  leave_answer:
+    read: true

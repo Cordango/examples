@@ -1,6 +1,10 @@
 screen: calculation
 label: Calculation
 icon: finance
+state:
+  - key: year
+    type: period
+    default: last12Months
 layout:
   - kind: stack
     gap: lg
@@ -317,6 +321,45 @@ layout:
             size: sm
             color: medium-emphasis
             class: mt-2
+      - kind: section
+        label: Areas by month, added up
+        icon: table-large
+        blocks:
+          - kind: text
+            value: A matrix - a row per area, a column per month of the window, and in each cell what that area shipped. Row, month and grand totals come from the same single read, and an area with nothing in it still gets its row. Click a figure to change it, or the dashed box of an empty month to add one.
+            size: sm
+            color: medium-emphasis
+          - kind: period
+            stateKey: year
+            class: mt-2
+          - kind: matrix
+            class: mt-3
+            source:
+              entity: adoption
+              aggregate:
+                op: sum
+                field: shipped
+            rowBy: area
+            rowSource:
+              entity: area
+              sort:
+                - field: name
+                  direction: asc
+            columnBy: month
+            columnSource:
+              dates:
+                from: '{{state.year.from}}'
+                to: '{{state.year.to}}'
+                step: month
+            totals:
+              rows: true
+              columns: true
+              share: true
+            entries:
+              fields:
+                - apps_using
+            editable: true
+            openDetail: true
       - kind: section
         label: Values worked out at insert
         icon: cog

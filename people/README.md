@@ -10,7 +10,7 @@ cordango discover
 
 | App | What it owns | Entities |
 | --- | --- | --- |
-| [`time-off`](apps/time-off) | Leave requests, approval, yearly allowances and the balance left | 4 |
+| [`time-off`](apps/time-off) | Leave requests, approval, yearly allowances, the balance left, and the leave forms HR designs | 8 |
 | [`assets`](apps/assets) | What the company owns, who holds it, what it has cost, when to replace it | 5 |
 | [`feedback`](apps/feedback) | Review cycles: self, manager and peer feedback through questionnaires HR designs, and what it averaged to | 10 |
 
@@ -75,6 +75,30 @@ counts against the allowance is an `initial` rule on the type; who decided and w
 decision. `views/entities/time_off/form.cordango.yaml` is the whole create dialog, and the Decision
 section of the detail carries `edit: [approver, department]` so HR can correct what the employee never
 saw.
+
+**A form is the asking, so it skips the draft.** HR can also design leave forms (`leave_form`, a
+`formTemplate`): "Ask for PTO", "Report sick", each starting its requests as the kind of leave it
+names. A request made with the New button starts as a draft the employee sends; one filed from a form
+does not, because pressing Submit on the form already was the asking. That is the lifecycle's
+`initial`, written as a rule rather than a state:
+
+```yaml
+initial:
+  rules:
+    - when: { field: submission, operator: isNotEmpty }
+      state: pending
+  fallback: draft
+```
+
+Skipping the draft also skips Send for approval, which is what notified the approver and stamped
+`submitted_at`. Two automations take that over. `stamp_form_submitted` stamps the time on a request
+a form filed. `notify_approver` fires when `approver` changes on a pending request, which is exactly
+when `attach_context` stamps it on a request a form filed, and also when HR hands a pending request
+to somebody else.
+
+Two apps of this workspace now use forms, 360 Feedback and this one. That is fine on the platform,
+where each app is its own application. A standalone build that links the whole workspace into ONE
+application refuses it, because a linked build carries a single form descriptor found by entity role.
 
 **Working days are not expressible, and the field says so.** `day_count` is
 `days_between(start_date, end_date) + 1` — calendar days. There is no weekday-aware count in an

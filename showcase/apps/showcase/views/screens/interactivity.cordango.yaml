@@ -13,6 +13,9 @@ state:
   - key: when
     type: date
     default: '{{today}}'
+  - key: window
+    type: period
+    default: thisWeek
   - key: q
     type: text
   - key: f_family
@@ -463,6 +466,111 @@ layout:
             size: sm
             color: medium-emphasis
             class: mt-2
+      - kind: section
+        label: One window that every block reads
+        icon: calendar-range
+        blocks:
+          - kind: text
+            value: 'A `period` state holds a whole window - where it starts, the day after it ends, a label, and the window before it. The control moves it; every block below filters on `{{state.window.from}}` and `{{state.window.next}}`, so none of them does date arithmetic of its own.'
+            size: sm
+            color: medium-emphasis
+          - kind: period
+            stateKey: window
+            class: mt-2
+            units:
+              - week
+              - month
+          - kind: row
+            gap: md
+            class: mt-3
+            blocks:
+              - kind: stat
+                label: Sessions in this window
+                icon: calendar-check
+                source:
+                  entity: session
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: starts_at
+                      operator: gte
+                      value: '{{state.window.from}}'
+                    - field: starts_at
+                      operator: lt
+                      value: '{{state.window.next}}'
+              - kind: stat
+                label: In the window before it
+                icon: history
+                source:
+                  entity: session
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: starts_at
+                      operator: gte
+                      value: '{{state.window.prev.from}}'
+                    - field: starts_at
+                      operator: lt
+                      value: '{{state.window.prev.next}}'
+          - kind: text
+            value: 'Showing {{state.window.label}}, against {{state.window.prev.label}}.'
+            size: sm
+            color: medium-emphasis
+          - kind: chart
+            chartType: bar
+            class: mt-3
+            label: What the window holds, by kind
+            source:
+              entity: session
+              aggregate:
+                op: count
+                groupBy: kind
+              filters:
+                - field: starts_at
+                  operator: gte
+                  value: '{{state.window.from}}'
+                - field: starts_at
+                  operator: lt
+                  value: '{{state.window.next}}'
+          - kind: matrix
+            class: mt-3
+            label: Tasks due in the window, by person
+            emptyText: Nobody has a task due in this window.
+            source:
+              entity: task
+              aggregate:
+                op: count
+            rowBy: assignee
+            columnBy: due_on
+            columnSource:
+              dates:
+                from: '{{state.window.from}}'
+                to: '{{state.window.to}}'
+                step: day
+            totals:
+              rows: true
+              columns: true
+          - kind: table
+            class: mt-3
+            label: The sessions it holds
+            openDetail: true
+            fields:
+              - title
+              - kind
+              - starts_at
+              - room
+            source:
+              entity: session
+              filters:
+                - field: starts_at
+                  operator: gte
+                  value: '{{state.window.from}}'
+                - field: starts_at
+                  operator: lt
+                  value: '{{state.window.next}}'
+              sort:
+                - field: starts_at
+                  direction: asc
       - kind: section
         label: One filter bar driving two surfaces
         icon: magnify

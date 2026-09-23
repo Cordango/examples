@@ -1,6 +1,6 @@
 role: manager
 name: Manager
-description: Reviews pending requests and approves or declines them.
+description: Reviews pending requests and approves or declines them, with the answers of any request filed from a form beside it.
 grants:
   time_off:
     read: true
@@ -8,3 +8,11 @@ grants:
     commands:
       - approve_time_off
       - decline_time_off
+  leave_form:
+    read: true
+  leave_question:
+    read: true
+  leave_submission:
+    read: true
+  leave_answer:
+    read: true

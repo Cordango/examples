@@ -34,6 +34,8 @@ blocks:
                 - deducts_allowance
                 - department
                 - allowance
+        - kind: answers
+          label: What they told us
       - - kind: section
           label: Decision
           edit:

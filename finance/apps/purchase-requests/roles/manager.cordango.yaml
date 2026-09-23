@@ -16,3 +16,11 @@ grants:
   approval_note:
     create: true
     read: true
+  purchase_form:
+    read: true
+  purchase_question:
+    read: true
+  purchase_submission:
+    read: true
+  purchase_answer:
+    read: true
