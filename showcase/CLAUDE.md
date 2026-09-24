@@ -3,8 +3,8 @@
 This is a Cordango workspace, and it is **not one to build in**. It exists to be read.
 
 Every other workspace here is an honest application that uses the handful of surfaces its own job
-needs. This one contains a real, working instance of every block kind the runtime can draw — 40 of
-the 42 that exist — so it is the place to look when you know what you want and not how it is
+needs. This one contains a real, working instance of every block kind the runtime can draw — 42 of
+the 44 that exist — so it is the place to look when you know what you want and not how it is
 written.
 
 ## Use it to answer "how is this built"

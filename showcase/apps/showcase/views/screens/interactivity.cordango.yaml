@@ -21,6 +21,13 @@ state:
   - key: f_family
     type: text
 layout:
+  - kind: period
+    stateKey: window
+    presentation: menu
+    placement: header
+    units:
+      - week
+      - month
   - kind: stack
     gap: lg
     blocks:
@@ -468,6 +475,7 @@ layout:
             class: mt-2
       - kind: section
         label: One window that every block reads
+        subtitle: The dropdown in the title row and the stepper below move the same window.
         icon: calendar-range
         blocks:
           - kind: text
@@ -516,6 +524,42 @@ layout:
             value: 'Showing {{state.window.label}}, against {{state.window.prev.label}}.'
             size: sm
             color: medium-emphasis
+          - kind: tiles
+            class: mt-3
+            tiles:
+              - label: Sessions
+                icon: calendar-check
+                color: primary
+                source:
+                  entity: session
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: starts_at
+                      operator: gte
+                      value: '{{state.window.from}}'
+                    - field: starts_at
+                      operator: lt
+                      value: '{{state.window.next}}'
+                trend:
+                  good: above
+              - label: Tasks falling due
+                icon: calendar-alert
+                color: warning
+                source:
+                  entity: task
+                  aggregate:
+                    op: count
+                  filters:
+                    - field: due_on
+                      operator: gte
+                      value: '{{state.window.from}}'
+                    - field: due_on
+                      operator: lt
+                      value: '{{state.window.next}}'
+                trend:
+                  good: below
+                  show: delta
           - kind: chart
             chartType: bar
             class: mt-3

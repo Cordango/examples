@@ -1,6 +1,6 @@
 app: showcase
 name: Showcase
-version: 1.1.0
+version: 1.2.0
 description: "A working application whose subject is the platform it runs on. Every block kind the runtime can draw has a record in its catalogue and an instance on one of its pages, so the list of what is possible and the demonstration of it are the same document. Read it to judge the ceiling of a definition-driven app: composed grids, a roadmap, an org chart, a master-detail queue, an intake form, a record's own documentation, and the ordinary tables and boards underneath them."
 schemaVersion: '2.0'
 purpose:
